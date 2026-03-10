@@ -58,7 +58,17 @@ Read and follow `skills/_shared/persistence-contract.md` for mode resolution rul
 
 ## What to Do
 
-### Step 1: Sync Delta Specs to Main Specs
+### Step 1: Load Skill Registry
+
+**Do this FIRST, before any other work.**
+
+1. Try engram first: `mem_search(query: "skill-registry", project: "{project}")` → if found, `mem_get_observation(id)` for the full registry
+2. If engram not available or not found: read `.atl/skill-registry.md` from the project root
+3. If neither exists: proceed without skills (not an error)
+
+From the registry, identify and read any skills whose triggers match your task. Also read any project convention files listed in the registry.
+
+### Step 2: Sync Delta Specs to Main Specs
 
 For each delta spec in `openspec/changes/{change-name}/specs/`:
 
@@ -88,7 +98,7 @@ openspec/changes/{change-name}/specs/{domain}/spec.md
   → openspec/specs/{domain}/spec.md
 ```
 
-### Step 2: Move to Archive
+### Step 3: Move to Archive
 
 Move the entire change folder to archive with date prefix:
 
@@ -99,7 +109,7 @@ openspec/changes/{change-name}/
 
 Use today's date in ISO format (e.g., `2026-02-16`).
 
-### Step 3: Verify Archive
+### Step 4: Verify Archive
 
 Confirm:
 - [ ] Main specs updated correctly
@@ -107,7 +117,26 @@ Confirm:
 - [ ] Archive contains all artifacts (proposal, specs, design, tasks)
 - [ ] Active changes directory no longer has this change
 
-### Step 4: Return Summary
+### Step 5: Persist Archive Report
+
+**This step is MANDATORY — do NOT skip it.**
+
+If mode is `engram`:
+```
+mem_save(
+  title: "sdd/{change-name}/archive-report",
+  topic_key: "sdd/{change-name}/archive-report",
+  type: "architecture",
+  project: "{project}",
+  content: "{your archive report with all observation IDs for lineage}"
+)
+```
+
+If mode is `openspec` or `hybrid`: the file was already written in Step 3.
+
+If mode is `hybrid`: also call `mem_save` as above (write to BOTH backends).
+
+### Step 6: Return Summary
 
 Return to the orchestrator:
 

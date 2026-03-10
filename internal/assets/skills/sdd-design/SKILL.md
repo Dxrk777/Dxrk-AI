@@ -50,7 +50,17 @@ Read and follow `skills/_shared/persistence-contract.md` for mode resolution rul
 
 ## What to Do
 
-### Step 1: Read the Codebase
+### Step 1: Load Skill Registry
+
+**Do this FIRST, before any other work.**
+
+1. Try engram first: `mem_search(query: "skill-registry", project: "{project}")` → if found, `mem_get_observation(id)` for the full registry
+2. If engram not available or not found: read `.atl/skill-registry.md` from the project root
+3. If neither exists: proceed without skills (not an error)
+
+From the registry, identify and read any skills whose triggers match your task. Also read any project convention files listed in the registry.
+
+### Step 2: Read the Codebase
 
 Before designing, read the actual code that will be affected:
 - Entry points and module structure
@@ -58,7 +68,7 @@ Before designing, read the actual code that will be affected:
 - Dependencies and interfaces
 - Test infrastructure (if any)
 
-### Step 2: Write design.md
+### Step 3: Write design.md
 
 Create the design document:
 
@@ -134,7 +144,28 @@ If not applicable, state "No migration required."}
 - [ ] {Any decision that needs team input}
 ```
 
-### Step 3: Return Summary
+### Step 4: Persist Artifact
+
+**This step is MANDATORY — do NOT skip it.**
+
+If mode is `engram`:
+```
+mem_save(
+  title: "sdd/{change-name}/design",
+  topic_key: "sdd/{change-name}/design",
+  type: "architecture",
+  project: "{project}",
+  content: "{your full design markdown from Step 3}"
+)
+```
+
+If mode is `openspec` or `hybrid`: the file was already written in Step 3.
+
+If mode is `hybrid`: also call `mem_save` as above (write to BOTH backends).
+
+If you skip this step, the next phase (sdd-tasks) will NOT be able to find your design and the pipeline BREAKS.
+
+### Step 5: Return Summary
 
 Return to the orchestrator:
 

@@ -71,13 +71,23 @@ Before starting, load any existing project context and specs per the active conv
 
 ## What to Do
 
-### Step 1: Understand the Request
+### Step 1: Load Skill Registry
+
+**Do this FIRST, before any other work.**
+
+1. Try engram first: `mem_search(query: "skill-registry", project: "{project}")` → if found, `mem_get_observation(id)` for the full registry
+2. If engram not available or not found: read `.atl/skill-registry.md` from the project root
+3. If neither exists: proceed without skills (not an error)
+
+From the registry, identify and read any skills whose triggers match your task. Also read any project convention files listed in the registry.
+
+### Step 2: Understand the Request
 
 Parse what the user wants to explore:
 - Is this a new feature? A bug fix? A refactor?
 - What domain does it touch?
 
-### Step 2: Investigate the Codebase
+### Step 3: Investigate the Codebase
 
 Read relevant code to understand:
 - Current architecture and patterns
@@ -94,7 +104,7 @@ INVESTIGATE:
 └── Identify dependencies and coupling
 ```
 
-### Step 3: Analyze Options
+### Step 4: Analyze Options
 
 If there are multiple approaches, compare them:
 
@@ -103,18 +113,39 @@ If there are multiple approaches, compare them:
 | Option A | ... | ... | Low/Med/High |
 | Option B | ... | ... | Low/Med/High |
 
-### Step 4: Optionally Save Exploration
+### Step 5: Persist Artifact
 
-If the orchestrator provided a change name (i.e., this exploration is part of `/sdd-new`), save your analysis to:
+**This step is MANDATORY when tied to a named change — do NOT skip it.**
 
+If mode is `engram` and this exploration is tied to a change:
 ```
-openspec/changes/{change-name}/
-└── exploration.md          ← You create this
+mem_save(
+  title: "sdd/{change-name}/explore",
+  topic_key: "sdd/{change-name}/explore",
+  type: "architecture",
+  project: "{project}",
+  content: "{your full exploration markdown from Step 4}"
+)
 ```
 
-If no change name was provided (standalone `/sdd-explore`), skip file creation — just return the analysis.
+If standalone (no change name), persistence is optional but recommended:
+```
+mem_save(
+  title: "sdd/explore/{topic-slug}",
+  topic_key: "sdd/explore/{topic-slug}",
+  type: "architecture",
+  project: "{project}",
+  content: "{your full exploration markdown}"
+)
+```
 
-### Step 5: Return Structured Analysis
+If mode is `openspec` or `hybrid`: the file was already written in Step 4.
+
+If mode is `hybrid`: also call `mem_save` as above (write to BOTH backends).
+
+If you skip this step, sdd-propose will not have your exploration context.
+
+### Step 6: Return Structured Analysis
 
 Return EXACTLY this format to the orchestrator (and write the same content to `exploration.md` if saving):
 

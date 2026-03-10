@@ -96,7 +96,37 @@ rules:
     - Warn before merging destructive deltas (large removals)
 ```
 
-### Step 4: Return Summary
+### Step 4: Build Skill Registry
+
+Follow the same logic as the `skill-registry` skill (`skills/skill-registry/SKILL.md`):
+
+1. Scan user skills: glob `*/SKILL.md` in the skills directory, skip `sdd-*`, `_shared`, `skill-registry`. Read frontmatter triggers.
+2. Scan project conventions: check for `agents.md`, `AGENTS.md`, `CLAUDE.md` (project-level), `.cursorrules`, `GEMINI.md`, `copilot-instructions.md` in the project root.
+3. **ALWAYS write `.atl/skill-registry.md`** in the project root (create `.atl/` if needed). This file is mode-independent — it's infrastructure, not an SDD artifact.
+4. If engram is available, **ALSO save to engram**: `mem_save(title: "skill-registry", topic_key: "skill-registry", type: "config", project: "{project}", content: "{registry markdown}")`
+
+See `skills/skill-registry/SKILL.md` for the full registry format and scanning details.
+
+### Step 5: Persist Project Context
+
+**This step is MANDATORY — do NOT skip it.**
+
+If mode is `engram`:
+```
+mem_save(
+  title: "sdd-init/{project-name}",
+  topic_key: "sdd-init/{project-name}",
+  type: "architecture",
+  project: "{project-name}",
+  content: "{your detected project context from Steps 1-4}"
+)
+```
+
+If mode is `openspec` or `hybrid`: the config was already written in Step 3.
+
+If mode is `hybrid`: also call `mem_save` as above (write to BOTH backends).
+
+### Step 6: Return Summary
 
 Return a structured summary adapted to the resolved mode:
 

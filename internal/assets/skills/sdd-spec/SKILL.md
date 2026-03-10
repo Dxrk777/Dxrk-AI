@@ -50,15 +50,25 @@ Read and follow `skills/_shared/persistence-contract.md` for mode resolution rul
 
 ## What to Do
 
-### Step 1: Identify Affected Domains
+### Step 1: Load Skill Registry
+
+**Do this FIRST, before any other work.**
+
+1. Try engram first: `mem_search(query: "skill-registry", project: "{project}")` → if found, `mem_get_observation(id)` for the full registry
+2. If engram not available or not found: read `.atl/skill-registry.md` from the project root
+3. If neither exists: proceed without skills (not an error)
+
+From the registry, identify and read any skills whose triggers match your task. Also read any project convention files listed in the registry.
+
+### Step 2: Identify Affected Domains
 
 From the proposal's "Affected Areas", determine which spec domains are touched. Group changes by domain (e.g., `auth/`, `payments/`, `ui/`).
 
-### Step 2: Read Existing Specs
+### Step 3: Read Existing Specs
 
 If `openspec/specs/{domain}/spec.md` exists, read it to understand CURRENT behavior. Your delta specs describe CHANGES to this behavior.
 
-### Step 3: Write Delta Specs
+### Step 4: Write Delta Specs
 
 Create specs inside the change folder:
 
@@ -140,7 +150,28 @@ The system {MUST/SHALL/SHOULD} {behavior}.
 - THEN {outcome}
 ```
 
-### Step 4: Return Summary
+### Step 5: Persist Artifact
+
+**This step is MANDATORY — do NOT skip it.**
+
+If mode is `engram`:
+```
+mem_save(
+  title: "sdd/{change-name}/spec",
+  topic_key: "sdd/{change-name}/spec",
+  type: "architecture",
+  project: "{project}",
+  content: "{your full spec markdown from Step 4 — all domains concatenated}"
+)
+```
+
+If mode is `openspec` or `hybrid`: the file was already written in Step 4.
+
+If mode is `hybrid`: also call `mem_save` as above (write to BOTH backends).
+
+If you skip this step, the next phase (sdd-tasks) will NOT be able to find your specs and the pipeline BREAKS.
+
+### Step 6: Return Summary
 
 Return to the orchestrator:
 
