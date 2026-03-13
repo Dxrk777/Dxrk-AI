@@ -1,6 +1,7 @@
 package opencode
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"testing"
@@ -57,10 +58,42 @@ const fixtureJSON = `{
       }
     }
   },
-  "noenv": {
-    "id": "noenv",
+  "opencode": {
+    "id": "opencode",
+    "env": ["OPENCODE_API_KEY"],
+    "name": "OpenCode",
+    "models": {
+      "gpt-5-codex": {
+        "id": "gpt-5-codex",
+        "name": "GPT-5 Codex",
+        "family": "gpt",
+        "tool_call": true,
+        "reasoning": true,
+        "cost": {"input": 5.0, "output": 20.0},
+        "limit": {"context": 200000, "output": 16384}
+      }
+    }
+  },
+  "notools": {
+    "id": "notools",
     "env": [],
-    "name": "No Env Provider",
+    "name": "No Tools Provider",
+    "models": {
+      "basic": {
+        "id": "basic",
+        "name": "Basic Model",
+        "family": "basic",
+        "tool_call": false,
+        "reasoning": false,
+        "cost": {"input": 0.1, "output": 0.1},
+        "limit": {"context": 4096, "output": 1024}
+      }
+    }
+  },
+  "empty": {
+    "id": "empty",
+    "env": [],
+    "name": "Empty Provider",
     "models": {}
   }
 }`
@@ -75,6 +108,21 @@ func writeFixture(t *testing.T) string {
 	return path
 }
 
+func writeAuthFixture(t *testing.T, providers map[string]bool) string {
+	t.Helper()
+	dir := t.TempDir()
+	authPath := filepath.Join(dir, "auth.json")
+	authData := make(map[string]map[string]string)
+	for id := range providers {
+		authData[id] = map[string]string{"type": "oauth"}
+	}
+	data, _ := json.Marshal(authData)
+	if err := os.WriteFile(authPath, data, 0o644); err != nil {
+		t.Fatalf("write auth fixture: %v", err)
+	}
+	return authPath
+}
+
 func TestLoadModels(t *testing.T) {
 	path := writeFixture(t)
 
@@ -83,8 +131,8 @@ func TestLoadModels(t *testing.T) {
 		t.Fatalf("LoadModels() error = %v", err)
 	}
 
-	if len(providers) != 3 {
-		t.Fatalf("provider count = %d, want 3", len(providers))
+	if len(providers) != 5 {
+		t.Fatalf("provider count = %d, want 5", len(providers))
 	}
 
 	anthropic, ok := providers["anthropic"]
@@ -109,14 +157,65 @@ func TestLoadModelsFileNotFound(t *testing.T) {
 	}
 }
 
-func TestDetectAvailableProviders(t *testing.T) {
+func withAuthFixture(t *testing.T, providers map[string]bool) func() {
+	t.Helper()
+	path := writeAuthFixture(t, providers)
+	original := authPath
+	authPath = func() string { return path }
+	return func() { authPath = original }
+}
+
+func withNoAuth(t *testing.T) func() {
+	t.Helper()
+	original := authPath
+	authPath = func() string { return "/nonexistent/auth.json" }
+	return func() { authPath = original }
+}
+
+func TestDetectAvailableProvidersWithAuth(t *testing.T) {
 	path := writeFixture(t)
 	providers, err := LoadModels(path)
 	if err != nil {
 		t.Fatalf("LoadModels() error = %v", err)
 	}
 
-	// Override envLookup for test.
+	cleanup := withAuthFixture(t, map[string]bool{"anthropic": true, "openai": true})
+	defer cleanup()
+
+	// No env vars needed — auth provides access.
+	origEnv := envLookup
+	defer func() { envLookup = origEnv }()
+	envLookup = func(string) string { return "" }
+
+	available := DetectAvailableProviders(providers)
+	found := make(map[string]bool)
+	for _, id := range available {
+		found[id] = true
+	}
+	if !found["anthropic"] {
+		t.Fatal("expected anthropic (OAuth auth)")
+	}
+	if !found["openai"] {
+		t.Fatal("expected openai (OAuth auth)")
+	}
+	if !found["opencode"] {
+		t.Fatal("expected opencode (always included)")
+	}
+	if found["notools"] {
+		t.Fatal("notools should NOT be available")
+	}
+}
+
+func TestDetectAvailableProvidersViaEnvVars(t *testing.T) {
+	path := writeFixture(t)
+	providers, err := LoadModels(path)
+	if err != nil {
+		t.Fatalf("LoadModels() error = %v", err)
+	}
+
+	cleanup := withNoAuth(t)
+	defer cleanup()
+
 	original := envLookup
 	defer func() { envLookup = original }()
 
@@ -128,34 +227,58 @@ func TestDetectAvailableProviders(t *testing.T) {
 	}
 
 	available := DetectAvailableProviders(providers)
-	if len(available) != 1 {
-		t.Fatalf("available count = %d, want 1", len(available))
+
+	found := make(map[string]bool)
+	for _, id := range available {
+		found[id] = true
 	}
-	if available[0] != "anthropic" {
-		t.Fatalf("available[0] = %q, want anthropic", available[0])
+	if !found["anthropic"] {
+		t.Fatal("expected anthropic (env var set)")
+	}
+	if !found["opencode"] {
+		t.Fatal("expected opencode (always included)")
+	}
+	if found["openai"] {
+		t.Fatal("openai should NOT be available (no auth, no env var)")
+	}
+	if found["notools"] {
+		t.Fatal("notools should NOT be available (no tool_call models)")
 	}
 }
 
-func TestDetectAvailableProvidersSkipsNoEnv(t *testing.T) {
+func TestDetectAvailableProvidersOpenCodeAlwaysIncluded(t *testing.T) {
 	path := writeFixture(t)
 	providers, err := LoadModels(path)
 	if err != nil {
 		t.Fatalf("LoadModels() error = %v", err)
 	}
 
+	cleanup := withNoAuth(t)
+	defer cleanup()
+
 	original := envLookup
 	defer func() { envLookup = original }()
+	envLookup = func(string) string { return "" }
 
-	// All env vars set.
-	envLookup = func(key string) string {
-		return "set"
+	available := DetectAvailableProviders(providers)
+
+	// Only opencode should be available (built-in).
+	if len(available) != 1 || available[0] != "opencode" {
+		t.Fatalf("expected only [opencode], got %v", available)
+	}
+}
+
+func TestDetectExcludesNoToolCallProviders(t *testing.T) {
+	path := writeFixture(t)
+	providers, err := LoadModels(path)
+	if err != nil {
+		t.Fatalf("LoadModels() error = %v", err)
 	}
 
 	available := DetectAvailableProviders(providers)
-	// "noenv" provider has empty Env slice, should be excluded.
 	for _, id := range available {
-		if id == "noenv" {
-			t.Fatal("provider with empty env should not be in available list")
+		if id == "notools" || id == "empty" {
+			t.Fatalf("provider %q should not be in available list", id)
 		}
 	}
 }
@@ -182,5 +305,31 @@ func TestFilterModelsForSDD(t *testing.T) {
 	sddModels = FilterModelsForSDD(anthropic)
 	if len(sddModels) != 2 {
 		t.Fatalf("anthropic SDD model count = %d, want 2", len(sddModels))
+	}
+}
+
+func TestLoadAuthProviders(t *testing.T) {
+	authPath := writeAuthFixture(t, map[string]bool{
+		"anthropic":      true,
+		"google":         true,
+		"github-copilot": true,
+		"openai":         true,
+	})
+
+	result := loadAuthProviders(authPath)
+	if len(result) != 4 {
+		t.Fatalf("auth provider count = %d, want 4", len(result))
+	}
+	for _, id := range []string{"anthropic", "google", "github-copilot", "openai"} {
+		if !result[id] {
+			t.Fatalf("missing auth provider %q", id)
+		}
+	}
+}
+
+func TestLoadAuthProvidersMissingFile(t *testing.T) {
+	result := loadAuthProviders("/nonexistent/auth.json")
+	if result != nil {
+		t.Fatalf("expected nil for missing file, got %v", result)
 	}
 }

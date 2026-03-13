@@ -12,7 +12,7 @@ import (
 // ModelPickerState holds the available providers and models for the picker screen.
 type ModelPickerState struct {
 	Providers    map[string]opencode.Provider
-	AvailableIDs []string                       // provider IDs with env vars set
+	AvailableIDs []string                       // provider IDs with tool_call-capable models
 	SDDModels    map[string][]opencode.Model    // provider ID → SDD-capable models
 }
 
@@ -134,9 +134,9 @@ func RenderModelPicker(
 	b.WriteString("\n\n")
 
 	if len(state.AvailableIDs) == 0 {
-		b.WriteString(styles.WarningStyle.Render("No providers detected."))
+		b.WriteString(styles.WarningStyle.Render("No models found."))
 		b.WriteString("\n")
-		b.WriteString(styles.SubtextStyle.Render("Set API key env vars (e.g. OPENAI_API_KEY, ANTHROPIC_API_KEY) or switch to single mode."))
+		b.WriteString(styles.SubtextStyle.Render("Run 'opencode models --refresh' to update the model cache, or switch to single mode."))
 		b.WriteString("\n\n")
 		b.WriteString(renderOptions([]string{"← Back to SDD mode"}, cursor))
 		b.WriteString("\n")

@@ -17,6 +17,15 @@ func DefaultCachePath() string {
 	return filepath.Join(home, ".cache", "opencode", "models.json")
 }
 
+// DefaultAuthPath returns the default path to the OpenCode auth credentials file.
+func DefaultAuthPath() string {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return ""
+	}
+	return filepath.Join(home, ".local", "share", "opencode", "auth.json")
+}
+
 // ModelCost holds the per-million-token pricing.
 type ModelCost struct {
 	Input  float64 `json:"input"`
@@ -31,13 +40,13 @@ type ModelLimit struct {
 
 // Model represents a single model within a provider.
 type Model struct {
-	ID          string    `json:"id"`
-	Name        string    `json:"name"`
-	Family      string    `json:"family"`
-	ToolCall    bool      `json:"tool_call"`
-	Reasoning   bool      `json:"reasoning"`
-	Cost        ModelCost `json:"cost"`
-	Limit       ModelLimit `json:"limit"`
+	ID        string     `json:"id"`
+	Name      string     `json:"name"`
+	Family    string     `json:"family"`
+	ToolCall  bool       `json:"tool_call"`
+	Reasoning bool       `json:"reasoning"`
+	Cost      ModelCost  `json:"cost"`
+	Limit     ModelLimit `json:"limit"`
 }
 
 // Provider represents a model provider with its env vars and model catalog.
@@ -74,32 +83,86 @@ func LoadModels(cachePath string) (map[string]Provider, error) {
 	return providers, nil
 }
 
+// loadAuthProviders reads the OpenCode auth.json and returns authenticated provider IDs.
+func loadAuthProviders(authPath string) map[string]bool {
+	data, err := os.ReadFile(authPath)
+	if err != nil {
+		return nil
+	}
+
+	var raw map[string]json.RawMessage
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return nil
+	}
+
+	result := make(map[string]bool, len(raw))
+	for id := range raw {
+		result[id] = true
+	}
+	return result
+}
+
 // envLookup is a package-level variable for testing.
 var envLookup = os.Getenv
 
-// DetectAvailableProviders returns provider IDs whose required env vars are all set.
+// authPath is a package-level variable for testing.
+var authPath = DefaultAuthPath
+
+// DetectAvailableProviders returns provider IDs that the user has access to and
+// that have at least one model with tool_call support. Detection sources:
+//  1. OAuth credentials in ~/.local/share/opencode/auth.json
+//  2. Environment variables (e.g. ANTHROPIC_API_KEY)
+//  3. The "opencode" provider is always included if present (built-in subscription)
+//
 // Results are sorted alphabetically.
 func DetectAvailableProviders(providers map[string]Provider) []string {
-	var available []string
+	authProviders := loadAuthProviders(authPath())
 
+	var available []string
 	for id, provider := range providers {
-		if len(provider.Env) == 0 {
+		if !hasToolCallModel(provider) {
 			continue
 		}
-		allSet := true
-		for _, envVar := range provider.Env {
-			if envLookup(envVar) == "" {
-				allSet = false
-				break
-			}
-		}
-		if allSet {
+
+		// Check: authenticated via OAuth?
+		if authProviders[id] {
 			available = append(available, id)
+			continue
+		}
+
+		// Check: built-in "opencode" provider (always available with subscription)
+		if id == "opencode" {
+			available = append(available, id)
+			continue
+		}
+
+		// Check: env vars set?
+		if len(provider.Env) > 0 && allEnvVarsSet(provider.Env) {
+			available = append(available, id)
+			continue
 		}
 	}
 
 	sort.Strings(available)
 	return available
+}
+
+func hasToolCallModel(provider Provider) bool {
+	for _, m := range provider.Models {
+		if m.ToolCall {
+			return true
+		}
+	}
+	return false
+}
+
+func allEnvVarsSet(envVars []string) bool {
+	for _, v := range envVars {
+		if envLookup(v) == "" {
+			return false
+		}
+	}
+	return true
 }
 
 // FilterModelsForSDD returns models from a provider that support tool_call (required for SDD phases).
