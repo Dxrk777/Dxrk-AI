@@ -300,7 +300,18 @@ func (m Model) View() string {
 }
 
 func (m Model) handleKeyPress(key tea.KeyMsg) (tea.Model, tea.Cmd) {
-	switch key.String() {
+	keyStr := key.String()
+
+	// When the model picker is in a sub-mode, delegate navigation there first.
+	if m.Screen == ScreenModelPicker && m.ModelPicker.Mode != screens.ModePhaseList {
+		handled, updated := screens.HandleModelPickerNav(keyStr, &m.ModelPicker, m.Selection.ModelAssignments)
+		if handled {
+			m.Selection.ModelAssignments = updated
+			return m, nil
+		}
+	}
+
+	switch keyStr {
 	case "ctrl+c", "q":
 		return m, tea.Quit
 	case "up", "k":
@@ -402,7 +413,7 @@ func (m Model) confirmSelection() (tea.Model, tea.Cmd) {
 		m.setScreen(ScreenPreset)
 	case ScreenModelPicker:
 		// When no providers are detected the screen only shows a "Back" option
-		// at cursor 0.  Handle that before the normal row-cycling logic.
+		// at cursor 0.  Handle that before the normal row logic.
 		if len(m.ModelPicker.AvailableIDs) == 0 {
 			// Go back to SDD mode so the user can switch to single mode.
 			m.setScreen(ScreenSDDMode)
@@ -410,19 +421,21 @@ func (m Model) confirmSelection() (tea.Model, tea.Cmd) {
 		}
 		rows := screens.ModelPickerRows()
 		if m.Cursor < len(rows) {
-			m.Selection.ModelAssignments = screens.CycleModelAssignment(
-				m.Selection.ModelAssignments, m.ModelPicker, m.Cursor,
-			)
+			// Enter sub-selection: pick provider then model.
+			m.ModelPicker.SelectedPhaseIdx = m.Cursor
+			m.ModelPicker.Mode = screens.ModeProviderSelect
+			m.ModelPicker.ProviderCursor = 0
+			m.ModelPicker.ProviderScroll = 0
 			return m, nil
 		}
 		// After the rows: Continue (cursor == len(rows)), Back (cursor == len(rows)+1).
 		if m.Cursor == len(rows) {
-			// Continue → proceed to dependency tree.
+			// Continue -> proceed to dependency tree.
 			m.buildDependencyPlan()
 			m.setScreen(ScreenDependencyTree)
 			return m, nil
 		}
-		// Back → return to SDD mode screen.
+		// Back -> return to SDD mode screen.
 		m.setScreen(ScreenSDDMode)
 	case ScreenDependencyTree:
 		if m.Selection.Preset == model.PresetCustom {

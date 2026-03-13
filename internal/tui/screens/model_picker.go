@@ -2,6 +2,7 @@ package screens
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/gentleman-programming/gentle-ai/internal/model"
@@ -9,11 +10,40 @@ import (
 	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
 )
 
-// ModelPickerState holds the available providers and models for the picker screen.
+// ModelPickerMode represents the current sub-mode of the model picker screen.
+type ModelPickerMode int
+
+const (
+	ModePhaseList     ModelPickerMode = iota // Main screen: phase list + Continue/Back
+	ModeProviderSelect                       // Sub-mode: pick a provider
+	ModeModelSelect                          // Sub-mode: pick a model from chosen provider
+)
+
+// maxVisibleItems is the maximum number of items shown in scrollable sub-lists.
+const maxVisibleItems = 10
+
+// ProviderEntry holds a provider ID, display name, and model count for the provider list.
+type ProviderEntry struct {
+	ID         string
+	Name       string
+	ModelCount int
+}
+
+// ModelPickerState holds the available providers and models for the picker screen,
+// plus navigation state for the two-step sub-selection modes.
 type ModelPickerState struct {
 	Providers    map[string]opencode.Provider
 	AvailableIDs []string                       // provider IDs with tool_call-capable models
-	SDDModels    map[string][]opencode.Model    // provider ID → SDD-capable models
+	SDDModels    map[string][]opencode.Model    // provider ID -> SDD-capable models
+
+	Mode             ModelPickerMode
+	SelectedPhaseIdx int    // which phase row was selected (0 = "Set all")
+	SelectedProvider string // provider ID chosen in ModeProviderSelect
+
+	ProviderCursor int
+	ProviderScroll int
+	ModelCursor    int
+	ModelScroll    int
 }
 
 // NewModelPickerState initializes the picker state from the models cache.
@@ -34,11 +64,12 @@ func NewModelPickerState(cachePath string) ModelPickerState {
 		Providers:    providers,
 		AvailableIDs: available,
 		SDDModels:    sddModels,
+		Mode:         ModePhaseList,
 	}
 }
 
 // ModelPickerRows returns the row labels for the model picker screen.
-// Row 0 is "Set all", rows 1-9 are the SDD phases.
+// Row 0 is "Set all phases", rows 1-9 are the SDD phases.
 func ModelPickerRows() []string {
 	rows := make([]string, 0, 10)
 	rows = append(rows, "Set all phases")
@@ -46,84 +77,162 @@ func ModelPickerRows() []string {
 	return rows
 }
 
-// flatModelList builds a flat list of (providerID, model) pairs from available providers.
-type flatModelEntry struct {
-	ProviderID string
-	Model      opencode.Model
-}
-
-func buildFlatModelList(state ModelPickerState) []flatModelEntry {
-	var entries []flatModelEntry
-	for _, provID := range state.AvailableIDs {
-		for _, m := range state.SDDModels[provID] {
-			entries = append(entries, flatModelEntry{ProviderID: provID, Model: m})
+// ProviderEntries returns sorted provider entries with display names and model counts.
+func ProviderEntries(state ModelPickerState) []ProviderEntry {
+	entries := make([]ProviderEntry, 0, len(state.AvailableIDs))
+	for _, id := range state.AvailableIDs {
+		name := id
+		if p, ok := state.Providers[id]; ok && p.Name != "" {
+			name = p.Name
 		}
+		count := len(state.SDDModels[id])
+		entries = append(entries, ProviderEntry{ID: id, Name: name, ModelCount: count})
 	}
+	sort.Slice(entries, func(i, j int) bool {
+		return entries[i].Name < entries[j].Name
+	})
 	return entries
 }
 
-// CycleModelAssignment cycles to the next available model for the given phase (or all phases).
-// Returns updated assignments map. cursor=0 means "set all", cursor 1-9 means individual phase.
-func CycleModelAssignment(
+// HandleModelPickerNav handles j/k/enter/esc navigation within the sub-modes.
+// Returns true if the key was handled (so the caller should NOT do default nav).
+// When a model is selected, it applies the assignment to the given map and returns it.
+func HandleModelPickerNav(
+	key string,
+	state *ModelPickerState,
 	assignments map[string]model.ModelAssignment,
-	state ModelPickerState,
-	cursor int,
-) map[string]model.ModelAssignment {
+) (handled bool, updatedAssignments map[string]model.ModelAssignment) {
 	if assignments == nil {
 		assignments = make(map[string]model.ModelAssignment)
 	}
 
-	entries := buildFlatModelList(state)
+	switch state.Mode {
+	case ModeProviderSelect:
+		return handleProviderNav(key, state), assignments
+	case ModeModelSelect:
+		return handleModelNav(key, state, assignments)
+	}
+	return false, assignments
+}
+
+func handleProviderNav(key string, state *ModelPickerState) bool {
+	entries := ProviderEntries(*state)
 	if len(entries) == 0 {
-		return assignments
+		return false
 	}
 
-	phases := opencode.SDDPhases()
-
-	if cursor == 0 {
-		// "Set all" — cycle based on the first phase's current assignment.
-		current := assignments[phases[0]]
-		next := nextEntry(entries, current)
-		for _, phase := range phases {
-			assignments[phase] = next
+	switch key {
+	case "up", "k":
+		if state.ProviderCursor > 0 {
+			state.ProviderCursor--
+			if state.ProviderCursor < state.ProviderScroll {
+				state.ProviderScroll = state.ProviderCursor
+			}
 		}
-		return assignments
+		return true
+	case "down", "j":
+		if state.ProviderCursor < len(entries)-1 {
+			state.ProviderCursor++
+			if state.ProviderCursor >= state.ProviderScroll+maxVisibleItems {
+				state.ProviderScroll = state.ProviderCursor - maxVisibleItems + 1
+			}
+		}
+		return true
+	case "enter":
+		state.SelectedProvider = entries[state.ProviderCursor].ID
+		state.Mode = ModeModelSelect
+		state.ModelCursor = 0
+		state.ModelScroll = 0
+		return true
+	case "esc":
+		state.Mode = ModePhaseList
+		state.ProviderCursor = 0
+		state.ProviderScroll = 0
+		return true
 	}
-
-	// Individual phase.
-	phaseIdx := cursor - 1
-	if phaseIdx >= len(phases) {
-		return assignments
-	}
-
-	phase := phases[phaseIdx]
-	current := assignments[phase]
-	assignments[phase] = nextEntry(entries, current)
-	return assignments
+	return false
 }
 
-// nextEntry finds the next model entry after the current assignment, cycling back to the first.
-func nextEntry(entries []flatModelEntry, current model.ModelAssignment) model.ModelAssignment {
-	if current.ProviderID == "" && current.ModelID == "" {
-		// No assignment yet — pick first entry.
-		e := entries[0]
-		return model.ModelAssignment{ProviderID: e.ProviderID, ModelID: e.Model.ID}
+func handleModelNav(
+	key string,
+	state *ModelPickerState,
+	assignments map[string]model.ModelAssignment,
+) (bool, map[string]model.ModelAssignment) {
+	models := state.SDDModels[state.SelectedProvider]
+	if len(models) == 0 {
+		return false, assignments
 	}
 
-	for i, e := range entries {
-		if e.ProviderID == current.ProviderID && e.Model.ID == current.ModelID {
-			next := entries[(i+1)%len(entries)]
-			return model.ModelAssignment{ProviderID: next.ProviderID, ModelID: next.Model.ID}
+	switch key {
+	case "up", "k":
+		if state.ModelCursor > 0 {
+			state.ModelCursor--
+			if state.ModelCursor < state.ModelScroll {
+				state.ModelScroll = state.ModelCursor
+			}
 		}
-	}
+		return true, assignments
+	case "down", "j":
+		if state.ModelCursor < len(models)-1 {
+			state.ModelCursor++
+			if state.ModelCursor >= state.ModelScroll+maxVisibleItems {
+				state.ModelScroll = state.ModelCursor - maxVisibleItems + 1
+			}
+		}
+		return true, assignments
+	case "enter":
+		selected := models[state.ModelCursor]
+		assignment := model.ModelAssignment{
+			ProviderID: state.SelectedProvider,
+			ModelID:    selected.ID,
+		}
 
-	// Current not found in list, reset to first.
-	e := entries[0]
-	return model.ModelAssignment{ProviderID: e.ProviderID, ModelID: e.Model.ID}
+		phases := opencode.SDDPhases()
+		if state.SelectedPhaseIdx == 0 {
+			// "Set all phases"
+			for _, phase := range phases {
+				assignments[phase] = assignment
+			}
+		} else {
+			phaseIdx := state.SelectedPhaseIdx - 1
+			if phaseIdx < len(phases) {
+				assignments[phases[phaseIdx]] = assignment
+			}
+		}
+
+		// Return to phase list
+		state.Mode = ModePhaseList
+		state.ModelCursor = 0
+		state.ModelScroll = 0
+		state.ProviderCursor = 0
+		state.ProviderScroll = 0
+		return true, assignments
+	case "esc":
+		state.Mode = ModeProviderSelect
+		state.ModelCursor = 0
+		state.ModelScroll = 0
+		return true, assignments
+	}
+	return false, assignments
 }
 
-// RenderModelPicker renders the model picker screen.
+// RenderModelPicker renders the model picker screen based on the current mode.
 func RenderModelPicker(
+	assignments map[string]model.ModelAssignment,
+	state ModelPickerState,
+	cursor int,
+) string {
+	switch state.Mode {
+	case ModeProviderSelect:
+		return renderProviderSelect(state)
+	case ModeModelSelect:
+		return renderModelSelect(state)
+	default:
+		return renderPhaseList(assignments, state, cursor)
+	}
+}
+
+func renderPhaseList(
 	assignments map[string]model.ModelAssignment,
 	state ModelPickerState,
 	cursor int,
@@ -144,36 +253,33 @@ func RenderModelPicker(
 		return b.String()
 	}
 
-	b.WriteString(styles.SubtextStyle.Render("Press enter to cycle models. j/k to navigate."))
+	b.WriteString(styles.SubtextStyle.Render("Current assignments:"))
 	b.WriteString("\n\n")
 
 	rows := ModelPickerRows()
+	phases := opencode.SDDPhases()
+
 	for idx, row := range rows {
 		focused := idx == cursor
 
 		var label string
 		if idx == 0 {
-			label = row
+			// "Set all phases" row — show the assignment of the first phase as representative
+			assignment, ok := assignments[phases[0]]
+			if ok && assignment.ProviderID != "" {
+				provName, modelName := resolveNames(assignment, state)
+				label = fmt.Sprintf("%-20s (%s / %s)", row, provName, modelName)
+			} else {
+				label = fmt.Sprintf("%-20s (not set)", row)
+			}
 		} else {
-			phase := opencode.SDDPhases()[idx-1]
+			phase := phases[idx-1]
 			assignment, ok := assignments[phase]
 			if ok && assignment.ProviderID != "" {
-				provName := assignment.ProviderID
-				if p, exists := state.Providers[assignment.ProviderID]; exists && p.Name != "" {
-					provName = p.Name
-				}
-				modelName := assignment.ModelID
-				if p, exists := state.Providers[assignment.ProviderID]; exists {
-					if m, mOK := p.Models[assignment.ModelID]; mOK && m.Name != "" {
-						modelName = m.Name
-						if m.Cost.Input > 0 {
-							modelName += fmt.Sprintf(" ($%.2f/$%.2f)", m.Cost.Input, m.Cost.Output)
-						}
-					}
-				}
-				label = fmt.Sprintf("%-14s %s / %s", row, provName, modelName)
+				provName, modelName := resolveNames(assignment, state)
+				label = fmt.Sprintf("%-20s %s / %s", row, provName, modelName)
 			} else {
-				label = fmt.Sprintf("%-14s (default)", row)
+				label = fmt.Sprintf("%-20s (default)", row)
 			}
 		}
 
@@ -188,7 +294,114 @@ func RenderModelPicker(
 	actionIdx := cursor - len(rows)
 	b.WriteString(renderOptions([]string{"Continue", "← Back"}, actionIdx))
 	b.WriteString("\n")
-	b.WriteString(styles.HelpStyle.Render("j/k: navigate • enter: cycle model / confirm • esc: back"))
+	b.WriteString(styles.HelpStyle.Render("j/k: navigate • enter: change model / confirm • esc: back"))
 
 	return b.String()
+}
+
+func renderProviderSelect(state ModelPickerState) string {
+	var b strings.Builder
+
+	b.WriteString(styles.TitleStyle.Render("Select provider:"))
+	b.WriteString("\n\n")
+
+	entries := ProviderEntries(state)
+
+	end := state.ProviderScroll + maxVisibleItems
+	if end > len(entries) {
+		end = len(entries)
+	}
+
+	if state.ProviderScroll > 0 {
+		b.WriteString(styles.SubtextStyle.Render("  ↑ more"))
+		b.WriteString("\n")
+	}
+
+	for i := state.ProviderScroll; i < end; i++ {
+		entry := entries[i]
+		label := fmt.Sprintf("%s (%d models)", entry.Name, entry.ModelCount)
+		focused := i == state.ProviderCursor
+
+		if focused {
+			b.WriteString(styles.SelectedStyle.Render(styles.Cursor+label) + "\n")
+		} else {
+			b.WriteString(styles.UnselectedStyle.Render("  "+label) + "\n")
+		}
+	}
+
+	if end < len(entries) {
+		b.WriteString(styles.SubtextStyle.Render("  ↓ more"))
+		b.WriteString("\n")
+	}
+
+	b.WriteString("\n")
+	b.WriteString(styles.HelpStyle.Render("j/k: navigate • enter: select • esc: back"))
+
+	return b.String()
+}
+
+func renderModelSelect(state ModelPickerState) string {
+	var b strings.Builder
+
+	provName := state.SelectedProvider
+	if p, ok := state.Providers[state.SelectedProvider]; ok && p.Name != "" {
+		provName = p.Name
+	}
+
+	b.WriteString(styles.TitleStyle.Render(fmt.Sprintf("Select model (%s):", provName)))
+	b.WriteString("\n\n")
+
+	models := state.SDDModels[state.SelectedProvider]
+
+	end := state.ModelScroll + maxVisibleItems
+	if end > len(models) {
+		end = len(models)
+	}
+
+	if state.ModelScroll > 0 {
+		b.WriteString(styles.SubtextStyle.Render("  ↑ more"))
+		b.WriteString("\n")
+	}
+
+	for i := state.ModelScroll; i < end; i++ {
+		m := models[i]
+		label := m.Name
+		if m.Cost.Input > 0 || m.Cost.Output > 0 {
+			label += fmt.Sprintf("  ($%.2f/$%.2f)", m.Cost.Input, m.Cost.Output)
+		}
+		focused := i == state.ModelCursor
+
+		if focused {
+			b.WriteString(styles.SelectedStyle.Render(styles.Cursor+label) + "\n")
+		} else {
+			b.WriteString(styles.UnselectedStyle.Render("  "+label) + "\n")
+		}
+	}
+
+	if end < len(models) {
+		b.WriteString(styles.SubtextStyle.Render("  ↓ more"))
+		b.WriteString("\n")
+	}
+
+	b.WriteString("\n")
+	b.WriteString(styles.HelpStyle.Render("j/k: navigate • enter: select • esc: back"))
+
+	return b.String()
+}
+
+// resolveNames returns the display name for a provider and model from an assignment.
+func resolveNames(assignment model.ModelAssignment, state ModelPickerState) (provName, modelName string) {
+	provName = assignment.ProviderID
+	if p, exists := state.Providers[assignment.ProviderID]; exists && p.Name != "" {
+		provName = p.Name
+	}
+
+	modelName = assignment.ModelID
+	if p, exists := state.Providers[assignment.ProviderID]; exists {
+		if m, ok := p.Models[assignment.ModelID]; ok && m.Name != "" {
+			modelName = m.Name
+		}
+	}
+
+	return provName, modelName
 }
