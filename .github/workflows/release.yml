@@ -1,32 +1,99 @@
 name: Release
 
+# ============================================================================
+# Dxrk Hex - Release Workflow
+# ============================================================================
+# Este workflow maneja los releases automáticos usando GoReleaser.
+# Se activa cuando se crea un tag que matchee "v*" (ej: v0.01%, v1.0.0)
+#
+# Para hacer un release:
+# 1. git tag v0.02%
+# 2. git push origin v0.02%
+#
+# GoReleaser automáticamente:
+# - Compila binarios para Linux, macOS, Windows
+# - Crea archivos .tar.gz y .zip
+# - Genera checksums
+# - Sube a GitHub Releases
+# - Actualiza Homebrew tap (si está configurado)
+# ============================================================================
+
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v0.02%)'
+        required: true
+        type: string
 
+# Permisos para crear releases
 permissions:
   contents: write
+  packages: write
 
 jobs:
-  goreleaser:
+  # --------------------------------------------------------------------------
+  # Build y Release
+  # --------------------------------------------------------------------------
+  release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Necesario para GoReleaser
 
-      - name: Set up Go
+      - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
+          go-version: '1.24'
+          cache: true
 
+      # --------------------------------------------------------------------------
+      # Run GoReleaser
+      # --------------------------------------------------------------------------
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
-          version: "~> v2"
+          version: latest
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+
+  # --------------------------------------------------------------------------
+  # Notificar en Discord (opcional)
+  # --------------------------------------------------------------------------
+  # Para activar notificaciones de Discord, descomenta y configura DISCORD_WEBHOOK:
+  #
+  # discord-notify:
+  #   runs-on: ubuntu-latest
+  #   needs: release
+  #   steps:
+  #     - name: Notify Discord
+  #       run: |
+  #         curl -H "Content-Type: application/json" \
+  #           -d '{"content": "🎉 Nuevo release de Dxrk Hex disponible!"}' \
+  #           ${{ secrets.DISCORD_WEBHOOK }}
+
+# ============================================================================
+# NOTAS:
+#
+# Para que este workflow funcione, necesitas:
+#
+# 1. Crear un tag en git:
+#    git tag v0.02%
+#    git push origin v0.02%
+#
+# 2. (Opcional) Configurar HOMEBREW_TAP_TOKEN en GitHub Secrets
+#    si quieres actualizar el Homebrew tap automáticamente.
+#
+# 3. (Opcional) Configurar DISCORD_WEBHOOK si quieres notificaciones.
+#
+# El archivo .goreleaser.yaml ya está configurado para compilar:
+# - Linux (amd64, arm64)
+# - macOS (amd64, arm64)
+# - Windows (amd64, arm64)
+# ============================================================================

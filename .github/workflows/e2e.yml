@@ -1,0 +1,82 @@
+name: E2E Tests
+
+# ============================================================================
+# Dxrk Hex - End-to-End Tests
+# ============================================================================
+# Este workflow corre tests E2E en Docker para verificar la instalación.
+# Corre en Ubuntu y Arch Linux para simular diferentes entornos.
+#
+# Los E2E tests:
+# - Instalan dxrk en containers Docker limpios
+# - Verifican que la instalación funcione correctamente
+# - Prueban diferentes presets y componentes
+# ============================================================================
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Saltar tests (para debug)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+env:
+  # Configuración de E2E
+  RUN_FULL_E2E: 1
+  RUN_BACKUP_TESTS: 1
+
+jobs:
+  # --------------------------------------------------------------------------
+  # E2E en Ubuntu
+  # --------------------------------------------------------------------------
+  e2e-ubuntu:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.skip_tests != 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Run E2E tests on Ubuntu
+        run: |
+          cd e2e
+          chmod +x docker-test.sh
+          ./docker-test.sh
+
+  # --------------------------------------------------------------------------
+  # E2E en Arch Linux
+  # --------------------------------------------------------------------------
+  e2e-arch:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.skip_tests != 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Run E2E tests on Arch
+        run: |
+          cd e2e
+          chmod +x docker-test.sh
+          ARCH_IMAGE=archlinux ./docker-test.sh
+
+# ============================================================================
+# NOTAS:
+#
+# Los E2E tests requieren Docker instalado y corriendo.
+# Se ejecutan en containers Ubuntu y Arch Linux para simular
+# diferentes entornos de usuario.
+#
+# Para correr localmente:
+#   cd e2e
+#   chmod +x docker-test.sh
+#   ./docker-test.sh
+# ============================================================================

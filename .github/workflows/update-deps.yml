@@ -1,0 +1,77 @@
+name: Update Dependencies
+
+# ============================================================================
+# Dxrk Hex - Update Dependencies
+# ============================================================================
+# Este workflow mantiene las dependencias actualizadas automáticamente.
+# Se ejecuta diariamente para:
+# - Actualizar dependencias de Go
+# - Crear un PR con los cambios si hay updates disponibles
+# ============================================================================
+
+name: Update Dependencies
+
+on:
+  schedule:
+    # Corre todos los días a las 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # También se puede correr manualmente
+
+jobs:
+  # --------------------------------------------------------------------------
+  # Update Go Dependencies
+  # --------------------------------------------------------------------------
+  update-go:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+          cache: false
+
+      - name: Update Go modules
+        run: |
+          go get -u ./...
+          go mod tidy
+          go mod download
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore(deps): update Go dependencies'
+          title: '⬆️ Update Go dependencies'
+          body: |
+            ## Resumen
+            Este PR actualiza las dependencias de Go.
+
+            ## Checks
+            - [ ] Tests pasan
+            - [ ] Build compila correctamente
+          branch: chore/update-deps
+          delete-branch: true
+          labels: |
+            chore
+            dependencies
+
+  # --------------------------------------------------------------------------
+  # Check for new Go versions
+  # --------------------------------------------------------------------------
+  check-go-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check latest Go version
+        run: |
+          LATEST=$(curl -sL https://go.dev/VERSION?m=text | head -1)
+          CURRENT="1.24"
+          echo "Current Go version: $CURRENT"
+          echo "Latest Go version: $LATEST"
+          
+          if [ "$CURRENT" != "$LATEST" ]; then
+            echo "::warning::Go version $CURRENT is outdated. Latest is $LATEST"
+          fi
+E2EFILE
