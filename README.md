@@ -1,16 +1,17 @@
 <div align="center">
 
-<img width="3276" height="1280" alt="image" src="https://github.com/user-attachments/assets/3a3e4ae1-b9f4-4ce9-8fd0-3833812beb99" />
+<img width="1600" height="900" alt="Dxrk Hex Logo" src="./assets/logo.jpg" />
 
-<h1>Dxrk</h1>
+<h1>DXRK HEX</h1>
 
-<p><strong>One command. Any agent. Any OS. The Dxrk ecosystem -- configured and ready.</strong></p>
+<p><strong>DARK HEX SYSTEM — One command. Any agent. Any OS. PROTOCOL ACTIVE.</strong></p>
 
 <p>
-<a href="https://github.com/Dxrk777777/Dxrk-Hex/releases"><img src="https://img.shields.io/github/v/release/dxrk777/Dxrk-Hex" alt="Release"></a>
+<a href="https://github.com/Dxrk777/Dxrk-Hex/releases"><img src="https://img.shields.io/github/v/release/Dxrk777/Dxrk-Hex?color=5dfc8e&label=Version" alt="Release"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
 <img src="https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go&logoColor=white" alt="Go 1.24+">
 <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey" alt="Platform">
+<img src="https://img.shields.io/badge/Status-000.01%25%20Initial-5dfc8e" alt="Status">
 </p>
 
 </div>
@@ -19,7 +20,7 @@
 
 ## What It Does
 
-This is NOT an AI agent installer. Most agents are easy to install. This is an **ecosystem configurator** -- it takes whatever AI coding agent(s) you use and supercharges them with the Dxrk stack: persistent memory, Spec-Driven Development workflow, curated coding skills, MCP servers, an AI provider switcher, a teaching-oriented persona with security-first permissions, and per-phase model assignment so each SDD step can run on a different model.
+This is NOT an AI agent installer. Most agents are easy to install. This is an **ecosystem configurator** -- it takes whatever AI coding agent(s) you use and supercharges them with the Dxrk Hex stack: persistent memory, Spec-Driven Development workflow, curated coding skills, MCP servers, an AI provider switcher, a teaching-oriented persona with security-first permissions, and per-phase model assignment so each SDD step can run on a different model.
 
 **Before**: "I installed Claude Code / OpenCode / Cursor, but it's just a chatbot that writes code."
 
@@ -45,13 +46,13 @@ This is NOT an AI agent installer. Most agents are easy to install. This is an *
 ### macOS / Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex
+irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex
 ```
 
 This downloads the latest release for your platform and launches the interactive TUI. No Go toolchain required.
@@ -63,29 +64,29 @@ This downloads the latest release for your platform and launches the interactive
 ### Homebrew (macOS / Linux)
 
 ```bash
-brew tap dxrk/tap
+brew tap Dxrk777/tap
 brew install dxrk
 ```
 
 ### Go install (any platform with Go 1.24+)
 
 ```bash
-go install github.com/Dxrk777777/Dxrk-Hex/cmd/dxrk@latest
+go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
 # Option 1: PowerShell installer (downloads binary from GitHub Releases)
-irm https://raw.githubusercontent.com/dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex
+irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex
 
 # Option 2: Go install (requires Go 1.24+)
-go install github.com/Dxrk777777/Dxrk-Hex/cmd/dxrk@latest
+go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest
 ```
 
 ### From releases
 
-Download the binary for your platform from [GitHub Releases](https://github.com/Dxrk777777/Dxrk-Hex/releases).
+Download the binary for your platform from [GitHub Releases](https://github.com/Dxrk777/Dxrk-Hex/releases).
 
 ---
 
@@ -102,6 +103,21 @@ Download the binary for your platform from [GitHub Releases](https://github.com/
 
 ---
 
+## Version System
+
+Dxrk Hex uses a **percentage-based version system**:
+
+| Version | Status |
+|---------|--------|
+| `000.01%` | Initial Release |
+| `001.00%` | Core Installer |
+| `010.00%` | Skills System |
+| `050.00%` | Multi-Platform |
+| `100.00%` | MVP Achieved |
+
+---
+
 <div align="center">
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+<p><strong>// DARK HEX SYSTEM — PROTOCOL ACTIVE //</strong></p>
 </div>
