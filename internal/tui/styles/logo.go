@@ -6,62 +6,51 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-// logoLines contains the braille ASCII art for the Dxrk cool anime smile logo.
+// logoLines contains the braille ASCII art for the Dxrk Dark Skull punk logo.
 var logoLines = []string{
-	"                                                    ",
-	"                                                    ",
-	"                    ████████████████████            ",
-	"                  ██░░░░░░░░░░░░░░░░░░░██          ",
-	"                ██░░░░░░░░░░░░░░░░░░░░░░░██        ",
-	"               █░░░░░░░░░░░░░░░░░░░░░░░░░░█       ",
-	"              █░░░░░░░░░░░░░░░░░░░░░░░░░░░░█      ",
-	"             █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█     ",
-	"             █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█     ",
-	"             █░░░░██░░░░░░░░░░░░░░░██░░░░░░░█     ",
-	"             █░░░░░██░░░░░░░░░░░░░██░░░░░░░░░█     ",
-	"              █░░░░░░██░░░░░░░░██░░░░░░░░░░░█      ",
-	"              █░░░░░░░░██░░░░██░░░░░░░░░░░░░█      ",
-	"               █░░░░░░░░░██░██░░░░░░░░░░░░░░█       ",
-	"                █░░░░░░░░░░░░░░░░░░░░░░░░░░█       ",
-	"                 █░░░░░░░░░░░░░░░░░░░░░░░░█        ",
-	"                  █░░░░░░░░░████░░░░░░░░░░█         ",
-	"                   █░░░░░░░░░████░░░░░░░░░█          ",
-	"                    █░░░░░░░████████░░░░░░█           ",
-	"                     █░░░░░░████████░░░░█             ",
-	"                      █░░░░░████████░░░█               ",
-	"                       █░░░░████████░░█               ",
-	"                        █░░░████████░█                 ",
-	"                         ██████████████                 ",
-	"                          ████████████                  ",
-	"                           ██████████                   ",
-	"                                                    ",
-	"                    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                  ",
-	"                   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓               ",
-	"                  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓              ",
-	"                 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓             ",
-	"                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓            ",
-	"               ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓           ",
-	"              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓          ",
-	"             ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓         ",
-	"            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓        ",
-	"           ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓       ",
-	"                                                    ",
+	"                                           ",
+	"                    ▄▄▄▄▄▄▄▄▄▄▄                  ",
+	"                 ▄██▀▀▀▀▀▀▀▀▀▀▀▀██▄               ",
+	"               ▄█▀                  ▀█▄             ",
+	"              █▀      ▄▄▄▄▄▄▄▄▄      ▀█            ",
+	"             █▀    ▄██▀▀▀▀▀▀▀▀██▄    ▀█           ",
+	"            █▀   ▄█▀              ▀█▄   ▀█          ",
+	"           █▀   ██                  ██   ▀█         ",
+	"           ██   ██    ████████     ██   ██         ",
+	"           ██   ██   ██ ◉   ◉ ██   ██   ██         ",
+	"           ██   ██    ████████     ██   ██         ",
+	"           ██   ██      ▄▄▄▄▄      ██   ██         ",
+	"           ██   ██    ▄████████▄    ██   ██         ",
+	"            █▄   ██  ████████████  ██   ▄█          ",
+	"             █▄   ██▄▄▄▄▄▄▄▄▄▄▄██   ▄█           ",
+	"              █▄    ██████████████    ▄█            ",
+	"               █▄      ▀▀▀▀▀▀▀▀      ▄█             ",
+	"                █▄                  ▄█                ",
+	"                 ██▄▄▄▄▄▄▄▄▄▄▄▄▄██                 ",
+	"                  ▀███████████████▀                  ",
+	"                    ▀▀▀▀▀▀▀▀▀▀▀▀                    ",
+	"                                               ",
+	"              ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄              ",
+	"            ▄██████████████████████████▄            ",
+	"           █▌ DXRK HEX DARK SKULL PROTOCOL ▐█           ",
+	"            ▀██████████████████████████▀            ",
+	"              ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀              ",
 }
 
-// gradientColors defines the gradient for the anime smile logo.
-// Morado → Rosa → Rojo → Carmesí
+// gradientColors defines the gradient for the skull logo.
+// Negro → Rojo oscuro → Rojo brillante → Carmesí
 var gradientColors = []lipgloss.Color{
-	ColorDeepPurple, // Morado profundo (arriba)
-	ColorMauve,      // Rosa fuerte
-	ColorHotPink,    // Rosa hot
-	ColorRed,        // Rojo pasión
-	ColorCrimson,    // Carmesí (abajo)
-	ColorMagenta,    // Magenta brillante
-	ColorPeach,      // Rosa durazno
+	ColorBase,       // Negro profundo (arriba)
+	ColorDeepPurple, // Rojo muy oscuro
+	ColorRed,        // Rojo oscuro
+	ColorCrimson,    // Carmesí
+	ColorRed,        // Rojo
+	ColorDeepPurple, // Rojo oscuro
+	ColorBase,       // Negro profundo (abajo)
 }
 
 // RenderLogo returns the braille ASCII logo with a gradient.
-// Gradient: Morado → Rosa → Rojo → Carmesí
+// Gradient: Negro → Rojo → Carmesí
 func RenderLogo() string {
 	total := len(logoLines)
 	if total == 0 {
