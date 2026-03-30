@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1600" height="900" alt="Dxrk Hex Logo" src="https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/assets/logo.jpg" />
+<img width="1600" height="757" alt="Dxrk Hex Logo" src="https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/assets/logo.png" />
 
 <h1>DXRK HEX</h1>
 
