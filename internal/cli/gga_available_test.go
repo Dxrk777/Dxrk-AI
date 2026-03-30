@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 // TestDxrkAvailableDetectsViaLookPath verifies that dxrkAvailable returns true

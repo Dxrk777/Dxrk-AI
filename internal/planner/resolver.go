@@ -3,8 +3,8 @@ package planner
 import (
 	"fmt"
 
-	"github.com/dxrk/dxrk/internal/catalog"
-	"github.com/dxrk/dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/catalog"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 )
 
 type dependencyResolver struct {

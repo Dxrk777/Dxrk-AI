@@ -3,9 +3,9 @@ package screens
 import (
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/catalog"
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-Hex/internal/catalog"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
 )
 
 func AgentOptions() []model.AgentID {

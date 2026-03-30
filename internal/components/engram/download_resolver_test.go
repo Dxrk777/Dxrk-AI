@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 // TestResolveEngramInstallNonBrewReturnsError verifies that after the fix,

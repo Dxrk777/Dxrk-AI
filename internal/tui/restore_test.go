@@ -6,8 +6,8 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/dxrk/dxrk/internal/backup"
-	"github.com/dxrk/dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 func makeTestBackup(id string, t time.Time, source backup.BackupSource) backup.Manifest {

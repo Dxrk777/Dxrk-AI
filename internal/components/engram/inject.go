@@ -9,10 +9,10 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/agents"
-	"github.com/dxrk/dxrk/internal/assets"
-	"github.com/dxrk/dxrk/internal/components/filemerge"
-	"github.com/dxrk/dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
+	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
+	"github.com/Dxrk777/Dxrk-Hex/internal/components/filemerge"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 )
 
 type InjectionResult struct {
@@ -143,7 +143,7 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 		// `engram setup <agent>` is invoked. dxrk's Inject() runs after
 		// engram setup, so we must preserve any absolute command path already
 		// present instead of silently overwriting it with the relative "engram".
-		// See: https://github.com/dxrk/dxrk/issues (engram absolute path regression)
+		// See: https://github.com/Dxrk777/Dxrk-Hex/issues (engram absolute path regression)
 		mcpPath := adapter.MCPConfigPath(homeDir, "engram")
 		content := buildSeparateMCPContent(mcpPath, engramServerJSON())
 		mcpWrite, err := filemerge.WriteFileAtomic(mcpPath, content, 0o644)

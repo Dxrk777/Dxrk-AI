@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/planner"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
 )
 
 // ─── Issue #145: Review screen must show individual skills ───────────────────

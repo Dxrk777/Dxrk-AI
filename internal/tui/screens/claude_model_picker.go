@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
 )
 
 // ClaudeModelPreset represents a named preset for Claude model assignments.

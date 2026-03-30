@@ -1,7 +1,7 @@
 package update
 
 import (
-	"github.com/Dxrk777777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 // updateHint returns a platform-specific instruction string for updating the given tool.
@@ -21,9 +21,9 @@ func dxrkHint(profile system.PlatformProfile) string {
 	case "darwin":
 		return "brew upgrade dxrk"
 	case "linux":
-		return "curl -fsSL https://raw.githubusercontent.com/dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash"
+		return "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash"
 	case "windows":
-		return "irm https://raw.githubusercontent.com/dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex"
+		return "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex"
 	default:
 		return ""
 	}

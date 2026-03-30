@@ -3,7 +3,7 @@ package skills
 import (
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 )
 
 func TestSkillsForPresetMinimalReturnsSDDOnly(t *testing.T) {

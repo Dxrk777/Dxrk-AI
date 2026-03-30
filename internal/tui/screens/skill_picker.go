@@ -3,9 +3,9 @@ package screens
 import (
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/components/skills"
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-Hex/internal/components/skills"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
 )
 
 // sddSkillIDs are the SDD orchestrator skills shown in the first group.

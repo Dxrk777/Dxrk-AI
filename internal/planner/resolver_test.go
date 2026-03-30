@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 )
 
 func TestResolverAddsMissingDependenciesInOrder(t *testing.T) {

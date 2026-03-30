@@ -7,14 +7,14 @@ import (
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/dxrk/dxrk/internal/backup"
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/pipeline"
-	"github.com/dxrk/dxrk/internal/planner"
-	"github.com/dxrk/dxrk/internal/system"
-	"github.com/dxrk/dxrk/internal/tui/screens"
-	"github.com/dxrk/dxrk/internal/update"
-	"github.com/dxrk/dxrk/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/pipeline"
+	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/screens"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
 )
 
 func TestNavigationWelcomeToDetection(t *testing.T) {

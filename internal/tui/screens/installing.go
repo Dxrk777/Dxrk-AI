@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
 )
 
 type ProgressItem struct {

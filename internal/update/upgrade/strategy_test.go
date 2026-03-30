@@ -8,8 +8,8 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/system"
-	"github.com/dxrk/dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 )
 
 // --- TestRunStrategy_BrewUpgrade ---
@@ -197,7 +197,7 @@ func TestRunStrategy_BinaryWindowsSelfUpdateSkipped(t *testing.T) {
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
-		ReleaseURL:    "https://github.com/dxrk/dxrk/releases/tag/v1.5.0",
+		ReleaseURL:    "https://github.com/Dxrk777/Dxrk-Hex/releases/tag/v1.5.0",
 	}
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
 
@@ -280,7 +280,7 @@ func TestManualFallbackHint(t *testing.T) {
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
-		UpdateHint:    "See https://github.com/dxrk/dxrk/releases",
+		UpdateHint:    "See https://github.com/Dxrk777/Dxrk-Hex/releases",
 	}
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
 

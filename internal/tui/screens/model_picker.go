@@ -5,9 +5,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/opencode"
-	"github.com/dxrk/dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/opencode"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
 )
 
 // ModelPickerMode represents the current sub-mode of the model picker screen.

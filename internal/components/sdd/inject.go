@@ -9,10 +9,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/agents"
-	"github.com/dxrk/dxrk/internal/assets"
-	"github.com/dxrk/dxrk/internal/components/filemerge"
-	"github.com/dxrk/dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
+	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
+	"github.com/Dxrk777/Dxrk-Hex/internal/components/filemerge"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 )
 
 type InjectionResult struct {

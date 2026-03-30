@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/opencode"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/opencode"
 )
 
 // sddPhaseSet is the set of valid SDD phase agent names that may appear in

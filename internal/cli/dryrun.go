@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/planner"
-	"github.com/dxrk/dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 func RenderDryRun(result InstallResult) string {

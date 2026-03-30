@@ -3,8 +3,8 @@ package screens
 import (
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/tui/styles"
-	"github.com/dxrk/dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 )
 
 // WelcomeOptions returns the welcome menu options with a dynamic badge on the

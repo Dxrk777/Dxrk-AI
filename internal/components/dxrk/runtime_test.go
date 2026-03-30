@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/assets"
+	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
 )
 
 func TestEnsureRuntimeAssetsCreatesPRModeWhenMissing(t *testing.T) {

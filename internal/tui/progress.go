@@ -3,8 +3,8 @@ package tui
 import (
 	"fmt"
 
-	"github.com/dxrk/dxrk/internal/pipeline"
-	"github.com/dxrk/dxrk/internal/tui/screens"
+	"github.com/Dxrk777/Dxrk-Hex/internal/pipeline"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/screens"
 )
 
 type ProgressItem struct {

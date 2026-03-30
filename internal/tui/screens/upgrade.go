@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dxrk/dxrk/internal/tui/styles"
-	"github.com/dxrk/dxrk/internal/update"
-	"github.com/dxrk/dxrk/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
 )
 
 // spinnerFrames are the unicode spinner animation frames used across screens.

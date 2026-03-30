@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/cli"
-	"github.com/dxrk/dxrk/internal/planner"
-	"github.com/dxrk/dxrk/internal/system"
-	"github.com/dxrk/dxrk/internal/tui"
+	"github.com/Dxrk777/Dxrk-Hex/internal/cli"
+	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui"
 )
 
 func TestInstallDefaultsMatchTUIModelDefaults(t *testing.T) {

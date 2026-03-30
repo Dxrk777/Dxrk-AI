@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/dxrk/dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 )
 
 var ErrDependencyCycle = errors.New("dependency cycle detected")

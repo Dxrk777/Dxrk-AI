@@ -6,11 +6,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/agents"
-	"github.com/dxrk/dxrk/internal/agents/claude"
-	"github.com/dxrk/dxrk/internal/agents/codex"
-	"github.com/dxrk/dxrk/internal/agents/opencode"
-	"github.com/dxrk/dxrk/internal/agents/vscode"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents/codex"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents/vscode"
 )
 
 func cursorAdapter(t *testing.T) agents.Adapter {

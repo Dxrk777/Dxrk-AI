@@ -3,7 +3,7 @@ package upgrade
 import (
 	"errors"
 
-	"github.com/dxrk/dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 )
 
 // ToolUpgradeStatus describes the outcome of a single tool upgrade attempt.

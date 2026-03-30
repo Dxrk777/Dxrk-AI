@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dxrk/dxrk/internal/backup"
-	"github.com/dxrk/dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 )
 
 // TestListBackupsNewestFirst verifies that ListBackups returns manifests sorted

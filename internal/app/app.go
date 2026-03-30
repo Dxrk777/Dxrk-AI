@@ -10,17 +10,17 @@ import (
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/dxrk/dxrk/internal/backup"
-	"github.com/dxrk/dxrk/internal/cli"
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/pipeline"
-	"github.com/dxrk/dxrk/internal/planner"
-	"github.com/dxrk/dxrk/internal/state"
-	"github.com/dxrk/dxrk/internal/system"
-	"github.com/dxrk/dxrk/internal/tui"
-	"github.com/dxrk/dxrk/internal/update"
-	"github.com/dxrk/dxrk/internal/update/upgrade"
-	"github.com/dxrk/dxrk/internal/verify"
+	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
+	"github.com/Dxrk777/Dxrk-Hex/internal/cli"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/pipeline"
+	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
+	"github.com/Dxrk777/Dxrk-Hex/internal/state"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/tui"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk-Hex/internal/verify"
 )
 
 // Version is set from main via ldflags at build time.

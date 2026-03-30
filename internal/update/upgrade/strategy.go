@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dxrk/dxrk/internal/components/engram"
-	"github.com/dxrk/dxrk/internal/system"
-	"github.com/dxrk/dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 )
 
 // engramDownloadFn is the function used to download the engram binary.

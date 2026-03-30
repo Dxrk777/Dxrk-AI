@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/agents"
-	"github.com/dxrk/dxrk/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
+	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
 )
 
 func claudeAdapter() agents.Adapter { return claude.NewAdapter() }

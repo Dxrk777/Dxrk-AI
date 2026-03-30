@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/dxrk/dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 // CheckAll runs update checks for all registered tools concurrently.

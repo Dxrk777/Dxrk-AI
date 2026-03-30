@@ -1,6 +1,6 @@
 package catalog
 
-import "github.com/dxrk/dxrk/internal/model"
+import "github.com/Dxrk777/Dxrk-Hex/internal/model"
 
 type Component struct {
 	ID          model.ComponentID

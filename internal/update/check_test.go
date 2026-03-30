@@ -9,7 +9,7 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 // --- TestDetectInstalledVersion ---
@@ -283,7 +283,7 @@ func TestCheckAll(t *testing.T) {
 		var release githubRelease
 		switch {
 		case contains(path, "dxrk"):
-			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/dxrk/dxrk/releases/tag/v1.5.0"}
+			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk-Hex/releases/tag/v1.5.0"}
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/dxrk/engram/releases/tag/v0.4.0"}
 		case contains(path, "Dxrk-guardian-angel"):
@@ -439,13 +439,13 @@ func TestUpdateHint(t *testing.T) {
 			name:    "dxrk linux",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "curl -fsSL https://raw.githubusercontent.com/dxrk/dxrk/main/scripts/install-dxrk.sh | bash",
+			want:    "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash",
 		},
 		{
 			name:    "dxrk windows",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
-			want:    "irm https://raw.githubusercontent.com/dxrk/dxrk/main/scripts/install-dxrk.ps1 | iex",
+			want:    "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex",
 		},
 		{
 			name:    "engram macOS brew",
@@ -475,7 +475,7 @@ func TestUpdateHint(t *testing.T) {
 			name:    "dxrk linux apt",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "curl -fsSL https://raw.githubusercontent.com/dxrk/dxrk/main/scripts/install-dxrk.sh | bash",
+			want:    "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash",
 		},
 		{
 			name:    "unknown tool",

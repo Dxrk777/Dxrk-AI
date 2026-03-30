@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/update"
-	"github.com/dxrk/dxrk/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
 )
 
 // ─── RenderUpgradeSync states ──────────────────────────────────────────────

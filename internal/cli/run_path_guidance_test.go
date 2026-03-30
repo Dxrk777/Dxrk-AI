@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dxrk/dxrk/internal/model"
-	"github.com/dxrk/dxrk/internal/planner"
-	"github.com/dxrk/dxrk/internal/verify"
+	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
+	"github.com/Dxrk777/Dxrk-Hex/internal/verify"
 )
 
 func TestEngramPathGuidanceFish(t *testing.T) {
