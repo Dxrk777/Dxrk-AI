@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/components/filemerge"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 type InjectionResult struct {

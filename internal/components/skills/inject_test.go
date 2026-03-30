@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/agents/claude"
+	"github.com/dxrk/dxrk/internal/agents/opencode"
+	"github.com/dxrk/dxrk/internal/agents/vscode"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }

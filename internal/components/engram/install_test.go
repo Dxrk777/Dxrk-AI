@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 func TestInstallCommandByProfile(t *testing.T) {
@@ -17,7 +17,7 @@ func TestInstallCommandByProfile(t *testing.T) {
 		{
 			name:    "darwin uses brew tap and install",
 			profile: system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
-			want:    [][]string{{"brew", "tap", "Gentleman-Programming/homebrew-tap"}, {"brew", "install", "engram"}},
+			want:    [][]string{{"brew", "tap", "Dxrk/homebrew-tap"}, {"brew", "install", "engram"}},
 		},
 		// Linux and Windows now use DownloadLatestBinary() — InstallCommand returns an error
 		// to signal that callers must use the direct download path instead.

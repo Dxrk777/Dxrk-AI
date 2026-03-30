@@ -8,7 +8,7 @@ import (
 
 func TestRenderCLI_IncompleteCheckDoesNotClaimUpToDate(t *testing.T) {
 	results := []UpdateResult{
-		{Tool: ToolInfo{Name: "gentle-ai"}, InstalledVersion: "1.0.0", LatestVersion: "1.0.0", Status: UpToDate},
+		{Tool: ToolInfo{Name: "dxrk"}, InstalledVersion: "1.0.0", LatestVersion: "1.0.0", Status: UpToDate},
 		{Tool: ToolInfo{Name: "engram"}, Status: CheckFailed, Err: fmt.Errorf("timeout")},
 	}
 
@@ -27,17 +27,17 @@ func TestRenderCLI_IncompleteCheckDoesNotClaimUpToDate(t *testing.T) {
 
 func TestCheckFailures(t *testing.T) {
 	results := []UpdateResult{
-		{Tool: ToolInfo{Name: "gentle-ai"}, Status: UpToDate},
+		{Tool: ToolInfo{Name: "dxrk"}, Status: UpToDate},
 		{Tool: ToolInfo{Name: "engram"}, Status: CheckFailed},
-		{Tool: ToolInfo{Name: "gga"}, Status: CheckFailed},
+		{Tool: ToolInfo{Name: "dxrk"}, Status: CheckFailed},
 	}
 
 	failed := CheckFailures(results)
 	if len(failed) != 2 {
 		t.Fatalf("len(CheckFailures) = %d, want 2", len(failed))
 	}
-	if failed[0] != "engram" || failed[1] != "gga" {
-		t.Fatalf("CheckFailures() = %v, want [engram gga]", failed)
+	if failed[0] != "engram" || failed[1] != "dxrk" {
+		t.Fatalf("CheckFailures() = %v, want [engram dxrk]", failed)
 	}
 	if !HasCheckFailures(results) {
 		t.Fatalf("HasCheckFailures() = false, want true")

@@ -6,10 +6,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/assets"
+	"github.com/dxrk/dxrk/internal/components/filemerge"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 // isSDDSkill reports whether a skill ID belongs to the SDD orchestrator suite.

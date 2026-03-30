@@ -8,22 +8,22 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/antigravity"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	codexagent "github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/cursor"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/gemini"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/windsurf"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/components/mcp"
-	"github.com/gentleman-programming/gentle-ai/internal/components/persona"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/agents/antigravity"
+	"github.com/dxrk/dxrk/internal/agents/claude"
+	codexagent "github.com/dxrk/dxrk/internal/agents/codex"
+	"github.com/dxrk/dxrk/internal/agents/cursor"
+	"github.com/dxrk/dxrk/internal/agents/gemini"
+	"github.com/dxrk/dxrk/internal/agents/opencode"
+	"github.com/dxrk/dxrk/internal/agents/vscode"
+	"github.com/dxrk/dxrk/internal/agents/windsurf"
+	"github.com/dxrk/dxrk/internal/assets"
+	"github.com/dxrk/dxrk/internal/components/engram"
+	"github.com/dxrk/dxrk/internal/components/mcp"
+	"github.com/dxrk/dxrk/internal/components/persona"
+	"github.com/dxrk/dxrk/internal/components/sdd"
+	"github.com/dxrk/dxrk/internal/components/skills"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -48,7 +48,7 @@ func TestGoldenConfigs(t *testing.T) {
 	}
 
 	presets := []presetMapping{
-		{Preset: "full-gentleman", Skills: toStringSlice(skills.SkillsForPreset("full-gentleman"))},
+		{Preset: "full-Dxrk", Skills: toStringSlice(skills.SkillsForPreset("full-Dxrk"))},
 		{Preset: "ecosystem-only", Skills: toStringSlice(skills.SkillsForPreset("ecosystem-only"))},
 		{Preset: "minimal", Skills: toStringSlice(skills.SkillsForPreset("minimal"))},
 	}
@@ -172,8 +172,8 @@ func TestGoldenSDD_Cursor(t *testing.T) {
 		t.Fatalf("sdd.Inject(cursor) changed = false")
 	}
 
-	// Cursor writes SDD orchestrator to ~/.cursor/rules/gentle-ai.mdc.
-	rulesFile := readTestFile(t, filepath.Join(home, ".cursor", "rules", "gentle-ai.mdc"))
+	// Cursor writes SDD orchestrator to ~/.cursor/rules/dxrk.mdc.
+	rulesFile := readTestFile(t, filepath.Join(home, ".cursor", "rules", "dxrk.mdc"))
 	assertGolden(t, "sdd-cursor-rules.golden", rulesFile)
 
 	// Golden-check a representative SDD skill file.
@@ -340,25 +340,25 @@ func TestGoldenSDD_Windsurf(t *testing.T) {
 // Persona Injector golden tests
 // ---------------------------------------------------------------------------
 
-func TestGoldenPersona_Claude_Gentleman(t *testing.T) {
+func TestGoldenPersona_Claude_Dxrk(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, claudeAdapter(), model.PersonaGentleman)
+	result, err := persona.Inject(home, claudeAdapter(), model.PersonaDxrk)
 	if err != nil {
-		t.Fatalf("persona.Inject(claude, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(claude, Dxrk) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(claude, gentleman) changed = false")
+		t.Fatalf("persona.Inject(claude, Dxrk) changed = false")
 	}
 
 	claudeMD := readTestFile(t, filepath.Join(home, ".claude", "CLAUDE.md"))
-	assertGolden(t, "persona-claude-gentleman.golden", claudeMD)
+	assertGolden(t, "persona-claude-Dxrk.golden", claudeMD)
 
-	outputStyle := readTestFile(t, filepath.Join(home, ".claude", "output-styles", "gentleman.md"))
-	assertGolden(t, "persona-claude-gentleman-outputstyle.golden", outputStyle)
+	outputStyle := readTestFile(t, filepath.Join(home, ".claude", "output-styles", "Dxrk.md"))
+	assertGolden(t, "persona-claude-Dxrk-outputstyle.golden", outputStyle)
 
 	settingsJSON := readTestFile(t, filepath.Join(home, ".claude", "settings.json"))
-	assertGolden(t, "persona-claude-gentleman-settings.golden", settingsJSON)
+	assertGolden(t, "persona-claude-Dxrk-settings.golden", settingsJSON)
 }
 
 func TestGoldenPersona_Claude_Neutral(t *testing.T) {
@@ -376,19 +376,19 @@ func TestGoldenPersona_Claude_Neutral(t *testing.T) {
 	assertGolden(t, "persona-claude-neutral.golden", claudeMD)
 }
 
-func TestGoldenPersona_OpenCode_Gentleman(t *testing.T) {
+func TestGoldenPersona_OpenCode_Dxrk(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	result, err := persona.Inject(home, opencodeAdapter(), model.PersonaDxrk)
 	if err != nil {
-		t.Fatalf("persona.Inject(opencode, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(opencode, Dxrk) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(opencode, gentleman) changed = false")
+		t.Fatalf("persona.Inject(opencode, Dxrk) changed = false")
 	}
 
 	agentsMD := readTestFile(t, filepath.Join(home, ".config", "opencode", "AGENTS.md"))
-	assertGolden(t, "persona-opencode-gentleman.golden", agentsMD)
+	assertGolden(t, "persona-opencode-Dxrk.golden", agentsMD)
 }
 
 func TestGoldenPersona_OpenCode_Neutral(t *testing.T) {
@@ -438,19 +438,19 @@ func TestGoldenPersona_OpenCode_Custom(t *testing.T) {
 	}
 }
 
-func TestGoldenPersona_Windsurf_Gentleman(t *testing.T) {
+func TestGoldenPersona_Windsurf_Dxrk(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, windsurfAdapter(), model.PersonaGentleman)
+	result, err := persona.Inject(home, windsurfAdapter(), model.PersonaDxrk)
 	if err != nil {
-		t.Fatalf("persona.Inject(windsurf, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(windsurf, Dxrk) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(windsurf, gentleman) changed = false")
+		t.Fatalf("persona.Inject(windsurf, Dxrk) changed = false")
 	}
 
 	globalRules := readTestFile(t, filepath.Join(home, ".codeium", "windsurf", "memories", "global_rules.md"))
-	assertGolden(t, "persona-windsurf-gentleman.golden", globalRules)
+	assertGolden(t, "persona-windsurf-Dxrk.golden", globalRules)
 }
 
 // ---------------------------------------------------------------------------
@@ -587,7 +587,7 @@ func TestGoldenCombined_Claude(t *testing.T) {
 	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
 
 	// Inject persona first, then SDD, then Engram — all write sections into CLAUDE.md.
-	if _, err := persona.Inject(home, claudeAdapter(), model.PersonaGentleman); err != nil {
+	if _, err := persona.Inject(home, claudeAdapter(), model.PersonaDxrk); err != nil {
 		t.Fatalf("persona.Inject error = %v", err)
 	}
 	if _, err := sdd.Inject(home, claudeAdapter(), ""); err != nil {
@@ -612,7 +612,7 @@ func TestGoldenCombined_Windsurf(t *testing.T) {
 
 	// Windsurf: persona appends to global_rules.md; SDD appends SDD orchestrator
 	// to the same file and copies skills + workflow to workspace.
-	if _, err := persona.Inject(home, windsurfAdapter(), model.PersonaGentleman); err != nil {
+	if _, err := persona.Inject(home, windsurfAdapter(), model.PersonaDxrk); err != nil {
 		t.Fatalf("persona.Inject(windsurf) error = %v", err)
 	}
 	if _, err := sdd.Inject(home, windsurfAdapter(), "", sdd.InjectOptions{WorkspaceDir: workspace}); err != nil {
@@ -668,19 +668,19 @@ func TestGoldenSDD_Antigravity(t *testing.T) {
 	}
 }
 
-func TestGoldenPersona_Antigravity_Gentleman(t *testing.T) {
+func TestGoldenPersona_Antigravity_Dxrk(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, antigravityAdapter(), model.PersonaGentleman)
+	result, err := persona.Inject(home, antigravityAdapter(), model.PersonaDxrk)
 	if err != nil {
-		t.Fatalf("persona.Inject(antigravity, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(antigravity, Dxrk) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(antigravity, gentleman) changed = false")
+		t.Fatalf("persona.Inject(antigravity, Dxrk) changed = false")
 	}
 
 	rulesFile := readTestFile(t, filepath.Join(home, ".gemini", "GEMINI.md"))
-	assertGolden(t, "persona-antigravity-gentleman.golden", rulesFile)
+	assertGolden(t, "persona-antigravity-Dxrk.golden", rulesFile)
 }
 
 func TestGoldenEngram_Antigravity(t *testing.T) {

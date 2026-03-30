@@ -3,12 +3,12 @@ package screens
 import (
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/tui/styles"
 )
 
 func PersonaOptions() []model.PersonaID {
-	return []model.PersonaID{model.PersonaGentleman, model.PersonaNeutral, model.PersonaCustom}
+	return []model.PersonaID{model.PersonaDxrk, model.PersonaNeutral, model.PersonaCustom}
 }
 
 func RenderPersona(selected model.PersonaID, cursor int) string {
@@ -16,7 +16,7 @@ func RenderPersona(selected model.PersonaID, cursor int) string {
 
 	b.WriteString(styles.TitleStyle.Render("Choose your Persona"))
 	b.WriteString("\n\n")
-	b.WriteString(styles.SubtextStyle.Render("Your own Gentleman! teaches before it solves."))
+	b.WriteString(styles.SubtextStyle.Render("Your own Dxrk! teaches before it solves."))
 	b.WriteString("\n\n")
 
 	for idx, persona := range PersonaOptions() {

@@ -1,6 +1,6 @@
 package catalog
 
-import "github.com/gentleman-programming/gentle-ai/internal/model"
+import "github.com/dxrk/dxrk/internal/model"
 
 type Component struct {
 	ID          model.ComponentID
@@ -13,10 +13,10 @@ var mvpComponents = []Component{
 	{ID: model.ComponentSDD, Name: "SDD", Description: "Spec-driven development workflow"},
 	{ID: model.ComponentSkills, Name: "Skills", Description: "Curated coding skill library"},
 	{ID: model.ComponentContext7, Name: "Context7", Description: "Latest framework and library docs"},
-	{ID: model.ComponentPersona, Name: "Persona", Description: "Gentleman, neutral or custom behavior"},
+	{ID: model.ComponentPersona, Name: "Persona", Description: "Dxrk, neutral or custom behavior"},
 	{ID: model.ComponentPermission, Name: "Permissions", Description: "Security-first defaults and guardrails"},
-	{ID: model.ComponentGGA, Name: "GGA", Description: "Gentleman Guardian Angel — AI provider switcher"},
-	{ID: model.ComponentTheme, Name: "Theme", Description: "Gentleman Kanagawa theme overlay (future)"},
+	{ID: model.ComponentDxrk, Name: "Dxrk", Description: "Dxrk Guardian Angel — AI provider switcher"},
+	{ID: model.ComponentTheme, Name: "Theme", Description: "Dxrk Kanagawa theme overlay (future)"},
 }
 
 func MVPComponents() []Component {

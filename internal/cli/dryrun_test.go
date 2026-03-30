@@ -4,13 +4,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/planner"
 )
 
 func TestRenderDryRunIncludesPlatformDecision(t *testing.T) {
 	result := InstallResult{
-		Selection: model.Selection{Persona: model.PersonaGentleman, Preset: model.PresetFullGentleman},
+		Selection: model.Selection{Persona: model.PersonaDxrk, Preset: model.PresetFullDxrk},
 		Resolved: planner.ResolvedPlan{
 			Agents:            []model.AgentID{model.AgentClaudeCode},
 			OrderedComponents: []model.ComponentID{model.ComponentEngram},

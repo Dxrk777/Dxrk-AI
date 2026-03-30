@@ -57,7 +57,7 @@ Meta-commands (type directly — orchestrator handles them, will not appear in a
 
 `/sdd-new`, `/sdd-continue`, and `/sdd-ff` are meta-commands handled by YOU. Do NOT invoke them as skills. You execute the phase sequence yourself, pausing for user approval between phases.
 
-Native Windsurf Workflow: `/sdd-new` is also available as a native Windsurf workflow installed by gentle-ai. It can be triggered from the Windsurf workflow panel.
+Native Windsurf Workflow: `/sdd-new` is also available as a native Windsurf workflow installed by dxrk. It can be triggered from the Windsurf workflow panel.
 
 ### Execution Mode
 
@@ -89,7 +89,7 @@ proposal -> specs --> tasks -> apply -> verify -> archive
 ### Result Contract
 Each phase returns: `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`, `skill_resolution`.
 
-<!-- gentle-ai:sdd-model-assignments -->
+<!-- dxrk:sdd-model-assignments -->
 ## Model Assignments
 
 Read this table at session start. Windsurf Cascade supports multiple models — if your current model matches a phase's recommended alias, proceed normally. If you cannot switch models mid-session, use the table as a reasoning-depth guide: phases assigned to `opus` require deeper architectural thinking, while `haiku` phases are mechanical.
@@ -107,7 +107,7 @@ Read this table at session start. Windsurf Cascade supports multiple models — 
 | sdd-archive | haiku | Copy and close |
 | default | sonnet | Non-SDD general delegation |
 
-<!-- /gentle-ai:sdd-model-assignments -->
+<!-- /dxrk:sdd-model-assignments -->
 
 ## Windsurf-Native Features
 

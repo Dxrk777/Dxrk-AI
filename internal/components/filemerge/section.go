@@ -5,12 +5,12 @@ import (
 )
 
 const (
-	markerPrefix = "<!-- gentle-ai:"
+	markerPrefix = "<!-- dxrk:"
 	markerSuffix = " -->"
-	closePrefix  = "<!-- /gentle-ai:"
+	closePrefix  = "<!-- /dxrk:"
 )
 
-// legacyPersonaFingerprints are substrings that appear in the Gentleman persona
+// legacyPersonaFingerprints are substrings that appear in the Dxrk persona
 // asset and reliably identify a stale free-text block written by an old installer
 // (or manually copied) before the marker-based injection system was in use.
 // All fingerprints must be present for the block to be considered a match.
@@ -20,13 +20,13 @@ var legacyPersonaFingerprints = []string{
 	"## Rules",
 }
 
-// StripLegacyPersonaBlock removes a free-text Gentleman persona block that was
-// written to a markdown file outside of <!-- gentle-ai: --> markers.
+// StripLegacyPersonaBlock removes a free-text Dxrk persona block that was
+// written to a markdown file outside of <!-- dxrk: --> markers.
 //
 // It is safe to call on any file: if no legacy block is detected, the original
 // content is returned unchanged. Stripping requires ALL fingerprints to be
 // present in the pre-marker zone (the region before the first
-// <!-- gentle-ai: --> marker). A fingerprint that exists only inside a marker
+// <!-- dxrk: --> marker). A fingerprint that exists only inside a marker
 // section is ignored — this prevents false positives when a user's own section
 // headers happen to match one or two of the fingerprint strings while the
 // remaining fingerprints live inside a managed marker block.
@@ -86,7 +86,7 @@ func closeMarker(sectionID string) string {
 }
 
 // InjectMarkdownSection replaces or appends a marked section in a markdown file.
-// Markers use HTML comments: <!-- gentle-ai:SECTION_ID --> ... <!-- /gentle-ai:SECTION_ID -->
+// Markers use HTML comments: <!-- dxrk:SECTION_ID --> ... <!-- /dxrk:SECTION_ID -->
 // If the section already exists, its content is replaced.
 // If it doesn't exist, it's appended at the end.
 // Content outside markers is never touched.

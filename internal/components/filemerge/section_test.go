@@ -7,7 +7,7 @@ import (
 func TestInjectMarkdownSection_EmptyFile(t *testing.T) {
 	result := InjectMarkdownSection("", "sdd", "## SDD Config\nSome content here.\n")
 
-	want := "<!-- gentle-ai:sdd -->\n## SDD Config\nSome content here.\n<!-- /gentle-ai:sdd -->\n"
+	want := "<!-- dxrk:sdd -->\n## SDD Config\nSome content here.\n<!-- /dxrk:sdd -->\n"
 	if result != want {
 		t.Fatalf("empty file inject:\ngot:  %q\nwant: %q", result, want)
 	}
@@ -17,40 +17,40 @@ func TestInjectMarkdownSection_AppendToExistingContent(t *testing.T) {
 	existing := "# My Config\n\nSome existing content.\n"
 	result := InjectMarkdownSection(existing, "persona", "You are a senior architect.\n")
 
-	want := "# My Config\n\nSome existing content.\n\n<!-- gentle-ai:persona -->\nYou are a senior architect.\n<!-- /gentle-ai:persona -->\n"
+	want := "# My Config\n\nSome existing content.\n\n<!-- dxrk:persona -->\nYou are a senior architect.\n<!-- /dxrk:persona -->\n"
 	if result != want {
 		t.Fatalf("append to existing:\ngot:  %q\nwant: %q", result, want)
 	}
 }
 
 func TestInjectMarkdownSection_UpdateExistingSection(t *testing.T) {
-	existing := "# Config\n\n<!-- gentle-ai:sdd -->\nOld SDD content.\n<!-- /gentle-ai:sdd -->\n\nOther stuff.\n"
+	existing := "# Config\n\n<!-- dxrk:sdd -->\nOld SDD content.\n<!-- /dxrk:sdd -->\n\nOther stuff.\n"
 	result := InjectMarkdownSection(existing, "sdd", "New SDD content.\n")
 
-	want := "# Config\n\n<!-- gentle-ai:sdd -->\nNew SDD content.\n<!-- /gentle-ai:sdd -->\n\nOther stuff.\n"
+	want := "# Config\n\n<!-- dxrk:sdd -->\nNew SDD content.\n<!-- /dxrk:sdd -->\n\nOther stuff.\n"
 	if result != want {
 		t.Fatalf("update existing section:\ngot:  %q\nwant: %q", result, want)
 	}
 }
 
 func TestInjectMarkdownSection_MultipleSectionsOnlyTargetedOneUpdated(t *testing.T) {
-	existing := "# Config\n\n<!-- gentle-ai:persona -->\nPersona content.\n<!-- /gentle-ai:persona -->\n\n<!-- gentle-ai:sdd -->\nOld SDD.\n<!-- /gentle-ai:sdd -->\n\n<!-- gentle-ai:skills -->\nSkills content.\n<!-- /gentle-ai:skills -->\n"
+	existing := "# Config\n\n<!-- dxrk:persona -->\nPersona content.\n<!-- /dxrk:persona -->\n\n<!-- dxrk:sdd -->\nOld SDD.\n<!-- /dxrk:sdd -->\n\n<!-- dxrk:skills -->\nSkills content.\n<!-- /dxrk:skills -->\n"
 
 	result := InjectMarkdownSection(existing, "sdd", "Updated SDD.\n")
 
 	// persona and skills should be unchanged
-	want := "# Config\n\n<!-- gentle-ai:persona -->\nPersona content.\n<!-- /gentle-ai:persona -->\n\n<!-- gentle-ai:sdd -->\nUpdated SDD.\n<!-- /gentle-ai:sdd -->\n\n<!-- gentle-ai:skills -->\nSkills content.\n<!-- /gentle-ai:skills -->\n"
+	want := "# Config\n\n<!-- dxrk:persona -->\nPersona content.\n<!-- /dxrk:persona -->\n\n<!-- dxrk:sdd -->\nUpdated SDD.\n<!-- /dxrk:sdd -->\n\n<!-- dxrk:skills -->\nSkills content.\n<!-- /dxrk:skills -->\n"
 	if result != want {
 		t.Fatalf("multiple sections:\ngot:  %q\nwant: %q", result, want)
 	}
 }
 
 func TestInjectMarkdownSection_PreserveUserContentBeforeAndAfter(t *testing.T) {
-	existing := "# User's custom intro\n\nHand-written notes.\n\n<!-- gentle-ai:persona -->\nAuto persona.\n<!-- /gentle-ai:persona -->\n\n# User's custom footer\n\nMore hand-written content.\n"
+	existing := "# User's custom intro\n\nHand-written notes.\n\n<!-- dxrk:persona -->\nAuto persona.\n<!-- /dxrk:persona -->\n\n# User's custom footer\n\nMore hand-written content.\n"
 
 	result := InjectMarkdownSection(existing, "persona", "Updated persona.\n")
 
-	want := "# User's custom intro\n\nHand-written notes.\n\n<!-- gentle-ai:persona -->\nUpdated persona.\n<!-- /gentle-ai:persona -->\n\n# User's custom footer\n\nMore hand-written content.\n"
+	want := "# User's custom intro\n\nHand-written notes.\n\n<!-- dxrk:persona -->\nUpdated persona.\n<!-- /dxrk:persona -->\n\n# User's custom footer\n\nMore hand-written content.\n"
 	if result != want {
 		t.Fatalf("preserve user content:\ngot:  %q\nwant: %q", result, want)
 	}
@@ -58,7 +58,7 @@ func TestInjectMarkdownSection_PreserveUserContentBeforeAndAfter(t *testing.T) {
 
 func TestInjectMarkdownSection_MalformedMarkersTreatedAsNotFound(t *testing.T) {
 	// Only opening marker, no closing marker — treat as not found, append.
-	existing := "# Config\n\n<!-- gentle-ai:sdd -->\nOrphaned content.\n"
+	existing := "# Config\n\n<!-- dxrk:sdd -->\nOrphaned content.\n"
 	result := InjectMarkdownSection(existing, "sdd", "New SDD content.\n")
 
 	// Should append since closing marker is missing.
@@ -67,7 +67,7 @@ func TestInjectMarkdownSection_MalformedMarkersTreatedAsNotFound(t *testing.T) {
 	}
 
 	// Result should contain the new properly-formed section.
-	wantOpen := "<!-- gentle-ai:sdd -->\nNew SDD content.\n<!-- /gentle-ai:sdd -->\n"
+	wantOpen := "<!-- dxrk:sdd -->\nNew SDD content.\n<!-- /dxrk:sdd -->\n"
 	if !containsStr(result, wantOpen) {
 		t.Fatalf("malformed markers: result should contain proper section:\ngot: %q", result)
 	}
@@ -75,18 +75,18 @@ func TestInjectMarkdownSection_MalformedMarkersTreatedAsNotFound(t *testing.T) {
 
 func TestInjectMarkdownSection_CloseBeforeOpenTreatedAsNotFound(t *testing.T) {
 	// Closing marker appears before opening — treat as not found.
-	existing := "<!-- /gentle-ai:sdd -->\nSome content.\n<!-- gentle-ai:sdd -->\n"
+	existing := "<!-- /dxrk:sdd -->\nSome content.\n<!-- dxrk:sdd -->\n"
 	result := InjectMarkdownSection(existing, "sdd", "New content.\n")
 
 	// Should append the section, not replace.
-	wantSuffix := "<!-- gentle-ai:sdd -->\nNew content.\n<!-- /gentle-ai:sdd -->\n"
+	wantSuffix := "<!-- dxrk:sdd -->\nNew content.\n<!-- /dxrk:sdd -->\n"
 	if !hasSuffix(result, wantSuffix) {
 		t.Fatalf("close-before-open: expected appended section:\ngot: %q\nwant suffix: %q", result, wantSuffix)
 	}
 }
 
 func TestInjectMarkdownSection_EmptyContentRemovesSection(t *testing.T) {
-	existing := "# Config\n\n<!-- gentle-ai:sdd -->\nSDD content here.\n<!-- /gentle-ai:sdd -->\n\nOther stuff.\n"
+	existing := "# Config\n\n<!-- dxrk:sdd -->\nSDD content here.\n<!-- /dxrk:sdd -->\n\nOther stuff.\n"
 	result := InjectMarkdownSection(existing, "sdd", "")
 
 	want := "# Config\n\nOther stuff.\n"
@@ -107,7 +107,7 @@ func TestInjectMarkdownSection_EmptyContentOnMissingSectionNoOp(t *testing.T) {
 func TestInjectMarkdownSection_ContentWithoutTrailingNewline(t *testing.T) {
 	result := InjectMarkdownSection("", "test", "no trailing newline")
 
-	want := "<!-- gentle-ai:test -->\nno trailing newline\n<!-- /gentle-ai:test -->\n"
+	want := "<!-- dxrk:test -->\nno trailing newline\n<!-- /dxrk:test -->\n"
 	if result != want {
 		t.Fatalf("content without trailing newline:\ngot:  %q\nwant: %q", result, want)
 	}
@@ -117,7 +117,7 @@ func TestInjectMarkdownSection_ExistingWithoutTrailingNewline(t *testing.T) {
 	existing := "# Title"
 	result := InjectMarkdownSection(existing, "test", "Content.\n")
 
-	want := "# Title\n\n<!-- gentle-ai:test -->\nContent.\n<!-- /gentle-ai:test -->\n"
+	want := "# Title\n\n<!-- dxrk:test -->\nContent.\n<!-- /dxrk:test -->\n"
 	if result != want {
 		t.Fatalf("existing without trailing newline:\ngot:  %q\nwant: %q", result, want)
 	}
@@ -139,11 +139,11 @@ Senior Architect, 15+ years experience, GDE & MVP.
 
 `
 
-const gentleAiMarkerSection = `<!-- gentle-ai:persona -->
+const gentleAiMarkerSection = `<!-- dxrk:persona -->
 ## Personality
 
 Senior Architect, 15+ years experience, GDE & MVP.
-<!-- /gentle-ai:persona -->
+<!-- /dxrk:persona -->
 `
 
 func TestStripLegacyPersonaBlock_NoFingerprintReturnsSame(t *testing.T) {
@@ -155,7 +155,7 @@ func TestStripLegacyPersonaBlock_NoFingerprintReturnsSame(t *testing.T) {
 }
 
 func TestStripLegacyPersonaBlock_FingerprintInsideMarkerReturnsSame(t *testing.T) {
-	// Fingerprints only exist inside gentle-ai markers — should NOT be stripped.
+	// Fingerprints only exist inside dxrk markers — should NOT be stripped.
 	input := "# My Config\n\n" + gentleAiMarkerSection
 	result := StripLegacyPersonaBlock(input)
 	if result != input {
@@ -181,8 +181,8 @@ func TestStripLegacyPersonaBlock_LegacyBlockBeforeMarkersStripped(t *testing.T) 
 		t.Fatal("stripped result should not contain legacy '## Rules' header")
 	}
 	// The marked section must survive.
-	if !containsStr(result, "<!-- gentle-ai:persona -->") {
-		t.Fatal("stripped result missing gentle-ai marker section")
+	if !containsStr(result, "<!-- dxrk:persona -->") {
+		t.Fatal("stripped result missing dxrk marker section")
 	}
 }
 
@@ -191,10 +191,10 @@ func TestStripLegacyPersonaBlock_MarkerSectionContentPreserved(t *testing.T) {
 	input := legacyPersonaBlock + "\n" + gentleAiMarkerSection + "\n# User Notes\n\nSome user text.\n"
 	result := StripLegacyPersonaBlock(input)
 
-	if !containsStr(result, "<!-- gentle-ai:persona -->") {
+	if !containsStr(result, "<!-- dxrk:persona -->") {
 		t.Fatal("marker open not preserved")
 	}
-	if !containsStr(result, "<!-- /gentle-ai:persona -->") {
+	if !containsStr(result, "<!-- /dxrk:persona -->") {
 		t.Fatal("marker close not preserved")
 	}
 	if !containsStr(result, "# User Notes") {
@@ -216,14 +216,14 @@ func TestStripLegacyPersonaBlock_OnlyTwoOfThreeFingerprints(t *testing.T) {
 func TestStripLegacyPersonaBlock_MixedZone_OnlyOneFingerprint_PreMarker(t *testing.T) {
 	// Edge case: "## Rules" appears in user content before the first marker,
 	// but the other two fingerprints ("## Personality" and "Senior Architect")
-	// exist only inside a gentle-ai marker block.
+	// exist only inside a dxrk marker block.
 	//
 	// Old behaviour (bug): one fingerprint in the pre-marker zone was enough to
 	// trigger stripping, destroying the user's "## Rules" section.
 	// New behaviour (fixed): ALL fingerprints must appear in the pre-marker zone;
 	// since only one does, the file is returned unchanged.
 	userRulesSection := "## Rules\n\n- Never do X.\n- Always do Y.\n\n"
-	markerWithOtherFingerprints := "<!-- gentle-ai:persona -->\n## Personality\n\nSenior Architect, 15+ years experience.\n<!-- /gentle-ai:persona -->\n"
+	markerWithOtherFingerprints := "<!-- dxrk:persona -->\n## Personality\n\nSenior Architect, 15+ years experience.\n<!-- /dxrk:persona -->\n"
 
 	input := userRulesSection + markerWithOtherFingerprints
 	result := StripLegacyPersonaBlock(input)
@@ -241,7 +241,7 @@ func TestStripLegacyPersonaBlock_MixedZone_TwoFingerprints_PreMarker(t *testing.
 	// third ("## Rules") exists inside the marker block. Stripping must NOT fire
 	// because not all fingerprints are in the pre-marker zone.
 	preMarker := "## Personality\n\nSenior Architect, 15+ years experience.\n\n"
-	markerWithRule := "<!-- gentle-ai:persona -->\n## Rules\n\n- Rule inside marker.\n<!-- /gentle-ai:persona -->\n"
+	markerWithRule := "<!-- dxrk:persona -->\n## Rules\n\n- Rule inside marker.\n<!-- /dxrk:persona -->\n"
 
 	input := preMarker + markerWithRule
 	result := StripLegacyPersonaBlock(input)
@@ -258,7 +258,7 @@ func TestStripLegacyPersonaBlock_AllFingerprintsPreMarker_Strips(t *testing.T) {
 	// Positive case: ALL three fingerprints appear before the first marker.
 	// Stripping MUST fire, removing the pre-marker legacy block.
 	preMarker := "## Rules\n\n- Some rule.\n\n## Personality\n\nSenior Architect, veteran.\n\n"
-	markerSection := "<!-- gentle-ai:persona -->\nUpdated persona.\n<!-- /gentle-ai:persona -->\n"
+	markerSection := "<!-- dxrk:persona -->\nUpdated persona.\n<!-- /dxrk:persona -->\n"
 
 	input := preMarker + markerSection
 	result := StripLegacyPersonaBlock(input)
@@ -269,7 +269,7 @@ func TestStripLegacyPersonaBlock_AllFingerprintsPreMarker_Strips(t *testing.T) {
 	if containsStr(result, "## Rules") {
 		t.Fatal("all-fingerprints-pre-marker: legacy '## Rules' should have been stripped")
 	}
-	if !containsStr(result, "<!-- gentle-ai:persona -->") {
+	if !containsStr(result, "<!-- dxrk:persona -->") {
 		t.Fatal("all-fingerprints-pre-marker: marker section must be preserved")
 	}
 }
@@ -291,7 +291,7 @@ func TestStripLegacyPersonaBlock_UserContentBeforeAndAfterMarkersPreserved(t *te
 	result := StripLegacyPersonaBlock(input)
 
 	if !containsStr(result, "# Custom section") {
-		t.Fatal("content after gentle-ai markers must be preserved")
+		t.Fatal("content after dxrk markers must be preserved")
 	}
 }
 

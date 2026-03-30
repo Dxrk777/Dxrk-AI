@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/components/filemerge"
 )
 
 type InjectionResult struct {
@@ -13,7 +13,7 @@ type InjectionResult struct {
 	Files   []string
 }
 
-var themeOverlayJSON = []byte("{\n  \"theme\": \"gentleman-kanagawa\"\n}\n")
+var themeOverlayJSON = []byte("{\n  \"theme\": \"Dxrk-kanagawa\"\n}\n")
 
 func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 	settingsPath := adapter.SettingsPath(homeDir)

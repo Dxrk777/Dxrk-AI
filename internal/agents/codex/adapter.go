@@ -6,8 +6,8 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 var LookPathOverride = exec.LookPath

@@ -3,8 +3,8 @@ package screens
 import (
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/dxrk/dxrk/internal/tui/styles"
+	"github.com/dxrk/dxrk/internal/update"
 )
 
 // WelcomeOptions returns the welcome menu options with a dynamic badge on the

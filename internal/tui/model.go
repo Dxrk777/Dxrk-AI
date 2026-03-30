@@ -8,17 +8,17 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/screens"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/dxrk/dxrk/internal/backup"
+	"github.com/dxrk/dxrk/internal/catalog"
+	"github.com/dxrk/dxrk/internal/components/sdd"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/opencode"
+	"github.com/dxrk/dxrk/internal/pipeline"
+	"github.com/dxrk/dxrk/internal/planner"
+	"github.com/dxrk/dxrk/internal/system"
+	"github.com/dxrk/dxrk/internal/tui/screens"
+	"github.com/dxrk/dxrk/internal/update"
+	"github.com/dxrk/dxrk/internal/update/upgrade"
 )
 
 // osStatModelCache is a package-level variable so tests can override it to
@@ -259,9 +259,9 @@ type Model struct {
 func NewModel(detection system.DetectionResult, version string) Model {
 	selection := model.Selection{
 		Agents:     preselectedAgents(detection),
-		Persona:    model.PersonaGentleman,
-		Preset:     model.PresetFullGentleman,
-		Components: componentsForPreset(model.PresetFullGentleman),
+		Persona:    model.PersonaDxrk,
+		Preset:     model.PresetFullDxrk,
+		Components: componentsForPreset(model.PresetFullDxrk),
 	}
 
 	return Model{
@@ -472,7 +472,7 @@ func (m Model) View() string {
 		return screens.RenderComplete(screens.CompletePayload{
 			ConfiguredAgents:    len(m.Selection.Agents),
 			InstalledComponents: len(m.Selection.Components),
-			GGAInstalled:        hasSelectedComponent(m.Selection.Components, model.ComponentGGA),
+			DxrkInstalled:        hasSelectedComponent(m.Selection.Components, model.ComponentDxrk),
 			FailedSteps:         extractFailedSteps(m.Execution),
 			RollbackPerformed:   len(m.Execution.Rollback.Steps) > 0,
 			MissingDeps:         extractMissingDeps(m.Detection),
@@ -1806,7 +1806,7 @@ func componentsForPreset(preset model.PresetID) []model.ComponentID {
 	case model.PresetMinimal:
 		return []model.ComponentID{model.ComponentEngram}
 	case model.PresetEcosystemOnly:
-		return []model.ComponentID{model.ComponentEngram, model.ComponentSDD, model.ComponentSkills, model.ComponentContext7, model.ComponentGGA}
+		return []model.ComponentID{model.ComponentEngram, model.ComponentSDD, model.ComponentSkills, model.ComponentContext7, model.ComponentDxrk}
 	case model.PresetCustom:
 		return nil
 	default:
@@ -1817,7 +1817,7 @@ func componentsForPreset(preset model.PresetID) []model.ComponentID {
 			model.ComponentContext7,
 			model.ComponentPersona,
 			model.ComponentPermission,
-			model.ComponentGGA,
+			model.ComponentDxrk,
 		}
 	}
 }

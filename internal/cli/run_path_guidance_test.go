@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/verify"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/planner"
+	"github.com/dxrk/dxrk/internal/verify"
 )
 
 func TestEngramPathGuidanceFish(t *testing.T) {
@@ -128,7 +128,7 @@ func TestWithGoInstallPathNoteSkipsWhenInPATH(t *testing.T) {
 func TestWithGoInstallPathNoteSkipsWithoutEngram(t *testing.T) {
 	report := verify.Report{Ready: true, FinalNote: "You're ready."}
 	resolved := planner.ResolvedPlan{
-		OrderedComponents: []model.ComponentID{model.ComponentGGA},
+		OrderedComponents: []model.ComponentID{model.ComponentDxrk},
 		PlatformDecision:  planner.PlatformDecision{PackageManager: "apt"},
 	}
 

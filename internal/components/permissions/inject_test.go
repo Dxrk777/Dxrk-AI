@@ -7,15 +7,15 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/antigravity"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/cursor"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/gemini"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/agents/antigravity"
+	"github.com/dxrk/dxrk/internal/agents/claude"
+	"github.com/dxrk/dxrk/internal/agents/codex"
+	"github.com/dxrk/dxrk/internal/agents/cursor"
+	"github.com/dxrk/dxrk/internal/agents/gemini"
+	"github.com/dxrk/dxrk/internal/agents/opencode"
+	"github.com/dxrk/dxrk/internal/agents/vscode"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 func claudeAdapter() agents.Adapter      { return claude.NewAdapter() }

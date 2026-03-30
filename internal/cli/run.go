@@ -10,22 +10,22 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/components/mcp"
-	"github.com/gentleman-programming/gentle-ai/internal/components/permissions"
-	"github.com/gentleman-programming/gentle-ai/internal/components/persona"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/components/theme"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/verify"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/backup"
+	"github.com/dxrk/dxrk/internal/components/engram"
+	"github.com/dxrk/dxrk/internal/components/dxrk"
+	"github.com/dxrk/dxrk/internal/components/mcp"
+	"github.com/dxrk/dxrk/internal/components/permissions"
+	"github.com/dxrk/dxrk/internal/components/persona"
+	"github.com/dxrk/dxrk/internal/components/sdd"
+	"github.com/dxrk/dxrk/internal/components/skills"
+	"github.com/dxrk/dxrk/internal/components/theme"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/pipeline"
+	"github.com/dxrk/dxrk/internal/planner"
+	"github.com/dxrk/dxrk/internal/state"
+	"github.com/dxrk/dxrk/internal/system"
+	"github.com/dxrk/dxrk/internal/verify"
 )
 
 type InstallResult struct {
@@ -47,17 +47,17 @@ var (
 	cmdLookPath         = exec.LookPath
 	streamCommandOutput = true
 
-	// ggaAvailableCheck is an optional override for ggaAvailable behavior.
+	// dxrkAvailableCheck is an optional override for dxrkAvailable behavior.
 	// When set, it is called instead of the default filesystem check.
-	ggaAvailableCheck func(system.PlatformProfile) bool
+	dxrkAvailableCheck func(system.PlatformProfile) bool
 
 	// engramDownloadFn is the function used to download the engram binary on non-brew platforms.
 	// Package-level var for testability — tests can replace this to avoid real HTTP calls.
 	engramDownloadFn = engram.DownloadLatestBinary
 
-	// AppVersion is the gentle-ai version that will be written into backup manifests.
+	// AppVersion is the dxrk version that will be written into backup manifests.
 	// It is set by app.go before any CLI operation so that every backup created during
-	// an install or sync records which version of gentle-ai made it.
+	// an install or sync records which version of dxrk made it.
 	// Default "dev" matches the ldflags default in app.Version.
 	AppVersion = "dev"
 )
@@ -152,8 +152,8 @@ func RunInstall(args []string, detection system.DetectionResult) (InstallResult,
 }
 
 func withPostInstallNotes(report verify.Report, resolved planner.ResolvedPlan) verify.Report {
-	if hasComponent(resolved.OrderedComponents, model.ComponentGGA) && report.Ready {
-		report.FinalNote = report.FinalNote + "\n\nGGA is now installed globally. To enable project hooks, run in each repo:\n- gga init\n- gga install"
+	if hasComponent(resolved.OrderedComponents, model.ComponentDxrk) && report.Ready {
+		report.FinalNote = report.FinalNote + "\n\nDxrk is now installed globally. To enable project hooks, run in each repo:\n- dxrk init\n- dxrk install"
 	}
 	report = withGoInstallPathNote(report, resolved)
 	return report
@@ -244,7 +244,7 @@ type runtimeState struct {
 }
 
 func newInstallRuntime(homeDir string, selection model.Selection, resolved planner.ResolvedPlan, profile system.PlatformProfile) (*installRuntime, error) {
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".dxrk", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return nil, fmt.Errorf("create backup root directory %q: %w", backupRoot, err)
 	}
@@ -312,7 +312,7 @@ type prepareBackupStep struct {
 	source      backup.BackupSource
 	description string
 
-	// appVersion is the gentle-ai version that created this backup.
+	// appVersion is the dxrk version that created this backup.
 	// When set, it is written into the manifest as CreatedByVersion.
 	appVersion string
 }
@@ -524,46 +524,46 @@ func (s componentApplyStep) Run() error {
 			}
 		}
 		return nil
-	case model.ComponentGGA:
-		if !ggaAvailable(s.profile) {
-			// GGA not found on any known PATH — install it.
-			commands, err := gga.InstallCommand(s.profile)
+	case model.ComponentDxrk:
+		if !dxrkAvailable(s.profile) {
+			// Dxrk not found on any known PATH — install it.
+			commands, err := dxrk.InstallCommand(s.profile)
 			if err != nil {
 				return fmt.Errorf("resolve install command for component %q: %w", s.component, err)
 			}
 			installErr := runCommandSequence(commands)
 			if installErr != nil {
-				if ggaAvailable(s.profile) {
-					// The GGA install script uses `set -e` and `read -p` for
+				if dxrkAvailable(s.profile) {
+					// The Dxrk install script uses `set -e` and `read -p` for
 					// the "already installed" confirmation. Without a TTY
 					// (common in automated/re-run scenarios), `read` fails
 					// with exit code 1 and `set -e` kills the script before
-					// it can exit 0. If GGA is actually available after the
+					// it can exit 0. If Dxrk is actually available after the
 					// script ran, the install succeeded functionally — treat
 					// as success but warn the user.
-					fmt.Fprintf(os.Stderr, "WARNING: gga install command reported an error but gga is available — continuing. Error was: %v\n", installErr)
+					fmt.Fprintf(os.Stderr, "WARNING: dxrk install command reported an error but dxrk is available — continuing. Error was: %v\n", installErr)
 				} else {
 					return installErr
 				}
 			}
 		}
-		if err := gga.EnsureRuntimeAssets(s.homeDir); err != nil {
-			return fmt.Errorf("ensure gga runtime assets: %w", err)
+		if err := dxrk.EnsureRuntimeAssets(s.homeDir); err != nil {
+			return fmt.Errorf("ensure dxrk runtime assets: %w", err)
 		}
 		if runtime.GOOS == "windows" {
-			if err := gga.EnsurePowerShellShim(s.homeDir); err != nil {
-				return fmt.Errorf("ensure gga powershell shim: %w", err)
+			if err := dxrk.EnsurePowerShellShim(s.homeDir); err != nil {
+				return fmt.Errorf("ensure dxrk powershell shim: %w", err)
 			}
-			// Add GGA bin dir to the user PATH persistently on Windows.
-			// GGA's install.sh drops the binary into ~/bin which is not on PATH by default.
-			ggaBinDir := filepath.Join(s.homeDir, "bin")
-			if err := system.AddToUserPath(ggaBinDir); err != nil {
-				// Non-fatal: warn but continue — GGA was installed successfully.
-				fmt.Fprintf(os.Stderr, "WARNING: could not add %s to PATH: %v\n", ggaBinDir, err)
+			// Add Dxrk bin dir to the user PATH persistently on Windows.
+			// Dxrk's install.sh drops the binary into ~/bin which is not on PATH by default.
+			dxrkBinDir := filepath.Join(s.homeDir, "bin")
+			if err := system.AddToUserPath(dxrkBinDir); err != nil {
+				// Non-fatal: warn but continue — Dxrk was installed successfully.
+				fmt.Fprintf(os.Stderr, "WARNING: could not add %s to PATH: %v\n", dxrkBinDir, err)
 			}
 		}
-		if _, err := gga.Inject(s.homeDir, s.agents); err != nil {
-			return fmt.Errorf("inject gga config: %w", err)
+		if _, err := dxrk.Inject(s.homeDir, s.agents); err != nil {
+			return fmt.Errorf("inject dxrk config: %w", err)
 		}
 		return nil
 	case model.ComponentTheme:
@@ -618,7 +618,7 @@ func windowsGoCandidates() []string {
 // BuildRealStagePlan creates a StagePlan with real backup, agent install, and component apply steps.
 // It is used by both the CLI and TUI paths.
 func BuildRealStagePlan(homeDir string, selection model.Selection, resolved planner.ResolvedPlan, profile system.PlatformProfile) (pipeline.StagePlan, error) {
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".dxrk", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return pipeline.StagePlan{}, fmt.Errorf("create backup root directory %q: %w", backupRoot, err)
 	}
@@ -644,34 +644,34 @@ func ResolveInstallProfile(detection system.DetectionResult) system.PlatformProf
 	}
 }
 
-// ggaAvailable reports whether the gga binary is reachable. gga is often
+// dxrkAvailable reports whether the dxrk binary is reachable. dxrk is often
 // installed to ~/.local/bin (the default for install.sh on Linux and macOS)
 // or ~/bin (the default for install.sh on Windows), which may not be on PATH.
-// On macOS with Homebrew, gga may be in /opt/homebrew/bin or /usr/local/bin.
+// On macOS with Homebrew, dxrk may be in /opt/homebrew/bin or /usr/local/bin.
 // We check the filesystem directly to avoid spawning a subprocess and to work
 // regardless of whether the install directory has been added to PATH.
-func ggaAvailable(profile system.PlatformProfile) bool {
+func dxrkAvailable(profile system.PlatformProfile) bool {
 	// Allow test override.
-	if ggaAvailableCheck != nil {
-		return ggaAvailableCheck(profile)
+	if dxrkAvailableCheck != nil {
+		return dxrkAvailableCheck(profile)
 	}
-	if _, err := cmdLookPath("gga"); err == nil {
+	if _, err := cmdLookPath("dxrk"); err == nil {
 		return true
 	}
 	homeDir, err := osUserHomeDir()
 	if err != nil {
 		return false
 	}
-	if _, err := osStat(filepath.Join(homeDir, ".local", "bin", "gga")); err == nil {
+	if _, err := osStat(filepath.Join(homeDir, ".local", "bin", "dxrk")); err == nil {
 		return true
 	}
 	// Check well-known Homebrew prefixes for macOS (arm64 and x86).
-	// gga may be installed via brew but not yet in the shell PATH
+	// dxrk may be installed via brew but not yet in the shell PATH
 	// (e.g. new terminal session, Rosetta environment mismatch).
 	if profile.OS == "darwin" || profile.PackageManager == "brew" {
 		for _, brewBin := range []string{
-			"/opt/homebrew/bin/gga",
-			"/usr/local/bin/gga",
+			"/opt/homebrew/bin/dxrk",
+			"/usr/local/bin/dxrk",
 		} {
 			if _, err := osStat(brewBin); err == nil {
 				return true
@@ -679,7 +679,7 @@ func ggaAvailable(profile system.PlatformProfile) bool {
 		}
 	}
 	if profile.OS == "windows" {
-		if _, err := osStat(filepath.Join(homeDir, "bin", "gga")); err == nil {
+		if _, err := osStat(filepath.Join(homeDir, "bin", "dxrk")); err == nil {
 			return true
 		}
 	}
@@ -843,9 +843,9 @@ func componentPaths(homeDir string, selection model.Selection, adapters []agents
 			if adapter.SupportsSystemPrompt() {
 				paths = append(paths, adapter.SystemPromptFile(homeDir))
 			}
-			if selection.Persona == model.PersonaGentleman {
+			if selection.Persona == model.PersonaDxrk {
 				if adapter.SupportsOutputStyles() {
-					paths = append(paths, adapter.OutputStyleDir(homeDir)+"/gentleman.md")
+					paths = append(paths, adapter.OutputStyleDir(homeDir)+"/Dxrk.md")
 					if p := adapter.SettingsPath(homeDir); p != "" {
 						paths = append(paths, p)
 					}
@@ -855,9 +855,9 @@ func componentPaths(homeDir string, selection model.Selection, adapters []agents
 			if p := adapter.SettingsPath(homeDir); p != "" {
 				paths = append(paths, p)
 			}
-		case model.ComponentGGA:
-			paths = append(paths, gga.ConfigPath(homeDir))
-			paths = append(paths, gga.AgentsTemplatePath(homeDir))
+		case model.ComponentDxrk:
+			paths = append(paths, dxrk.ConfigPath(homeDir))
+			paths = append(paths, dxrk.AgentsTemplatePath(homeDir))
 		case model.ComponentTheme:
 			if p := adapter.SettingsPath(homeDir); p != "" {
 				paths = append(paths, p)

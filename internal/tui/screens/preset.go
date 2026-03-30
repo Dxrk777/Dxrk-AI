@@ -3,13 +3,13 @@ package screens
 import (
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/tui/styles"
 )
 
 func PresetOptions() []model.PresetID {
 	return []model.PresetID{
-		model.PresetFullGentleman,
+		model.PresetFullDxrk,
 		model.PresetEcosystemOnly,
 		model.PresetMinimal,
 		model.PresetCustom,
@@ -17,7 +17,7 @@ func PresetOptions() []model.PresetID {
 }
 
 var presetDescriptions = map[model.PresetID]string{
-	model.PresetFullGentleman: "Everything: memory, SDD, skills, docs, persona & security",
+	model.PresetFullDxrk: "Everything: memory, SDD, skills, docs, persona & security",
 	model.PresetEcosystemOnly: "Core tools only: memory, SDD, skills & docs (no persona/security)",
 	model.PresetMinimal:       "Just Engram persistent memory",
 	model.PresetCustom:        "Pick individual components yourself",

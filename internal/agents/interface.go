@@ -3,8 +3,8 @@ package agents
 import (
 	"context"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 // Capability tags for adapter feature checks.

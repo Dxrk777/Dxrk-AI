@@ -13,8 +13,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/dxrk/dxrk/internal/system"
+	"github.com/dxrk/dxrk/internal/update"
 )
 
 // httpClient is the HTTP client used for asset downloads.
@@ -63,7 +63,7 @@ func Download(ctx context.Context, r update.UpdateResult, profile system.Platfor
 }
 
 // resolveAssetURL constructs the GitHub Releases asset download URL.
-// Convention: Gentleman-Programming repos use the goreleaser default naming:
+// Convention: Dxrk repos use the goreleaser default naming:
 //
 //	{repo}_{version}_{os}_{arch}.tar.gz
 func resolveAssetURL(owner, repo, version, goos, goarch string) string {

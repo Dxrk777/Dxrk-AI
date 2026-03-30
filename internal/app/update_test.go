@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/dxrk/dxrk/internal/system"
+	"github.com/dxrk/dxrk/internal/update"
+	"github.com/dxrk/dxrk/internal/update/upgrade"
 )
 
 func TestRunUpdate_ReturnsErrorWhenChecksFail(t *testing.T) {
@@ -59,7 +59,7 @@ func TestRunUpgrade_ReturnsErrorBeforeExecutingWhenChecksFail(t *testing.T) {
 				Status: update.CheckFailed,
 			},
 			{
-				Tool:             update.ToolInfo{Name: "gga"},
+				Tool:             update.ToolInfo{Name: "dxrk"},
 				InstalledVersion: "1.0.0",
 				LatestVersion:    "2.0.0",
 				Status:           update.UpdateAvailable,

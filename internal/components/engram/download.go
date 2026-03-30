@@ -14,11 +14,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 const (
-	engramOwner = "Gentleman-Programming"
+	engramOwner = "Dxrk"
 	engramRepo  = "engram"
 	engramName  = "engram"
 )

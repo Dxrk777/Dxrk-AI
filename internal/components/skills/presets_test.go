@@ -3,7 +3,7 @@ package skills
 import (
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 func TestSkillsForPresetMinimalReturnsSDDOnly(t *testing.T) {
@@ -55,7 +55,7 @@ func TestSkillsForPresetEcosystemIncludesFrameworks(t *testing.T) {
 }
 
 func TestSkillsForPresetFullIncludesAll(t *testing.T) {
-	skills := SkillsForPreset(model.PresetFullGentleman)
+	skills := SkillsForPreset(model.PresetFullDxrk)
 	all := AllSkillIDs()
 
 	if len(skills) != len(all) {

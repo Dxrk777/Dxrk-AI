@@ -1,9 +1,9 @@
 package engram
 
 import (
-	"github.com/gentleman-programming/gentle-ai/internal/installcmd"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/installcmd"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 func InstallCommand(profile system.PlatformProfile) ([][]string, error) {

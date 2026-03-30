@@ -4,13 +4,13 @@
 
 ---
 
-This page explains how gentle-ai is meant to be used. Not the flags, not the architecture -- just the mental model. If you read one page besides the README, make it this one.
+This page explains how dxrk is meant to be used. Not the flags, not the architecture -- just the mental model. If you read one page besides the README, make it this one.
 
 ---
 
 ## After Installing -- You're Done
 
-Once you run `gentle-ai` and select your agent(s), components, and preset, everything is configured. There is nothing else to do. No commands to memorize, no workflows to learn, no config files to edit.
+Once you run `dxrk` and select your agent(s), components, and preset, everything is configured. There is nothing else to do. No commands to memorize, no workflows to learn, no config files to edit.
 
 Open your AI agent and start working. That's it.
 
@@ -47,7 +47,7 @@ For **all other agents** (Claude Code, Cursor, Gemini CLI, VS Code Copilot), SDD
 If you want multi-mode in OpenCode:
 
 1. Connect your AI providers in OpenCode first
-2. Run the gentle-ai installer and select "multi" when prompted
+2. Run the dxrk installer and select "multi" when prompted
 
 If no providers are connected, you will only see single-mode as an option.
 
@@ -79,14 +79,14 @@ You don't need to configure any of this. The installer sets it up, and the orche
 
 ## Skills -- Two Layers
 
-gentle-ai installs **SDD skills** and **foundation skills** (workflow, testing patterns) directly into your agent's skills directory. These are embedded in the binary and always up to date.
+dxrk installs **SDD skills** and **foundation skills** (workflow, testing patterns) directly into your agent's skills directory. These are embedded in the binary and always up to date.
 
-For **coding skills** (React 19, Angular, TypeScript, Tailwind, Zod, Playwright, etc.), the community maintains a separate repository: [Gentleman-Programming/Gentleman-Skills](https://github.com/Gentleman-Programming/Gentleman-Skills). You install those manually by cloning the repo and copying the skills you want:
+For **coding skills** (React 19, Angular, TypeScript, Tailwind, Zod, Playwright, etc.), the community maintains a separate repository: [Dxrk/Dxrk-Skills](https://github.com/Dxrk777/Dxrk-Skills). You install those manually by cloning the repo and copying the skills you want:
 
 ```bash
-git clone https://github.com/Gentleman-Programming/Gentleman-Skills.git
-cp -r Gentleman-Skills/curated/react-19 ~/.claude/skills/
-cp -r Gentleman-Skills/curated/typescript ~/.claude/skills/
+git clone https://github.com/Dxrk777/Dxrk-Skills.git
+cp -r Dxrk-Skills/curated/react-19 ~/.claude/skills/
+cp -r Dxrk-Skills/curated/typescript ~/.claude/skills/
 # ... or copy the entire curated/ directory
 ```
 
@@ -108,9 +108,9 @@ There's also an automated side: `sdd-init` runs the same registry logic internal
 
 ## The Golden Rule
 
-Gentle AI is an ecosystem **configurator**. It sets up your AI agent with memory, skills, workflows, and a persona -- then gets out of the way.
+Dxrk is an ecosystem **configurator**. It sets up your AI agent with memory, skills, workflows, and a persona -- then gets out of the way.
 
-The less you think about gentle-ai after installing, the better it's working.
+The less you think about dxrk after installing, the better it's working.
 
 ---
 

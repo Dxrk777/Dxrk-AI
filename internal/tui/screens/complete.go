@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/dxrk/dxrk/internal/tui/styles"
 )
 
 const maxErrorLines = 15
@@ -30,7 +30,7 @@ type UpdateInfo struct {
 type CompletePayload struct {
 	ConfiguredAgents    int
 	InstalledComponents int
-	GGAInstalled        bool
+	DxrkInstalled        bool
 	FailedSteps         []FailedStep
 	RollbackPerformed   bool
 	MissingDeps         []MissingDep
@@ -66,14 +66,14 @@ func renderCompleteSuccess(data CompletePayload) string {
 	b.WriteString(styles.UnselectedStyle.Render("  3. Try /sdd-new my-feature"))
 	b.WriteString("\n\n")
 
-	if data.GGAInstalled {
-		b.WriteString(styles.HeadingStyle.Render("GGA (per project)"))
+	if data.DxrkInstalled {
+		b.WriteString(styles.HeadingStyle.Render("Dxrk (per project)"))
 		b.WriteString("\n")
-		b.WriteString(styles.UnselectedStyle.Render("  GGA was installed globally."))
+		b.WriteString(styles.UnselectedStyle.Render("  Dxrk was installed globally."))
 		b.WriteString("\n")
-		b.WriteString(styles.UnselectedStyle.Render("  In each repo run: gga init"))
+		b.WriteString(styles.UnselectedStyle.Render("  In each repo run: dxrk init"))
 		b.WriteString("\n")
-		b.WriteString(styles.UnselectedStyle.Render("  Then run: gga install"))
+		b.WriteString(styles.UnselectedStyle.Render("  Then run: dxrk install"))
 		b.WriteString("\n\n")
 	}
 
@@ -151,7 +151,7 @@ func renderCompleteFailed(data CompletePayload) string {
 	b.WriteString("\n")
 	b.WriteString(styles.UnselectedStyle.Render("  2. Fix the underlying issue (missing deps, permissions, etc.)"))
 	b.WriteString("\n")
-	b.WriteString(styles.UnselectedStyle.Render("  3. Run gentle-ai again to retry"))
+	b.WriteString(styles.UnselectedStyle.Render("  3. Run dxrk again to retry"))
 	b.WriteString("\n\n")
 
 	b.WriteString(styles.HelpStyle.Render("Press Enter to exit."))

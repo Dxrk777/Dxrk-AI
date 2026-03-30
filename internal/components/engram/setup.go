@@ -3,7 +3,7 @@ package engram
 import (
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 const (

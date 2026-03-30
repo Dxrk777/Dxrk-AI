@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 func TestComponentPathsSDDIncludesSystemPromptForAllSupportedAgents(t *testing.T) {

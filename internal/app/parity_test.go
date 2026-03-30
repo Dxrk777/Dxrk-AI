@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/cli"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui"
+	"github.com/dxrk/dxrk/internal/cli"
+	"github.com/dxrk/dxrk/internal/planner"
+	"github.com/dxrk/dxrk/internal/system"
+	"github.com/dxrk/dxrk/internal/tui"
 )
 
 func TestInstallDefaultsMatchTUIModelDefaults(t *testing.T) {
@@ -224,7 +224,7 @@ func TestRunArgsSyncUnknownFlagReturnsError(t *testing.T) {
 	}
 }
 
-// TestRunArgsSyncNoAgentsIsNoOp verifies that `gentle-ai sync` with no
+// TestRunArgsSyncNoAgentsIsNoOp verifies that `dxrk sync` with no
 // agents flag and an empty home dir (no config dirs) completes as a no-op
 // and does NOT return an error.
 func TestRunArgsSyncNoAgentsIsNoOp(t *testing.T) {

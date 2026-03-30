@@ -22,4 +22,4 @@ Para implementar una integración temprana sin depender de APIs externas y **sin
    Engram (`mem_save`) se preserva ÚNICAMENTE para registrar decisiones arquitectónicas globales, convenciones y bugfixes. NO debe usarse para guardar el estado intermedio de un SDD en curso (para eso están los archivos `.sdd/*.md`).
 
 ## Conclusión
-Este workaround permite tener SDD funcional en Antigravity hoy mismo, operando bajo un modo de "Single-Threaded Simulation", manteniendo la limpieza y modularidad del repositorio original de Gentleman intactas.
+Este workaround permite tener SDD funcional en Antigravity hoy mismo, operando bajo un modo de "Single-Threaded Simulation", manteniendo la limpieza y modularidad del repositorio original de Dxrk intactas.

@@ -13,7 +13,7 @@ const (
 	AgentWindsurf      AgentID = "windsurf"
 )
 
-// SupportTier indicates how fully an agent supports the Gentleman AI ecosystem.
+// SupportTier indicates how fully an agent supports the Dxrk AI ecosystem.
 // All current agents receive the full SDD orchestrator, skill files, MCP config,
 // and system prompt injection. The tier is kept as metadata for display purposes.
 type SupportTier string
@@ -33,7 +33,7 @@ const (
 	ComponentContext7   ComponentID = "context7"
 	ComponentPersona    ComponentID = "persona"
 	ComponentPermission ComponentID = "permissions"
-	ComponentGGA        ComponentID = "gga"
+	ComponentDxrk       ComponentID = "dxrk"
 	ComponentTheme      ComponentID = "theme"
 )
 
@@ -59,16 +59,16 @@ const (
 type PersonaID string
 
 const (
-	PersonaGentleman PersonaID = "gentleman"
-	PersonaNeutral   PersonaID = "neutral"
-	PersonaCustom    PersonaID = "custom"
+	PersonaDxrk    PersonaID = "dxrk"
+	PersonaNeutral PersonaID = "neutral"
+	PersonaCustom  PersonaID = "custom"
 )
 
 // SystemPromptStrategy defines how an agent's system prompt file is managed.
 type SystemPromptStrategy int
 
 const (
-	// StrategyMarkdownSections uses <!-- gentle-ai:ID --> markers to inject sections
+	// StrategyMarkdownSections uses <!-- dxrk:ID --> markers to inject sections
 	// into an existing file without clobbering user content (Claude Code CLAUDE.md).
 	StrategyMarkdownSections SystemPromptStrategy = iota
 	// StrategyFileReplace replaces the entire system prompt file (OpenCode AGENTS.md).
@@ -96,7 +96,7 @@ const (
 type PresetID string
 
 const (
-	PresetFullGentleman PresetID = "full-gentleman"
+	PresetFullDxrk      PresetID = "full-dxrk"
 	PresetEcosystemOnly PresetID = "ecosystem-only"
 	PresetMinimal       PresetID = "minimal"
 	PresetCustom        PresetID = "custom"

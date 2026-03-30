@@ -12,29 +12,29 @@
 | SDD | `sdd` | Spec-Driven Development workflow (9 phases) — the agent handles SDD organically when the task warrants it, or when you ask; you don't need to learn the commands |
 | Skills | `skills` | Curated coding skill library |
 | Context7 | `context7` | MCP server for live framework/library documentation |
-| Persona | `persona` | Gentleman, neutral, or custom behavior mode |
+| Persona | `persona` | Dxrk, neutral, or custom behavior mode |
 | Permissions | `permissions` | Security-first defaults and guardrails |
-| GGA | `gga` | Gentleman Guardian Angel — AI provider switcher |
-| Theme | `theme` | Gentleman Kanagawa theme overlay |
+| Dxrk | `dxrk` | Dxrk Guardian Angel — AI provider switcher |
+| Theme | `theme` | Dxrk Kanagawa theme overlay |
 
-## GGA Behavior
+## Dxrk Behavior
 
-`gentle-ai --component gga` installs/provisions the `gga` binary globally on your machine.
+`dxrk --component dxrk` installs/provisions the `dxrk` binary globally on your machine.
 
-It does **not** run project-level hook setup automatically (`gga init` / `gga install`) because that should be an explicit decision per repository.
+It does **not** run project-level hook setup automatically (`dxrk init` / `dxrk install`) because that should be an explicit decision per repository.
 
-After global install, enable GGA per project with:
+After global install, enable Dxrk per project with:
 
 ```bash
-gga init
-gga install
+dxrk init
+dxrk install
 ```
 
 ---
 
 ## Skills
 
-### Included Skills (installed by gentle-ai)
+### Included Skills (installed by dxrk)
 
 14 skill files organized by category, embedded in the binary and injected into your agent's configuration:
 
@@ -62,11 +62,11 @@ gga install
 | Branch & PR | `branch-pr` | PR creation workflow with conventional commits, branch naming, and issue-first enforcement |
 | Issue Creation | `issue-creation` | Issue filing workflow with bug report and feature request templates |
 
-These foundation skills are installed by default with both `full-gentleman` and `ecosystem-only` presets.
+These foundation skills are installed by default with both `full-dxrk` and `ecosystem-only` presets.
 
 ### Coding Skills (separate repository)
 
-For framework-specific skills (React 19, Angular, TypeScript, Tailwind 4, Zod 4, Playwright, etc.), see [Gentleman-Programming/Gentleman-Skills](https://github.com/Gentleman-Programming/Gentleman-Skills). These are maintained by the community and installed separately by cloning the repo and copying skills to your agent's skills directory.
+For framework-specific skills (React 19, Angular, TypeScript, Tailwind 4, Zod 4, Playwright, etc.), see [Dxrk/Dxrk-Skills](https://github.com/Dxrk777/Dxrk-Skills). These are maintained by the community and installed separately by cloning the repo and copying skills to your agent's skills directory.
 
 ---
 
@@ -74,7 +74,7 @@ For framework-specific skills (React 19, Angular, TypeScript, Tailwind 4, Zod 4,
 
 | Preset | ID | What's Included |
 |--------|-----|-----------------|
-| Full Gentleman | `full-gentleman` | All components (Engram + SDD + Skills + Context7 + GGA + Persona + Permissions + Theme) + all skills + gentleman persona |
-| Ecosystem Only | `ecosystem-only` | Core components (Engram + SDD + Skills + Context7 + GGA) + all skills + gentleman persona |
+| Full Dxrk | `full-dxrk` | All components (Engram + SDD + Skills + Context7 + Dxrk + Persona + Permissions + Theme) + all skills + dxrk persona |
+| Ecosystem Only | `ecosystem-only` | Core components (Engram + SDD + Skills + Context7 + Dxrk) + all skills + dxrk persona |
 | Minimal | `minimal` | Engram + SDD skills only |
 | Custom | `custom` | You pick components, skills, and persona individually |

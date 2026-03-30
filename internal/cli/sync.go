@@ -10,19 +10,19 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/components/mcp"
-	"github.com/gentleman-programming/gentle-ai/internal/components/permissions"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/components/theme"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/verify"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/backup"
+	"github.com/dxrk/dxrk/internal/components/engram"
+	"github.com/dxrk/dxrk/internal/components/dxrk"
+	"github.com/dxrk/dxrk/internal/components/mcp"
+	"github.com/dxrk/dxrk/internal/components/permissions"
+	"github.com/dxrk/dxrk/internal/components/sdd"
+	"github.com/dxrk/dxrk/internal/components/skills"
+	"github.com/dxrk/dxrk/internal/components/theme"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/pipeline"
+	"github.com/dxrk/dxrk/internal/state"
+	"github.com/dxrk/dxrk/internal/verify"
 )
 
 // SyncFlags holds parsed CLI flags for the sync command.
@@ -82,7 +82,7 @@ func ParseSyncFlags(args []string) (SyncFlags, error) {
 
 // BuildSyncSelection builds a model.Selection for the sync command.
 //
-// Default sync scope: SDD, Engram, Context7, GGA, Skills.
+// Default sync scope: SDD, Engram, Context7, Dxrk, Skills.
 // Excluded by default: Persona, Permissions, Theme (user-config-adjacent).
 // Permissions and Theme can be opted-in via flags.
 //
@@ -93,7 +93,7 @@ func BuildSyncSelection(flags SyncFlags, agentIDs []model.AgentID) model.Selecti
 		model.ComponentSDD,
 		model.ComponentEngram,
 		model.ComponentContext7,
-		model.ComponentGGA,
+		model.ComponentDxrk,
 		model.ComponentSkills,
 	}
 
@@ -117,16 +117,16 @@ func BuildSyncSelection(flags SyncFlags, agentIDs []model.AgentID) model.Selecti
 		SDDMode:    sddMode,
 		StrictTDD:  flags.StrictTDD,
 		Skills:     skillIDs,
-		// Preset is set to full-gentleman so selectedSkillIDs() returns the
+		// Preset is set to full-Dxrk so selectedSkillIDs() returns the
 		// correct default skill set when no explicit skills are provided.
-		Preset: model.PresetFullGentleman,
+		Preset: model.PresetFullDxrk,
 	}
 }
 
 // DiscoverAgents returns the agent IDs to sync.
 //
 // Discovery order:
-//  1. Persisted state (~/.gentle-ai/state.json) — written at install time.
+//  1. Persisted state (~/.dxrk/state.json) — written at install time.
 //     When present and non-empty, only the agents the user explicitly installed
 //     are returned. This prevents sync from injecting into every IDE config dir
 //     that happens to exist on the system (issue #107).
@@ -179,7 +179,7 @@ type syncRuntime struct {
 }
 
 func newSyncRuntime(homeDir string, selection model.Selection) (*syncRuntime, error) {
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".dxrk", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return nil, fmt.Errorf("create backup root directory %q: %w", backupRoot, err)
 	}
@@ -326,22 +326,22 @@ func (s componentSyncStep) Run() error {
 		}
 		return nil
 
-	case model.ComponentGGA:
+	case model.ComponentDxrk:
 		// Sync: ensure runtime assets are current and inject config.
 		// NO binary install.
-		if err := gga.EnsureRuntimeAssets(s.homeDir); err != nil {
-			return fmt.Errorf("sync gga runtime assets: %w", err)
+		if err := dxrk.EnsureRuntimeAssets(s.homeDir); err != nil {
+			return fmt.Errorf("sync dxrk runtime assets: %w", err)
 		}
 		if runtime.GOOS == "windows" {
-			if err := gga.EnsurePowerShellShim(s.homeDir); err != nil {
-				return fmt.Errorf("ensure gga powershell shim: %w", err)
+			if err := dxrk.EnsurePowerShellShim(s.homeDir); err != nil {
+				return fmt.Errorf("ensure dxrk powershell shim: %w", err)
 			}
 		}
-		res, err := gga.Inject(s.homeDir, s.agents)
+		res, err := dxrk.Inject(s.homeDir, s.agents)
 		if err != nil {
-			return fmt.Errorf("sync gga config: %w", err)
+			return fmt.Errorf("sync dxrk config: %w", err)
 		}
-		// Count GGA files changed based on individual Changed flags.
+		// Count Dxrk files changed based on individual Changed flags.
 		s.countChanged(boolToInt(res.ConfigChanged) + boolToInt(res.AgentsChanged))
 		return nil
 
@@ -507,7 +507,7 @@ func RenderSyncReport(result SyncResult) string {
 	var b strings.Builder
 
 	if result.NoOp {
-		fmt.Fprintln(&b, "gentle-ai sync — no managed sync actions needed")
+		fmt.Fprintln(&b, "dxrk sync — no managed sync actions needed")
 		if len(result.Agents) == 0 {
 			fmt.Fprintln(&b, "No agents were discovered or specified. Nothing to sync.")
 		} else {
@@ -518,7 +518,7 @@ func RenderSyncReport(result SyncResult) string {
 	}
 
 	if result.DryRun {
-		fmt.Fprintln(&b, "gentle-ai sync — dry-run")
+		fmt.Fprintln(&b, "dxrk sync — dry-run")
 		fmt.Fprintf(&b, "Agents: %s\n", joinAgentIDs(result.Agents))
 
 		compParts := make([]string, 0, len(result.Selection.Components))
@@ -533,7 +533,7 @@ func RenderSyncReport(result SyncResult) string {
 		return strings.TrimRight(b.String(), "\n")
 	}
 
-	fmt.Fprintln(&b, "gentle-ai sync — managed sync executed")
+	fmt.Fprintln(&b, "dxrk sync — managed sync executed")
 	fmt.Fprintf(&b, "Agents synced: %s\n", joinAgentIDs(result.Agents))
 
 	compParts := make([]string, 0, len(result.Selection.Components))

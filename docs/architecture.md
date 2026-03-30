@@ -7,7 +7,7 @@
 ## Architecture
 
 ```
-cmd/gentle-ai/             CLI entrypoint
+cmd/dxrk/             CLI entrypoint
 internal/
   app/                     Command dispatch + runtime wiring
   model/                   Domain types (agents, components, skills, presets, personas)
@@ -20,7 +20,7 @@ internal/
   backup/                  Config snapshot + restore
   assets/                  Embedded skill files + persona templates
   components/              Per-component install/inject logic
-    engram/  sdd/  skills/  mcp/  persona/  theme/  permissions/  gga/
+    engram/  sdd/  skills/  mcp/  persona/  theme/  permissions/  dxrk/
     filemerge/             Marker-based file merging (inject without clobbering)
   agents/                  Agent adapters (config strategy per agent)
     claude/  opencode/  gemini/  cursor/  vscode/  codex/  windsurf/  antigravity/
@@ -47,10 +47,10 @@ go test ./...
 RUN_FULL_E2E=1 RUN_BACKUP_TESTS=1 ./e2e/docker-test.sh
 
 # Dry-run smoke test (macOS/Linux)
-gentle-ai install --dry-run --agent claude-code --preset minimal
+dxrk install --dry-run --agent claude-code --preset minimal
 
 # Dry-run smoke test (Windows PowerShell)
-gentle-ai.exe install --dry-run --agent claude-code --preset minimal
+dxrk.exe install --dry-run --agent claude-code --preset minimal
 ```
 
 Test coverage:
@@ -64,15 +64,15 @@ Test coverage:
 
 ---
 
-## Relationship to Gentleman.Dots
+## Relationship to Dxrk.Dots
 
-| | Gentleman.Dots | AI Gentle Stack |
+| | Dxrk.Dots | AI Gentle Stack |
 |--|---------------|-----------------|
 | **Purpose** | Dev environment (editors, shells, terminals) | AI development layer (agents, memory, skills) |
 | **Installs** | Neovim, Fish/Zsh, Tmux/Zellij, Ghostty | Configures Claude Code, OpenCode, Gemini CLI, Cursor, VS Code Copilot, Codex, Windsurf, Antigravity |
 | **Overlap** | None — complementary | None — different layer |
 
-Install Gentleman.Dots first for your dev environment, then AI Gentle Stack for the AI layer on top.
+Install Dxrk.Dots first for your dev environment, then AI Gentle Stack for the AI layer on top.
 
 ---
 

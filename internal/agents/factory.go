@@ -3,15 +3,15 @@ package agents
 import (
 	"fmt"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents/antigravity"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	cursoradapter "github.com/gentleman-programming/gentle-ai/internal/agents/cursor"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/gemini"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/windsurf"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/agents/antigravity"
+	"github.com/dxrk/dxrk/internal/agents/claude"
+	"github.com/dxrk/dxrk/internal/agents/codex"
+	cursoradapter "github.com/dxrk/dxrk/internal/agents/cursor"
+	"github.com/dxrk/dxrk/internal/agents/gemini"
+	"github.com/dxrk/dxrk/internal/agents/opencode"
+	"github.com/dxrk/dxrk/internal/agents/vscode"
+	"github.com/dxrk/dxrk/internal/agents/windsurf"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 func NewAdapter(agent model.AgentID) (Adapter, error) {

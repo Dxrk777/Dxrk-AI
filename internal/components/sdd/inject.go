@@ -9,10 +9,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/agents"
+	"github.com/dxrk/dxrk/internal/assets"
+	"github.com/dxrk/dxrk/internal/components/filemerge"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 type InjectionResult struct {
@@ -30,7 +30,7 @@ type InjectOptions struct {
 	WorkspaceDir string
 
 	// StrictTDD enables Strict TDD mode. When true, a
-	// <!-- gentle-ai:strict-tdd-mode --> marker section is injected into
+	// <!-- dxrk:strict-tdd-mode --> marker section is injected into
 	// the agent's system prompt so agents know Strict TDD is active.
 	StrictTDD bool
 }
@@ -105,7 +105,7 @@ const maxAncestorDepth = 20
 //  3. Weak marker (package.json only) — record as candidate but keep walking
 //     upward, since a monorepo marker may exist higher up.
 //
-// Walking upward means users can run gentle-ai from any subdirectory of their
+// Walking upward means users can run dxrk from any subdirectory of their
 // project (e.g. repo/packages/app) and still detect the correct workspace root.
 // In a JS/TS monorepo, every package has package.json, so we must not stop at
 // the first one — we keep walking to find the highest ancestor with package.json
@@ -415,7 +415,7 @@ func Inject(homeDir string, adapter agents.Adapter, sddMode model.SDDModeID, opt
 
 	// 3b. Write native workflow files (Windsurf Hybrid-First, and any future
 	// agent that implements the workflowInjector optional interface).
-	// findProjectRoot walks upward from WorkspaceDir so gentle-ai can be
+	// findProjectRoot walks upward from WorkspaceDir so dxrk can be
 	// invoked from any subdirectory (e.g. repo/internal/foo) and still inject
 	// workflows at the real project root. Skips silently if no root is found
 	// (e.g. running from home dir without a project).
@@ -832,7 +832,7 @@ func injectFileAppend(homeDir string, adapter agents.Adapter) (InjectionResult, 
 }
 
 func hasLegacyBareOrchestrator(content string) bool {
-	markedIdx := strings.Index(content, "<!-- gentle-ai:sdd-orchestrator -->")
+	markedIdx := strings.Index(content, "<!-- dxrk:sdd-orchestrator -->")
 	if markedIdx >= 0 {
 		prefix := content[:markedIdx]
 		if strings.Contains(prefix, "# Agent Teams Lite — Orchestrator Instructions") {
@@ -870,10 +870,10 @@ func hasLegacyBareOrchestrator(content string) bool {
 //
 // Strategy:
 //   - start at the first known orchestrator heading
-//   - end at the next managed marker ("<!-- gentle-ai:") if present, else EOF
+//   - end at the next managed marker ("<!-- dxrk:") if present, else EOF
 //   - preserve content before/after and normalize surrounding blank lines
 func stripBareOrchestratorForFilePrompt(content string) string {
-	if markedIdx := strings.Index(content, "<!-- gentle-ai:sdd-orchestrator -->"); markedIdx >= 0 {
+	if markedIdx := strings.Index(content, "<!-- dxrk:sdd-orchestrator -->"); markedIdx >= 0 {
 		prefix := content[:markedIdx]
 		if start := strings.Index(prefix, "# Agent Teams Lite — Orchestrator Instructions"); start >= 0 {
 			before := strings.TrimRight(content[:start], "\n")
@@ -904,7 +904,7 @@ func stripBareOrchestratorForFilePrompt(content string) string {
 	}
 
 	end := len(content)
-	if rel := strings.Index(content[start:], "<!-- gentle-ai:"); rel >= 0 {
+	if rel := strings.Index(content[start:], "<!-- dxrk:"); rel >= 0 {
 		end = start + rel
 	}
 
@@ -932,8 +932,8 @@ func stripBareOrchestratorForFilePrompt(content string) string {
 }
 
 const instructionsFrontmatter = "---\n" +
-	"name: Gentle AI Persona\n" +
-	"description: Gentleman persona with SDD orchestration and Engram protocol\n" +
+	"name: Dxrk Persona\n" +
+	"description: Dxrk persona with SDD orchestration and Engram protocol\n" +
 	"applyTo: \"**\"\n" +
 	"---\n"
 
@@ -1021,7 +1021,7 @@ func injectMarkdownSections(homeDir string, adapter agents.Adapter, assignments 
 	// If bare (un-marked) orchestrator content exists but the HTML markers are
 	// not present, strip the bare block first. This migrates legacy files to the
 	// canonical marker-based state without duplicating the section.
-	if hasSDDOrchestrator(existing) && !strings.Contains(existing, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if hasSDDOrchestrator(existing) && !strings.Contains(existing, "<!-- dxrk:sdd-orchestrator -->") {
 		existing = stripBareOrchestratorSection(existing)
 	}
 
@@ -1062,8 +1062,8 @@ var claudeModelAssignmentReasons = map[string]string{
 }
 
 func injectClaudeModelAssignments(content string, assignments map[string]model.ClaudeModelAlias) (string, error) {
-	const openMarker = "<!-- gentle-ai:sdd-model-assignments -->"
-	const closeMarker = "<!-- /gentle-ai:sdd-model-assignments -->"
+	const openMarker = "<!-- dxrk:sdd-model-assignments -->"
+	const closeMarker = "<!-- /dxrk:sdd-model-assignments -->"
 
 	start := strings.Index(content, openMarker)
 	end := strings.Index(content, closeMarker)
@@ -1148,19 +1148,19 @@ func injectModelAssignments(overlayBytes []byte, assignments map[string]model.Mo
 		}
 	}
 
-	// Mirror sdd-orchestrator model to gentleman — both are primary conductors in OpenCode.
-	// gentleman is defined by the persona overlay (not the SDD overlay), so we inject
+	// Mirror sdd-orchestrator model to Dxrk — both are primary conductors in OpenCode.
+	// Dxrk is defined by the persona overlay (not the SDD overlay), so we inject
 	// its model field here to prevent silent runtime inheritance.
-	// Guard: only inject if gentleman already exists in opencode.json (persona was installed)
+	// Guard: only inject if Dxrk already exists in opencode.json (persona was installed)
 	// and sdd-orchestrator has an explicit TUI assignment.
 	if orchAssignment, hasOrch := assignments["sdd-orchestrator"]; hasOrch &&
 		orchAssignment.ProviderID != "" && orchAssignment.ModelID != "" &&
-		existingAgentKeys["gentleman"] {
-		if _, exists := agents["gentleman"]; !exists {
-			agents["gentleman"] = map[string]any{}
+		existingAgentKeys["Dxrk"] {
+		if _, exists := agents["Dxrk"]; !exists {
+			agents["Dxrk"] = map[string]any{}
 		}
-		if gentlemanMap, ok := agents["gentleman"].(map[string]any); ok {
-			gentlemanMap["model"] = orchAssignment.FullID()
+		if DxrkMap, ok := agents["Dxrk"].(map[string]any); ok {
+			DxrkMap["model"] = orchAssignment.FullID()
 		}
 	}
 

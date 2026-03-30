@@ -1,31 +1,29 @@
 package update
 
 import (
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/Dxrk777777/Dxrk-Hex/internal/system"
 )
 
 // updateHint returns a platform-specific instruction string for updating the given tool.
 func updateHint(tool ToolInfo, profile system.PlatformProfile) string {
 	switch tool.Name {
-	case "gentle-ai":
-		return gentleAIHint(profile)
+	case "dxrk":
+		return dxrkHint(profile)
 	case "engram":
 		return engramHint(profile)
-	case "gga":
-		return ggaHint(profile)
 	default:
 		return ""
 	}
 }
 
-func gentleAIHint(profile system.PlatformProfile) string {
+func dxrkHint(profile system.PlatformProfile) string {
 	switch profile.OS {
 	case "darwin":
-		return "brew upgrade gentle-ai"
+		return "brew upgrade dxrk"
 	case "linux":
-		return "curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh | bash"
+		return "curl -fsSL https://raw.githubusercontent.com/dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash"
 	case "windows":
-		return "irm https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 | iex"
+		return "irm https://raw.githubusercontent.com/dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex"
 	default:
 		return ""
 	}
@@ -36,15 +34,6 @@ func engramHint(profile system.PlatformProfile) string {
 	case "brew":
 		return "brew upgrade engram"
 	default:
-		return "gentle-ai upgrade (downloads pre-built binary)"
-	}
-}
-
-func ggaHint(profile system.PlatformProfile) string {
-	switch profile.PackageManager {
-	case "brew":
-		return "brew upgrade gga"
-	default:
-		return "See https://github.com/Gentleman-Programming/gentleman-guardian-angel"
+		return "dxrk upgrade (downloads pre-built binary)"
 	}
 }

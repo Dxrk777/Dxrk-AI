@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
+	"github.com/dxrk/dxrk/internal/components/filemerge"
 )
 
 type RestoreService struct{}

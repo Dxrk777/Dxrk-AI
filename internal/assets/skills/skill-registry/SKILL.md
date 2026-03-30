@@ -5,7 +5,7 @@ description: >
   Trigger: When user says "update skills", "skill registry", "actualizar skills", "update registry", or after installing/removing skills.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: dxrk
   version: "1.0"
 ---
 

@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 func TestParseInstallFlagsSupportsCSVAndRepeated(t *testing.T) {
@@ -44,8 +44,8 @@ func TestNormalizeInstallFlagsDefaults(t *testing.T) {
 
 	want := model.Selection{
 		Agents:  []model.AgentID{model.AgentClaudeCode, model.AgentOpenCode, model.AgentGeminiCLI, model.AgentCodex, model.AgentCursor, model.AgentVSCodeCopilot, model.AgentAntigravity, model.AgentWindsurf},
-		Persona: model.PersonaGentleman,
-		Preset:  model.PresetFullGentleman,
+		Persona: model.PersonaDxrk,
+		Preset:  model.PresetFullDxrk,
 		Components: []model.ComponentID{
 			model.ComponentEngram,
 			model.ComponentSDD,
@@ -53,7 +53,7 @@ func TestNormalizeInstallFlagsDefaults(t *testing.T) {
 			model.ComponentContext7,
 			model.ComponentPersona,
 			model.ComponentPermission,
-			model.ComponentGGA,
+			model.ComponentDxrk,
 		},
 	}
 

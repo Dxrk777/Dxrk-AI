@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/dxrk/dxrk/internal/components/engram"
+	"github.com/dxrk/dxrk/internal/system"
+	"github.com/dxrk/dxrk/internal/update"
 )
 
 // engramDownloadFn is the function used to download the engram binary.
@@ -34,7 +34,7 @@ var scriptHTTPClient = &http.Client{Timeout: 2 * time.Minute}
 //   - go-install method + apt/pacman/other → goInstallUpgrade
 //   - binary method + linux/darwin → binaryUpgrade
 //   - binary method + windows → manualFallback (Phase 1: self-replace deferred)
-//   - script method + linux/darwin + gga → ggaScriptUpgrade (git clone approach)
+//   - script method + linux/darwin + dxrk → dxrkScriptUpgrade (git clone approach)
 //   - script method + linux/darwin + other → scriptUpgrade (curl | bash install.sh)
 //   - script method + windows → manualFallback
 //   - unknown method → manualFallback with explicit message
@@ -49,18 +49,18 @@ func runStrategy(ctx context.Context, r update.UpdateResult, profile system.Plat
 	case update.InstallBinary:
 		return binaryUpgrade(ctx, r, profile)
 	case update.InstallScript:
-		// GGA's install.sh expects to run from within a cloned repo — it references
-		// $SCRIPT_DIR/bin/gga and $SCRIPT_DIR/lib/*.sh. The generic scriptUpgrade
+		// Dxrk's install.sh expects to run from within a cloned repo — it references
+		// $SCRIPT_DIR/bin/dxrk and $SCRIPT_DIR/lib/*.sh. The generic scriptUpgrade
 		// only downloads and runs the script in isolation (bash -c <content>), which
 		// breaks because those relative paths don't exist. Use the git clone approach
-		// (same as the initial install resolver) for GGA specifically.
-		if r.Tool.Name == "gga" {
-			return ggaScriptUpgrade(ctx, r)
+		// (same as the initial install resolver) for Dxrk specifically.
+		if r.Tool.Name == "dxrk" {
+			return dxrkScriptUpgrade(ctx, r)
 		}
 		return scriptUpgrade(ctx, r, profile)
 	default:
 		return &ManualFallbackError{
-			Hint: fmt.Sprintf("upgrade %q: unsupported install method %q — please update manually. See: https://github.com/Gentleman-Programming/%s",
+			Hint: fmt.Sprintf("upgrade %q: unsupported install method %q — please update manually. See: https://github.com/dxrk/%s",
 				r.Tool.Name, method, r.Tool.Repo),
 		}
 	}
@@ -122,7 +122,7 @@ func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.Pl
 		// with an actionable hint — NOT as UpgradeFailed.
 		hint := r.UpdateHint
 		if hint == "" {
-			hint = fmt.Sprintf("Download manually from https://github.com/Gentleman-Programming/%s/releases", r.Tool.Repo)
+			hint = fmt.Sprintf("Download manually from https://github.com/dxrk/%s/releases", r.Tool.Repo)
 		}
 		return &ManualFallbackError{
 			Hint: fmt.Sprintf("upgrade %q on Windows requires manual update: %s", r.Tool.Name, hint),
@@ -169,7 +169,7 @@ func installScriptURL(owner, repo string) string {
 }
 
 // scriptUpgrade downloads and executes the project's install.sh via curl | bash.
-// This is used for tools that distribute via shell scripts (e.g., GGA) rather than
+// This is used for tools that distribute via shell scripts (e.g., Dxrk) rather than
 // pre-built release binary assets.
 //
 // The script is downloaded to a temp file, then executed with bash and stdin set to nil
@@ -221,21 +221,21 @@ func scriptUpgrade(ctx context.Context, r update.UpdateResult, profile system.Pl
 	return nil
 }
 
-// ggaTmpDir is the directory used for GGA git clone during upgrades.
+// dxrkTmpDir is the directory used for Dxrk git clone during upgrades.
 // Package-level var for testability.
-var ggaTmpDir = "/tmp/gentleman-guardian-angel"
+var dxrkTmpDir = "/tmp/Dxrk-guardian-angel"
 
-// ggaScriptUpgrade upgrades GGA by cloning its repository and running install.sh
+// dxrkScriptUpgrade upgrades Dxrk by cloning its repository and running install.sh
 // from within the cloned repo — the same approach used by the initial install resolver.
 //
-// This is required because GGA's install.sh references $SCRIPT_DIR/bin/gga and
+// This is required because Dxrk's install.sh references $SCRIPT_DIR/bin/dxrk and
 // $SCRIPT_DIR/lib/*.sh (relative to the cloned repo). The generic scriptUpgrade
 // downloads and runs the script in isolation via `bash -c <content>`, which fails
 // because those relative paths don't exist without the full repo context.
 //
 // On Windows, bash is not available — returns ManualFallbackError.
-func ggaScriptUpgrade(ctx context.Context, r update.UpdateResult) error {
-	return ggaScriptUpgradeForOS(ctx, r, detectOS())
+func dxrkScriptUpgrade(ctx context.Context, r update.UpdateResult) error {
+	return dxrkScriptUpgradeForOS(ctx, r, detectOS())
 }
 
 // detectOS returns the current runtime OS name. Package-level var for testability.
@@ -243,9 +243,9 @@ var detectOS = func() string {
 	return runtime.GOOS
 }
 
-// ggaScriptUpgradeForOS is the testable version of ggaScriptUpgrade that accepts
+// dxrkScriptUpgradeForOS is the testable version of dxrkScriptUpgrade that accepts
 // an explicit OS string so tests can simulate Windows without actually running on it.
-func ggaScriptUpgradeForOS(ctx context.Context, r update.UpdateResult, osName string) error {
+func dxrkScriptUpgradeForOS(ctx context.Context, r update.UpdateResult, osName string) error {
 	if osName == "windows" {
 		hint := r.UpdateHint
 		if hint == "" {
@@ -256,7 +256,7 @@ func ggaScriptUpgradeForOS(ctx context.Context, r update.UpdateResult, osName st
 		}
 	}
 
-	tmpDir := ggaTmpDir
+	tmpDir := dxrkTmpDir
 
 	// Clean up any previous clone to ensure a fresh state.
 	os.RemoveAll(tmpDir)

@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 func TestValidateGoForModuleInstall(t *testing.T) {
@@ -274,8 +274,8 @@ func TestGitBashPathFallsBackToBareWhenNoGit(t *testing.T) {
 
 func TestBashScriptPathWindowsUsesForwardSlashes(t *testing.T) {
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
-	got := bashScriptPath(profile, `C:\Users\jorge\AppData\Local\Temp\gentleman-guardian-angel\install.sh`)
-	want := "C:/Users/jorge/AppData/Local/Temp/gentleman-guardian-angel/install.sh"
+	got := bashScriptPath(profile, `C:\Users\jorge\AppData\Local\Temp\Dxrk-guardian-angel\install.sh`)
+	want := "C:/Users/jorge/AppData/Local/Temp/Dxrk-guardian-angel/install.sh"
 	if got != want {
 		t.Fatalf("bashScriptPath() = %q, want %q", got, want)
 	}
@@ -409,7 +409,7 @@ func TestResolveComponentInstall(t *testing.T) {
 			name:      "engram on darwin uses brew tap and install",
 			profile:   system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
 			component: model.ComponentEngram,
-			want:      CommandSequence{{"brew", "tap", "Gentleman-Programming/homebrew-tap"}, {"brew", "install", "engram"}},
+			want:      CommandSequence{{"brew", "tap", "Dxrk/homebrew-tap"}, {"brew", "install", "engram"}},
 		},
 		// Linux and Windows engram now use DownloadLatestBinary() — resolver returns error.
 		// These cases are handled by run.go's componentApplyStep directly.
@@ -432,39 +432,39 @@ func TestResolveComponentInstall(t *testing.T) {
 			wantErr:   true,
 		},
 		{
-			name:      "gga on darwin uses brew tap and reinstall",
+			name:      "dxrk on darwin uses brew tap and reinstall",
 			profile:   system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
-			component: model.ComponentGGA,
-			want:      CommandSequence{{"brew", "tap", "Gentleman-Programming/homebrew-tap"}, {"brew", "reinstall", "gga"}},
+			component: model.ComponentDxrk,
+			want:      CommandSequence{{"brew", "tap", "Dxrk/homebrew-tap"}, {"brew", "reinstall", "dxrk"}},
 		},
 		{
-			name:      "gga on ubuntu uses git clone and install.sh",
+			name:      "dxrk on ubuntu uses git clone and install.sh",
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroUbuntu, PackageManager: "apt"},
-			component: model.ComponentGGA,
+			component: model.ComponentDxrk,
 			want: CommandSequence{
-				{"rm", "-rf", "/tmp/gentleman-guardian-angel"},
-				{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", "/tmp/gentleman-guardian-angel"},
-				{"bash", "/tmp/gentleman-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/Dxrk-guardian-angel"},
+				{"git", "clone", "https://github.com/dxrk/Dxrk-guardian-angel.git", "/tmp/Dxrk-guardian-angel"},
+				{"bash", "/tmp/Dxrk-guardian-angel/install.sh"},
 			},
 		},
 		{
-			name:      "gga on arch uses git clone and install.sh",
+			name:      "dxrk on arch uses git clone and install.sh",
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroArch, PackageManager: "pacman"},
-			component: model.ComponentGGA,
+			component: model.ComponentDxrk,
 			want: CommandSequence{
-				{"rm", "-rf", "/tmp/gentleman-guardian-angel"},
-				{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", "/tmp/gentleman-guardian-angel"},
-				{"bash", "/tmp/gentleman-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/Dxrk-guardian-angel"},
+				{"git", "clone", "https://github.com/dxrk/Dxrk-guardian-angel.git", "/tmp/Dxrk-guardian-angel"},
+				{"bash", "/tmp/Dxrk-guardian-angel/install.sh"},
 			},
 		},
 		{
-			name:      "gga on fedora uses git clone and install.sh",
+			name:      "dxrk on fedora uses git clone and install.sh",
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroFedora, PackageManager: "dnf"},
-			component: model.ComponentGGA,
+			component: model.ComponentDxrk,
 			want: CommandSequence{
-				{"rm", "-rf", "/tmp/gentleman-guardian-angel"},
-				{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", "/tmp/gentleman-guardian-angel"},
-				{"bash", "/tmp/gentleman-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/Dxrk-guardian-angel"},
+				{"git", "clone", "https://github.com/dxrk/Dxrk-guardian-angel.git", "/tmp/Dxrk-guardian-angel"},
+				{"bash", "/tmp/Dxrk-guardian-angel/install.sh"},
 			},
 		},
 		{
@@ -474,13 +474,13 @@ func TestResolveComponentInstall(t *testing.T) {
 			wantErr:   true,
 		},
 		{
-			name:      "gga on windows cleans temp dir and uses git bash",
+			name:      "dxrk on windows cleans temp dir and uses git bash",
 			profile:   system.PlatformProfile{OS: "windows", PackageManager: "winget"},
-			component: model.ComponentGGA,
+			component: model.ComponentDxrk,
 			want: CommandSequence{
-				{"powershell", "-NoProfile", "-Command", fmt.Sprintf("Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '%s'; exit 0", filepath.Join(os.TempDir(), "gentleman-guardian-angel"))},
-				{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", filepath.Join(os.TempDir(), "gentleman-guardian-angel")},
-				{gitBashPath(), bashScriptPath(system.PlatformProfile{OS: "windows"}, filepath.Join(os.TempDir(), "gentleman-guardian-angel", "install.sh"))},
+				{"powershell", "-NoProfile", "-Command", fmt.Sprintf("Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '%s'; exit 0", filepath.Join(os.TempDir(), "Dxrk-guardian-angel"))},
+				{"git", "clone", "https://github.com/dxrk/Dxrk-guardian-angel.git", filepath.Join(os.TempDir(), "Dxrk-guardian-angel")},
+				{gitBashPath(), bashScriptPath(system.PlatformProfile{OS: "windows"}, filepath.Join(os.TempDir(), "Dxrk-guardian-angel", "install.sh"))},
 			},
 		},
 		{

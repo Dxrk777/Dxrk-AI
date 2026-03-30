@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/catalog"
+	"github.com/dxrk/dxrk/internal/model"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
 type InstallInput struct {
@@ -58,11 +58,11 @@ func NormalizeInstallFlags(flags InstallFlags, detection system.DetectionResult)
 
 func normalizePersona(value string) (model.PersonaID, error) {
 	if strings.TrimSpace(value) == "" {
-		return model.PersonaGentleman, nil
+		return model.PersonaDxrk, nil
 	}
 
 	switch model.PersonaID(value) {
-	case model.PersonaGentleman, model.PersonaNeutral, model.PersonaCustom:
+	case model.PersonaDxrk, model.PersonaNeutral, model.PersonaCustom:
 		return model.PersonaID(value), nil
 	default:
 		return "", fmt.Errorf("unsupported persona %q", value)
@@ -71,11 +71,11 @@ func normalizePersona(value string) (model.PersonaID, error) {
 
 func normalizePreset(value string) (model.PresetID, error) {
 	if strings.TrimSpace(value) == "" {
-		return model.PresetFullGentleman, nil
+		return model.PresetFullDxrk, nil
 	}
 
 	switch model.PresetID(value) {
-	case model.PresetFullGentleman, model.PresetEcosystemOnly, model.PresetMinimal, model.PresetCustom:
+	case model.PresetFullDxrk, model.PresetEcosystemOnly, model.PresetMinimal, model.PresetCustom:
 		return model.PresetID(value), nil
 	default:
 		return "", fmt.Errorf("unsupported preset %q", value)
@@ -144,7 +144,7 @@ func componentsForPreset(preset model.PresetID) []model.ComponentID {
 	case model.PresetMinimal:
 		return []model.ComponentID{model.ComponentEngram}
 	case model.PresetEcosystemOnly:
-		return []model.ComponentID{model.ComponentEngram, model.ComponentSDD, model.ComponentSkills, model.ComponentContext7, model.ComponentGGA}
+		return []model.ComponentID{model.ComponentEngram, model.ComponentSDD, model.ComponentSkills, model.ComponentContext7, model.ComponentDxrk}
 	case model.PresetCustom:
 		return nil
 	default:
@@ -155,7 +155,7 @@ func componentsForPreset(preset model.PresetID) []model.ComponentID {
 			model.ComponentContext7,
 			model.ComponentPersona,
 			model.ComponentPermission,
-			model.ComponentGGA,
+			model.ComponentDxrk,
 		}
 	}
 }

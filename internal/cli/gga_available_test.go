@@ -5,35 +5,35 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/dxrk/dxrk/internal/system"
 )
 
-// TestGGAAvailableDetectsViaLookPath verifies that ggaAvailable returns true
-// when gga is found on PATH via cmdLookPath.
-func TestGGAAvailableDetectsViaLookPath(t *testing.T) {
+// TestDxrkAvailableDetectsViaLookPath verifies that dxrkAvailable returns true
+// when dxrk is found on PATH via cmdLookPath.
+func TestDxrkAvailableDetectsViaLookPath(t *testing.T) {
 	origLookPath := cmdLookPath
 	cmdLookPath = func(file string) (string, error) {
-		if file == "gga" {
-			return "/usr/local/bin/gga", nil
+		if file == "dxrk" {
+			return "/usr/local/bin/dxrk", nil
 		}
 		return "", os.ErrNotExist
 	}
 	t.Cleanup(func() { cmdLookPath = origLookPath })
 
-	if !ggaAvailable(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}) {
-		t.Fatal("ggaAvailable() = false, want true when gga is on PATH")
+	if !dxrkAvailable(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}) {
+		t.Fatal("dxrkAvailable() = false, want true when dxrk is on PATH")
 	}
 }
 
-// TestGGAAvailableDetectsViaLocalBin verifies that ggaAvailable returns true
-// when gga exists at ~/.local/bin/gga (default for install.sh on Linux/macOS).
-func TestGGAAvailableDetectsViaLocalBin(t *testing.T) {
+// TestDxrkAvailableDetectsViaLocalBin verifies that dxrkAvailable returns true
+// when dxrk exists at ~/.local/bin/dxrk (default for install.sh on Linux/macOS).
+func TestDxrkAvailableDetectsViaLocalBin(t *testing.T) {
 	tmpHome := t.TempDir()
 	localBin := filepath.Join(tmpHome, ".local", "bin")
 	if err := os.MkdirAll(localBin, 0o755); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join(localBin, "gga"), []byte("fake"), 0o755); err != nil {
+	if err := os.WriteFile(filepath.Join(localBin, "dxrk"), []byte("fake"), 0o755); err != nil {
 		t.Fatal(err)
 	}
 
@@ -49,16 +49,16 @@ func TestGGAAvailableDetectsViaLocalBin(t *testing.T) {
 		osStat = origStat
 	})
 
-	if !ggaAvailable(system.PlatformProfile{OS: "linux", PackageManager: "apt"}) {
-		t.Fatal("ggaAvailable() = false, want true when gga is at ~/.local/bin/gga")
+	if !dxrkAvailable(system.PlatformProfile{OS: "linux", PackageManager: "apt"}) {
+		t.Fatal("dxrkAvailable() = false, want true when dxrk is at ~/.local/bin/dxrk")
 	}
 }
 
-// TestGGAAvailableDetectsViaHomebrewOptPrefix verifies that ggaAvailable returns
-// true when gga exists at /opt/homebrew/bin/gga (Apple Silicon Homebrew default).
-func TestGGAAvailableDetectsViaHomebrewOptPrefix(t *testing.T) {
+// TestDxrkAvailableDetectsViaHomebrewOptPrefix verifies that dxrkAvailable returns
+// true when dxrk exists at /opt/homebrew/bin/dxrk (Apple Silicon Homebrew default).
+func TestDxrkAvailableDetectsViaHomebrewOptPrefix(t *testing.T) {
 	tmpDir := t.TempDir()
-	fakeOptHomebrew := filepath.Join(tmpDir, "opt", "homebrew", "bin", "gga")
+	fakeOptHomebrew := filepath.Join(tmpDir, "opt", "homebrew", "bin", "dxrk")
 	if err := os.MkdirAll(filepath.Dir(fakeOptHomebrew), 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -74,9 +74,9 @@ func TestGGAAvailableDetectsViaHomebrewOptPrefix(t *testing.T) {
 	// Override osStat to redirect well-known brew paths to our temp dir.
 	osStat = func(name string) (os.FileInfo, error) {
 		switch name {
-		case "/opt/homebrew/bin/gga":
+		case "/opt/homebrew/bin/dxrk":
 			return os.Stat(fakeOptHomebrew)
-		case "/usr/local/bin/gga":
+		case "/usr/local/bin/dxrk":
 			return nil, os.ErrNotExist
 		default:
 			return os.Stat(name)
@@ -88,14 +88,14 @@ func TestGGAAvailableDetectsViaHomebrewOptPrefix(t *testing.T) {
 		osStat = origStat
 	})
 
-	if !ggaAvailable(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}) {
-		t.Fatal("ggaAvailable() = false, want true when gga is at /opt/homebrew/bin/gga")
+	if !dxrkAvailable(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}) {
+		t.Fatal("dxrkAvailable() = false, want true when dxrk is at /opt/homebrew/bin/dxrk")
 	}
 }
 
-// TestGGAAvailableDetectsViaHomebrewUsrLocalPrefix verifies that ggaAvailable
-// returns true when gga exists at /usr/local/bin/gga (Intel Mac Homebrew default).
-func TestGGAAvailableDetectsViaHomebrewUsrLocalPrefix(t *testing.T) {
+// TestDxrkAvailableDetectsViaHomebrewUsrLocalPrefix verifies that dxrkAvailable
+// returns true when dxrk exists at /usr/local/bin/dxrk (Intel Mac Homebrew default).
+func TestDxrkAvailableDetectsViaHomebrewUsrLocalPrefix(t *testing.T) {
 	origLookPath := cmdLookPath
 	origHomeDir := osUserHomeDir
 	origStat := osStat
@@ -103,10 +103,10 @@ func TestGGAAvailableDetectsViaHomebrewUsrLocalPrefix(t *testing.T) {
 	osUserHomeDir = func() (string, error) { return t.TempDir(), nil }
 	osStat = func(name string) (os.FileInfo, error) {
 		switch name {
-		case "/opt/homebrew/bin/gga":
+		case "/opt/homebrew/bin/dxrk":
 			return nil, os.ErrNotExist
-		case "/usr/local/bin/gga":
-			// Simulate gga present here.
+		case "/usr/local/bin/dxrk":
+			// Simulate dxrk present here.
 			return os.Stat(os.DevNull)
 		default:
 			return nil, os.ErrNotExist
@@ -118,14 +118,14 @@ func TestGGAAvailableDetectsViaHomebrewUsrLocalPrefix(t *testing.T) {
 		osStat = origStat
 	})
 
-	if !ggaAvailable(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}) {
-		t.Fatal("ggaAvailable() = false, want true when gga is at /usr/local/bin/gga")
+	if !dxrkAvailable(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}) {
+		t.Fatal("dxrkAvailable() = false, want true when dxrk is at /usr/local/bin/dxrk")
 	}
 }
 
-// TestGGAAvailableReturnsFalseWhenNotFound verifies that ggaAvailable returns
-// false when gga is not found via any detection path.
-func TestGGAAvailableReturnsFalseWhenNotFound(t *testing.T) {
+// TestDxrkAvailableReturnsFalseWhenNotFound verifies that dxrkAvailable returns
+// false when dxrk is not found via any detection path.
+func TestDxrkAvailableReturnsFalseWhenNotFound(t *testing.T) {
 	origLookPath := cmdLookPath
 	origHomeDir := osUserHomeDir
 	origStat := osStat
@@ -138,16 +138,16 @@ func TestGGAAvailableReturnsFalseWhenNotFound(t *testing.T) {
 		osStat = origStat
 	})
 
-	if ggaAvailable(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}) {
-		t.Fatal("ggaAvailable() = true, want false when gga is not installed anywhere")
+	if dxrkAvailable(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}) {
+		t.Fatal("dxrkAvailable() = true, want false when dxrk is not installed anywhere")
 	}
 }
 
-// TestGGAAvailableBrewPathsSkippedOnLinux verifies that the Homebrew-specific
-// paths (/opt/homebrew/bin/gga, /usr/local/bin/gga) are NOT checked on Linux
+// TestDxrkAvailableBrewPathsSkippedOnLinux verifies that the Homebrew-specific
+// paths (/opt/homebrew/bin/dxrk, /usr/local/bin/dxrk) are NOT checked on Linux
 // even if those paths happen to exist (they never exist there in practice, but
 // the guard ensures no cross-platform false positives).
-func TestGGAAvailableBrewPathsSkippedOnLinux(t *testing.T) {
+func TestDxrkAvailableBrewPathsSkippedOnLinux(t *testing.T) {
 	origLookPath := cmdLookPath
 	origHomeDir := osUserHomeDir
 	origStat := osStat
@@ -156,7 +156,7 @@ func TestGGAAvailableBrewPathsSkippedOnLinux(t *testing.T) {
 
 	statCallCount := 0
 	osStat = func(name string) (os.FileInfo, error) {
-		if name == "/opt/homebrew/bin/gga" || name == "/usr/local/bin/gga" {
+		if name == "/opt/homebrew/bin/dxrk" || name == "/usr/local/bin/dxrk" {
 			statCallCount++
 		}
 		return nil, os.ErrNotExist
@@ -167,8 +167,8 @@ func TestGGAAvailableBrewPathsSkippedOnLinux(t *testing.T) {
 		osStat = origStat
 	})
 
-	ggaAvailable(system.PlatformProfile{OS: "linux", PackageManager: "apt"})
+	dxrkAvailable(system.PlatformProfile{OS: "linux", PackageManager: "apt"})
 	if statCallCount > 0 {
-		t.Fatalf("ggaAvailable() checked Homebrew paths on Linux (%d calls), expected 0", statCallCount)
+		t.Fatalf("dxrkAvailable() checked Homebrew paths on Linux (%d calls), expected 0", statCallCount)
 	}
 }

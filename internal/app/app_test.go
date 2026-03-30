@@ -9,15 +9,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/dxrk/dxrk/internal/backup"
+	"github.com/dxrk/dxrk/internal/model"
 )
 
 // TestListBackupsNewestFirst verifies that ListBackups returns manifests sorted
 // newest-first by CreatedAt timestamp, matching the spec "newest first" ordering.
 func TestListBackupsNewestFirst(t *testing.T) {
 	home := t.TempDir()
-	backupRoot := filepath.Join(home, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
 	older := backup.Manifest{
 		ID:        "older",
@@ -67,7 +67,7 @@ func TestListBackupsNewestFirst(t *testing.T) {
 // with Source metadata intact, so display labels can use the source field.
 func TestListBackupsWithSourceMetadata(t *testing.T) {
 	home := t.TempDir()
-	backupRoot := filepath.Join(home, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
 	m := backup.Manifest{
 		ID:          "test-with-source",
@@ -105,7 +105,7 @@ func TestListBackupsWithSourceMetadata(t *testing.T) {
 	}
 }
 
-// TestRunArgsRestoreListIsDispatched verifies that `gentle-ai restore --list`
+// TestRunArgsRestoreListIsDispatched verifies that `dxrk restore --list`
 // is correctly dispatched through RunArgs and produces a meaningful response
 // (either a backup list or a "no backups" message — never "unknown command").
 func TestRunArgsRestoreListIsDispatched(t *testing.T) {
@@ -135,7 +135,7 @@ func TestRunArgsRestoreListIsDispatched(t *testing.T) {
 // through app.RunArgs.
 func TestRunArgsRestoreByIDWithYes(t *testing.T) {
 	home := t.TempDir()
-	backupRoot := filepath.Join(home, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
 	// Create a backup with a real file entry so restore can succeed.
 	sourceFile := filepath.Join(home, "config.md")
@@ -205,7 +205,7 @@ func TestRunArgsRestoreUnknownIDReturnsError(t *testing.T) {
 func TestListBackupsFallsBackGracefullyForOldManifests(t *testing.T) {
 	_ = fmt.Sprintf // Ensure fmt is used.
 	home := t.TempDir()
-	backupRoot := filepath.Join(home, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
 	// Write a manifest with no Source/Description.
 	m := backup.Manifest{
