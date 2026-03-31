@@ -26,6 +26,7 @@ func WelcomeOptions(updateResults []update.UpdateResult, updateCheckDone bool) [
 		"Manage backups",
 		"🔐 Vault",
 		"🧠 Memory",
+		"🔗 Remote Connect",
 		"Quit",
 	}
 }

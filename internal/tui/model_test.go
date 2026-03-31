@@ -838,12 +838,12 @@ func TestWelcomeMenu_BackupsNavigation(t *testing.T) {
 	}
 }
 
-// TestWelcomeMenu_OptionCount verifies the welcome menu has exactly 9 items.
+// TestWelcomeMenu_OptionCount verifies the welcome menu has exactly 10 items.
 func TestWelcomeMenu_OptionCount(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	opts := screens.WelcomeOptions(m.UpdateResults, m.UpdateCheckDone)
-	if len(opts) != 9 {
-		t.Fatalf("WelcomeOptions() len = %d, want 9; got %v", len(opts), opts)
+	if len(opts) != 10 {
+		t.Fatalf("WelcomeOptions() len = %d, want 10; got %v", len(opts), opts)
 	}
 }
 
