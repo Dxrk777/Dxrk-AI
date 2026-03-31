@@ -33,9 +33,9 @@ import (
 // - Cada release sube el porcentaje según las features agregadas
 // - 000.01% = Initial Release
 // - 100.00% = MVP Achieved
-// Tag is the semantic version tag (v0.0.2)
-// Display is what the user sees (000.02%)
-var version = "000.02%"
+// Tag is the semantic version tag (v0.0.3)
+// Display is what the user sees (000.03%)
+var version = "000.03%"
 
 // =============================================================================
 // Función Principal
