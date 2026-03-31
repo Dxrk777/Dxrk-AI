@@ -2,25 +2,26 @@ package styles
 
 import "github.com/charmbracelet/lipgloss"
 
-// HexGothic color palette - Gótico
+// HexGothic color palette - GOTHIC BLOOD
 var (
-	ColorBase       = lipgloss.Color("#0a0a0a") // Negro profundo
-	ColorSurface    = lipgloss.Color("#141414") // Negro gótico
-	ColorOverlay    = lipgloss.Color("#2a0a2a") // Púrpura oscuro
-	ColorText       = lipgloss.Color("#d0d0d0") // Gris claro
-	ColorSubtext    = lipgloss.Color("#808080") // Gris medio
-	ColorLavender   = lipgloss.Color("#8b0000") // Rojo sangre oscuro
-	ColorGreen      = lipgloss.Color("#556b2f") // Verde oliva oscuro
-	ColorPeach      = lipgloss.Color("#cd853f") // Bronce
-	ColorRed        = lipgloss.Color("#b22222") // Rojo fuego
-	ColorBlue       = lipgloss.Color("#4a0080") // Púrpura profundo
-	ColorMauve      = lipgloss.Color("#8b008b") // Púrpura oscuro
-	ColorYellow     = lipgloss.Color("#daa520") // Dorado antiguo
-	ColorTeal       = lipgloss.Color("#008080") // Verde azulado oscuro
-	ColorHotPink    = lipgloss.Color("#800050") // Rojo vino
-	ColorDeepPurple = lipgloss.Color("#330033") // Púrpura negro
-	ColorCrimson    = lipgloss.Color("#990000") // Rojo carmesí oscuro
-	ColorMagenta    = lipgloss.Color("#800040") // Rojo oscuro
+	ColorBase    = lipgloss.Color("#0a0a0a") // Negro profundo
+	ColorSurface = lipgloss.Color("#141414") // Negro gótico
+	ColorOverlay = lipgloss.Color("#2a0a2a") // Púrpura oscuro
+	ColorText    = lipgloss.Color("#ffffff") // Blanco puro
+	ColorSubtext = lipgloss.Color("#cccccc") // Gris claro
+
+	// Gothic Blood Colors - Visibles y Variados
+	ColorDeepPurple  = lipgloss.Color("#330066") // Púrpura oscuro
+	ColorForestGreen = lipgloss.Color("#006633") // Verde bosque
+	ColorDarkTeal    = lipgloss.Color("#005555") // Verde azulado oscuro
+	ColorBurgundy    = lipgloss.Color("#800040") // Burdeos
+	ColorBlood       = lipgloss.Color("#aa0033") // Rojo sangre
+	ColorDarkRose    = lipgloss.Color("#cc2255") // Rosa oscuro
+	ColorCrimson     = lipgloss.Color("#ff3366") // Carmesí brillante
+
+	// Aliases para compatibilidad
+	ColorRed     = lipgloss.Color("#aa0033") // Rojo sangre
+	ColorMagenta = lipgloss.Color("#ff3366") // Carmesí
 )
 
 // Cursor is the prefix used for the currently focused item.
@@ -31,21 +32,21 @@ func Tagline(version string) string {
 	return "DXRK HEX " + version + " — Tu compañero digital 🔥"
 }
 
-// Pre-built reusable styles - GÓTICO
+// Pre-built reusable styles - GOTHIC BLOOD
 var (
 	TitleStyle = lipgloss.NewStyle().
 			Foreground(ColorMagenta).
 			Bold(true)
 
 	HeadingStyle = lipgloss.NewStyle().
-			Foreground(ColorLavender).
+			Foreground(ColorRed).
 			Bold(true)
 
 	HelpStyle = lipgloss.NewStyle().
 			Foreground(ColorSubtext)
 
 	SubtextStyle = lipgloss.NewStyle().
-			Foreground(ColorMauve)
+			Foreground(ColorBlood)
 
 	SelectedStyle = lipgloss.NewStyle().
 			Foreground(ColorCrimson).
@@ -55,17 +56,17 @@ var (
 			Foreground(ColorText)
 
 	SuccessStyle = lipgloss.NewStyle().
-			Foreground(ColorGreen)
+			Foreground(ColorDarkTeal)
 
 	ErrorStyle = lipgloss.NewStyle().
 			Foreground(ColorRed)
 
 	WarningStyle = lipgloss.NewStyle().
-			Foreground(ColorPeach)
+			Foreground(ColorBurgundy)
 
 	FrameStyle = lipgloss.NewStyle().
 			Border(lipgloss.DoubleBorder()).
-			BorderForeground(ColorDeepPurple).
+			BorderForeground(ColorMagenta).
 			Padding(1, 2)
 
 	PanelStyle = lipgloss.NewStyle().
@@ -74,7 +75,7 @@ var (
 			Padding(0, 1)
 
 	ProgressFilled = lipgloss.NewStyle().
-			Foreground(ColorLavender)
+			Foreground(ColorForestGreen)
 
 	ProgressEmpty = lipgloss.NewStyle().
 			Foreground(ColorSurface)

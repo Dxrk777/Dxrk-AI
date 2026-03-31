@@ -28,15 +28,15 @@ var logoLines = []string{
 	"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣿⣿⣿⣿⣿⣿⡧⣿⣿⣿⠿⠛⠀⠃⢸⢀⣙⡷⠀⡃⢀⣤⡧⣀⣀⣀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠁⠃⢰⣧⣿",
 }
 
-// gradientColors defines the gradient for the logo - GÓTICO
+// gradientColors defines the gradient for the logo - GOTHIC BLOOD
 var gradientColors = []lipgloss.Color{
-	ColorDeepPurple, // Púrpura negro (arriba)
-	ColorMagenta,    // Rojo oscuro
-	ColorLavender,   // Rojo sangre
-	ColorCrimson,    // Rojo carmesí
-	ColorMauve,      // Púrpura oscuro
-	ColorMagenta,    // Rojo oscuro
-	ColorDeepPurple, // Púrpura negro (abajo)
+	ColorDeepPurple,  // Púrpura oscuro (arriba)
+	ColorForestGreen, // Verde bosque
+	ColorDarkTeal,    // Verde azulado oscuro
+	ColorBurgundy,    // Burdeos
+	ColorBlood,       // Rojo sangre
+	ColorDarkRose,    // Rosa oscuro
+	ColorCrimson,     // Carmesí brillante (abajo)
 }
 
 // RenderLogo returns the braille ASCII logo with a gradient.
