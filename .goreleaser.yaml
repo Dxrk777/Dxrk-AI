@@ -2,11 +2,6 @@ version: 2
 
 project_name: dxrk
 
-# Disable semver validation for percentage versioning (000.02%)
-release:
-  tag_semver: false
-  tag_template: "{{ .Tag }}"
-
 before:
   hooks:
     - go mod tidy
