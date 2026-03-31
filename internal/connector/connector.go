@@ -21,6 +21,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/Dxrk777/Dxrk-Hex/internal/brain"
 )
 
 // Config holds connector configuration.
@@ -842,4 +844,54 @@ Categories:
 
 Skills are installed automatically with agents.
 Use GUI: Menu → Start installation`
+}
+
+// BrainIntegration provides AI-powered command processing.
+type BrainIntegration struct {
+	*brain.Brain
+	*brain.Commander
+	*brain.Emailer
+	*brain.Memory
+}
+
+// NewBrainIntegration creates a new Brain integration instance.
+func NewBrainIntegration(dataDir string, emailCfg brain.EmailConfig) (*BrainIntegration, error) {
+	mem, err := brain.NewMemory(dataDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to init memory: %w", err)
+	}
+
+	b := &BrainIntegration{
+		Brain:     brain.New(&brain.Config{MemoryDir: dataDir}),
+		Commander: brain.NewCommander(30 * time.Second),
+		Emailer:   brain.NewEmailer(emailCfg),
+		Memory:    mem,
+	}
+
+	return b, nil
+}
+
+// ProcessCommand processes a natural language command using the brain.
+func (bi *BrainIntegration) ProcessCommand(input string) string {
+	result := brain.Think(input, bi.Brain, bi.Commander, bi.Emailer, bi.Memory)
+	return result.Response
+}
+
+// ExecuteCommand runs a shell command.
+func (bi *BrainIntegration) ExecuteCommand(cmd string) *brain.CommandResult {
+	result, _ := bi.Commander.Execute(cmd)
+	return result
+}
+
+// SendEmail sends an email.
+func (bi *BrainIntegration) SendEmail(to []string, subject, body string) error {
+	return bi.Emailer.SendHTML(to, subject, body)
+}
+
+// GetHistory returns command history.
+func (bi *BrainIntegration) GetHistory(limit int) []brain.MemoryEntry {
+	if limit <= 0 {
+		limit = 20
+	}
+	return bi.Memory.Recent(limit)
 }
