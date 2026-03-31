@@ -11,8 +11,17 @@
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
 <img src="https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go&logoColor=white" alt="Go 1.24+">
 <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey" alt="Platform">
-<img src="https://img.shields.io/badge/Status-000.01%25%20Initial-5dfc8e" alt="Status">
+<img src="https://img.shields.io/badge/Status-DXRK%20INDEX-5dfc8e" alt="Status">
+<a href="https://github.com/Gentleman-Programming/gentle-ai/releases"><img src="https://img.shields.io/badge/Upstream-gentle--ai-blue" alt="gentle-ai upstream"></a>
 </p>
+
+> **📊 Dxrk Index System**: Dxrk Hex usa un sistema de versioning basado en porcentaje que sigue a [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) automáticamente. Cada release de gentle-ai incrementa el Dxrk Index.
+> 
+> | gentle-ai | Dxrk Hex | Incremento |
+> |------------|----------|------------|
+> | v1.15.6 | 045.27% | +0.05% (patch) |
+> | v1.16.0 | 045.82% | +0.50% (minor) |
+> | v2.0.0 | 055.82% | +10.00% (major) |
 
 </div>
 
