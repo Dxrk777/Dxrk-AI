@@ -344,10 +344,10 @@ func (c *Connector) executeInstall(args string) string {
 
 	agent := strings.ToLower(strings.TrimSpace(args))
 
-	// Map aliases
+	// Map aliases with detailed descriptions
 	agentMap := map[string]string{
 		"claude":      "Claude Code (Anthropic)",
-		"opencode":    "OpenCode (Dxrk Fork)",
+		"opencode":    "OpenCode PRO (Dxrk Fork) ⭐",
 		"cursor":      "Cursor AI",
 		"windsurf":    "Windsurf AI",
 		"codex":       "OpenAI Codex",
@@ -360,6 +360,32 @@ func (c *Connector) executeInstall(args string) string {
 	}
 
 	if fullName, ok := agentMap[agent]; ok {
+		// Special message for OpenCode
+		if agent == "opencode" {
+			return `🎯 OPENCODE PRO — Código Profesional
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Tu fork de Cursor con poder Dxrk!
+
+CARACTERÍSTICAS:
+  🔐 Vault — Encriptación AES-256
+  🧠 Memory — Historial + Engram
+  🔗 Remote — Telegram/Discord/WhatsApp
+  🧠 Skills — 60 patrones de código
+
+WORKFLOWS:
+  📋 SDD (Spec-Driven Development)
+  🏗️ Clean Architecture
+  🧪 Strict TDD Mode
+  ✅ Code Review automation
+
+INSTALACIÓN:
+  dxrk install opencode
+
+O usa GUI: Menu → Start installation → OpenCode`
+		}
+
 		return fmt.Sprintf(`📦 Install queued: %s
 
 Installation request received!
@@ -378,7 +404,7 @@ Available agents:
 
 Examples:
   /install claude
-  /install opencode
+  /install opencode  ← Recommended for PRO
   /install ollama`, agent, c.listAvailableAgents())
 }
 
@@ -386,9 +412,12 @@ Examples:
 func (c *Connector) listAvailableAgents() string {
 	return `🤖 Available Agents:
 
-CLI Tools:
+🎯 PROFESSIONAL (Recommended):
+  • opencode    — OpenCode PRO ★ (Tu fork Dxrk)
+    └─ SDD, Clean Arch, Vault, Memory
+
+📦 CLI Tools:
   • claude      — Anthropic Claude Code
-  • opencode    — OpenCode (Dxrk Fork)
   • cursor      — Cursor AI
   • windsurf    — Windsurf AI
   • codex       — OpenAI Codex
@@ -396,13 +425,13 @@ CLI Tools:
   • vscode      — VS Code + AI
   • antigravity — AGENT Framework
 
-LLM Providers:
-  • ollama     — Local LLM (free, offline)
-  • groq       — Free API (no key needed)
-  • deepseek   — Free API (no key needed)
+🆓 FREE LLM (No API key needed):
+  • ollama     — Local LLM (offline)
+  • groq       — Free API (fast)
+  • deepseek   — Free API (smart)
 
-Quick install: Just type the agent name!
-  Example: "claude" or "/install claude"`
+💡 For code professional → Use opencode
+   Quick: Just type "opencode" or "/install opencode"`
 }
 
 // executeUninstall handles uninstall command.
