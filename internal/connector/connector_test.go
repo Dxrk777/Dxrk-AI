@@ -266,6 +266,279 @@ func TestConnectorNotRunning(t *testing.T) {
 	}
 }
 
+func TestProcessCommand_Sync(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("sync")
+	if resp == "" {
+		t.Error("Expected sync response")
+	}
+}
+
+func TestProcessCommand_Update(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("update")
+	if resp == "" {
+		t.Error("Expected update response")
+	}
+}
+
+func TestProcessCommand_Memory(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("memory")
+	if resp == "" {
+		t.Error("Expected memory response")
+	}
+}
+
+func TestProcessCommand_Vault(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("vault")
+	if resp == "" {
+		t.Error("Expected vault response")
+	}
+}
+
+func TestProcessCommand_Remote(t *testing.T) {
+	c := New(&Config{})
+	resp := c.processCommand("remote")
+	if resp == "" {
+		t.Error("Expected remote response")
+	}
+}
+
+func TestProcessCommand_Skills(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("skills")
+	if resp == "" {
+		t.Error("Expected skills response")
+	}
+}
+
+func TestProcessCommand_Version(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("version")
+	if resp == "" {
+		t.Error("Expected version response")
+	}
+}
+
+func TestProcessCommand_VersionShort(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("v")
+	if resp == "" {
+		t.Error("Expected version short response")
+	}
+}
+
+func TestProcessCommand_VersionAlt(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("ver")
+	if resp == "" {
+		t.Error("Expected version alt response")
+	}
+}
+
+func TestProcessCommand_Backup(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("backup")
+	if resp == "" {
+		t.Error("Expected backup response")
+	}
+}
+
+func TestProcessCommand_Restore(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("restore")
+	if resp == "" {
+		t.Error("Expected restore response")
+	}
+}
+
+func TestProcessCommand_Agents(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("agentes")
+	if resp == "" {
+		t.Error("Expected agentes response")
+	}
+}
+
+func TestProcessCommand_Comandos(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("comandos")
+	if resp == "" {
+		t.Error("Expected comandos response")
+	}
+}
+
+func TestProcessCommand_StatusAlt(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("stat")
+	if resp == "" {
+		t.Error("Expected stat response")
+	}
+}
+
+func TestExecuteBackup(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeBackup()
+	if !contains(resp, "Backup") {
+		t.Error("Expected backup message")
+	}
+}
+
+func TestExecuteVersion(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeVersion()
+	if !contains(resp, "Dxrk") {
+		t.Error("Expected version message")
+	}
+	if !contains(resp, "000") {
+		t.Error("Expected version number")
+	}
+}
+
+func TestExecuteUpdate(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeUpdate()
+	if !contains(resp, "Update") {
+		t.Error("Expected update message")
+	}
+}
+
+func TestExecuteMemory(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeMemory()
+	if !contains(resp, "Memory") {
+		t.Error("Expected memory message")
+	}
+}
+
+func TestExecuteRemoteStatus(t *testing.T) {
+	c := New(&Config{Port: 8081})
+	resp := c.executeRemoteStatus()
+	if !contains(resp, "Remote") {
+		t.Error("Expected remote status message")
+	}
+}
+
+func TestExecuteSkills(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeSkills()
+	if !contains(resp, "Skills") {
+		t.Error("Expected skills message")
+	}
+	if !contains(resp, "60") {
+		t.Error("Expected 60+ skills mention")
+	}
+}
+
+func TestProcessCommand_Uninstall(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("uninstall claude")
+	if !contains(resp, "Uninstall") {
+		t.Error("Expected uninstall response")
+	}
+}
+
+func TestProcessCommand_Remove(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("remove ollama")
+	if !contains(resp, "Uninstall") {
+		t.Error("Expected remove response")
+	}
+}
+
+func TestProcessCommand_Rm(t *testing.T) {
+	c := &Connector{}
+	resp := c.processCommand("rm cursor")
+	if !contains(resp, "Uninstall") {
+		t.Error("Expected rm response")
+	}
+}
+
+func TestExecuteUninstall(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeUninstall("claude")
+	if !contains(resp, "claude") {
+		t.Error("Expected uninstall for claude")
+	}
+}
+
+func TestExecuteUninstallEmpty(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeUninstall("")
+	if !contains(resp, "Usage") {
+		t.Error("Expected usage message for empty args")
+	}
+}
+
+func TestExecuteInstall_Groq(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeInstall("groq")
+	if !contains(resp, "GROQ") {
+		t.Error("Expected groq message")
+	}
+	if !contains(resp, "gratis") {
+		t.Error("Expected free mention")
+	}
+}
+
+func TestExecuteInstall_Deepseek(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeInstall("deepseek")
+	if !contains(resp, "DEEPSEEK") {
+		t.Error("Expected deepseek message")
+	}
+}
+
+func TestExecuteInstall_Cursor(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeInstall("cursor")
+	if !contains(resp, "CURSOR") {
+		t.Error("Expected cursor message")
+	}
+}
+
+func TestExecuteInstall_Windsurf(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeInstall("windsurf")
+	if !contains(resp, "WIND") {
+		t.Error("Expected windsurf message")
+	}
+}
+
+func TestExecuteInstall_Gemini(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeInstall("gemini")
+	if !contains(resp, "GEMINI") {
+		t.Error("Expected gemini message")
+	}
+}
+
+func TestExecuteInstall_VSCode(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeInstall("vscode")
+	if !contains(resp, "VS CODE") {
+		t.Error("Expected vscode message")
+	}
+}
+
+func TestExecuteInstall_Antigravity(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeInstall("antigravity")
+	if !contains(resp, "ANTIGRAVITY") {
+		t.Error("Expected antigravity message")
+	}
+}
+
+func TestExecuteInstall_Codex(t *testing.T) {
+	c := &Connector{}
+	resp := c.executeInstall("codex")
+	if !contains(resp, "CODEX") {
+		t.Error("Expected codex message")
+	}
+}
+
 func contains(s, substr string) bool {
 	for i := 0; i <= len(s)-len(substr); i++ {
 		if s[i:i+len(substr)] == substr {
