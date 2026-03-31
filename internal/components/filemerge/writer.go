@@ -42,7 +42,11 @@ func WriteFileAtomic(path string, content []byte, perm fs.FileMode) (WriteResult
 		return WriteResult{}, fmt.Errorf("set write permission on directory for %q: %w", path, err)
 	}
 
+<<<<<<< HEAD
 	tmp, err := os.CreateTemp(dir, ".dxrk-*.tmp")
+=======
+	tmp, err := os.CreateTemp(dir, ".gentle-ai-*.tmp")
+>>>>>>> upstream/main
 	if err != nil {
 		return WriteResult{}, fmt.Errorf("create temp file for %q: %w", path, err)
 	}

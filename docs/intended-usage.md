@@ -4,23 +4,54 @@
 
 ---
 
+<<<<<<< HEAD
 This page explains how dxrk is meant to be used. Not the flags, not the architecture -- just the mental model. If you read one page besides the README, make it this one.
+=======
+This page explains how gentle-ai is meant to be used. Not the flags, not the architecture -- just the mental model. If you read one page besides the README, make it this one.
+>>>>>>> upstream/main
 
 ---
 
 ## After Installing -- You're Done
 
+<<<<<<< HEAD
 Once you run `dxrk` and select your agent(s), components, and preset, everything is configured. There is nothing else to do. No commands to memorize, no workflows to learn, no config files to edit.
+=======
+Once you run `gentle-ai` and select your agent(s), components, and preset, everything is configured. There is nothing else to do. No commands to memorize, no workflows to learn, no config files to edit.
+>>>>>>> upstream/main
 
 Open your AI agent and start working. That's it.
 
 ---
 
+<<<<<<< HEAD
 ## Engram (Memory) -- Don't Touch It
 
 Engram is persistent memory for your AI agent. It saves decisions, discoveries, bug fixes, and context across sessions -- automatically. The agent manages all of it.
 
 You never need to configure it, inspect it, or interact with it directly. If engram is working correctly, you won't even notice it's there. That's the point.
+=======
+## Engram (Memory) -- Automatic, But You CAN Use It
+
+Engram is persistent memory for your AI agent. It saves decisions, discoveries, bug fixes, and context across sessions -- automatically. The agent manages all of it via MCP tools (`mem_save`, `mem_search`, etc.).
+
+**Day-to-day: you don't need to do anything.** The agent handles memory automatically.
+
+**But engram has useful tools when you need them:**
+
+| Command | When to use |
+|---------|-------------|
+| `engram tui` | Browse your memories visually -- search, filter, drill into observations |
+| `engram sync` | Export project memories to `.engram/` for git tracking. Run after significant work sessions |
+| `engram sync --import` | Import memories on another machine after cloning a repo with `.engram/` |
+| `engram projects list` | See all projects with observation counts |
+| `engram projects consolidate` | Fix project name drift (e.g., "my-app" vs "My-App" vs "my-app-frontend") |
+| `engram search <query>` | Quick memory search from the terminal |
+
+Since v1.11.0, engram auto-detects the project name from git remote at startup, normalizes to lowercase, and warns if it finds similar existing project names. This prevents the name drift issue where the same project ends up with multiple name variants.
+
+For full documentation: [github.com/Gentleman-Programming/engram](https://github.com/Gentleman-Programming/engram)
+>>>>>>> upstream/main
 
 ---
 
@@ -47,7 +78,11 @@ For **all other agents** (Claude Code, Cursor, Gemini CLI, VS Code Copilot), SDD
 If you want multi-mode in OpenCode:
 
 1. Connect your AI providers in OpenCode first
+<<<<<<< HEAD
 2. Run the dxrk installer and select "multi" when prompted
+=======
+2. Run the gentle-ai installer and select "multi" when prompted
+>>>>>>> upstream/main
 
 If no providers are connected, you will only see single-mode as an option.
 
@@ -79,6 +114,7 @@ You don't need to configure any of this. The installer sets it up, and the orche
 
 ## Skills -- Two Layers
 
+<<<<<<< HEAD
 dxrk installs **SDD skills** and **foundation skills** (workflow, testing patterns) directly into your agent's skills directory. These are embedded in the binary and always up to date.
 
 For **coding skills** (React 19, Angular, TypeScript, Tailwind, Zod, Playwright, etc.), the community maintains a separate repository: [Dxrk/Dxrk-Skills](https://github.com/Dxrk777/Dxrk-Skills). You install those manually by cloning the repo and copying the skills you want:
@@ -87,6 +123,16 @@ For **coding skills** (React 19, Angular, TypeScript, Tailwind, Zod, Playwright,
 git clone https://github.com/Dxrk777/Dxrk-Skills.git
 cp -r Dxrk-Skills/curated/react-19 ~/.claude/skills/
 cp -r Dxrk-Skills/curated/typescript ~/.claude/skills/
+=======
+gentle-ai installs **SDD skills** and **foundation skills** (workflow, testing patterns) directly into your agent's skills directory. These are embedded in the binary and always up to date.
+
+For **coding skills** (React 19, Angular, TypeScript, Tailwind, Zod, Playwright, etc.), the community maintains a separate repository: [Gentleman-Programming/Gentleman-Skills](https://github.com/Gentleman-Programming/Gentleman-Skills). You install those manually by cloning the repo and copying the skills you want:
+
+```bash
+git clone https://github.com/Gentleman-Programming/Gentleman-Skills.git
+cp -r Gentleman-Skills/curated/react-19 ~/.claude/skills/
+cp -r Gentleman-Skills/curated/typescript ~/.claude/skills/
+>>>>>>> upstream/main
 # ... or copy the entire curated/ directory
 ```
 
@@ -108,9 +154,15 @@ There's also an automated side: `sdd-init` runs the same registry logic internal
 
 ## The Golden Rule
 
+<<<<<<< HEAD
 Dxrk is an ecosystem **configurator**. It sets up your AI agent with memory, skills, workflows, and a persona -- then gets out of the way.
 
 The less you think about dxrk after installing, the better it's working.
+=======
+Gentle AI is an ecosystem **configurator**. It sets up your AI agent with memory, skills, workflows, and a persona -- then gets out of the way.
+
+The less you think about gentle-ai after installing, the better it's working.
+>>>>>>> upstream/main
 
 ---
 
@@ -121,7 +173,11 @@ The less you think about dxrk after installing, the better it's working.
 | Run the installer, pick your agents and preset | Manually edit the generated config files |
 | Just start coding with your AI agent | Memorize SDD phases or commands |
 | Let the agent suggest SDD when a task is big enough | Force SDD on every small task |
+<<<<<<< HEAD
 | Trust that engram is saving context for you | Dig into engram's storage or try to manage it |
+=======
+| Trust that engram is saving context for you | Dig into engram's storage unless you need `engram sync` or `engram tui` |
+>>>>>>> upstream/main
 | Run `/skill-registry` after installing or changing skills | Forget to update the registry after adding new skills |
 | Say "use sdd" if you know you want structured planning | Worry about which SDD phase comes next |
 | Re-run the installer to update or change your setup | Manually patch skill files or persona instructions |

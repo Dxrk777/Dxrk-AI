@@ -5,7 +5,11 @@ description: >
   Trigger: When creating a pull request, opening a PR, or preparing changes for review.
 license: Apache-2.0
 metadata:
+<<<<<<< HEAD
   author: dxrk
+=======
+  author: gentleman-programming
+>>>>>>> upstream/main
   version: "2.0"
 ---
 

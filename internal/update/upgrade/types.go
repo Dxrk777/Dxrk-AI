@@ -3,7 +3,11 @@ package upgrade
 import (
 	"errors"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/update"
+>>>>>>> upstream/main
 )
 
 // ToolUpgradeStatus describes the outcome of a single tool upgrade attempt.

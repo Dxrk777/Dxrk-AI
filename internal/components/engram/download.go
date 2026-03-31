@@ -14,11 +14,19 @@ import (
 	"strings"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 const (
 	engramOwner = "Dxrk"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/system"
+)
+
+const (
+	engramOwner = "Gentleman-Programming"
+>>>>>>> upstream/main
 	engramRepo  = "engram"
 	engramName  = "engram"
 )

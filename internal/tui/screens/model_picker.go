@@ -5,9 +5,15 @@ import (
 	"sort"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/opencode"
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/gentleman-programming/gentle-ai/internal/opencode"
+	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+>>>>>>> upstream/main
 )
 
 // ModelPickerMode represents the current sub-mode of the model picker screen.
@@ -266,7 +272,11 @@ func renderPhaseList(
 	if len(state.AvailableIDs) == 0 {
 		b.WriteString(styles.WarningStyle.Render("OpenCode has not been run yet — model cache not found."))
 		b.WriteString("\n")
+<<<<<<< HEAD
 		b.WriteString(styles.SubtextStyle.Render("Run 'opencode' once, then re-run 'dxrk sync' to assign models."))
+=======
+		b.WriteString(styles.SubtextStyle.Render("Run 'opencode' once, then re-run 'gentle-ai sync' to assign models."))
+>>>>>>> upstream/main
 		b.WriteString("\n")
 		b.WriteString(styles.SubtextStyle.Render("Using default model assignments for now."))
 		b.WriteString("\n\n")

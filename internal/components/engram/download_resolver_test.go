@@ -4,7 +4,11 @@ import (
 	"strings"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/system"
+>>>>>>> upstream/main
 )
 
 // TestResolveEngramInstallNonBrewReturnsError verifies that after the fix,

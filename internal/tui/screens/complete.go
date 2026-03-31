@@ -30,7 +30,11 @@ type UpdateInfo struct {
 type CompletePayload struct {
 	ConfiguredAgents    int
 	InstalledComponents int
+<<<<<<< HEAD
 	DxrkInstalled        bool
+=======
+	GGAInstalled        bool
+>>>>>>> upstream/main
 	FailedSteps         []FailedStep
 	RollbackPerformed   bool
 	MissingDeps         []MissingDep
@@ -66,6 +70,7 @@ func renderCompleteSuccess(data CompletePayload) string {
 	b.WriteString(styles.UnselectedStyle.Render("  3. Try /sdd-new my-feature"))
 	b.WriteString("\n\n")
 
+<<<<<<< HEAD
 	if data.DxrkInstalled {
 		b.WriteString(styles.HeadingStyle.Render("Dxrk (per project)"))
 		b.WriteString("\n")
@@ -74,6 +79,16 @@ func renderCompleteSuccess(data CompletePayload) string {
 		b.WriteString(styles.UnselectedStyle.Render("  In each repo run: dxrk init"))
 		b.WriteString("\n")
 		b.WriteString(styles.UnselectedStyle.Render("  Then run: dxrk install"))
+=======
+	if data.GGAInstalled {
+		b.WriteString(styles.HeadingStyle.Render("GGA (per project)"))
+		b.WriteString("\n")
+		b.WriteString(styles.UnselectedStyle.Render("  GGA was installed globally."))
+		b.WriteString("\n")
+		b.WriteString(styles.UnselectedStyle.Render("  In each repo run: gga init"))
+		b.WriteString("\n")
+		b.WriteString(styles.UnselectedStyle.Render("  Then run: gga install"))
+>>>>>>> upstream/main
 		b.WriteString("\n\n")
 	}
 
@@ -151,7 +166,11 @@ func renderCompleteFailed(data CompletePayload) string {
 	b.WriteString("\n")
 	b.WriteString(styles.UnselectedStyle.Render("  2. Fix the underlying issue (missing deps, permissions, etc.)"))
 	b.WriteString("\n")
+<<<<<<< HEAD
 	b.WriteString(styles.UnselectedStyle.Render("  3. Run dxrk again to retry"))
+=======
+	b.WriteString(styles.UnselectedStyle.Render("  3. Run gentle-ai again to retry"))
+>>>>>>> upstream/main
 	b.WriteString("\n\n")
 
 	b.WriteString(styles.HelpStyle.Render("Press Enter to exit."))

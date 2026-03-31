@@ -6,9 +6,15 @@ import (
 	"strings"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
 	"github.com/Dxrk777/Dxrk-Hex/internal/verify"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/gentleman-programming/gentle-ai/internal/planner"
+	"github.com/gentleman-programming/gentle-ai/internal/verify"
+>>>>>>> upstream/main
 )
 
 func TestEngramPathGuidanceFish(t *testing.T) {
@@ -128,7 +134,11 @@ func TestWithGoInstallPathNoteSkipsWhenInPATH(t *testing.T) {
 func TestWithGoInstallPathNoteSkipsWithoutEngram(t *testing.T) {
 	report := verify.Report{Ready: true, FinalNote: "You're ready."}
 	resolved := planner.ResolvedPlan{
+<<<<<<< HEAD
 		OrderedComponents: []model.ComponentID{model.ComponentDxrk},
+=======
+		OrderedComponents: []model.ComponentID{model.ComponentGGA},
+>>>>>>> upstream/main
 		PlatformDecision:  planner.PlatformDecision{PackageManager: "apt"},
 	}
 

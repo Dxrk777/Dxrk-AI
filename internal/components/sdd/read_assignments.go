@@ -5,8 +5,13 @@ import (
 	"os"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/opencode"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/gentleman-programming/gentle-ai/internal/opencode"
+>>>>>>> upstream/main
 )
 
 // sddPhaseSet is the set of valid SDD phase agent names that may appear in

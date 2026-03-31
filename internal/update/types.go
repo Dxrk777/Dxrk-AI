@@ -24,13 +24,21 @@ const (
 	InstallBinary    InstallMethod = "binary"
 	// InstallScript downloads and executes the project's install.sh via pipe.
 	// Used for tools that distribute via shell scripts rather than pre-built binaries
+<<<<<<< HEAD
 	// (e.g., Dxrk which has no release binary assets).
+=======
+	// (e.g., GGA which has no release binary assets).
+>>>>>>> upstream/main
 	InstallScript InstallMethod = "script"
 )
 
 // ToolInfo describes a managed tool that can be checked for updates.
 type ToolInfo struct {
+<<<<<<< HEAD
 	Name          string        // human-readable name (e.g., "dxrk")
+=======
+	Name          string        // human-readable name (e.g., "gentle-ai")
+>>>>>>> upstream/main
 	Owner         string        // GitHub repository owner
 	Repo          string        // GitHub repository name
 	DetectCmd     []string      // command to detect installed version; nil = use build var

@@ -7,7 +7,11 @@
 ## Architecture
 
 ```
+<<<<<<< HEAD
 cmd/dxrk/             CLI entrypoint
+=======
+cmd/gentle-ai/             CLI entrypoint
+>>>>>>> upstream/main
 internal/
   app/                     Command dispatch + runtime wiring
   model/                   Domain types (agents, components, skills, presets, personas)
@@ -20,7 +24,11 @@ internal/
   backup/                  Config snapshot + restore
   assets/                  Embedded skill files + persona templates
   components/              Per-component install/inject logic
+<<<<<<< HEAD
     engram/  sdd/  skills/  mcp/  persona/  theme/  permissions/  dxrk/
+=======
+    engram/  sdd/  skills/  mcp/  persona/  theme/  permissions/  gga/
+>>>>>>> upstream/main
     filemerge/             Marker-based file merging (inject without clobbering)
   agents/                  Agent adapters (config strategy per agent)
     claude/  opencode/  gemini/  cursor/  vscode/  codex/  windsurf/  antigravity/
@@ -47,10 +55,17 @@ go test ./...
 RUN_FULL_E2E=1 RUN_BACKUP_TESTS=1 ./e2e/docker-test.sh
 
 # Dry-run smoke test (macOS/Linux)
+<<<<<<< HEAD
 dxrk install --dry-run --agent claude-code --preset minimal
 
 # Dry-run smoke test (Windows PowerShell)
 dxrk.exe install --dry-run --agent claude-code --preset minimal
+=======
+gentle-ai install --dry-run --agent claude-code --preset minimal
+
+# Dry-run smoke test (Windows PowerShell)
+gentle-ai.exe install --dry-run --agent claude-code --preset minimal
+>>>>>>> upstream/main
 ```
 
 Test coverage:
@@ -64,15 +79,25 @@ Test coverage:
 
 ---
 
+<<<<<<< HEAD
 ## Relationship to Dxrk.Dots
 
 | | Dxrk.Dots | AI Gentle Stack |
+=======
+## Relationship to Gentleman.Dots
+
+| | Gentleman.Dots | AI Gentle Stack |
+>>>>>>> upstream/main
 |--|---------------|-----------------|
 | **Purpose** | Dev environment (editors, shells, terminals) | AI development layer (agents, memory, skills) |
 | **Installs** | Neovim, Fish/Zsh, Tmux/Zellij, Ghostty | Configures Claude Code, OpenCode, Gemini CLI, Cursor, VS Code Copilot, Codex, Windsurf, Antigravity |
 | **Overlap** | None — complementary | None — different layer |
 
+<<<<<<< HEAD
 Install Dxrk.Dots first for your dev environment, then AI Gentle Stack for the AI layer on top.
+=======
+Install Gentleman.Dots first for your dev environment, then AI Gentle Stack for the AI layer on top.
+>>>>>>> upstream/main
 
 ---
 

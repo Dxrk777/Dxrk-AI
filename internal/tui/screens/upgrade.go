@@ -4,9 +4,15 @@ import (
 	"fmt"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+>>>>>>> upstream/main
 )
 
 // spinnerFrames are the unicode spinner animation frames used across screens.

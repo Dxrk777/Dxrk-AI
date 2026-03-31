@@ -44,8 +44,13 @@ func TestNormalizeInstallFlagsDefaults(t *testing.T) {
 
 	want := model.Selection{
 		Agents:  []model.AgentID{model.AgentClaudeCode, model.AgentOpenCode, model.AgentGeminiCLI, model.AgentCodex, model.AgentCursor, model.AgentVSCodeCopilot, model.AgentAntigravity, model.AgentWindsurf},
+<<<<<<< HEAD
 		Persona: model.PersonaDxrk,
 		Preset:  model.PresetFullDxrk,
+=======
+		Persona: model.PersonaGentleman,
+		Preset:  model.PresetFullGentleman,
+>>>>>>> upstream/main
 		Components: []model.ComponentID{
 			model.ComponentEngram,
 			model.ComponentSDD,

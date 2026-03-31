@@ -4,9 +4,15 @@ import (
 	"fmt"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+>>>>>>> upstream/main
 )
 
 // RenderUpgradeSync handles all states of the combined upgrade+sync screen.
@@ -75,7 +81,11 @@ func renderUpgradeSyncConfirm(results []update.UpdateResult, updateCheckDone boo
 
 	b.WriteString("  " + styles.WarningStyle.Render("1.") + " " + styles.HeadingStyle.Render("Upgrade tools"))
 	b.WriteString("\n")
+<<<<<<< HEAD
 	b.WriteString("     " + styles.SubtextStyle.Render("Updates dxrk, engram, and dxrk to latest versions"))
+=======
+	b.WriteString("     " + styles.SubtextStyle.Render("Updates gentle-ai, engram, and gga to latest versions"))
+>>>>>>> upstream/main
 	b.WriteString("\n\n")
 
 	b.WriteString("  " + styles.WarningStyle.Render("2.") + " " + styles.HeadingStyle.Render("Sync configurations"))

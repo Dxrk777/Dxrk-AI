@@ -11,12 +11,21 @@ import (
 	"testing"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 // missingBinaryLookPath simulates all installable binaries (engram, dxrk) as
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
+	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/gentleman-programming/gentle-ai/internal/system"
+)
+
+// missingBinaryLookPath simulates all installable binaries (engram, gga) as
+>>>>>>> upstream/main
 // missing. Go availability is no longer required for engram installation
 // (pre-built binaries are downloaded directly from GitHub Releases).
 func missingBinaryLookPath(name string) (string, error) {
@@ -865,7 +874,11 @@ func TestRunInstallEngramDefaultModeAttemptsClaudeSetup(t *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 func TestRunInstallDxrkSkipsInstallWhenAlreadyOnPath(t *testing.T) {
+=======
+func TestRunInstallGGASkipsInstallWhenAlreadyOnPath(t *testing.T) {
+>>>>>>> upstream/main
 	home := t.TempDir()
 	restoreHome := osUserHomeDir
 	restoreCommand := runCommand
@@ -885,7 +898,11 @@ func TestRunInstallDxrkSkipsInstallWhenAlreadyOnPath(t *testing.T) {
 
 	detection := macOSDetectionResult()
 	result, err := RunInstall(
+<<<<<<< HEAD
 		[]string{"--agent", "opencode", "--component", "dxrk"},
+=======
+		[]string{"--agent", "opencode", "--component", "gga"},
+>>>>>>> upstream/main
 		detection,
 	)
 	if err != nil {
@@ -896,6 +913,7 @@ func TestRunInstallDxrkSkipsInstallWhenAlreadyOnPath(t *testing.T) {
 		t.Fatalf("verification ready = false")
 	}
 
+<<<<<<< HEAD
 	// No brew/git clone commands for Dxrk should have been recorded.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "dxrk") || strings.Contains(cmd, "Dxrk-guardian-angel") {
@@ -907,13 +925,30 @@ func TestRunInstallDxrkSkipsInstallWhenAlreadyOnPath(t *testing.T) {
 	content, err := os.ReadFile(prModePath)
 	if err != nil {
 		t.Fatalf("expected dxrk runtime asset at %q: %v", prModePath, err)
+=======
+	// No brew/git clone commands for GGA should have been recorded.
+	for _, cmd := range recorder.get() {
+		if strings.Contains(cmd, "gga") || strings.Contains(cmd, "gentleman-guardian-angel") {
+			t.Fatalf("expected gga install to be skipped, but got command: %s", cmd)
+		}
+	}
+
+	prModePath := filepath.Join(home, ".local", "share", "gga", "lib", "pr_mode.sh")
+	content, err := os.ReadFile(prModePath)
+	if err != nil {
+		t.Fatalf("expected gga runtime asset at %q: %v", prModePath, err)
+>>>>>>> upstream/main
 	}
 	if !strings.Contains(string(content), "detect_base_branch") {
 		t.Fatalf("expected pr_mode.sh to contain detect_base_branch")
 	}
 }
 
+<<<<<<< HEAD
 func TestRunInstallDxrkLinuxIncludesTempCleanupBeforeClone(t *testing.T) {
+=======
+func TestRunInstallGGALinuxIncludesTempCleanupBeforeClone(t *testing.T) {
+>>>>>>> upstream/main
 	home := t.TempDir()
 	restoreHome := osUserHomeDir
 	restoreCommand := runCommand
@@ -926,7 +961,11 @@ func TestRunInstallDxrkLinuxIncludesTempCleanupBeforeClone(t *testing.T) {
 
 	osUserHomeDir = func() (string, error) { return home, nil }
 	cmdLookPath = func(name string) (string, error) {
+<<<<<<< HEAD
 		if name == "dxrk" {
+=======
+		if name == "gga" {
+>>>>>>> upstream/main
 			return "", exec.ErrNotFound
 		}
 		return "/usr/local/bin/" + name, nil
@@ -935,7 +974,11 @@ func TestRunInstallDxrkLinuxIncludesTempCleanupBeforeClone(t *testing.T) {
 	runCommand = recorder.record
 
 	result, err := RunInstall(
+<<<<<<< HEAD
 		[]string{"--agent", "opencode", "--component", "dxrk"},
+=======
+		[]string{"--agent", "opencode", "--component", "gga"},
+>>>>>>> upstream/main
 		linuxDetectionResult(system.LinuxDistroUbuntu, "apt"),
 	)
 	if err != nil {
@@ -949,17 +992,29 @@ func TestRunInstallDxrkLinuxIncludesTempCleanupBeforeClone(t *testing.T) {
 	cleanupIdx := -1
 	cloneIdx := -1
 	for i, cmd := range commands {
+<<<<<<< HEAD
 		if strings.Contains(cmd, "rm -rf /tmp/Dxrk-guardian-angel") {
 			cleanupIdx = i
 		}
 		if strings.Contains(cmd, "git clone https://github.com/dxrk/Dxrk-guardian-angel.git /tmp/Dxrk-guardian-angel") {
+=======
+		if strings.Contains(cmd, "rm -rf /tmp/gentleman-guardian-angel") {
+			cleanupIdx = i
+		}
+		if strings.Contains(cmd, "git clone https://github.com/Gentleman-Programming/gentleman-guardian-angel.git /tmp/gentleman-guardian-angel") {
+>>>>>>> upstream/main
 			cloneIdx = i
 		}
 	}
 
 	for _, cmd := range commands {
+<<<<<<< HEAD
 		if strings.Contains(cmd, "dxrk install") || strings.Contains(cmd, "dxrk init") {
 			t.Fatalf("expected global dxrk provisioning only, got repo-level command: %s", cmd)
+=======
+		if strings.Contains(cmd, "gga install") || strings.Contains(cmd, "gga init") {
+			t.Fatalf("expected global gga provisioning only, got repo-level command: %s", cmd)
+>>>>>>> upstream/main
 		}
 	}
 
@@ -1399,10 +1454,17 @@ func TestRunInstallUpgradeIdempotency(t *testing.T) {
 			orchestratorCount, content)
 	}
 
+<<<<<<< HEAD
 	// 3. No duplicate dxrk marker blocks — each section's open marker
 	// must appear exactly once.
 	for _, sectionID := range []string{"sdd-orchestrator", "engram-protocol"} {
 		openMarker := "<!-- dxrk:" + sectionID + " -->"
+=======
+	// 3. No duplicate gentle-ai marker blocks — each section's open marker
+	// must appear exactly once.
+	for _, sectionID := range []string{"sdd-orchestrator", "engram-protocol"} {
+		openMarker := "<!-- gentle-ai:" + sectionID + " -->"
+>>>>>>> upstream/main
 		count := strings.Count(content, openMarker)
 		if count != 1 {
 			t.Errorf("CLAUDE.md contains %d occurrences of marker %q, want exactly 1:\n%s",
@@ -1639,10 +1701,17 @@ func TestRunInstallCustomPresetExplicitComponentsResolveCorrectly(t *testing.T) 
 			len(result.Resolved.OrderedComponents), result.Resolved.OrderedComponents)
 	}
 
+<<<<<<< HEAD
 	// Verify persona, skills, context7, dxrk are NOT in the plan.
 	for _, c := range result.Resolved.OrderedComponents {
 		switch c {
 		case model.ComponentPersona, model.ComponentSkills, model.ComponentContext7, model.ComponentDxrk:
+=======
+	// Verify persona, skills, context7, gga are NOT in the plan.
+	for _, c := range result.Resolved.OrderedComponents {
+		switch c {
+		case model.ComponentPersona, model.ComponentSkills, model.ComponentContext7, model.ComponentGGA:
+>>>>>>> upstream/main
 			t.Fatalf("unexpected component %q in custom preset plan", c)
 		}
 	}
@@ -1676,7 +1745,11 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 			"--component", "persona",
 			"--component", "engram",
 			"--component", "sdd",
+<<<<<<< HEAD
 			"--persona", "dxrk",
+=======
+			"--persona", "gentleman",
+>>>>>>> upstream/main
 		},
 		system.DetectionResult{},
 	)
@@ -1693,7 +1766,11 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 
 	// Persona content must be present
 	if !strings.Contains(text, "Senior Architect") {
+<<<<<<< HEAD
 		t.Error("AGENTS.md missing Dxrk persona content (persona not written)")
+=======
+		t.Error("AGENTS.md missing Gentleman persona content (persona not written)")
+>>>>>>> upstream/main
 	}
 
 	// For OpenCode, the SDD orchestrator goes into opencode.json (agent overlay),
@@ -1703,21 +1780,36 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 	// the engram section. We verify persona + engram coexist.
 
 	// Engram protocol section must be present
+<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:engram-protocol -->") {
 		t.Error("AGENTS.md missing engram-protocol open marker (issue #121 regression: persona may have overwritten engram section)")
 	}
 	if !strings.Contains(text, "<!-- /dxrk:engram-protocol -->") {
+=======
+	if !strings.Contains(text, "<!-- gentle-ai:engram-protocol -->") {
+		t.Error("AGENTS.md missing engram-protocol open marker (issue #121 regression: persona may have overwritten engram section)")
+	}
+	if !strings.Contains(text, "<!-- /gentle-ai:engram-protocol -->") {
+>>>>>>> upstream/main
 		t.Error("AGENTS.md missing engram-protocol close marker")
 	}
 
 	// Engram section must not be duplicated
+<<<<<<< HEAD
 	marker := "<!-- dxrk:engram-protocol -->"
+=======
+	marker := "<!-- gentle-ai:engram-protocol -->"
+>>>>>>> upstream/main
 	if count := strings.Count(text, marker); count != 1 {
 		t.Errorf("AGENTS.md contains %d occurrences of %q, want exactly 1 (no duplicates)", count, marker)
 	}
 
 	// AGENTS.md must NOT have sdd-orchestrator markers — OpenCode uses opencode.json overlay
+<<<<<<< HEAD
 	if strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
+=======
+	if strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+>>>>>>> upstream/main
 		t.Error("AGENTS.md should NOT have sdd-orchestrator marker — OpenCode uses opencode.json agent overlay")
 	}
 

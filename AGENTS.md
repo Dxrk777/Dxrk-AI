@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Dxrk — Agent Skills Index
+=======
+# Gentle AI — Agent Skills Index
+>>>>>>> upstream/main
 
 When working on this project, load the relevant skill(s) BEFORE writing any code.
 
@@ -13,5 +17,10 @@ When working on this project, load the relevant skill(s) BEFORE writing any code
 
 | Skill | Trigger | Path |
 |-------|---------|------|
+<<<<<<< HEAD
 | `dxrk-issue-creation` | When creating a GitHub issue, reporting a bug, or requesting a feature. | [`skills/issue-creation/SKILL.md`](skills/issue-creation/SKILL.md) |
 | `dxrk-branch-pr` | When creating a pull request, opening a PR, or preparing changes for review. | [`skills/branch-pr/SKILL.md`](skills/branch-pr/SKILL.md) |
+=======
+| `gentle-ai-issue-creation` | When creating a GitHub issue, reporting a bug, or requesting a feature. | [`skills/issue-creation/SKILL.md`](skills/issue-creation/SKILL.md) |
+| `gentle-ai-branch-pr` | When creating a pull request, opening a PR, or preparing changes for review. | [`skills/branch-pr/SKILL.md`](skills/branch-pr/SKILL.md) |
+>>>>>>> upstream/main

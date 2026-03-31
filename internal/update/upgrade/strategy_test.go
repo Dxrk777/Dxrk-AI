@@ -8,8 +8,13 @@ import (
 	"os/exec"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/gentleman-programming/gentle-ai/internal/update"
+>>>>>>> upstream/main
 )
 
 // --- TestRunStrategy_BrewUpgrade ---
@@ -66,7 +71,11 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 		Tool: update.ToolInfo{
 			Name:          "engram",
 			InstallMethod: update.InstallGoInstall,
+<<<<<<< HEAD
 			GoImportPath:  "github.com/dxrk/engram/cmd/engram",
+=======
+			GoImportPath:  "github.com/Gentleman-Programming/engram/cmd/engram",
+>>>>>>> upstream/main
 		},
 		LatestVersion: "0.4.0",
 	}
@@ -80,8 +89,13 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 	if gotName != "go" {
 		t.Errorf("exec name = %q, want %q", gotName, "go")
 	}
+<<<<<<< HEAD
 	// Expected: go install github.com/dxrk/engram/cmd/engram@v0.4.0
 	wantArg0, wantArg1 := "install", "github.com/dxrk/engram/cmd/engram@v0.4.0"
+=======
+	// Expected: go install github.com/Gentleman-Programming/engram/cmd/engram@v0.4.0
+	wantArg0, wantArg1 := "install", "github.com/Gentleman-Programming/engram/cmd/engram@v0.4.0"
+>>>>>>> upstream/main
 	if len(gotArgs) < 2 || gotArgs[0] != wantArg0 || gotArgs[1] != wantArg1 {
 		t.Errorf("exec args = %v, want [%s %s]", gotArgs, wantArg0, wantArg1)
 	}
@@ -164,7 +178,11 @@ func TestRunStrategy_GoInstallFailure(t *testing.T) {
 		Tool: update.ToolInfo{
 			Name:          "engram",
 			InstallMethod: update.InstallGoInstall,
+<<<<<<< HEAD
 			GoImportPath:  "github.com/dxrk/engram/cmd/engram",
+=======
+			GoImportPath:  "github.com/Gentleman-Programming/engram/cmd/engram",
+>>>>>>> upstream/main
 		},
 		LatestVersion: "0.4.0",
 	}
@@ -179,7 +197,11 @@ func TestRunStrategy_GoInstallFailure(t *testing.T) {
 // --- TestRunStrategy_BinaryWindowsSelfUpdateSkipped ---
 
 // TestRunStrategy_BinaryWindowsSelfUpdateSkipped verifies that the Windows binary
+<<<<<<< HEAD
 // self-replace for dxrk is NOT attempted in Phase 1 — it must return a
+=======
+// self-replace for gentle-ai is NOT attempted in Phase 1 — it must return a
+>>>>>>> upstream/main
 // manual hint error, not execute.
 func TestRunStrategy_BinaryWindowsSelfUpdateSkipped(t *testing.T) {
 	origExecCommand := execCommand
@@ -193,11 +215,19 @@ func TestRunStrategy_BinaryWindowsSelfUpdateSkipped(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
 		ReleaseURL:    "https://github.com/Dxrk777/Dxrk-Hex/releases/tag/v1.5.0",
+=======
+			Name:          "gentle-ai",
+			InstallMethod: update.InstallBinary,
+		},
+		LatestVersion: "1.5.0",
+		ReleaseURL:    "https://github.com/Gentleman-Programming/gentle-ai/releases/tag/v1.5.0",
+>>>>>>> upstream/main
 	}
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
 
@@ -229,13 +259,21 @@ func TestEffectiveMethod(t *testing.T) {
 		},
 		{
 			name:    "brew profile overrides binary",
+<<<<<<< HEAD
 			tool:    update.ToolInfo{Name: "dxrk", InstallMethod: update.InstallBinary},
+=======
+			tool:    update.ToolInfo{Name: "gga", InstallMethod: update.InstallBinary},
+>>>>>>> upstream/main
 			profile: system.PlatformProfile{PackageManager: "brew"},
 			want:    update.InstallBrew,
 		},
 		{
 			name:    "brew profile overrides script",
+<<<<<<< HEAD
 			tool:    update.ToolInfo{Name: "dxrk", InstallMethod: update.InstallScript},
+=======
+			tool:    update.ToolInfo{Name: "gga", InstallMethod: update.InstallScript},
+>>>>>>> upstream/main
 			profile: system.PlatformProfile{PackageManager: "brew"},
 			want:    update.InstallBrew,
 		},
@@ -247,13 +285,21 @@ func TestEffectiveMethod(t *testing.T) {
 		},
 		{
 			name:    "apt profile respects declared method (binary)",
+<<<<<<< HEAD
 			tool:    update.ToolInfo{Name: "dxrk", InstallMethod: update.InstallBinary},
+=======
+			tool:    update.ToolInfo{Name: "gga", InstallMethod: update.InstallBinary},
+>>>>>>> upstream/main
 			profile: system.PlatformProfile{PackageManager: "apt"},
 			want:    update.InstallBinary,
 		},
 		{
 			name:    "apt profile respects declared method (script)",
+<<<<<<< HEAD
 			tool:    update.ToolInfo{Name: "dxrk", InstallMethod: update.InstallScript},
+=======
+			tool:    update.ToolInfo{Name: "gga", InstallMethod: update.InstallScript},
+>>>>>>> upstream/main
 			profile: system.PlatformProfile{PackageManager: "apt"},
 			want:    update.InstallScript,
 		},
@@ -276,11 +322,19 @@ func TestEffectiveMethod(t *testing.T) {
 func TestManualFallbackHint(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
 		UpdateHint:    "See https://github.com/Dxrk777/Dxrk-Hex/releases",
+=======
+			Name:          "gentle-ai",
+			InstallMethod: update.InstallBinary,
+		},
+		LatestVersion: "1.5.0",
+		UpdateHint:    "See https://github.com/Gentleman-Programming/gentle-ai/releases",
+>>>>>>> upstream/main
 	}
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
 
@@ -329,7 +383,11 @@ func TestBrewUpgrade_RunsUpdateBeforeUpgrade(t *testing.T) {
 		return exec.Command("echo", "ok")
 	}
 
+<<<<<<< HEAD
 	err := brewUpgrade(context.Background(), "dxrk")
+=======
+	err := brewUpgrade(context.Background(), "gentle-ai")
+>>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("brewUpgrade: unexpected error: %v", err)
 	}
@@ -364,10 +422,17 @@ func TestBrewUpgrade_UpdateFailureIsNonFatal(t *testing.T) {
 			}
 		}
 		// brew upgrade succeeds.
+<<<<<<< HEAD
 		return exec.Command("echo", "Upgraded dxrk")
 	}
 
 	err := brewUpgrade(context.Background(), "dxrk")
+=======
+		return exec.Command("echo", "Upgraded gentle-ai")
+	}
+
+	err := brewUpgrade(context.Background(), "gentle-ai")
+>>>>>>> upstream/main
 	// brew update failed but brew upgrade succeeded → overall success.
 	if err != nil {
 		t.Errorf("expected success when brew update fails but brew upgrade succeeds, got: %v", err)
@@ -458,9 +523,15 @@ func TestRunStrategy_ScriptUpgradeSuccess(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			Owner:         "Dxrk",
 			Repo:          "Dxrk-guardian-angel",
+=======
+			Name:          "gga",
+			Owner:         "Gentleman-Programming",
+			Repo:          "gentleman-guardian-angel",
+>>>>>>> upstream/main
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -499,9 +570,15 @@ func TestRunStrategy_ScriptUpgradeDownloadFailure(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			Owner:         "Dxrk",
 			Repo:          "Dxrk-guardian-angel",
+=======
+			Name:          "gga",
+			Owner:         "Gentleman-Programming",
+			Repo:          "gentleman-guardian-angel",
+>>>>>>> upstream/main
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -528,9 +605,15 @@ func TestRunStrategy_ScriptUpgradeWindowsManualFallback(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			Owner:         "Dxrk",
 			Repo:          "Dxrk-guardian-angel",
+=======
+			Name:          "gga",
+			Owner:         "Gentleman-Programming",
+			Repo:          "gentleman-guardian-angel",
+>>>>>>> upstream/main
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -547,6 +630,7 @@ func TestRunStrategy_ScriptUpgradeWindowsManualFallback(t *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 // --- TestDxrkScriptUpgradeUsesGitClone ---
 
 // TestDxrkScriptUpgradeUsesGitClone verifies that dxrkScriptUpgrade:
@@ -554,6 +638,15 @@ func TestRunStrategy_ScriptUpgradeWindowsManualFallback(t *testing.T) {
 // 2. Then calls `bash /tmp/Dxrk-guardian-angel/install.sh`
 // — not `bash -c <script-content>` like the generic scriptUpgrade.
 func TestDxrkScriptUpgradeUsesGitClone(t *testing.T) {
+=======
+// --- TestGGAScriptUpgradeUsesGitClone ---
+
+// TestGGAScriptUpgradeUsesGitClone verifies that ggaScriptUpgrade:
+// 1. First calls `git clone <repo-url> /tmp/gentleman-guardian-angel`
+// 2. Then calls `bash /tmp/gentleman-guardian-angel/install.sh`
+// — not `bash -c <script-content>` like the generic scriptUpgrade.
+func TestGGAScriptUpgradeUsesGitClone(t *testing.T) {
+>>>>>>> upstream/main
 	origExecCommand := execCommand
 	t.Cleanup(func() { execCommand = origExecCommand })
 
@@ -570,17 +663,29 @@ func TestDxrkScriptUpgradeUsesGitClone(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			Owner:         "Dxrk",
 			Repo:          "Dxrk-guardian-angel",
+=======
+			Name:          "gga",
+			Owner:         "Gentleman-Programming",
+			Repo:          "gentleman-guardian-angel",
+>>>>>>> upstream/main
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
 	}
 
+<<<<<<< HEAD
 	err := dxrkScriptUpgrade(context.Background(), r)
 	if err != nil {
 		t.Fatalf("dxrkScriptUpgrade: unexpected error: %v", err)
+=======
+	err := ggaScriptUpgrade(context.Background(), r)
+	if err != nil {
+		t.Fatalf("ggaScriptUpgrade: unexpected error: %v", err)
+>>>>>>> upstream/main
 	}
 
 	// Must have at least 2 exec calls.
@@ -599,13 +704,21 @@ func TestDxrkScriptUpgradeUsesGitClone(t *testing.T) {
 	cloneArgs := calls[0].args
 	foundRepoURL := false
 	for _, a := range cloneArgs {
+<<<<<<< HEAD
 		if containsAny(a, "Dxrk-guardian-angel") {
+=======
+		if containsAny(a, "gentleman-guardian-angel") {
+>>>>>>> upstream/main
 			foundRepoURL = true
 			break
 		}
 	}
 	if !foundRepoURL {
+<<<<<<< HEAD
 		t.Errorf("git clone args %v should include the repo URL (Dxrk-guardian-angel)", cloneArgs)
+=======
+		t.Errorf("git clone args %v should include the repo URL (gentleman-guardian-angel)", cloneArgs)
+>>>>>>> upstream/main
 	}
 
 	// Second call must be `bash <path-to-install.sh>` (not bash -c <content>).
@@ -625,11 +738,19 @@ func TestDxrkScriptUpgradeUsesGitClone(t *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 // --- TestDxrkScriptUpgradeWindowsManualFallback ---
 
 // TestDxrkScriptUpgradeWindowsManualFallback verifies that on Windows,
 // dxrkScriptUpgrade returns a ManualFallbackError without calling exec.
 func TestDxrkScriptUpgradeWindowsManualFallback(t *testing.T) {
+=======
+// --- TestGGAScriptUpgradeWindowsManualFallback ---
+
+// TestGGAScriptUpgradeWindowsManualFallback verifies that on Windows,
+// ggaScriptUpgrade returns a ManualFallbackError without calling exec.
+func TestGGAScriptUpgradeWindowsManualFallback(t *testing.T) {
+>>>>>>> upstream/main
 	origExecCommand := execCommand
 	t.Cleanup(func() { execCommand = origExecCommand })
 
@@ -641,15 +762,25 @@ func TestDxrkScriptUpgradeWindowsManualFallback(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			Owner:         "Dxrk",
 			Repo:          "Dxrk-guardian-angel",
+=======
+			Name:          "gga",
+			Owner:         "Gentleman-Programming",
+			Repo:          "gentleman-guardian-angel",
+>>>>>>> upstream/main
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
 	}
 
+<<<<<<< HEAD
 	err := dxrkScriptUpgradeForOS(context.Background(), r, "windows")
+=======
+	err := ggaScriptUpgradeForOS(context.Background(), r, "windows")
+>>>>>>> upstream/main
 	if err == nil {
 		t.Errorf("expected ManualFallbackError for Windows, got nil")
 	}
@@ -658,6 +789,7 @@ func TestDxrkScriptUpgradeWindowsManualFallback(t *testing.T) {
 		t.Errorf("expected *ManualFallbackError, got %T: %v", err, err)
 	}
 	if execCalled {
+<<<<<<< HEAD
 		t.Errorf("exec should NOT be called on Windows for dxrkScriptUpgrade")
 	}
 }
@@ -668,6 +800,18 @@ func TestDxrkScriptUpgradeWindowsManualFallback(t *testing.T) {
 // a Dxrk tool (InstallScript), it routes to dxrkScriptUpgrade (git clone approach)
 // rather than the generic scriptUpgrade (bash -c <content>).
 func TestRunStrategy_DxrkUsesGitClone(t *testing.T) {
+=======
+		t.Errorf("exec should NOT be called on Windows for ggaScriptUpgrade")
+	}
+}
+
+// --- TestRunStrategy_GGAUsesGitClone ---
+
+// TestRunStrategy_GGAUsesGitClone verifies that when runStrategy is called with
+// a GGA tool (InstallScript), it routes to ggaScriptUpgrade (git clone approach)
+// rather than the generic scriptUpgrade (bash -c <content>).
+func TestRunStrategy_GGAUsesGitClone(t *testing.T) {
+>>>>>>> upstream/main
 	origExecCommand := execCommand
 	t.Cleanup(func() { execCommand = origExecCommand })
 
@@ -684,9 +828,15 @@ func TestRunStrategy_DxrkUsesGitClone(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			Owner:         "Dxrk",
 			Repo:          "Dxrk-guardian-angel",
+=======
+			Name:          "gga",
+			Owner:         "Gentleman-Programming",
+			Repo:          "gentleman-guardian-angel",
+>>>>>>> upstream/main
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -695,7 +845,11 @@ func TestRunStrategy_DxrkUsesGitClone(t *testing.T) {
 
 	err := runStrategy(context.Background(), r, profile)
 	if err != nil {
+<<<<<<< HEAD
 		t.Fatalf("runStrategy Dxrk: unexpected error: %v", err)
+=======
+		t.Fatalf("runStrategy GGA: unexpected error: %v", err)
+>>>>>>> upstream/main
 	}
 
 	// Must have used git clone (not bash -c).
@@ -710,8 +864,13 @@ func TestRunStrategy_DxrkUsesGitClone(t *testing.T) {
 // --- TestInstallScriptURL ---
 
 func TestInstallScriptURL(t *testing.T) {
+<<<<<<< HEAD
 	url := installScriptURL("Dxrk", "Dxrk-guardian-angel")
 	if url != "https://raw.githubusercontent.com/Dxrk/Dxrk-guardian-angel/main/install.sh" {
+=======
+	url := installScriptURL("Gentleman-Programming", "gentleman-guardian-angel")
+	if url != "https://raw.githubusercontent.com/Gentleman-Programming/gentleman-guardian-angel/main/install.sh" {
+>>>>>>> upstream/main
 		t.Errorf("installScriptURL = %q, want correct raw GitHub URL", url)
 	}
 }
@@ -744,7 +903,11 @@ func TestEngramUpgradeUsesDownloadNotGoInstall(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "engram",
+<<<<<<< HEAD
 			Owner:         "Dxrk",
+=======
+			Owner:         "Gentleman-Programming",
+>>>>>>> upstream/main
 			Repo:          "engram",
 			InstallMethod: update.InstallBinary, // should be InstallBinary after fix
 		},
@@ -793,7 +956,11 @@ func TestEngramUpgradeLinuxUsesDownload(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "engram",
+<<<<<<< HEAD
 			Owner:         "Dxrk",
+=======
+			Owner:         "Gentleman-Programming",
+>>>>>>> upstream/main
 			Repo:          "engram",
 			InstallMethod: update.InstallBinary, // should be InstallBinary after fix
 		},
@@ -842,9 +1009,15 @@ func TestRunStrategy_ScriptUpgradeExecFailure(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			Owner:         "Dxrk",
 			Repo:          "Dxrk-guardian-angel",
+=======
+			Name:          "gga",
+			Owner:         "Gentleman-Programming",
+			Repo:          "gentleman-guardian-angel",
+>>>>>>> upstream/main
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",

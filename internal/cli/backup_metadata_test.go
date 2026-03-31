@@ -14,7 +14,11 @@ import (
 	"testing"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/backup"
+>>>>>>> upstream/main
 )
 
 // TestPrepareBackupStep_InstallWritesMetadataToManifest verifies that when
@@ -32,7 +36,11 @@ func TestPrepareBackupStep_InstallWritesMetadataToManifest(t *testing.T) {
 		t.Fatalf("WriteFile config: %v", err)
 	}
 
+<<<<<<< HEAD
 	snapshotDir := filepath.Join(home, ".dxrk", "backups",
+=======
+	snapshotDir := filepath.Join(home, ".gentle-ai", "backups",
+>>>>>>> upstream/main
 		time.Now().UTC().Format("20060102150405.000000000"))
 	state := &runtimeState{}
 
@@ -89,7 +97,11 @@ func TestPrepareBackupStep_SyncWritesMetadataToManifest(t *testing.T) {
 		t.Fatalf("WriteFile config: %v", err)
 	}
 
+<<<<<<< HEAD
 	snapshotDir := filepath.Join(home, ".dxrk", "backups",
+=======
+	snapshotDir := filepath.Join(home, ".gentle-ai", "backups",
+>>>>>>> upstream/main
 		time.Now().UTC().Format("20060102150405.000000001"))
 	state := &runtimeState{}
 
@@ -136,7 +148,11 @@ func TestPrepareBackupStep_NoMetadataWhenSourceEmpty(t *testing.T) {
 		t.Fatalf("WriteFile config: %v", err)
 	}
 
+<<<<<<< HEAD
 	snapshotDir := filepath.Join(home, ".dxrk", "backups",
+=======
+	snapshotDir := filepath.Join(home, ".gentle-ai", "backups",
+>>>>>>> upstream/main
 		time.Now().UTC().Format("20060102150405.000000002"))
 	state := &runtimeState{}
 

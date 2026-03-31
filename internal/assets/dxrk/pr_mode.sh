@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 # ============================================================================
+<<<<<<< HEAD:internal/assets/dxrk/pr_mode.sh
 # Dxrk Morpheus Guardian - PR Mode Functions
+=======
+# Gentleman Guardian Angel - PR Mode Functions
+>>>>>>> upstream/main:internal/assets/gga/pr_mode.sh
 # ============================================================================
 # Handles PR-scoped code review:
 # - detect_base_branch(): Auto-detect main/master/develop
@@ -37,7 +41,11 @@ detect_base_branch() {
   done
 
   echo "Error: Could not detect base branch. No main, master, or develop branch found." >&2
+<<<<<<< HEAD:internal/assets/dxrk/pr_mode.sh
   echo "Set PR_BASE_BRANCH in your .dxrk config to specify the base branch." >&2
+=======
+  echo "Set PR_BASE_BRANCH in your .gga config to specify the base branch." >&2
+>>>>>>> upstream/main:internal/assets/gga/pr_mode.sh
   return 1
 }
 
@@ -136,8 +144,13 @@ get_pr_files() {
 
     if [[ "$match" == true && "$excluded" == false ]]; then
       # Only include if file still exists (wasn't deleted)
+<<<<<<< HEAD:internal/assets/dxrk/pr_mode.sh
       # Dxrk_SKIP_FILE_CHECK allows unit tests to skip this check
       if [[ -n "${Dxrk_SKIP_FILE_CHECK:-}" ]] || [[ -f "$file" ]]; then
+=======
+      # GGA_SKIP_FILE_CHECK allows unit tests to skip this check
+      if [[ -n "${GGA_SKIP_FILE_CHECK:-}" ]] || [[ -f "$file" ]]; then
+>>>>>>> upstream/main:internal/assets/gga/pr_mode.sh
         echo "$file"
       fi
     fi

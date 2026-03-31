@@ -3,6 +3,7 @@ package agents
 import (
 	"fmt"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/antigravity"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/codex"
@@ -12,6 +13,17 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/vscode"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/windsurf"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/agents/antigravity"
+	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
+	"github.com/gentleman-programming/gentle-ai/internal/agents/codex"
+	cursoradapter "github.com/gentleman-programming/gentle-ai/internal/agents/cursor"
+	"github.com/gentleman-programming/gentle-ai/internal/agents/gemini"
+	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
+	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
+	"github.com/gentleman-programming/gentle-ai/internal/agents/windsurf"
+	"github.com/gentleman-programming/gentle-ai/internal/model"
+>>>>>>> upstream/main
 )
 
 func NewAdapter(agent model.AgentID) (Adapter, error) {

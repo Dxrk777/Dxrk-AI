@@ -7,8 +7,13 @@ import (
 	"strings"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/state"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/gentleman-programming/gentle-ai/internal/state"
+>>>>>>> upstream/main
 )
 
 // ─── Phase 1: ParseSyncFlags ───────────────────────────────────────────────
@@ -147,12 +152,20 @@ func TestBuildSyncSelectionDefaultScopeIncludesManagedComponents(t *testing.T) {
 
 	sel := BuildSyncSelection(flags, agents)
 
+<<<<<<< HEAD
 	// Default sync must include: SDD, Engram, Context7, Dxrk, Skills
+=======
+	// Default sync must include: SDD, Engram, Context7, GGA, Skills
+>>>>>>> upstream/main
 	mandatoryComponents := []model.ComponentID{
 		model.ComponentSDD,
 		model.ComponentEngram,
 		model.ComponentContext7,
+<<<<<<< HEAD
 		model.ComponentDxrk,
+=======
+		model.ComponentGGA,
+>>>>>>> upstream/main
 		model.ComponentSkills,
 	}
 
@@ -463,7 +476,11 @@ func TestComponentSyncStepRunsSDDInject(t *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 func TestComponentSyncStepRunsDxrkInjectWithoutBinaryInstall(t *testing.T) {
+=======
+func TestComponentSyncStepRunsGGAInjectWithoutBinaryInstall(t *testing.T) {
+>>>>>>> upstream/main
 	home := t.TempDir()
 	restoreCommand := runCommand
 	restoreLookPath := cmdLookPath
@@ -483,14 +500,20 @@ func TestComponentSyncStepRunsDxrkInjectWithoutBinaryInstall(t *testing.T) {
 	}
 
 	step := componentSyncStep{
+<<<<<<< HEAD
 		id:        "sync:dxrk",
 		component: model.ComponentDxrk,
+=======
+		id:        "sync:gga",
+		component: model.ComponentGGA,
+>>>>>>> upstream/main
 		homeDir:   home,
 		agents:    []model.AgentID{model.AgentOpenCode},
 		selection: model.Selection{},
 	}
 
 	if err := step.Run(); err != nil {
+<<<<<<< HEAD
 		t.Fatalf("componentSyncStep.Run() Dxrk error = %v", err)
 	}
 
@@ -505,6 +528,22 @@ func TestComponentSyncStepRunsDxrkInjectWithoutBinaryInstall(t *testing.T) {
 	prModePath := filepath.Join(home, ".local", "share", "dxrk", "lib", "pr_mode.sh")
 	if _, err := os.Stat(prModePath); err != nil {
 		t.Errorf("expected Dxrk runtime asset at %q: %v", prModePath, err)
+=======
+		t.Fatalf("componentSyncStep.Run() GGA error = %v", err)
+	}
+
+	// No GGA binary install command should have been called.
+	for _, cmd := range commandsCalled {
+		if strings.Contains(cmd, "clone") || strings.Contains(cmd, "install.sh") {
+			t.Errorf("componentSyncStep GGA must not run binary install, got command: %s", cmd)
+		}
+	}
+
+	// GGA runtime asset should be written.
+	prModePath := filepath.Join(home, ".local", "share", "gga", "lib", "pr_mode.sh")
+	if _, err := os.Stat(prModePath); err != nil {
+		t.Errorf("expected GGA runtime asset at %q: %v", prModePath, err)
+>>>>>>> upstream/main
 	}
 }
 
@@ -824,7 +863,11 @@ func TestRenderSyncReportIncludesManagedActions(t *testing.T) {
 
 // TestRunSyncExcludesUnmanagedLookalikeFile verifies the spec scenario:
 // "User modified an unmanaged file that resembles a managed target —
+<<<<<<< HEAD
 // dxrk sync excludes it from the plan and does not adopt it."
+=======
+// gentle-ai sync excludes it from the plan and does not adopt it."
+>>>>>>> upstream/main
 //
 // We create a file with the same NAME as a managed target but in a directory
 // that is NOT part of the managed inventory (simulating an unmanaged lookalike).
@@ -840,7 +883,11 @@ func TestRunSyncExcludesUnmanagedLookalikeFile(t *testing.T) {
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
 	lookalikePath := filepath.Join(lookalikeDir, "AGENTS.md")
+<<<<<<< HEAD
 	const lookalikeContent = "# My project AGENTS.md — NOT managed by dxrk"
+=======
+	const lookalikeContent = "# My project AGENTS.md — NOT managed by gentle-ai"
+>>>>>>> upstream/main
 	if err := os.WriteFile(lookalikePath, []byte(lookalikeContent), 0o644); err != nil {
 		t.Fatalf("WriteFile() lookalike error = %v", err)
 	}
@@ -1030,7 +1077,11 @@ func TestRunSyncWithSelection_WritesExpectedFiles(t *testing.T) {
 
 	sel := model.Selection{
 		Agents:     []model.AgentID{model.AgentOpenCode},
+<<<<<<< HEAD
 		Components: []model.ComponentID{model.ComponentSDD, model.ComponentEngram, model.ComponentContext7, model.ComponentDxrk, model.ComponentSkills},
+=======
+		Components: []model.ComponentID{model.ComponentSDD, model.ComponentEngram, model.ComponentContext7, model.ComponentGGA, model.ComponentSkills},
+>>>>>>> upstream/main
 		SDDMode:    model.SDDModeSingle,
 	}
 
@@ -1066,7 +1117,11 @@ func TestRunSyncWithSelection_FilesChangedOnFreshHome(t *testing.T) {
 
 	sel := model.Selection{
 		Agents:     []model.AgentID{model.AgentOpenCode},
+<<<<<<< HEAD
 		Components: []model.ComponentID{model.ComponentSDD, model.ComponentEngram, model.ComponentContext7, model.ComponentDxrk, model.ComponentSkills},
+=======
+		Components: []model.ComponentID{model.ComponentSDD, model.ComponentEngram, model.ComponentContext7, model.ComponentGGA, model.ComponentSkills},
+>>>>>>> upstream/main
 		SDDMode:    model.SDDModeSingle,
 	}
 
@@ -1096,7 +1151,11 @@ func TestRunSyncWithSelection_IsIdempotent(t *testing.T) {
 
 	sel := model.Selection{
 		Agents:     []model.AgentID{model.AgentOpenCode},
+<<<<<<< HEAD
 		Components: []model.ComponentID{model.ComponentSDD, model.ComponentEngram, model.ComponentContext7, model.ComponentDxrk, model.ComponentSkills},
+=======
+		Components: []model.ComponentID{model.ComponentSDD, model.ComponentEngram, model.ComponentContext7, model.ComponentGGA, model.ComponentSkills},
+>>>>>>> upstream/main
 		SDDMode:    model.SDDModeSingle,
 	}
 
@@ -1138,7 +1197,11 @@ func TestRunSyncWithSelection_SelectionAgentsForwarded(t *testing.T) {
 
 	sel := model.Selection{
 		Agents:     []model.AgentID{model.AgentOpenCode},
+<<<<<<< HEAD
 		Components: []model.ComponentID{model.ComponentSDD, model.ComponentEngram, model.ComponentContext7, model.ComponentDxrk, model.ComponentSkills},
+=======
+		Components: []model.ComponentID{model.ComponentSDD, model.ComponentEngram, model.ComponentContext7, model.ComponentGGA, model.ComponentSkills},
+>>>>>>> upstream/main
 	}
 
 	result, err := RunSyncWithSelection(home, sel)
@@ -1302,7 +1365,11 @@ func TestRunSyncRollsBackOnFailure(t *testing.T) {
 	// Fail after context7 inject to trigger rollback.
 	runCommand = func(string, ...string) error { return nil }
 
+<<<<<<< HEAD
 	// Inject a forced failure by injecting a bad dxrk step — we use a test
+=======
+	// Inject a forced failure by injecting a bad gga step — we use a test
+>>>>>>> upstream/main
 	// hook approach. We must fail the sync pipeline somehow. The simplest
 	// approach without a hook: use an invalid agent ID that will fail the
 	// adapter resolution inside the sync step.

@@ -10,9 +10,15 @@ import (
 	"syscall"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+>>>>>>> upstream/main
 )
 
 // lookPathFn is a package-level var for testability.
@@ -35,7 +41,11 @@ var reExec = func(argv0 string, argv []string, envv []string) error {
 // goOS returns the current operating system name. Package-level var for testing.
 var goOS = func() string { return runtime.GOOS }
 
+<<<<<<< HEAD
 // selfUpdate checks for and applies a dxrk update before normal dispatch.
+=======
+// selfUpdate checks for and applies a gentle-ai update before normal dispatch.
+>>>>>>> upstream/main
 // Returns nil on success or skip; errors are non-fatal (caller logs and continues).
 //
 // Guard evaluation order (per spec):
@@ -63,6 +73,7 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 	ctx, cancel := context.WithTimeout(ctx, selfUpdateTimeout)
 	defer cancel()
 
+<<<<<<< HEAD
 	// Check for updates (only dxrk).
 	results := updateCheckFiltered(ctx, version, profile, []string{"dxrk"})
 
@@ -70,6 +81,15 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 	var target *update.UpdateResult
 	for i := range results {
 		if results[i].Tool.Name == "dxrk" {
+=======
+	// Check for updates (only gentle-ai).
+	results := updateCheckFiltered(ctx, version, profile, []string{"gentle-ai"})
+
+	// Find the gentle-ai result.
+	var target *update.UpdateResult
+	for i := range results {
+		if results[i].Tool.Name == "gentle-ai" {
+>>>>>>> upstream/main
 			target = &results[i]
 			break
 		}
@@ -92,7 +112,11 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 	// Check if upgrade succeeded.
 	var succeeded bool
 	for _, r := range report.Results {
+<<<<<<< HEAD
 		if r.ToolName == "dxrk" && r.Status == upgrade.UpgradeSucceeded {
+=======
+		if r.ToolName == "gentle-ai" && r.Status == upgrade.UpgradeSucceeded {
+>>>>>>> upstream/main
 			succeeded = true
 			break
 		}
@@ -111,6 +135,7 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 
 	// Unix: re-exec with the updated binary.
 	//
+<<<<<<< HEAD
 	// Use exec.LookPath("dxrk") rather than os.Executable() because
 	// on Homebrew, os.Executable() resolves to the versioned Cellar path
 	// (e.g. /opt/homebrew/Cellar/dxrk/1.8.5/bin/dxrk) which
@@ -118,6 +143,15 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 	// (/opt/homebrew/bin/dxrk) is updated by Homebrew to the new
 	// version, so LookPath gives us the correct binary.
 	executable, err := lookPathFn("dxrk")
+=======
+	// Use exec.LookPath("gentle-ai") rather than os.Executable() because
+	// on Homebrew, os.Executable() resolves to the versioned Cellar path
+	// (e.g. /opt/homebrew/Cellar/gentle-ai/1.8.5/bin/gentle-ai) which
+	// still points to the OLD binary after upgrade. The PATH symlink
+	// (/opt/homebrew/bin/gentle-ai) is updated by Homebrew to the new
+	// version, so LookPath gives us the correct binary.
+	executable, err := lookPathFn("gentle-ai")
+>>>>>>> upstream/main
 	if err != nil {
 		// Fallback to os.Executable() if LookPath fails.
 		executable, err = os.Executable()

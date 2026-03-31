@@ -128,6 +128,7 @@ func resolveDxrkInstall(profile system.PlatformProfile) (CommandSequence, error)
 	switch profile.PackageManager {
 	case "brew":
 		return CommandSequence{
+<<<<<<< HEAD
 			{"brew", "tap", "Dxrk/homebrew-tap"},
 			{"brew", "reinstall", "dxrk"},
 		}, nil
@@ -136,6 +137,16 @@ func resolveDxrkInstall(profile system.PlatformProfile) (CommandSequence, error)
 		return CommandSequence{
 			{"rm", "-rf", tmpDir},
 			{"git", "clone", "https://github.com/dxrk/Dxrk-guardian-angel.git", tmpDir},
+=======
+			{"brew", "tap", "Gentleman-Programming/homebrew-tap"},
+			{"brew", "reinstall", "gga"},
+		}, nil
+	case "apt", "pacman", "dnf":
+		const tmpDir = "/tmp/gentleman-guardian-angel"
+		return CommandSequence{
+			{"rm", "-rf", tmpDir},
+			{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", tmpDir},
+>>>>>>> upstream/main
 			{"bash", tmpDir + "/install.sh"},
 		}, nil
 	case "winget":
@@ -144,11 +155,19 @@ func resolveDxrkInstall(profile system.PlatformProfile) (CommandSequence, error)
 		// Clean up any leftover directory from a previous run before cloning.
 		// PowerShell is used for cleanup to avoid cmd.exe quoting issues with
 		// embedded double quotes in the "if exist ... rmdir" approach.
+<<<<<<< HEAD
 		cloneDst := filepath.Join(os.TempDir(), "Dxrk-guardian-angel")
 		bash := gitBashPath()
 		return CommandSequence{
 			{"powershell", "-NoProfile", "-Command", fmt.Sprintf("Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '%s'; exit 0", cloneDst)},
 			{"git", "clone", "https://github.com/dxrk/Dxrk-guardian-angel.git", cloneDst},
+=======
+		cloneDst := filepath.Join(os.TempDir(), "gentleman-guardian-angel")
+		bash := gitBashPath()
+		return CommandSequence{
+			{"powershell", "-NoProfile", "-Command", fmt.Sprintf("Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '%s'; exit 0", cloneDst)},
+			{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", cloneDst},
+>>>>>>> upstream/main
 			{bash, bashScriptPath(profile, filepath.Join(cloneDst, "install.sh"))},
 		}, nil
 	default:
@@ -259,12 +278,20 @@ func validateGoForModuleInstall(profile system.PlatformProfile) error {
 }
 
 // resolveEngramInstall returns the correct install command sequence for Engram per platform.
+<<<<<<< HEAD
 // - darwin (brew): brew tap + brew install (via Dxrk/homebrew-tap)
+=======
+// - darwin (brew): brew tap + brew install (via Gentleman-Programming/homebrew-tap)
+>>>>>>> upstream/main
 // - linux/windows: returns an error — callers must use engram.DownloadLatestBinary() instead.
 //
 // The go install method has been removed because it required Go 1.24+ which most
 // users on Linux/Windows don't have. Pre-built binaries are available at:
+<<<<<<< HEAD
 // https://github.com/dxrk/engram/releases
+=======
+// https://github.com/Gentleman-Programming/engram/releases
+>>>>>>> upstream/main
 func resolveEngramInstall(profile system.PlatformProfile) (CommandSequence, error) {
 	switch profile.PackageManager {
 	case "brew":

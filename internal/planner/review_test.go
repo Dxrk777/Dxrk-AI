@@ -123,8 +123,13 @@ func TestBuildReviewPayloadPlatformDecisionPropagatesPerProfile(t *testing.T) {
 // Closes #145.
 func TestBuildReviewPayloadIncludesSkills(t *testing.T) {
 	selection := model.Selection{
+<<<<<<< HEAD
 		Persona: model.PersonaDxrk,
 		Preset:  model.PresetFullDxrk,
+=======
+		Persona: model.PersonaGentleman,
+		Preset:  model.PresetFullGentleman,
+>>>>>>> upstream/main
 		Skills:  []model.SkillID{"sdd-apply", "sdd-spec", "go-testing"},
 	}
 	resolved := ResolvedPlan{
@@ -151,8 +156,13 @@ func TestBuildReviewPayloadIncludesSkills(t *testing.T) {
 // Closes #145.
 func TestBuildReviewPayloadSkillsNilWhenNotSelected(t *testing.T) {
 	selection := model.Selection{
+<<<<<<< HEAD
 		Persona: model.PersonaDxrk,
 		Preset:  model.PresetFullDxrk,
+=======
+		Persona: model.PersonaGentleman,
+		Preset:  model.PresetFullGentleman,
+>>>>>>> upstream/main
 		// Skills not set
 	}
 	resolved := ResolvedPlan{
@@ -175,8 +185,13 @@ func TestBuildReviewPayloadSkillsNilWhenNotSelected(t *testing.T) {
 // Closes #149.
 func TestBuildReviewPayloadIncludesStrictTDD(t *testing.T) {
 	selection := model.Selection{
+<<<<<<< HEAD
 		Persona:   model.PersonaDxrk,
 		Preset:    model.PresetFullDxrk,
+=======
+		Persona:   model.PersonaGentleman,
+		Preset:    model.PresetFullGentleman,
+>>>>>>> upstream/main
 		StrictTDD: true,
 	}
 	resolved := ResolvedPlan{
@@ -200,8 +215,13 @@ func TestBuildReviewPayloadIncludesStrictTDD(t *testing.T) {
 // Closes #149.
 func TestBuildReviewPayloadStrictTDDFalseWhenDisabled(t *testing.T) {
 	selection := model.Selection{
+<<<<<<< HEAD
 		Persona:   model.PersonaDxrk,
 		Preset:    model.PresetFullDxrk,
+=======
+		Persona:   model.PersonaGentleman,
+		Preset:    model.PresetFullGentleman,
+>>>>>>> upstream/main
 		StrictTDD: false,
 	}
 	resolved := ResolvedPlan{
@@ -225,8 +245,13 @@ func TestBuildReviewPayloadStrictTDDFalseWhenDisabled(t *testing.T) {
 // Closes #149.
 func TestBuildReviewPayloadHasSDDFalseWithoutSDDComponent(t *testing.T) {
 	selection := model.Selection{
+<<<<<<< HEAD
 		Persona:   model.PersonaDxrk,
 		Preset:    model.PresetFullDxrk,
+=======
+		Persona:   model.PersonaGentleman,
+		Preset:    model.PresetFullGentleman,
+>>>>>>> upstream/main
 		StrictTDD: true,
 	}
 	resolved := ResolvedPlan{

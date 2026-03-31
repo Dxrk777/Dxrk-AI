@@ -8,14 +8,22 @@ import (
 	"os"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/backup"
+>>>>>>> upstream/main
 )
 
 // RestoreFunc is the function signature for restoring a backup from its manifest.
 // It matches app.tuiRestore and backup.RestoreService.Restore signatures.
 type RestoreFunc func(manifest backup.Manifest) error
 
+<<<<<<< HEAD
 // RunRestore is the top-level entry point for `dxrk restore [args]`.
+=======
+// RunRestore is the top-level entry point for `gentle-ai restore [args]`.
+>>>>>>> upstream/main
 // It reads backups from the real home directory and uses the default restore function.
 func RunRestore(args []string, stdout io.Writer) error {
 	homeDir, err := osUserHomeDir()
@@ -91,7 +99,11 @@ func runRestoreWithHomeDir(args []string, restorer RestoreFunc, stdout io.Writer
 
 	// If no subcommand argument, show usage.
 	if len(positional) == 0 {
+<<<<<<< HEAD
 		return fmt.Errorf("usage: dxrk restore [--list | latest | <id>] [--yes]")
+=======
+		return fmt.Errorf("usage: gentle-ai restore [--list | latest | <id>] [--yes]")
+>>>>>>> upstream/main
 	}
 
 	target := positional[0]
@@ -126,7 +138,11 @@ func runRestoreWithHomeDir(args []string, restorer RestoreFunc, stdout io.Writer
 // renderRestoreList writes the backup listing to stdout.
 // Backups are already sorted newest-first by listBackupsFromDir.
 // Each entry shows: index, ID, DisplayLabel (source + timestamp + file count),
+<<<<<<< HEAD
 // and the dxrk version that created the backup when known.
+=======
+// and the gentle-ai version that created the backup when known.
+>>>>>>> upstream/main
 func renderRestoreList(backups []backup.Manifest, stdout io.Writer) error {
 	if len(backups) == 0 {
 		fmt.Fprintln(stdout, "no backups found")
@@ -163,7 +179,11 @@ func resolveRestoreTarget(target string, backups []backup.Manifest) (backup.Mani
 		}
 	}
 
+<<<<<<< HEAD
 	return backup.Manifest{}, fmt.Errorf("backup %q not found — use `dxrk restore --list` to see available backups", target)
+=======
+	return backup.Manifest{}, fmt.Errorf("backup %q not found — use `gentle-ai restore --list` to see available backups", target)
+>>>>>>> upstream/main
 }
 
 // promptRestoreConfirm asks the user to confirm a restore operation.
@@ -223,7 +243,11 @@ func listBackupsFromDir(homeDir string) []backup.Manifest {
 
 // backupRootDir returns the path to the backup directory under homeDir.
 func backupRootDir(homeDir string) string {
+<<<<<<< HEAD
 	return homeDir + "/.dxrk/backups"
+=======
+	return homeDir + "/.gentle-ai/backups"
+>>>>>>> upstream/main
 }
 
 // defaultRestorer returns the standard backup.RestoreService.Restore function.

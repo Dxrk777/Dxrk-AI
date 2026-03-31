@@ -9,12 +9,21 @@ import (
 	"testing"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
 	windsurfagent "github.com/Dxrk777/Dxrk-Hex/internal/agents/windsurf"
 	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/agents"
+	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
+	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
+	windsurfagent "github.com/gentleman-programming/gentle-ai/internal/agents/windsurf"
+	"github.com/gentleman-programming/gentle-ai/internal/assets"
+	"github.com/gentleman-programming/gentle-ai/internal/model"
+>>>>>>> upstream/main
 	// agents/cursor, agents/gemini, agents/vscode used via agents.NewAdapter()
 )
 
@@ -148,10 +157,17 @@ func TestInjectClaudeCustomModelAssignments(t *testing.T) {
 		}
 	}
 
+<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-model-assignments -->") {
 		t.Fatal("CLAUDE.md missing model assignment open marker")
 	}
 	if !strings.Contains(text, "<!-- /dxrk:sdd-model-assignments -->") {
+=======
+	if !strings.Contains(text, "<!-- gentle-ai:sdd-model-assignments -->") {
+		t.Fatal("CLAUDE.md missing model assignment open marker")
+	}
+	if !strings.Contains(text, "<!-- /gentle-ai:sdd-model-assignments -->") {
+>>>>>>> upstream/main
 		t.Fatal("CLAUDE.md missing model assignment close marker")
 	}
 }
@@ -490,10 +506,17 @@ func TestInjectFileAppendMigratesLegacyHeading(t *testing.T) {
 	if strings.Contains(text, "Already present.") {
 		t.Fatal("legacy SDD orchestrator content survived after migration")
 	}
+<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
 		t.Fatal("missing open marker after migration")
 	}
 	if !strings.Contains(text, "<!-- /dxrk:sdd-orchestrator -->") {
+=======
+	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+		t.Fatal("missing open marker after migration")
+	}
+	if !strings.Contains(text, "<!-- /gentle-ai:sdd-orchestrator -->") {
+>>>>>>> upstream/main
 		t.Fatal("missing close marker after migration")
 	}
 	if strings.Count(text, "## Agent Teams Orchestrator") != 1 {
@@ -523,9 +546,15 @@ func TestInjectFileAppendMigratesFullLegacyOrchestratorBlock(t *testing.T) {
 		"Each phase returns: `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`.\n\n" +
 		"### Sub-Agent Launch Pattern\n\n" +
 		"SKILL: Load `{skill-path}` before starting.\n\n" +
+<<<<<<< HEAD
 		"<!-- dxrk:engram-protocol -->\n" +
 		"## Engram Persistent Memory - Protocol\n" +
 		"<!-- /dxrk:engram-protocol -->\n"
+=======
+		"<!-- gentle-ai:engram-protocol -->\n" +
+		"## Engram Persistent Memory - Protocol\n" +
+		"<!-- /gentle-ai:engram-protocol -->\n"
+>>>>>>> upstream/main
 
 	if err := os.WriteFile(promptPath, []byte(existing), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
@@ -557,7 +586,11 @@ func TestInjectFileAppendMigratesFullLegacyOrchestratorBlock(t *testing.T) {
 	if !strings.Contains(text, "## Project Standards (auto-resolved)") {
 		t.Fatal("current compact-rules launch pattern missing after migration")
 	}
+<<<<<<< HEAD
 	if strings.Count(text, "<!-- dxrk:engram-protocol -->") != 1 {
+=======
+	if strings.Count(text, "<!-- gentle-ai:engram-protocol -->") != 1 {
+>>>>>>> upstream/main
 		t.Fatal("engram protocol marker should be preserved exactly once")
 	}
 }
@@ -577,7 +610,11 @@ func TestInjectFileAppendRemovesLegacyBlockWhenMarkedSectionAlreadyExists(t *tes
 
 	canonical := assets.MustRead("generic/sdd-orchestrator.md")
 	existing := "## Agent Teams Orchestrator\n\nLegacy duplicate block.\n\n" +
+<<<<<<< HEAD
 		"<!-- dxrk:sdd-orchestrator -->\n" + canonical + "\n<!-- /dxrk:sdd-orchestrator -->\n"
+=======
+		"<!-- gentle-ai:sdd-orchestrator -->\n" + canonical + "\n<!-- /gentle-ai:sdd-orchestrator -->\n"
+>>>>>>> upstream/main
 
 	if err := os.WriteFile(promptPath, []byte(existing), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
@@ -994,10 +1031,17 @@ func TestInjectClaudeDeduplicatesBareOrchestratorSection(t *testing.T) {
 	}
 
 	// The injected marked version must be present.
+<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
 		t.Fatal("missing open marker after injection")
 	}
 	if !strings.Contains(text, "<!-- /dxrk:sdd-orchestrator -->") {
+=======
+	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+		t.Fatal("missing open marker after injection")
+	}
+	if !strings.Contains(text, "<!-- /gentle-ai:sdd-orchestrator -->") {
+>>>>>>> upstream/main
 		t.Fatal("missing close marker after injection")
 	}
 
@@ -1046,7 +1090,11 @@ func TestInjectClaudeDeduplicatesBareOrchestratorAtEndOfFile(t *testing.T) {
 	if count := strings.Count(text, "## Agent Teams Orchestrator"); count != 1 {
 		t.Fatalf("expected 1 Agent Teams Orchestrator heading, got %d\n\ncontent:\n%s", count, text)
 	}
+<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
+=======
+	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+>>>>>>> upstream/main
 		t.Fatal("missing open marker after injection")
 	}
 	if !strings.Contains(text, "Be excellent.") {
@@ -1626,7 +1674,11 @@ func TestStripBareOrchestratorSection_NoOpWhenNoSection(t *testing.T) {
 // stripBareOrchestratorSection (the markers are handled by InjectMarkdownSection).
 // This ensures the migration guard in injectMarkdownSections() is correct.
 func TestStripBareOrchestratorSection_DoesNotStripIfMarkersPresent(t *testing.T) {
+<<<<<<< HEAD
 	input := "# My Rules\n\n<!-- dxrk:sdd-orchestrator -->\n## Agent Teams Orchestrator\n\nYou are a COORDINATOR.\n<!-- /dxrk:sdd-orchestrator -->\n"
+=======
+	input := "# My Rules\n\n<!-- gentle-ai:sdd-orchestrator -->\n## Agent Teams Orchestrator\n\nYou are a COORDINATOR.\n<!-- /gentle-ai:sdd-orchestrator -->\n"
+>>>>>>> upstream/main
 
 	// The function sees "## Agent Teams Orchestrator" and would normally strip it.
 	// But the caller (injectMarkdownSections) is supposed to check for markers
@@ -1637,7 +1689,11 @@ func TestStripBareOrchestratorSection_DoesNotStripIfMarkersPresent(t *testing.T)
 
 	// Because stripBareOrchestratorSection does not check for markers itself,
 	// calling it on marked content would damage the file. The real protection is
+<<<<<<< HEAD
 	// the `!strings.Contains(existing, "<!-- dxrk:sdd-orchestrator -->")` guard
+=======
+	// the `!strings.Contains(existing, "<!-- gentle-ai:sdd-orchestrator -->")` guard
+>>>>>>> upstream/main
 	// in injectMarkdownSections(). This test confirms that guard works end-to-end.
 	_ = result
 }
@@ -1648,7 +1704,11 @@ func TestStripBareOrchestratorSection_DoesNotStripIfMarkersPresent(t *testing.T)
 
 // TestInjectStrictTDDEnabledInjectsMarkerIntoClaude verifies that when
 // InjectOptions.StrictTDD = true, the injected content in CLAUDE.md contains
+<<<<<<< HEAD
 // the <!-- dxrk:strict-tdd-mode --> marker with its content.
+=======
+// the <!-- gentle-ai:strict-tdd-mode --> marker with its content.
+>>>>>>> upstream/main
 func TestInjectStrictTDDEnabledInjectsMarkerIntoClaude(t *testing.T) {
 	home := t.TempDir()
 
@@ -1667,11 +1727,19 @@ func TestInjectStrictTDDEnabledInjectsMarkerIntoClaude(t *testing.T) {
 	}
 
 	text := string(content)
+<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:strict-tdd-mode -->") {
 		t.Fatal("CLAUDE.md missing <!-- dxrk:strict-tdd-mode --> open marker")
 	}
 	if !strings.Contains(text, "<!-- /dxrk:strict-tdd-mode -->") {
 		t.Fatal("CLAUDE.md missing <!-- /dxrk:strict-tdd-mode --> close marker")
+=======
+	if !strings.Contains(text, "<!-- gentle-ai:strict-tdd-mode -->") {
+		t.Fatal("CLAUDE.md missing <!-- gentle-ai:strict-tdd-mode --> open marker")
+	}
+	if !strings.Contains(text, "<!-- /gentle-ai:strict-tdd-mode -->") {
+		t.Fatal("CLAUDE.md missing <!-- /gentle-ai:strict-tdd-mode --> close marker")
+>>>>>>> upstream/main
 	}
 	if !strings.Contains(text, "Strict TDD Mode: enabled") {
 		t.Fatal("CLAUDE.md missing 'Strict TDD Mode: enabled' content")
@@ -1695,7 +1763,11 @@ func TestInjectStrictTDDDisabledDoesNotInjectMarker(t *testing.T) {
 	}
 
 	text := string(content)
+<<<<<<< HEAD
 	if strings.Contains(text, "<!-- dxrk:strict-tdd-mode -->") {
+=======
+	if strings.Contains(text, "<!-- gentle-ai:strict-tdd-mode -->") {
+>>>>>>> upstream/main
 		t.Fatal("CLAUDE.md should NOT contain strict-tdd-mode marker when StrictTDD=false")
 	}
 }
@@ -1825,7 +1897,11 @@ func TestInjectClaudeDeduplicatesBareOrchestratorAtBeginning(t *testing.T) {
 	if count := strings.Count(text, "## Agent Teams Orchestrator"); count != 1 {
 		t.Fatalf("expected 1 Agent Teams Orchestrator heading, got %d\n\ncontent:\n%s", count, text)
 	}
+<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
+=======
+	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+>>>>>>> upstream/main
 		t.Fatal("missing open marker after injection")
 	}
 	if !strings.Contains(text, "## Other Rules") {
@@ -1869,10 +1945,17 @@ func TestInjectClaudeDeduplicatesFileWithOnlyBareOrchestrator(t *testing.T) {
 		t.Fatalf("expected 1 Agent Teams Orchestrator heading, got %d\n\ncontent:\n%s", count, text)
 	}
 	// Must have markers.
+<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
 		t.Fatal("missing open marker")
 	}
 	if !strings.Contains(text, "<!-- /dxrk:sdd-orchestrator -->") {
+=======
+	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+		t.Fatal("missing open marker")
+	}
+	if !strings.Contains(text, "<!-- /gentle-ai:sdd-orchestrator -->") {
+>>>>>>> upstream/main
 		t.Fatal("missing close marker")
 	}
 	// The unique legacy phrase must be gone — the bare section was stripped.
@@ -1943,7 +2026,11 @@ func TestInjectClaudeDoesNotStripMarkedSection(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile() error = %v", err)
 	}
+<<<<<<< HEAD
 	if !strings.Contains(string(after1), "<!-- dxrk:sdd-orchestrator -->") {
+=======
+	if !strings.Contains(string(after1), "<!-- gentle-ai:sdd-orchestrator -->") {
+>>>>>>> upstream/main
 		t.Fatal("markers not present after first inject — test precondition failed")
 	}
 
@@ -2306,7 +2393,11 @@ func TestInjectWindsurf_WorkflowsFoundFromSubdirectory(t *testing.T) {
 		t.Fatalf("write go.mod: %v", err)
 	}
 
+<<<<<<< HEAD
 	// Simulate running dxrk from a subdirectory inside that project.
+=======
+	// Simulate running gentle-ai from a subdirectory inside that project.
+>>>>>>> upstream/main
 	subDir := filepath.Join(projectRoot, "internal", "foo")
 	if err := os.MkdirAll(subDir, 0o755); err != nil {
 		t.Fatalf("mkdir subDir: %v", err)
@@ -2628,6 +2719,7 @@ func TestInjectOpenCodeMultiModeWithPreExistingFullConfig(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
+<<<<<<< HEAD
 // Dxrk agent model mirroring from sdd-orchestrator
 // ---------------------------------------------------------------------------
 
@@ -2636,6 +2728,16 @@ func TestInjectOpenCodeMultiModeWithPreExistingFullConfig(t *testing.T) {
 // agent already exists in opencode.json (persona installed), the orchestrator
 // model is mirrored to the Dxrk agent.
 func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToDxrk(t *testing.T) {
+=======
+// gentleman agent model mirroring from sdd-orchestrator
+// ---------------------------------------------------------------------------
+
+// TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman verifies that
+// when sdd-orchestrator has an explicit TUI model assignment and the gentleman
+// agent already exists in opencode.json (persona installed), the orchestrator
+// model is mirrored to the gentleman agent.
+func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman(t *testing.T) {
+>>>>>>> upstream/main
 	home := t.TempDir()
 	mockNoPackageManager(t)
 
@@ -2644,10 +2746,17 @@ func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToDxrk(t *testing.T) {
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
 
+<<<<<<< HEAD
 	// Pre-existing opencode.json with Dxrk agent (persona installed).
 	existing := `{
   "agent": {
     "Dxrk": {
+=======
+	// Pre-existing opencode.json with gentleman agent (persona installed).
+	existing := `{
+  "agent": {
+    "gentleman": {
+>>>>>>> upstream/main
       "mode": "primary"
     }
   }
@@ -2692,6 +2801,7 @@ func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToDxrk(t *testing.T) {
 		t.Fatalf("sdd-orchestrator model = %q, want %q", m, "openai/gpt-4o")
 	}
 
+<<<<<<< HEAD
 	// Dxrk must have the same model as sdd-orchestrator (mirrored).
 	DxrkAgent, ok := agentMap["Dxrk"].(map[string]any)
 	if !ok {
@@ -2706,6 +2816,22 @@ func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToDxrk(t *testing.T) {
 // when the Dxrk agent does NOT exist in opencode.json (persona not installed),
 // the orchestrator model is NOT mirrored to a Dxrk entry.
 func TestInjectOpenCodeMultiModeDoesNotInjectDxrkIfNotInstalled(t *testing.T) {
+=======
+	// gentleman must have the same model as sdd-orchestrator (mirrored).
+	gentlemanAgent, ok := agentMap["gentleman"].(map[string]any)
+	if !ok {
+		t.Fatal("gentleman agent not found or wrong type")
+	}
+	if m, _ := gentlemanAgent["model"].(string); m != "openai/gpt-4o" {
+		t.Fatalf("gentleman model = %q, want %q (should mirror sdd-orchestrator)", m, "openai/gpt-4o")
+	}
+}
+
+// TestInjectOpenCodeMultiModeDoesNotInjectGentlemanIfNotInstalled verifies that
+// when the gentleman agent does NOT exist in opencode.json (persona not installed),
+// the orchestrator model is NOT mirrored to a gentleman entry.
+func TestInjectOpenCodeMultiModeDoesNotInjectGentlemanIfNotInstalled(t *testing.T) {
+>>>>>>> upstream/main
 	home := t.TempDir()
 	mockNoPackageManager(t)
 
@@ -2738,12 +2864,21 @@ func TestInjectOpenCodeMultiModeDoesNotInjectDxrkIfNotInstalled(t *testing.T) {
 		t.Fatal("opencode.json missing agent map")
 	}
 
+<<<<<<< HEAD
 	// Dxrk must NOT appear — persona is not installed.
 	if DxrkRaw, exists := agentMap["Dxrk"]; exists {
 		// If it somehow exists, it must not have a model field.
 		if DxrkMap, ok := DxrkRaw.(map[string]any); ok {
 			if _, hasModel := DxrkMap["model"]; hasModel {
 				t.Fatal("Dxrk should NOT have a model field when persona is not installed")
+=======
+	// gentleman must NOT appear — persona is not installed.
+	if gentlemanRaw, exists := agentMap["gentleman"]; exists {
+		// If it somehow exists, it must not have a model field.
+		if gentlemanMap, ok := gentlemanRaw.(map[string]any); ok {
+			if _, hasModel := gentlemanMap["model"]; hasModel {
+				t.Fatal("gentleman should NOT have a model field when persona is not installed")
+>>>>>>> upstream/main
 			}
 		}
 	}
@@ -3187,8 +3322,13 @@ func TestInjectOpenCodePostCheckDiskFallback(t *testing.T) {
 	// Write a config that already has sdd-orchestrator (simulating previous install)
 	existingConfig := `{
   "agent": {
+<<<<<<< HEAD
     "Dxrk": {
       "description": "Dxrk",
+=======
+    "gentleman": {
+      "description": "Gentleman",
+>>>>>>> upstream/main
       "mode": "primary"
     },
     "sdd-orchestrator": {

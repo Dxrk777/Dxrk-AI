@@ -10,7 +10,11 @@ const (
 	closePrefix  = "<!-- /dxrk:"
 )
 
+<<<<<<< HEAD
 // legacyPersonaFingerprints are substrings that appear in the Dxrk persona
+=======
+// legacyPersonaFingerprints are substrings that appear in the Gentleman persona
+>>>>>>> upstream/main
 // asset and reliably identify a stale free-text block written by an old installer
 // (or manually copied) before the marker-based injection system was in use.
 // All fingerprints must be present for the block to be considered a match.
@@ -20,13 +24,22 @@ var legacyPersonaFingerprints = []string{
 	"## Rules",
 }
 
+<<<<<<< HEAD
 // StripLegacyPersonaBlock removes a free-text Dxrk persona block that was
 // written to a markdown file outside of <!-- dxrk: --> markers.
+=======
+// StripLegacyPersonaBlock removes a free-text Gentleman persona block that was
+// written to a markdown file outside of <!-- gentle-ai: --> markers.
+>>>>>>> upstream/main
 //
 // It is safe to call on any file: if no legacy block is detected, the original
 // content is returned unchanged. Stripping requires ALL fingerprints to be
 // present in the pre-marker zone (the region before the first
+<<<<<<< HEAD
 // <!-- dxrk: --> marker). A fingerprint that exists only inside a marker
+=======
+// <!-- gentle-ai: --> marker). A fingerprint that exists only inside a marker
+>>>>>>> upstream/main
 // section is ignored — this prevents false positives when a user's own section
 // headers happen to match one or two of the fingerprint strings while the
 // remaining fingerprints live inside a managed marker block.

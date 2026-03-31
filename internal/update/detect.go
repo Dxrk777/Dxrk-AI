@@ -18,7 +18,11 @@ var (
 var versionRegexp = regexp.MustCompile(`(\d+\.\d+(?:\.\d+)?)`)
 
 // detectInstalledVersion determines the installed version of a tool.
+<<<<<<< HEAD
 // For tools with nil DetectCmd (dxrk), returns currentBuildVersion.
+=======
+// For tools with nil DetectCmd (gentle-ai), returns currentBuildVersion.
+>>>>>>> upstream/main
 // For other tools, checks LookPath then runs the detect command.
 func detectInstalledVersion(ctx context.Context, tool ToolInfo, currentBuildVersion string) string {
 	if tool.DetectCmd == nil {

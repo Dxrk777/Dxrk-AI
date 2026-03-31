@@ -1,4 +1,8 @@
+<<<<<<< HEAD:internal/components/dxrk/runtime_test.go
 package dxrk
+=======
+package gga
+>>>>>>> upstream/main:internal/components/gga/runtime_test.go
 
 import (
 	"os"
@@ -6,7 +10,11 @@ import (
 	"strings"
 	"testing"
 
+<<<<<<< HEAD:internal/components/dxrk/runtime_test.go
 	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/assets"
+>>>>>>> upstream/main:internal/components/gga/runtime_test.go
 )
 
 func TestEnsureRuntimeAssetsCreatesPRModeWhenMissing(t *testing.T) {
@@ -120,8 +128,13 @@ func TestRuntimeBinDir(t *testing.T) {
 		homeDir    string
 		wantSuffix string
 	}{
+<<<<<<< HEAD:internal/components/dxrk/runtime_test.go
 		{"/home/user", filepath.Join(".local", "share", "dxrk", "bin")},
 		{"/root", filepath.Join(".local", "share", "dxrk", "bin")},
+=======
+		{"/home/user", filepath.Join(".local", "share", "gga", "bin")},
+		{"/root", filepath.Join(".local", "share", "gga", "bin")},
+>>>>>>> upstream/main:internal/components/gga/runtime_test.go
 	}
 	for _, tc := range tests {
 		got := RuntimeBinDir(tc.homeDir)
@@ -136,8 +149,13 @@ func TestRuntimePS1Path(t *testing.T) {
 		homeDir    string
 		wantSuffix string
 	}{
+<<<<<<< HEAD:internal/components/dxrk/runtime_test.go
 		{"/home/user", filepath.Join("bin", "dxrk.ps1")},
 		{"/root", filepath.Join("bin", "dxrk.ps1")},
+=======
+		{"/home/user", filepath.Join("bin", "gga.ps1")},
+		{"/root", filepath.Join("bin", "gga.ps1")},
+>>>>>>> upstream/main:internal/components/gga/runtime_test.go
 	}
 	for _, tc := range tests {
 		got := RuntimePS1Path(tc.homeDir)
@@ -167,7 +185,11 @@ func TestEnsurePowerShellShimCreatesFileWhenMissing(t *testing.T) {
 	// Verify file contains the expected shim sentinel content.
 	text := string(content)
 	if !strings.Contains(text, "Get-Command git") {
+<<<<<<< HEAD:internal/components/dxrk/runtime_test.go
 		t.Fatalf("dxrk.ps1 missing expected content, got: %s", text)
+=======
+		t.Fatalf("gga.ps1 missing expected content, got: %s", text)
+>>>>>>> upstream/main:internal/components/gga/runtime_test.go
 	}
 }
 
@@ -194,15 +216,26 @@ func TestEnsurePowerShellShimOverwritesStaleShim(t *testing.T) {
 
 	// The stale content must have been replaced.
 	if string(content) == stale {
+<<<<<<< HEAD:internal/components/dxrk/runtime_test.go
 		t.Fatalf("EnsurePowerShellShim did not overwrite stale dxrk.ps1")
 	}
 	if !strings.Contains(string(content), "Get-Command git") {
 		t.Fatalf("overwritten dxrk.ps1 missing expected embedded content")
+=======
+		t.Fatalf("EnsurePowerShellShim did not overwrite stale gga.ps1")
+	}
+	if !strings.Contains(string(content), "Get-Command git") {
+		t.Fatalf("overwritten gga.ps1 missing expected embedded content")
+>>>>>>> upstream/main:internal/components/gga/runtime_test.go
 	}
 }
 
 // TestEnsurePowerShellShimIsNoOpWhenContentMatches verifies idempotency:
+<<<<<<< HEAD:internal/components/dxrk/runtime_test.go
 // when dxrk.ps1 already contains the correct embedded content,
+=======
+// when gga.ps1 already contains the correct embedded content,
+>>>>>>> upstream/main:internal/components/gga/runtime_test.go
 // EnsurePowerShellShim must not modify it (WriteFileAtomic no-op).
 func TestEnsurePowerShellShimIsNoOpWhenContentMatches(t *testing.T) {
 	home := t.TempDir()
@@ -253,6 +286,7 @@ func TestEnsurePowerShellShimIsNoOpWhenContentMatches(t *testing.T) {
 // Asset embedding
 // ---------------------------------------------------------------------------
 
+<<<<<<< HEAD:internal/components/dxrk/runtime_test.go
 // TestAssetDxrkPS1IsEmbeddedAndReadable verifies the dxrk.ps1 asset is
 // correctly embedded and can be read via the assets package.
 func TestAssetDxrkPS1IsEmbeddedAndReadable(t *testing.T) {
@@ -265,5 +299,19 @@ func TestAssetDxrkPS1IsEmbeddedAndReadable(t *testing.T) {
 	}
 	if !strings.Contains(content, "Get-Command git") {
 		t.Fatalf("embedded dxrk.ps1 missing expected content, got: %s", content)
+=======
+// TestAssetGGAPS1IsEmbeddedAndReadable verifies the gga.ps1 asset is
+// correctly embedded and can be read via the assets package.
+func TestAssetGGAPS1IsEmbeddedAndReadable(t *testing.T) {
+	content, err := assets.Read("gga/gga.ps1")
+	if err != nil {
+		t.Fatalf("assets.Read(\"gga/gga.ps1\") error = %v", err)
+	}
+	if content == "" {
+		t.Fatal("assets.Read(\"gga/gga.ps1\") returned empty content")
+	}
+	if !strings.Contains(content, "Get-Command git") {
+		t.Fatalf("embedded gga.ps1 missing expected content, got: %s", content)
+>>>>>>> upstream/main:internal/components/gga/runtime_test.go
 	}
 }

@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 # Design: Dxrk PowerShell Support
 
 ## Technical Approach
 
 Embed `dxrk.ps1` as a Go asset under `internal/assets/dxrk/`, then extend `runtime.go` with a new exported function `EnsurePowerShellShim(homeDir string) error` that writes the shim using the same `assets.Read` + `filemerge.WriteFileAtomic` pattern already used for `pr_mode.sh`. The install trigger is added in `resolver.go` `resolveDxrkInstall` for `winget`, appending a post-install step that invokes a new `internal/components/dxrk` exported helper via a dedicated `WriteDxrkShim` command — but because `CommandSequence` is shell-level and the shim write is a Go-level side-effect, it does NOT go into `CommandSequence`. Instead, `EnsurePowerShellShim` is called from the same call-site that calls `EnsureRuntimeAssets`, guarded by `runtime.GOOS == "windows"` (via an injected predicate for testability).
+=======
+# Design: GGA PowerShell Support
+
+## Technical Approach
+
+Embed `gga.ps1` as a Go asset under `internal/assets/gga/`, then extend `runtime.go` with a new exported function `EnsurePowerShellShim(homeDir string) error` that writes the shim using the same `assets.Read` + `filemerge.WriteFileAtomic` pattern already used for `pr_mode.sh`. The install trigger is added in `resolver.go` `resolveGGAInstall` for `winget`, appending a post-install step that invokes a new `internal/components/gga` exported helper via a dedicated `WriteGGAShim` command — but because `CommandSequence` is shell-level and the shim write is a Go-level side-effect, it does NOT go into `CommandSequence`. Instead, `EnsurePowerShellShim` is called from the same call-site that calls `EnsureRuntimeAssets`, guarded by `runtime.GOOS == "windows"` (via an injected predicate for testability).
+>>>>>>> upstream/main
 
 ## Architecture Decisions
 
@@ -11,13 +19,20 @@ Embed `dxrk.ps1` as a Go asset under `internal/assets/dxrk/`, then extend `runti
 | Write shim inside `EnsureRuntimeAssets` with OS guard | Keeps all runtime asset logic in one function; couples Linux/macOS path to Windows code | Rejected — violates single-responsibility |
 | New `EnsurePowerShellShim(homeDir string) error` in `runtime.go` | Mirrors `EnsureRuntimeAssets` exactly; caller guards with OS check; easy to test in isolation | **Chosen** |
 | Add PS1 step to `CommandSequence` in `resolver.go` | Keeps all install steps in one place; but shell-level commands cannot call Go's `os.Rename` atomic write | Rejected — shim write must be Go-level |
+<<<<<<< HEAD
 | Embed `dxrk.ps1` template with `gitBashPath()` expanded at runtime | Dynamic path avoids hardcoding; but `gitBashPath()` lives in `installcmd` package, not accessible from assets | Rejected — `dxrk.ps1` is a static shim that calls `git.exe`-relative `bash.exe` via a lookup at run time inside the script itself |
 
 **Final choice for shim content:** `dxrk.ps1` resolves Git Bash by deriving its path from `(Get-Command git).Source` at PowerShell runtime (not at install time). This eliminates the cross-package dependency on `gitBashPath()` and produces a shim that self-heals if Git is reinstalled to a different path. The shim is therefore a fully static asset — no templating needed.
+=======
+| Embed `gga.ps1` template with `gitBashPath()` expanded at runtime | Dynamic path avoids hardcoding; but `gitBashPath()` lives in `installcmd` package, not accessible from assets | Rejected — `gga.ps1` is a static shim that calls `git.exe`-relative `bash.exe` via a lookup at run time inside the script itself |
+
+**Final choice for shim content:** `gga.ps1` resolves Git Bash by deriving its path from `(Get-Command git).Source` at PowerShell runtime (not at install time). This eliminates the cross-package dependency on `gitBashPath()` and produces a shim that self-heals if Git is reinstalled to a different path. The shim is therefore a fully static asset — no templating needed.
+>>>>>>> upstream/main
 
 ## Data Flow
 
 ```
+<<<<<<< HEAD
 dxrk install (Windows)
   │
   ├─ resolveDxrkInstall(winget)  ──→  CommandSequence (powershell cleanup + git clone + bash install.sh)
@@ -27,6 +42,17 @@ dxrk install (Windows)
        │
        ├─ assets.Read("dxrk/dxrk.ps1")          ← embedded asset
        ├─ RuntimeBinDir(homeDir)               ← ~/.local/share/dxrk/bin
+=======
+gentle-ai install (Windows)
+  │
+  ├─ resolveGGAInstall(winget)  ──→  CommandSequence (powershell cleanup + git clone + bash install.sh)
+  │                                   [existing — unchanged]
+  │
+  └─ EnsurePowerShellShim(homeDir)   [NEW — called after GGA install completes]
+       │
+       ├─ assets.Read("gga/gga.ps1")          ← embedded asset
+       ├─ RuntimeBinDir(homeDir)               ← ~/.local/share/gga/bin
+>>>>>>> upstream/main
        └─ filemerge.WriteFileAtomic(path, content, 0o755)
             ├─ no-op if content matches
             └─ atomic rename if stale/missing
@@ -36,9 +62,15 @@ dxrk install (Windows)
 
 | File | Action | Description |
 |------|--------|-------------|
+<<<<<<< HEAD
 | `internal/assets/dxrk/dxrk.ps1` | Create | Static PowerShell shim; resolves bash via `git` on PATH at runtime |
 | `internal/components/dxrk/runtime.go` | Modify | Add `RuntimeBinDir`, `RuntimePS1Path`, `EnsurePowerShellShim` |
 | `internal/components/dxrk/runtime_test.go` | Modify | Add tests for shim: missing, stale, idempotent, git-bash-not-found |
+=======
+| `internal/assets/gga/gga.ps1` | Create | Static PowerShell shim; resolves bash via `git` on PATH at runtime |
+| `internal/components/gga/runtime.go` | Modify | Add `RuntimeBinDir`, `RuntimePS1Path`, `EnsurePowerShellShim` |
+| `internal/components/gga/runtime_test.go` | Modify | Add tests for shim: missing, stale, idempotent, git-bash-not-found |
+>>>>>>> upstream/main
 | `docs/platforms.md` | Modify | Remove Windows/PowerShell limitation note |
 
 `install.go` and `resolver.go` are NOT modified — the shim install is a runtime-asset concern, not a package-manager command concern.
@@ -46,6 +78,7 @@ dxrk install (Windows)
 ## Interfaces / Contracts
 
 ```go
+<<<<<<< HEAD
 // RuntimeBinDir returns ~/.local/share/dxrk/bin — where Dxrk's bash script lives on Linux/Windows.
 func RuntimeBinDir(homeDir string) string
 
@@ -53,17 +86,34 @@ func RuntimeBinDir(homeDir string) string
 func RuntimePS1Path(homeDir string) string
 
 // EnsurePowerShellShim writes dxrk.ps1 to the Dxrk bin directory.
+=======
+// RuntimeBinDir returns ~/.local/share/gga/bin — where GGA's bash script lives on Linux/Windows.
+func RuntimeBinDir(homeDir string) string
+
+// RuntimePS1Path returns the expected gga.ps1 path.
+func RuntimePS1Path(homeDir string) string
+
+// EnsurePowerShellShim writes gga.ps1 to the GGA bin directory.
+>>>>>>> upstream/main
 // Uses WriteFileAtomic: no-op when content matches, atomic replace otherwise.
 // Must only be called on Windows (caller is responsible for the OS guard).
 func EnsurePowerShellShim(homeDir string) error
 ```
 
+<<<<<<< HEAD
 `dxrk.ps1` content (static asset — no templating):
+=======
+`gga.ps1` content (static asset — no templating):
+>>>>>>> upstream/main
 
 ```powershell
 $gitCmd = Get-Command git -ErrorAction SilentlyContinue
 if (-not $gitCmd) {
+<<<<<<< HEAD
     Write-Error "Git not found on PATH. Install Git for Windows to use dxrk from PowerShell."
+=======
+    Write-Error "Git not found on PATH. Install Git for Windows to use gga from PowerShell."
+>>>>>>> upstream/main
     exit 1
 }
 $bash = Join-Path (Split-Path (Split-Path $gitCmd.Source)) "bin\bash.exe"
@@ -71,17 +121,29 @@ if (-not (Test-Path $bash)) {
     Write-Error "Git Bash not found at '$bash'. Reinstall Git for Windows."
     exit 1
 }
+<<<<<<< HEAD
 & $bash -c "dxrk $args"
 exit $LASTEXITCODE
 ```
 
 **Note on argument forwarding:** `$args` in PowerShell is the automatic array of unbound arguments. Using `"dxrk $args"` passes them as a space-joined string to bash `-c`. For arguments with spaces, callers must quote them in PowerShell as they normally would — this matches standard shell forwarding behavior and is consistent with how similar PS1 shims (e.g., nvm.ps1) work.
+=======
+& $bash -c "gga $args"
+exit $LASTEXITCODE
+```
+
+**Note on argument forwarding:** `$args` in PowerShell is the automatic array of unbound arguments. Using `"gga $args"` passes them as a space-joined string to bash `-c`. For arguments with spaces, callers must quote them in PowerShell as they normally would — this matches standard shell forwarding behavior and is consistent with how similar PS1 shims (e.g., nvm.ps1) work.
+>>>>>>> upstream/main
 
 ## Testing Strategy
 
 | Layer | What to Test | Approach |
 |-------|-------------|----------|
+<<<<<<< HEAD
 | Unit — asset | `dxrk.ps1` is embedded and readable | `assets.Read("dxrk/dxrk.ps1")` returns non-empty content |
+=======
+| Unit — asset | `gga.ps1` is embedded and readable | `assets.Read("gga/gga.ps1")` returns non-empty content |
+>>>>>>> upstream/main
 | Unit — `EnsurePowerShellShim` | Creates file when missing | `t.TempDir()` home, call once, assert file exists with expected content |
 | Unit — `EnsurePowerShellShim` | Overwrites stale shim | Write sentinel content, call, assert content replaced |
 | Unit — `EnsurePowerShellShim` | No-op when content matches | Call twice, assert `ModTime` unchanged (mirrors `TestEnsureRuntimeAssetsIsNoOpWhenContentMatches`) |
@@ -91,9 +153,17 @@ No integration or E2E tests are required for this change — the `filemerge.Writ
 
 ## Migration / Rollout
 
+<<<<<<< HEAD
 No migration required. On first run after update, `EnsurePowerShellShim` creates the file. On non-Windows, the function is never called. Rollback: delete `~/.local/share/dxrk/bin/dxrk.ps1`.
+=======
+No migration required. On first run after update, `EnsurePowerShellShim` creates the file. On non-Windows, the function is never called. Rollback: delete `~/.local/share/gga/bin/gga.ps1`.
+>>>>>>> upstream/main
 
 ## Open Questions
 
 - [ ] Confirm where `EnsurePowerShellShim` is called from — the tasks phase must identify the exact call-site (likely the same place `EnsureRuntimeAssets` is invoked) and add the Windows OS guard there.
+<<<<<<< HEAD
 - [ ] Verify that Dxrk's `install.sh` on Windows places the `dxrk` bash script under `~/.local/share/dxrk/bin/` (same as Linux) so `RuntimeBinDir` is the correct target directory.
+=======
+- [ ] Verify that GGA's `install.sh` on Windows places the `gga` bash script under `~/.local/share/gga/bin/` (same as Linux) so `RuntimeBinDir` is the correct target directory.
+>>>>>>> upstream/main

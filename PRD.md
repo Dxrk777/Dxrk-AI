@@ -285,7 +285,11 @@ The full SDD Agent Team skill set (9 skills):
 - R-SDD-01: SDD skills MUST be installed to the correct path for each selected agent (Claude Code: `~/.claude/skills/`, OpenCode: `~/.config/opencode/skills/`, Cursor: `~/.cursor/skills/`)
 - R-SDD-02: The SDD orchestrator configuration MUST be injected into the agent's global config (CLAUDE.md, opencode.json agents, .cursorrules)
 - R-SDD-03: OpenCode slash commands for SDD phases MUST be installed when OpenCode is selected, enabling the agent to invoke SDD organically when it detects a substantial change
+<<<<<<< HEAD
 - R-SDD-04: The installer MUST pull SDD skills from the latest release of `Dxrk/sdd-agent-team`
+=======
+- R-SDD-04: The installer MUST pull SDD skills from the latest release of `Gentleman-Programming/sdd-agent-team`
+>>>>>>> upstream/main
 
 ### 6.4 Dxrk — Dxrk Morpheus Guardian (AI Code Review)
 

@@ -1,13 +1,22 @@
+<<<<<<< HEAD
 # Dxrk Specification
 
 ## Purpose
 
 Defines the install and runtime behavior of the Dxrk component, covering the PowerShell shim asset and its Windows-specific install step.
+=======
+# GGA Specification
+
+## Purpose
+
+Defines the install and runtime behavior of the GGA component, covering the PowerShell shim asset and its Windows-specific install step.
+>>>>>>> upstream/main
 
 ## Requirements
 
 ### Requirement: PowerShell Shim Asset
 
+<<<<<<< HEAD
 The system MUST embed a `dxrk.ps1` file as a Go asset under `internal/assets/dxrk/`. The shim MUST delegate execution to the Git Bash binary resolved by `gitBashPath()`, forwarding all arguments verbatim and propagating the exit code.
 
 #### Scenario: Shim delegates to Git Bash
@@ -27,12 +36,34 @@ The system MUST embed a `dxrk.ps1` file as a Go asset under `internal/assets/dxr
 
 - GIVEN `dxrk.ps1` is installed
 - WHEN the underlying Dxrk command exits with a non-zero code
+=======
+The system MUST embed a `gga.ps1` file as a Go asset under `internal/assets/gga/`. The shim MUST delegate execution to the Git Bash binary resolved by `gitBashPath()`, forwarding all arguments verbatim and propagating the exit code.
+
+#### Scenario: Shim delegates to Git Bash
+
+- GIVEN the embedded `gga.ps1` is installed on a Windows machine with Git Bash present
+- WHEN the user runs `gga <subcommand>` from PowerShell
+- THEN the shim invokes Git Bash with the resolved bash binary path and all supplied arguments
+- AND the process exits with the same code returned by the underlying GGA bash command
+
+#### Scenario: Arguments containing spaces are forwarded correctly
+
+- GIVEN `gga.ps1` is installed
+- WHEN the user runs `gga commit -m "my message"` from PowerShell
+- THEN the argument `"my message"` reaches GGA as a single token (not split)
+
+#### Scenario: Exit code propagation on error
+
+- GIVEN `gga.ps1` is installed
+- WHEN the underlying GGA command exits with a non-zero code
+>>>>>>> upstream/main
 - THEN PowerShell's `$LASTEXITCODE` reflects that exact non-zero value
 
 ---
 
 ### Requirement: Windows Install Step
 
+<<<<<<< HEAD
 On Windows, the installer MUST write `dxrk.ps1` to the same directory as the Dxrk bash script after Dxrk's own `install.sh` completes. The write MUST use an atomic no-op pattern: if the file already exists with identical content, the installer MUST NOT overwrite it.
 
 #### Scenario: First-time install on Windows
@@ -45,12 +76,30 @@ On Windows, the installer MUST write `dxrk.ps1` to the same directory as the Dxr
 #### Scenario: Idempotent re-install (content unchanged)
 
 - GIVEN `dxrk.ps1` already exists with content matching the current embedded asset
+=======
+On Windows, the installer MUST write `gga.ps1` to the same directory as the GGA bash script after GGA's own `install.sh` completes. The write MUST use an atomic no-op pattern: if the file already exists with identical content, the installer MUST NOT overwrite it.
+
+#### Scenario: First-time install on Windows
+
+- GIVEN GGA has completed its own install
+- AND `gga.ps1` does not yet exist in the install directory
+- WHEN the Windows install step runs
+- THEN `gga.ps1` is written to the install directory with correct content
+
+#### Scenario: Idempotent re-install (content unchanged)
+
+- GIVEN `gga.ps1` already exists with content matching the current embedded asset
+>>>>>>> upstream/main
 - WHEN the installer runs again
 - THEN the file is NOT overwritten (no write I/O occurs)
 
 #### Scenario: Stale shim is updated
 
+<<<<<<< HEAD
 - GIVEN `dxrk.ps1` exists but its content differs from the current embedded asset
+=======
+- GIVEN `gga.ps1` exists but its content differs from the current embedded asset
+>>>>>>> upstream/main
 - WHEN the installer runs
 - THEN the file is atomically replaced with the new content
 
@@ -65,12 +114,20 @@ On Windows, the installer MUST write `dxrk.ps1` to the same directory as the Dxr
 
 ### Requirement: Non-Windows Systems Unaffected
 
+<<<<<<< HEAD
 On non-Windows platforms, the installer MUST NOT attempt to write `dxrk.ps1` or invoke the PowerShell shim step.
+=======
+On non-Windows platforms, the installer MUST NOT attempt to write `gga.ps1` or invoke the PowerShell shim step.
+>>>>>>> upstream/main
 
 #### Scenario: Linux/macOS install flow unchanged
 
 - GIVEN a Linux or macOS host
+<<<<<<< HEAD
 - WHEN Dxrk install runs
+=======
+- WHEN GGA install runs
+>>>>>>> upstream/main
 - THEN no `.ps1` file is created and no Windows-specific code path executes
 
 ---

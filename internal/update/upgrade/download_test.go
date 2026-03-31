@@ -13,8 +13,13 @@ import (
 	"runtime"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+=======
+	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/gentleman-programming/gentle-ai/internal/update"
+>>>>>>> upstream/main
 )
 
 // --- test helpers ---
@@ -74,8 +79,13 @@ func TestAssetURLResolution(t *testing.T) {
 	}{
 		{
 			name:       "darwin amd64",
+<<<<<<< HEAD
 			owner:      "Dxrk",
 			repo:       "dxrk",
+=======
+			owner:      "Gentleman-Programming",
+			repo:       "gentle-ai",
+>>>>>>> upstream/main
 			version:    "1.5.0",
 			goos:       "darwin",
 			goarch:     "amd64",
@@ -83,8 +93,13 @@ func TestAssetURLResolution(t *testing.T) {
 		},
 		{
 			name:       "darwin arm64",
+<<<<<<< HEAD
 			owner:      "Dxrk",
 			repo:       "dxrk",
+=======
+			owner:      "Gentleman-Programming",
+			repo:       "gentle-ai",
+>>>>>>> upstream/main
 			version:    "1.5.0",
 			goos:       "darwin",
 			goarch:     "arm64",
@@ -92,8 +107,13 @@ func TestAssetURLResolution(t *testing.T) {
 		},
 		{
 			name:       "linux amd64",
+<<<<<<< HEAD
 			owner:      "Dxrk",
 			repo:       "dxrk",
+=======
+			owner:      "Gentleman-Programming",
+			repo:       "gga",
+>>>>>>> upstream/main
 			version:    "2.0.0",
 			goos:       "linux",
 			goarch:     "amd64",
@@ -101,8 +121,13 @@ func TestAssetURLResolution(t *testing.T) {
 		},
 		{
 			name:       "contains version",
+<<<<<<< HEAD
 			owner:      "Dxrk",
 			repo:       "dxrk",
+=======
+			owner:      "Gentleman-Programming",
+			repo:       "gentle-ai",
+>>>>>>> upstream/main
 			version:    "1.5.0",
 			goos:       "darwin",
 			goarch:     "amd64",
@@ -243,9 +268,15 @@ func TestDownload_WindowsAlwaysManualFallback(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
+<<<<<<< HEAD
 			Name:          "dxrk",
 			Owner:         "Dxrk",
 			Repo:          "dxrk",
+=======
+			Name:          "gentle-ai",
+			Owner:         "Gentleman-Programming",
+			Repo:          "gentle-ai",
+>>>>>>> upstream/main
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
@@ -276,7 +307,11 @@ func TestFindBinaryInTar(t *testing.T) {
 		content []byte
 	}{
 		{"README.md", []byte("readme content")},
+<<<<<<< HEAD
 		{"dxrk_1.5.0_darwin_arm64/dxrk", content}, // binary in subdir
+=======
+		{"gentle-ai_1.5.0_darwin_arm64/gentle-ai", content}, // binary in subdir
+>>>>>>> upstream/main
 	}
 
 	for _, e := range entries {
@@ -288,7 +323,11 @@ func TestFindBinaryInTar(t *testing.T) {
 	f.Close()
 
 	tarContent, _ := os.ReadFile(tarPath)
+<<<<<<< HEAD
 	outPath := filepath.Join(t.TempDir(), "dxrk")
+=======
+	outPath := filepath.Join(t.TempDir(), "gentle-ai")
+>>>>>>> upstream/main
 
 	// Use an httptest server to serve the tar.
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -301,7 +340,11 @@ func TestFindBinaryInTar(t *testing.T) {
 	t.Cleanup(func() { httpClient = origHTTPClient })
 	httpClient = server.Client()
 
+<<<<<<< HEAD
 	err := downloadBinary(context.Background(), server.URL+"/release.tar.gz", "dxrk", outPath)
+=======
+	err := downloadBinary(context.Background(), server.URL+"/release.tar.gz", "gentle-ai", outPath)
+>>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("downloadBinary: %v", err)
 	}
