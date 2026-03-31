@@ -28,15 +28,15 @@ var logoLines = []string{
 	"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣿⣿⣿⣿⣿⣿⡧⣿⣿⣿⠿⠛⠀⠃⢸⢀⣙⡷⠀⡃⢀⣤⡧⣀⣀⣀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠁⠃⢰⣧⣿",
 }
 
-// gradientColors defines the gradient for the skull logo.
+// gradientColors defines the gradient for the skull logo - DARK PUNK/PURPLE
 var gradientColors = []lipgloss.Color{
-	ColorBase,       // Negro profundo
-	ColorDeepPurple, // Rojo muy oscuro
-	ColorRed,        // Rojo oscuro
-	ColorCrimson,    // Carmesí
-	ColorRed,        // Rojo
-	ColorDeepPurple, // Rojo oscuro
-	ColorBase,       // Negro profundo
+	ColorBase,       // Negro total
+	ColorDeepPurple, // Púrpura muy oscuro
+	ColorMagenta,    // Magenta oscuro
+	ColorLavender,   // Púrpura oscuro
+	ColorHotPink,    // Magenta brillante
+	ColorDeepPurple, // Púrpura muy oscuro
+	ColorBase,       // Negro total
 }
 
 // RenderLogo returns the braille ASCII logo with a gradient.
