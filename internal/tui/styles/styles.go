@@ -2,25 +2,25 @@ package styles
 
 import "github.com/charmbracelet/lipgloss"
 
-// HexNeonCyber color palette - Neon Cyberpunk (Masculino)
+// HexCyberpunk color palette - Cyberpunk (Suave)
 var (
-	ColorBase       = lipgloss.Color("#000000") // Negro total
-	ColorSurface    = lipgloss.Color("#0a0a0a") // Negro profundo
-	ColorOverlay    = lipgloss.Color("#00FFFF") // Cian brillante
-	ColorText       = lipgloss.Color("#FFFFFF") // Blanco puro
-	ColorSubtext    = lipgloss.Color("#00CED1") // Turquesa oscuro
-	ColorLavender   = lipgloss.Color("#FF4500") // Naranja Rojo (OrangeRed)
-	ColorGreen      = lipgloss.Color("#00FF00") // Verde neón
-	ColorPeach      = lipgloss.Color("#FFD700") // Oro/Dorado
-	ColorRed        = lipgloss.Color("#FF073A") // Rojo neón
-	ColorBlue       = lipgloss.Color("#00BFFF") // Azul cielo brillante
-	ColorMauve      = lipgloss.Color("#FF6600") // Naranja neón
-	ColorYellow     = lipgloss.Color("#FFFF00") // Amarillo neón
-	ColorTeal       = lipgloss.Color("#00FFFF") // Cian
-	ColorHotPink    = lipgloss.Color("#FF00FF") // Magenta neón
-	ColorDeepPurple = lipgloss.Color("#8B00FF") // Violeta neón
-	ColorCrimson    = lipgloss.Color("#FF2400") // Escarlata
-	ColorMagenta    = lipgloss.Color("#FF1493") // Rosa intenso
+	ColorBase       = lipgloss.Color("#0a0a0a") // Negro profundo
+	ColorSurface    = lipgloss.Color("#111111") // Negro suave
+	ColorOverlay    = lipgloss.Color("#1a3a5c") // Azul oscuro cyber
+	ColorText       = lipgloss.Color("#c0c0c0") // Gris claro
+	ColorSubtext    = lipgloss.Color("#709090") // Gris azulado
+	ColorLavender   = lipgloss.Color("#ff6b35") // Naranja cyber
+	ColorGreen      = lipgloss.Color("#00ff9f") // Verde cyber (mint)
+	ColorPeach      = lipgloss.Color("#ffd700") // Dorado suave
+	ColorRed        = lipgloss.Color("#ff3366") // Rojo cyber
+	ColorBlue       = lipgloss.Color("#00d4ff") // Cyan cyber
+	ColorMauve      = lipgloss.Color("#ff9500") // Naranja suave
+	ColorYellow     = lipgloss.Color("#ffee00") // Amarillo cyber
+	ColorTeal       = lipgloss.Color("#00ffff") // Cian cyber
+	ColorHotPink    = lipgloss.Color("#ff00ff") // Magenta
+	ColorDeepPurple = lipgloss.Color("#9d00ff") // Violeta cyber
+	ColorCrimson    = lipgloss.Color("#ff0055") // Rosa cyber
+	ColorMagenta    = lipgloss.Color("#ff66b2") // Rosa suave
 )
 
 // Cursor is the prefix used for the currently focused item.
@@ -31,24 +31,24 @@ func Tagline(version string) string {
 	return "DXRK HEX " + version + " — Tu compañero digital 🔥"
 }
 
-// Pre-built reusable styles - NEON CYBERPUNK
+// Pre-built reusable styles - CYBERPUNK SUAVE
 var (
 	TitleStyle = lipgloss.NewStyle().
 			Foreground(ColorTeal).
 			Bold(true)
 
 	HeadingStyle = lipgloss.NewStyle().
-			Foreground(ColorGreen).
+			Foreground(ColorBlue).
 			Bold(true)
 
 	HelpStyle = lipgloss.NewStyle().
 			Foreground(ColorSubtext)
 
 	SubtextStyle = lipgloss.NewStyle().
-			Foreground(ColorBlue)
+			Foreground(ColorGreen)
 
 	SelectedStyle = lipgloss.NewStyle().
-			Foreground(ColorYellow).
+			Foreground(ColorLavender).
 			Bold(true)
 
 	UnselectedStyle = lipgloss.NewStyle().
@@ -65,7 +65,7 @@ var (
 
 	FrameStyle = lipgloss.NewStyle().
 			Border(lipgloss.DoubleBorder()).
-			BorderForeground(ColorTeal).
+			BorderForeground(ColorBlue).
 			Padding(1, 2)
 
 	PanelStyle = lipgloss.NewStyle().
@@ -74,12 +74,12 @@ var (
 			Padding(0, 1)
 
 	ProgressFilled = lipgloss.NewStyle().
-			Foreground(ColorGreen)
+			Foreground(ColorBlue)
 
 	ProgressEmpty = lipgloss.NewStyle().
 			Foreground(ColorSurface)
 
 	PercentStyle = lipgloss.NewStyle().
-			Foreground(ColorLavender).
+			Foreground(ColorYellow).
 			Bold(true)
 )
