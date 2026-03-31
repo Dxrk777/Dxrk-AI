@@ -344,27 +344,12 @@ func (c *Connector) executeInstall(args string) string {
 
 	agent := strings.ToLower(strings.TrimSpace(args))
 
-	// Map aliases with detailed descriptions
-	agentMap := map[string]string{
-		"claude":      "Claude Code (Anthropic)",
-		"opencode":    "OpenCode PRO (Dxrk Fork) ⭐",
-		"cursor":      "Cursor AI",
-		"windsurf":    "Windsurf AI",
-		"codex":       "OpenAI Codex",
-		"gemini":      "Google Gemini CLI",
-		"vscode":      "VS Code + AI",
-		"antigravity": "AGENT Framework",
-		"ollama":      "Ollama (Local LLM)",
-		"groq":        "Groq (Free API)",
-		"deepseek":    "DeepSeek (Free API)",
-	}
+	// Detailed agent descriptions
+	switch agent {
+	case "opencode":
+		return `🎯 OPENCODE PRO — Código Profesional
 
-	if fullName, ok := agentMap[agent]; ok {
-		// Special message for OpenCode
-		if agent == "opencode" {
-			return `🎯 OPENCODE PRO — Código Profesional
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ✅ Tu fork de Cursor con poder Dxrk!
 
@@ -384,20 +369,247 @@ INSTALACIÓN:
   dxrk install opencode
 
 O usa GUI: Menu → Start installation → OpenCode`
-		}
 
-		return fmt.Sprintf(`📦 Install queued: %s
+	case "claude":
+		return `🤖 CLAUDE CODE — AI Assistant
 
-Installation request received!
-✅ Your installation has been queued.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Use GUI or CLI for full installation:
-  dxrk install %s
+✅ El agent más inteligente de Anthropic
 
-Or use Quick Install in the menu.`, fullName, agent)
-	}
+CARACTERÍSTICAS:
+  🧠 Mejor reasoning y contexto largo
+  💻 Excelente para código complejo
+  📝 Análisis de arquitectura
+  🔍 Code review exhaustivo
 
-	return fmt.Sprintf(`❌ Unknown agent: %s
+BEST FOR:
+  → Código profesional de alta calidad
+  → Proyectos grandes y complejos
+  → Arquitectura de sistemas
+  → Refactoring importante
+
+INSTALACIÓN:
+  dxrk install claude
+
+O usa GUI: Menu → Start installation → Claude`
+
+	case "cursor":
+		return `🎨 CURSOR AI — IDE Inteligente
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Editor de código con IA integrada
+
+CARACTERÍSTICAS:
+  💻 Editor completo con IA
+  🔄 Autocompletado inteligente
+  🎯 Multi-model support
+  📁 Proyecto-aware
+
+BEST FOR:
+  → Desarrollo rápido
+  → Código iterativo
+  → Debug visual
+  → Principiantes
+
+INSTALACIÓN:
+  dxrk install cursor
+
+O usa GUI: Menu → Start installation → Cursor`
+
+	case "windsurf":
+		return `🌊 WINDSURF — AI Coding Agent
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Agent con contexto de proyecto completo
+
+CARACTERÍSTICAS:
+  🌊 Flow State™ mode
+  📂 Proyecto completo en contexto
+  🔧 Tools avanzados
+  🎯 Autonomous coding
+
+BEST FOR:
+  → Coding autonomous
+  → Proyectos completos
+  → Automatización
+  → Senior developers
+
+INSTALACIÓN:
+  dxrk install windsurf
+
+O usa GUI: Menu → Start installation → Windsurf`
+
+	case "ollama":
+		return `🆓 OLLAMA — Local LLM (Gratis)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ LLM local, 100% offline, sin API key
+
+CARACTERÍSTICAS:
+  🆓 100% gratis
+  🔒 Privado (nada sale de tu PC)
+  📱 Funciona offline
+  🚀 Modelos: llama, mistral, codellama
+
+MODELS DISPONIBLES:
+  • llama3.2 — General purpose
+  • codellama — Especializado en código
+  • mistral — Rápido y eficiente
+  • phi — Muy ligero
+
+INSTALACIÓN:
+  dxrk install ollama
+
+O usa GUI: Menu → Start installation → Ollama`
+
+	case "groq":
+		return `🆓 GROQ — API Gratuita
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ API gratis, respuestas ultra-rápidas
+
+CARACTERÍSTICAS:
+  🆓 API key gratuita
+  ⚡ Respuestas extremadamente rápidas
+  💬 Modelos: llama, mixtral
+  🔓 Sin costo hasta cierto límite
+
+MODELS:
+  • llama-3.1-70b — Muy potente
+  • mixtral-8x7b — Balanceado
+  • llama-3.1-8b — Rápido
+
+INSTALACIÓN:
+  dxrk install groq
+
+O usa GUI: Menu → Start installation → Groq`
+
+	case "deepseek":
+		return `🆓 DEEPSEEK — API Gratuita
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ API china gratuita con modelos especializados
+
+CARACTERÍSTICAS:
+  🆓 API key gratuita
+  🧠 Modelo especializado en código
+  💰 Muy económico
+  🌍 Internacional
+
+MODELS:
+  • deepseek-coder — Especializado código
+  • deepseek-chat — General purpose
+
+BEST FOR:
+  → Código
+  → Matemáticas
+  → Análisis técnico
+
+INSTALACIÓN:
+  dxrk install deepseek
+
+O usa GUI: Menu → Start installation → DeepSeek`
+
+	case "codex":
+		return `⚡ OPENAI CODEX — API de OpenAI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ El clásico agent de OpenAI
+
+CARACTERÍSTICAS:
+  💻 API de OpenAI
+  🔥 Muy probado y estable
+  📚 Contexto de código
+  ⚡ Rápido
+
+BEST FOR:
+  → Código legacy
+  → APIs de OpenAI
+  → Automatización
+
+INSTALACIÓN:
+  dxrk install codex
+
+O usa GUI: Menu → Start installation → Codex`
+
+	case "gemini":
+		return `🌟 GOOGLE GEMINI CLI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Agent de Google con multimodal
+
+CARACTERÍSTICAS:
+  🌟 Multimodal (texto + imágenes)
+  📊 Contexto de Google
+  🔍 Búsquedas web
+  💡 Rápido
+
+BEST FOR:
+  → Proyectos con imágenes
+  → Análisis de UI/UX
+  → Búsquedas de información
+
+INSTALACIÓN:
+  dxrk install gemini
+
+O usa GUI: Menu → Start installation → Gemini`
+
+	case "vscode":
+		return `📦 VS CODE + AI Extensions
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Tu editor favorito con IA
+
+CARACTERÍSTICAS:
+  📦 VS Code base
+  🤖 GitHub Copilot integration
+  🔌 Muchas extensions
+  💻 Familiar para todos
+
+BEST FOR:
+  → Si ya usas VS Code
+  → Setup personalizado
+  → Extensions específicas
+
+INSTALACIÓN:
+  dxrk install vscode
+
+O usa GUI: Menu → Start installation → VSCode`
+
+	case "antigravity":
+		return `🚀 ANTIGRAVITY — AGENT Framework
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Framework propio de agentes IA
+
+CARACTERÍSTICAS:
+  🔧 Framework custom
+  🎯 Workflows personalizados
+  🧠 Memoria adaptativa
+  🔗 Conexiones flexibles
+
+BEST FOR:
+  → Desarrollo custom
+  → Workflows únicos
+  → Integración advanced
+
+INSTALACIÓN:
+  dxrk install antigravity
+
+O usa GUI: Menu → Start installation → Antigravity`
+
+	default:
+		return fmt.Sprintf(`❌ Unknown agent: %s
 
 Available agents:
 %s
@@ -406,6 +618,7 @@ Examples:
   /install claude
   /install opencode  ← Recommended for PRO
   /install ollama`, agent, c.listAvailableAgents())
+	}
 }
 
 // listAvailableAgents returns formatted list of agents.

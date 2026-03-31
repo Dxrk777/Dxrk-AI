@@ -185,8 +185,8 @@ func TestExecuteInstall(t *testing.T) {
 
 	// Test with specific agent
 	resp := c.executeInstall("claude")
-	if !contains(resp, "Claude Code") {
-		t.Error("Should mention Claude Code")
+	if !contains(resp, "Claude") {
+		t.Error("Should mention Claude")
 	}
 
 	// Test with unknown agent
@@ -207,7 +207,7 @@ func TestProcessCommand_AgentShortcut(t *testing.T) {
 
 	// Test direct agent name
 	resp := c.processCommand("claude")
-	if !contains(resp, "Claude Code") {
+	if !contains(resp, "Claude") {
 		t.Errorf("Expected Claude install message, got: %s", resp)
 	}
 
