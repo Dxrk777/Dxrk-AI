@@ -6,7 +6,6 @@ import (
 	"reflect"
 	"testing"
 
-	tea "github.com/charmbracelet/bubbletea"
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/pipeline"
@@ -15,6 +14,7 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/screens"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 func TestNavigationWelcomeToDetection(t *testing.T) {
@@ -838,12 +838,12 @@ func TestWelcomeMenu_BackupsNavigation(t *testing.T) {
 	}
 }
 
-// TestWelcomeMenu_OptionCount verifies the welcome menu has exactly 7 items.
+// TestWelcomeMenu_OptionCount verifies the welcome menu has exactly 8 items.
 func TestWelcomeMenu_OptionCount(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	opts := screens.WelcomeOptions(m.UpdateResults, m.UpdateCheckDone)
-	if len(opts) != 7 {
-		t.Fatalf("WelcomeOptions() len = %d, want 7; got %v", len(opts), opts)
+	if len(opts) != 8 {
+		t.Fatalf("WelcomeOptions() len = %d, want 8; got %v", len(opts), opts)
 	}
 }
 

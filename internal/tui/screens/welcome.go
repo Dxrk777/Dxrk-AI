@@ -24,6 +24,7 @@ func WelcomeOptions(updateResults []update.UpdateResult, updateCheckDone bool) [
 		"Upgrade + Sync",
 		"Configure models",
 		"Manage backups",
+		"🔐 Vault",
 		"Quit",
 	}
 }
