@@ -25,6 +25,7 @@ func WelcomeOptions(updateResults []update.UpdateResult, updateCheckDone bool) [
 		"Configure models",
 		"Manage backups",
 		"🔐 Vault",
+		"🧠 Memory",
 		"Quit",
 	}
 }
