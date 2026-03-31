@@ -28,15 +28,15 @@ var logoLines = []string{
 	"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣿⣿⣿⣿⣿⣿⡧⣿⣿⣿⠿⠛⠀⠃⢸⢀⣙⡷⠀⡃⢀⣤⡧⣀⣀⣀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠁⠃⢰⣧⣿",
 }
 
-// gradientColors defines the gradient for the logo - CYBERPUNK
+// gradientColors defines the gradient for the logo - GÓTICO
 var gradientColors = []lipgloss.Color{
-	ColorTeal,     // Cian cyber (arriba)
-	ColorGreen,    // Verde cyber
-	ColorYellow,   // Amarillo cyber
-	ColorLavender, // Naranja cyber
-	ColorRed,      // Rojo cyber
-	ColorMagenta,  // Rosa cyber
-	ColorTeal,     // Cian cyber (abajo)
+	ColorDeepPurple, // Púrpura negro (arriba)
+	ColorMagenta,    // Rojo oscuro
+	ColorLavender,   // Rojo sangre
+	ColorCrimson,    // Rojo carmesí
+	ColorMauve,      // Púrpura oscuro
+	ColorMagenta,    // Rojo oscuro
+	ColorDeepPurple, // Púrpura negro (abajo)
 }
 
 // RenderLogo returns the braille ASCII logo with a gradient.
