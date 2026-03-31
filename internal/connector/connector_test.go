@@ -118,17 +118,122 @@ func TestBuildHelpText(t *testing.T) {
 	help := c.buildHelpText()
 
 	expected := []string{
-		"help",
+		"Remote Commands",
 		"status",
 		"list",
 		"install",
+		"agents",
 		"backup",
+		"sync",
+		"update",
+		"version",
+		"memory",
+		"vault",
+		"skills",
 	}
 
 	for _, cmd := range expected {
 		if !contains(help, cmd) {
 			t.Errorf("Help text should contain '%s'", cmd)
 		}
+	}
+}
+
+func TestListAvailableAgents(t *testing.T) {
+	c := &Connector{}
+	agents := c.listAvailableAgents()
+
+	expected := []string{
+		"claude",
+		"opencode",
+		"cursor",
+		"windsurf",
+		"ollama",
+		"groq",
+		"deepseek",
+	}
+
+	for _, agent := range expected {
+		if !contains(agents, agent) {
+			t.Errorf("Agent list should contain '%s'", agent)
+		}
+	}
+}
+
+func TestIsAgentName(t *testing.T) {
+	c := &Connector{}
+
+	// Valid agents
+	valid := []string{"claude", "opencode", "cursor", "windsurf", "ollama", "groq"}
+	for _, agent := range valid {
+		if !c.isAgentName(agent) {
+			t.Errorf("Expected '%s' to be valid agent name", agent)
+		}
+	}
+
+	// Invalid agents
+	invalid := []string{"invalid", "unknown", "random", ""}
+	for _, agent := range invalid {
+		if c.isAgentName(agent) {
+			t.Errorf("Expected '%s' to be invalid agent name", agent)
+		}
+	}
+}
+
+func TestExecuteInstall(t *testing.T) {
+	c := &Connector{}
+
+	// Test with specific agent
+	resp := c.executeInstall("claude")
+	if !contains(resp, "Claude Code") {
+		t.Error("Should mention Claude Code")
+	}
+
+	// Test with unknown agent
+	resp = c.executeInstall("unknownagent")
+	if !contains(resp, "Unknown agent") {
+		t.Error("Should mention unknown agent")
+	}
+
+	// Test with no args
+	resp = c.executeInstall("")
+	if !contains(resp, "Available Agents") {
+		t.Error("Should list available agents")
+	}
+}
+
+func TestProcessCommand_AgentShortcut(t *testing.T) {
+	c := &Connector{}
+
+	// Test direct agent name
+	resp := c.processCommand("claude")
+	if !contains(resp, "Claude Code") {
+		t.Errorf("Expected Claude install message, got: %s", resp)
+	}
+
+	resp = c.processCommand("ollama")
+	if !contains(resp, "Ollama") {
+		t.Errorf("Expected Ollama install message, got: %s", resp)
+	}
+
+	resp = c.processCommand("opencode")
+	if !contains(resp, "OpenCode") {
+		t.Errorf("Expected OpenCode install message, got: %s", resp)
+	}
+}
+
+func TestProcessCommand_SpanishCommands(t *testing.T) {
+	c := &Connector{}
+
+	// Spanish commands
+	resp := c.processCommand("ayuda")
+	if !contains(resp, "Remote Commands") {
+		t.Errorf("Expected help text, got: %s", resp)
+	}
+
+	resp = c.processCommand("estado")
+	if !contains(resp, "Online") {
+		t.Errorf("Expected status, got: %s", resp)
 	}
 }
 

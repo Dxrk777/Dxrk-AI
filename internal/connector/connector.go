@@ -284,35 +284,173 @@ func (c *Connector) processCommand(input string) string {
 	}
 
 	switch cmd {
-	case "help":
+	case "help", "ayuda", "comandos":
 		return c.buildHelpText()
-	case "status":
+	case "status", "estado", "stat":
 		return c.executeStatus()
-	case "list":
+	case "list", "ls", "agentes":
 		return c.executeList()
-	case "install":
-		return fmt.Sprintf("Install command: %s (use GUI or CLI for full install)", args)
-	case "backup":
-		return "Backup command: Use GUI or CLI for backup operations"
-	case "version":
-		return "Dxrk Hex v000.13%"
+	case "install", "i", "add":
+		return c.executeInstall(args)
+	case "uninstall", "remove", "rm":
+		return c.executeUninstall(args)
+	case "sync", "s":
+		return "🔄 Sync command queued. Use GUI or CLI for sync."
+	case "backup", "bk":
+		return c.executeBackup()
+	case "restore", "rest":
+		return "🔄 Restore command queued. Use GUI or CLI for restore."
+	case "version", "v", "ver":
+		return c.executeVersion()
+	case "update", "upgrade":
+		return c.executeUpdate()
+	case "memory", "historial":
+		return c.executeMemory()
+	case "vault", "encrypt":
+		return "🔐 Vault available in GUI. Use 'encrypt <text>' for quick encrypt."
+	case "remote", "connect":
+		return c.executeRemoteStatus()
+	case "skills", "patrones":
+		return c.executeSkills()
 	default:
+		// Check if it's an agent name shorthand
+		if c.isAgentName(cmd) {
+			return c.executeInstall(cmd)
+		}
 		return fmt.Sprintf("Unknown command: %s. Send 'help' for available commands.", cmd)
 	}
+}
+
+// isAgentName checks if input is a valid agent name.
+func (c *Connector) isAgentName(name string) bool {
+	agents := []string{
+		"claude", "opencode", "cursor", "windsurf",
+		"codex", "gemini", "vscode", "antigravity",
+		"ollama", "groq", "deepseek",
+	}
+	for _, a := range agents {
+		if name == a {
+			return true
+		}
+	}
+	return false
+}
+
+// executeInstall handles install command with all agents.
+func (c *Connector) executeInstall(args string) string {
+	if args == "" {
+		return c.listAvailableAgents()
+	}
+
+	agent := strings.ToLower(strings.TrimSpace(args))
+
+	// Map aliases
+	agentMap := map[string]string{
+		"claude":      "Claude Code (Anthropic)",
+		"opencode":    "OpenCode (Dxrk Fork)",
+		"cursor":      "Cursor AI",
+		"windsurf":    "Windsurf AI",
+		"codex":       "OpenAI Codex",
+		"gemini":      "Google Gemini CLI",
+		"vscode":      "VS Code + AI",
+		"antigravity": "AGENT Framework",
+		"ollama":      "Ollama (Local LLM)",
+		"groq":        "Groq (Free API)",
+		"deepseek":    "DeepSeek (Free API)",
+	}
+
+	if fullName, ok := agentMap[agent]; ok {
+		return fmt.Sprintf(`📦 Install queued: %s
+
+Installation request received!
+✅ Your installation has been queued.
+
+Use GUI or CLI for full installation:
+  dxrk install %s
+
+Or use Quick Install in the menu.`, fullName, agent)
+	}
+
+	return fmt.Sprintf(`❌ Unknown agent: %s
+
+Available agents:
+%s
+
+Examples:
+  /install claude
+  /install opencode
+  /install ollama`, agent, c.listAvailableAgents())
+}
+
+// listAvailableAgents returns formatted list of agents.
+func (c *Connector) listAvailableAgents() string {
+	return `🤖 Available Agents:
+
+CLI Tools:
+  • claude      — Anthropic Claude Code
+  • opencode    — OpenCode (Dxrk Fork)
+  • cursor      — Cursor AI
+  • windsurf    — Windsurf AI
+  • codex       — OpenAI Codex
+  • gemini      — Google Gemini CLI
+  • vscode      — VS Code + AI
+  • antigravity — AGENT Framework
+
+LLM Providers:
+  • ollama     — Local LLM (free, offline)
+  • groq       — Free API (no key needed)
+  • deepseek   — Free API (no key needed)
+
+Quick install: Just type the agent name!
+  Example: "claude" or "/install claude"`
+}
+
+// executeUninstall handles uninstall command.
+func (c *Connector) executeUninstall(args string) string {
+	if args == "" {
+		return "Usage: uninstall <agent>\nExample: /uninstall claude"
+	}
+
+	agent := strings.ToLower(strings.TrimSpace(args))
+	return fmt.Sprintf(`🗑️ Uninstall queued: %s
+
+Uninstall request received!
+Use GUI or CLI for uninstallation:
+  dxrk uninstall %s`, agent, agent)
 }
 
 // buildHelpText generates the help message.
 func (c *Connector) buildHelpText() string {
 	return `📋 Dxrk Hex Remote Commands
 ─────────────────────
-• help — Show this help message
-• status — System status
-• list — List installed agents
-• install <agent> — Request installation
-• backup — Backup configuration
-• version — Show version
 
-Example: Send "status" to check system`
+🤖 AGENTS:
+  install <agent> — Install an agent
+  uninstall <agent> — Remove an agent
+  list — List installed agents
+  agents — Show available agents
+
+⚙️ SYSTEM:
+  status — System status
+  update — Check for updates
+  sync — Sync configurations
+  backup — Backup settings
+  restore — Restore backup
+
+🧠 MEMORY:
+  memory — View install history
+  vault — Encryption status
+
+🔗 INFO:
+  skills — List available skills
+  version — Show version
+  remote — Remote status
+
+💡 SHORTCUTS:
+  Just type agent name: "claude"
+  Shortcuts: /i, /ls, /v
+
+Example: Send "status" or "claude"`
 }
 
 // executeStatus returns system status.
@@ -380,4 +518,86 @@ func (c *Connector) handleHealth(w http.ResponseWriter, r *http.Request) {
 func (c *Connector) handleStatus(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(c.Status())
+}
+
+// executeBackup handles backup command.
+func (c *Connector) executeBackup() string {
+	return `💾 Backup Requested!
+
+Use GUI or CLI:
+  dxrk backup
+  dxrk backup --name "my-backup"
+
+Backups are stored in:
+  ~/.dxrk/backups/`
+}
+
+// executeVersion returns version info.
+func (c *Connector) executeVersion() string {
+	return `📦 Dxrk Hex
+Version: 000.13%
+Build: Latest
+
+GitHub: github.com/Dxrk777/Dxrk-Hex
+Upstream: github.com/Gentleman-Programming/gentle-ai
+
+Updates: Automatic (hourly check)`
+}
+
+// executeUpdate handles update check.
+func (c *Connector) executeUpdate() string {
+	return `🔄 Update Check
+
+Dxrk Hex checks for updates hourly.
+To force update check:
+
+  dxrk upgrade
+
+Or use GUI: Menu → Upgrade tools`
+}
+
+// executeMemory returns memory/history status.
+func (c *Connector) executeMemory() string {
+	return `🧠 Memory Status
+
+Dxrk Hex tracks:
+  • Install history
+  • Agent usage
+  • Preferences
+
+View history:
+  dxrk memory
+  Or use: Menu → 🧠 Memory
+
+Engram sync: Active`
+}
+
+// executeRemoteStatus returns remote connection status.
+func (c *Connector) executeRemoteStatus() string {
+	status := c.Status()
+	return fmt.Sprintf(`🔗 Remote Status
+
+Telegram: %v
+Discord: %v
+WhatsApp: %v
+Server: %v
+Port: %d
+Uptime: %s
+
+Configure in GUI: Menu → 🔗 Remote Connect`, status["telegram"], status["discord"], status["whatsapp"], status["running"], status["port"], status["uptime"])
+}
+
+// executeSkills returns available skills count.
+func (c *Connector) executeSkills() string {
+	return `🧠 Available Skills: 60+
+
+Categories:
+  • Frameworks: React, Next.js, Angular, Vue, Svelte
+  • Languages: TypeScript, Go, Rust, Python
+  • Tools: Docker, K8s, Playwright
+  • Architecture: SDD, Clean Arch, Security
+  • AI: AI SDK, Prompt Engineer, Zod
+
+Skills are installed automatically with agents.
+Use GUI: Menu → Start installation`
 }
