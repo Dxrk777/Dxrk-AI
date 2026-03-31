@@ -2,25 +2,25 @@ package styles
 
 import "github.com/charmbracelet/lipgloss"
 
-// HexDarkPunk color palette - Dark Punk/Gothic
+// HexNeonCyber color palette - Neon Cyberpunk (Masculino)
 var (
 	ColorBase       = lipgloss.Color("#000000") // Negro total
-	ColorSurface    = lipgloss.Color("#0d0d0d") // Negro profundo
-	ColorOverlay    = lipgloss.Color("#1a0a1a") // Púrpura oscuro
-	ColorText       = lipgloss.Color("#e0e0e0") // Blanco hueso
-	ColorSubtext    = lipgloss.Color("#909090") // Gris medio
-	ColorLavender   = lipgloss.Color("#9932CC") // Púrpura oscuro (DarkOrchid)
-	ColorGreen      = lipgloss.Color("#8B008B") // Púrpura oscuro (DarkMagenta)
-	ColorPeach      = lipgloss.Color("#C71585") // Rojo rosado oscuro (MediumVioletRed)
-	ColorRed        = lipgloss.Color("#DC143C") // Carmesí
-	ColorBlue       = lipgloss.Color("#800080") // Púrpura
-	ColorMauve      = lipgloss.Color("#FF1493") // Rosa oscuro (DeepPink)
-	ColorYellow     = lipgloss.Color("#B22222") // Rojo fuego (FireBrick)
-	ColorTeal       = lipgloss.Color("#4B0082") // Índigo
-	ColorHotPink    = lipgloss.Color("#FF00FF") // Magenta
-	ColorDeepPurple = lipgloss.Color("#4A0E4E") // Púrpura muy oscuro
-	ColorCrimson    = lipgloss.Color("#8B0000") // Rojo sangre oscuro (DarkRed)
-	ColorMagenta    = lipgloss.Color("#C000C0") // Magenta oscuro
+	ColorSurface    = lipgloss.Color("#0a0a0a") // Negro profundo
+	ColorOverlay    = lipgloss.Color("#00FFFF") // Cian brillante
+	ColorText       = lipgloss.Color("#FFFFFF") // Blanco puro
+	ColorSubtext    = lipgloss.Color("#00CED1") // Turquesa oscuro
+	ColorLavender   = lipgloss.Color("#FF4500") // Naranja Rojo (OrangeRed)
+	ColorGreen      = lipgloss.Color("#00FF00") // Verde neón
+	ColorPeach      = lipgloss.Color("#FFD700") // Oro/Dorado
+	ColorRed        = lipgloss.Color("#FF073A") // Rojo neón
+	ColorBlue       = lipgloss.Color("#00BFFF") // Azul cielo brillante
+	ColorMauve      = lipgloss.Color("#FF6600") // Naranja neón
+	ColorYellow     = lipgloss.Color("#FFFF00") // Amarillo neón
+	ColorTeal       = lipgloss.Color("#00FFFF") // Cian
+	ColorHotPink    = lipgloss.Color("#FF00FF") // Magenta neón
+	ColorDeepPurple = lipgloss.Color("#8B00FF") // Violeta neón
+	ColorCrimson    = lipgloss.Color("#FF2400") // Escarlata
+	ColorMagenta    = lipgloss.Color("#FF1493") // Rosa intenso
 )
 
 // Cursor is the prefix used for the currently focused item.
@@ -31,24 +31,24 @@ func Tagline(version string) string {
 	return "DXRK HEX " + version + " — Tu compañero digital 🔥"
 }
 
-// Pre-built reusable styles - ESTILO DARK PUNK/GOTHIC
+// Pre-built reusable styles - NEON CYBERPUNK
 var (
 	TitleStyle = lipgloss.NewStyle().
-			Foreground(ColorMagenta).
+			Foreground(ColorTeal).
 			Bold(true)
 
 	HeadingStyle = lipgloss.NewStyle().
-			Foreground(ColorLavender).
+			Foreground(ColorGreen).
 			Bold(true)
 
 	HelpStyle = lipgloss.NewStyle().
-			Foreground(ColorTeal)
+			Foreground(ColorSubtext)
 
 	SubtextStyle = lipgloss.NewStyle().
-			Foreground(ColorMauve)
+			Foreground(ColorBlue)
 
 	SelectedStyle = lipgloss.NewStyle().
-			Foreground(ColorMagenta).
+			Foreground(ColorYellow).
 			Bold(true)
 
 	UnselectedStyle = lipgloss.NewStyle().
@@ -65,7 +65,7 @@ var (
 
 	FrameStyle = lipgloss.NewStyle().
 			Border(lipgloss.DoubleBorder()).
-			BorderForeground(ColorDeepPurple).
+			BorderForeground(ColorTeal).
 			Padding(1, 2)
 
 	PanelStyle = lipgloss.NewStyle().
@@ -74,12 +74,12 @@ var (
 			Padding(0, 1)
 
 	ProgressFilled = lipgloss.NewStyle().
-			Foreground(ColorMagenta)
+			Foreground(ColorGreen)
 
 	ProgressEmpty = lipgloss.NewStyle().
-			Foreground(ColorOverlay)
+			Foreground(ColorSurface)
 
 	PercentStyle = lipgloss.NewStyle().
-			Foreground(ColorHotPink).
+			Foreground(ColorLavender).
 			Bold(true)
 )
