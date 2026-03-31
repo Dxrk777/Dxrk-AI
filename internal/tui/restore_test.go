@@ -6,13 +6,8 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
->>>>>>> upstream/main
 )
 
 func makeTestBackup(id string, t time.Time, source backup.BackupSource) backup.Manifest {

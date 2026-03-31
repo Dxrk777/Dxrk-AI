@@ -3,13 +3,8 @@ package catalog
 import (
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/skills"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
->>>>>>> upstream/main
 )
 
 // TestMVPSkillsCoverAllPresetSkills ensures every skill that presets.go would

@@ -1,9 +1,5 @@
 name: Feature Request
-<<<<<<< HEAD
 description: Suggest a new feature or enhancement for Dxrk
-=======
-description: Suggest a new feature or enhancement for Gentle AI
->>>>>>> upstream/main
 labels: ["enhancement", "status:needs-review"]
 
 body:
@@ -23,11 +19,7 @@ body:
     attributes:
       label: Pre-flight Checklist
       options:
-<<<<<<< HEAD
         - label: I have searched [existing issues](https://github.com/dxrk/dxrk/issues) and this is not a duplicate
-=======
-        - label: I have searched [existing issues](https://github.com/Gentleman-Programming/gentle-ai/issues) and this is not a duplicate
->>>>>>> upstream/main
           required: true
         - label: I understand that PRs will be rejected if the linked issue does not have `status:approved`
           required: true
@@ -36,11 +28,7 @@ body:
     id: area
     attributes:
       label: 🔍 Affected Area
-<<<<<<< HEAD
       description: Which area of Dxrk would this feature affect?
-=======
-      description: Which area of Gentle AI would this feature affect?
->>>>>>> upstream/main
       options:
         - CLI (commands, flags)
         - TUI (terminal UI)
@@ -72,11 +60,7 @@ body:
       description: Describe the solution you'd like. Be as specific as possible.
       placeholder: |
         Example usage:
-<<<<<<< HEAD
           dxrk <command> <flags>
-=======
-          gga <command> <flags>
->>>>>>> upstream/main
 
         Expected output:
           ...

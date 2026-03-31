@@ -13,11 +13,7 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/system"
->>>>>>> upstream/main
 )
 
 // --- test helpers ---

@@ -7,13 +7,8 @@ import (
 	"path/filepath"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
->>>>>>> upstream/main
 )
 
 func TestDetect(t *testing.T) {
@@ -94,13 +89,8 @@ func TestConfigPathsCrossPlatform(t *testing.T) {
 		t.Fatalf("MCPConfigPath() = %q, want %q", got, filepath.Join(home, ".cursor", "mcp.json"))
 	}
 
-<<<<<<< HEAD
 	if got := a.SystemPromptFile(home); got != filepath.Join(home, ".cursor", "rules", "dxrk.mdc") {
 		t.Fatalf("SystemPromptFile() = %q, want %q", got, filepath.Join(home, ".cursor", "rules", "dxrk.mdc"))
-=======
-	if got := a.SystemPromptFile(home); got != filepath.Join(home, ".cursor", "rules", "gentle-ai.mdc") {
-		t.Fatalf("SystemPromptFile() = %q, want %q", got, filepath.Join(home, ".cursor", "rules", "gentle-ai.mdc"))
->>>>>>> upstream/main
 	}
 }
 

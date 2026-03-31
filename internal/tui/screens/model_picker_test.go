@@ -3,13 +3,8 @@ package screens
 import (
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/opencode"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
->>>>>>> upstream/main
 )
 
 // makeTestState builds a minimal ModelPickerState with one provider and models

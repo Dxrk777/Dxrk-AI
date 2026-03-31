@@ -8,15 +8,9 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
->>>>>>> upstream/main
 )
 
 // stubProfile returns a minimal PlatformProfile for testing.
@@ -167,11 +161,7 @@ func TestSelfUpdate_UpdateAvailable_CallsUpgradeAndReExec(t *testing.T) {
 
 	checkResults := []update.UpdateResult{
 		{
-<<<<<<< HEAD
 			Tool:             update.ToolInfo{Name: "dxrk"},
-=======
-			Tool:             update.ToolInfo{Name: "gentle-ai"},
->>>>>>> upstream/main
 			InstalledVersion: "1.7.0",
 			LatestVersion:    "1.8.0",
 			Status:           update.UpdateAvailable,
@@ -179,11 +169,7 @@ func TestSelfUpdate_UpdateAvailable_CallsUpgradeAndReExec(t *testing.T) {
 	}
 	upgradeReport := upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
-<<<<<<< HEAD
 			{ToolName: "dxrk", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
-=======
-			{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
->>>>>>> upstream/main
 		},
 	}
 
@@ -223,11 +209,7 @@ func TestSelfUpdate_UpToDate_NoUpgradeCall(t *testing.T) {
 
 	checkResults := []update.UpdateResult{
 		{
-<<<<<<< HEAD
 			Tool:             update.ToolInfo{Name: "dxrk"},
-=======
-			Tool:             update.ToolInfo{Name: "gentle-ai"},
->>>>>>> upstream/main
 			InstalledVersion: "1.8.0",
 			LatestVersion:    "1.8.0",
 			Status:           update.UpToDate,
@@ -254,11 +236,7 @@ func TestSelfUpdate_CheckError_ReturnsNil(t *testing.T) {
 
 	checkResults := []update.UpdateResult{
 		{
-<<<<<<< HEAD
 			Tool:   update.ToolInfo{Name: "dxrk"},
-=======
-			Tool:   update.ToolInfo{Name: "gentle-ai"},
->>>>>>> upstream/main
 			Status: update.CheckFailed,
 			Err:    context.DeadlineExceeded,
 		},
@@ -281,11 +259,7 @@ func TestSelfUpdate_UpgradeError_ReturnsNil(t *testing.T) {
 
 	checkResults := []update.UpdateResult{
 		{
-<<<<<<< HEAD
 			Tool:             update.ToolInfo{Name: "dxrk"},
-=======
-			Tool:             update.ToolInfo{Name: "gentle-ai"},
->>>>>>> upstream/main
 			InstalledVersion: "1.7.0",
 			LatestVersion:    "1.8.0",
 			Status:           update.UpdateAvailable,
@@ -294,11 +268,7 @@ func TestSelfUpdate_UpgradeError_ReturnsNil(t *testing.T) {
 	upgradeReport := upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
 			{
-<<<<<<< HEAD
 				ToolName: "dxrk",
-=======
-				ToolName: "gentle-ai",
->>>>>>> upstream/main
 				Status:   upgrade.UpgradeFailed,
 				Err:      os.ErrPermission,
 			},
@@ -322,11 +292,7 @@ func TestSelfUpdate_Windows_PrintsRestartMessage(t *testing.T) {
 
 	checkResults := []update.UpdateResult{
 		{
-<<<<<<< HEAD
 			Tool:             update.ToolInfo{Name: "dxrk"},
-=======
-			Tool:             update.ToolInfo{Name: "gentle-ai"},
->>>>>>> upstream/main
 			InstalledVersion: "1.7.0",
 			LatestVersion:    "1.8.0",
 			Status:           update.UpdateAvailable,
@@ -334,11 +300,7 @@ func TestSelfUpdate_Windows_PrintsRestartMessage(t *testing.T) {
 	}
 	upgradeReport := upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
-<<<<<<< HEAD
 			{ToolName: "dxrk", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
-=======
-			{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
->>>>>>> upstream/main
 		},
 	}
 
@@ -372,11 +334,7 @@ func TestSelfUpdate_BrewInstallMethod_PassedToUpgradeExecutor(t *testing.T) {
 	checkResults := []update.UpdateResult{
 		{
 			Tool: update.ToolInfo{
-<<<<<<< HEAD
 				Name:          "dxrk",
-=======
-				Name:          "gentle-ai",
->>>>>>> upstream/main
 				InstallMethod: update.InstallBrew,
 			},
 			InstalledVersion: "1.7.0",
@@ -407,11 +365,7 @@ func TestSelfUpdate_BrewInstallMethod_PassedToUpgradeExecutor(t *testing.T) {
 		capturedProfile = profile
 		return upgrade.UpgradeReport{
 			Results: []upgrade.ToolUpgradeResult{
-<<<<<<< HEAD
 				{ToolName: "dxrk", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
-=======
-				{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
->>>>>>> upstream/main
 			},
 		}
 	}

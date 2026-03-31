@@ -6,11 +6,7 @@ import (
 	"testing"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
->>>>>>> upstream/main
 )
 
 // TestRenderBackupsShowsDisplayLabel verifies that RenderBackups uses the

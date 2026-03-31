@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/cli"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
@@ -22,19 +21,6 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
 	"github.com/Dxrk777/Dxrk-Hex/internal/verify"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/cli"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
-	"github.com/gentleman-programming/gentle-ai/internal/verify"
->>>>>>> upstream/main
 )
 
 // Version is set from main via ldflags at build time.
@@ -52,11 +38,7 @@ func Run() error {
 
 func RunArgs(args []string, stdout io.Writer) error {
 	// Propagate the build-time version to the CLI and upgrade layers so backup
-<<<<<<< HEAD
 	// manifests record which version of dxrk created them.
-=======
-	// manifests record which version of gentle-ai created them.
->>>>>>> upstream/main
 	cli.AppVersion = Version
 	upgrade.AppVersion = Version
 
@@ -73,11 +55,7 @@ func RunArgs(args []string, stdout io.Writer) error {
 		return system.EnsureSupportedPlatform(result.System.Profile)
 	}
 
-<<<<<<< HEAD
 	// Self-update: check for a newer dxrk release and apply it before
-=======
-	// Self-update: check for a newer gentle-ai release and apply it before
->>>>>>> upstream/main
 	// CLI/TUI dispatch. Errors are non-fatal — logged and swallowed.
 	profile := cli.ResolveInstallProfile(result)
 	if err := selfUpdate(context.Background(), Version, profile, stdout); err != nil {
@@ -151,7 +129,6 @@ func runUpdate(ctx context.Context, currentVersion string, profile system.Platfo
 	return updateCheckError(results)
 }
 
-<<<<<<< HEAD
 // runUpgrade handles the `dxrk upgrade [--dry-run] [tool...]` command.
 //
 // This command:
@@ -159,15 +136,6 @@ func runUpdate(ctx context.Context, currentVersion string, profile system.Platfo
 //   - Snapshots agent config paths before execution (config preservation by design)
 //   - Executes binary-only upgrades; does NOT invoke install or sync pipelines
 //   - Skips dxrk itself when running as a dev build (version="dev")
-=======
-// runUpgrade handles the `gentle-ai upgrade [--dry-run] [tool...]` command.
-//
-// This command:
-//   - Checks for available updates for managed tools (gentle-ai, engram, gga)
-//   - Snapshots agent config paths before execution (config preservation by design)
-//   - Executes binary-only upgrades; does NOT invoke install or sync pipelines
-//   - Skips gentle-ai itself when running as a dev build (version="dev")
->>>>>>> upstream/main
 //   - Falls back to manual guidance for unsafe platforms (Windows binary self-replace)
 func runUpgrade(ctx context.Context, args []string, detection system.DetectionResult, stdout io.Writer) error {
 	dryRun := false

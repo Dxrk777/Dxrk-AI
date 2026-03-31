@@ -177,14 +177,6 @@ test_dry_run_preset_custom() {
     assert_output_contains "$output" "Preset: custom" "Shows custom preset"
 }
 
-test_dry_run_preset_custom() {
-    log_test "Dry-run with --preset custom"
-
-    output=$($BINARY install --preset custom --dry-run 2>&1) || true
-
-    assert_output_contains "$output" "Preset: custom" "Shows custom preset"
-}
-
 # --- Category 1e: Preset component order validation ---
 
 test_preset_minimal_components() {
@@ -238,42 +230,6 @@ test_dry_run_full_preset_persona_before_sdd() {
     log_test "Dry-run: persona appears before engram and sdd in component order"
 
     output=$($BINARY install --preset full-dxrk --agent opencode --dry-run 2>&1) || true
-
-    local components_line
-    components_line=$(echo "$output" | grep "Components order:")
-
-    # Verify all are present
-    assert_output_contains "$components_line" "persona" "Full preset has persona"
-    assert_output_contains "$components_line" "engram" "Full preset has engram"
-    assert_output_contains "$components_line" "sdd" "Full preset has sdd"
-
-    # Verify ordering: persona before engram, persona before sdd
-    # Extract the order string and check persona comes first
-    local order_str
-    order_str=$(echo "$components_line" | sed 's/.*Components order: *//')
-
-    local persona_idx engram_idx sdd_idx
-    persona_idx=$(echo "$order_str" | tr ',' '\n' | grep -n '^persona$' | cut -d: -f1)
-    engram_idx=$(echo "$order_str" | tr ',' '\n' | grep -n '^engram$' | cut -d: -f1)
-    sdd_idx=$(echo "$order_str" | tr ',' '\n' | grep -n '^sdd$' | cut -d: -f1)
-
-    if [ -n "$persona_idx" ] && [ -n "$engram_idx" ] && [ "$persona_idx" -lt "$engram_idx" ]; then
-        log_pass "Persona ($persona_idx) before engram ($engram_idx)"
-    else
-        log_fail "Persona must appear before engram in component order: $order_str"
-    fi
-
-    if [ -n "$persona_idx" ] && [ -n "$sdd_idx" ] && [ "$persona_idx" -lt "$sdd_idx" ]; then
-        log_pass "Persona ($persona_idx) before sdd ($sdd_idx)"
-    else
-        log_fail "Persona must appear before sdd in component order: $order_str"
-    fi
-}
-
-test_dry_run_full_preset_persona_before_sdd() {
-    log_test "Dry-run: persona appears before engram and sdd in component order"
-
-    output=$($BINARY install --preset full-gentleman --agent opencode --dry-run 2>&1) || true
 
     local components_line
     components_line=$(echo "$output" | grep "Components order:")
@@ -534,13 +490,8 @@ test_cc_persona_neutral() {
 
     if $BINARY install --agent claude-code --component persona --persona neutral 2>&1; then
         assert_file_exists "$HOME/.claude/CLAUDE.md" "CLAUDE.md exists"
-<<<<<<< HEAD
         assert_file_contains "$HOME/.claude/CLAUDE.md" "dxrk:persona" "CLAUDE.md has persona section marker"
         assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk Mentor" "Neutral persona keeps the teacher identity"
-=======
-        assert_file_contains "$HOME/.claude/CLAUDE.md" "gentle-ai:persona" "CLAUDE.md has persona section marker"
-        assert_file_contains "$HOME/.claude/CLAUDE.md" "Senior Architect" "Neutral persona keeps the teacher identity"
->>>>>>> upstream/main
         assert_file_not_contains "$HOME/.claude/CLAUDE.md" "Rioplatense\|voseo\|loco\|ponete las pilas" "Neutral persona excludes regional language"
     else
         log_fail "persona (neutral) install command failed"
@@ -787,11 +738,7 @@ test_oc_engram_injection() {
 
         # Fallback safety: AGENTS.md must include engram protocol section.
         assert_file_exists "$agents_md" "OpenCode AGENTS.md"
-<<<<<<< HEAD
         assert_file_contains "$agents_md" 'dxrk:engram-protocol' "AGENTS.md has engram-protocol section"
-=======
-        assert_file_contains "$agents_md" 'gentle-ai:engram-protocol' "AGENTS.md has engram-protocol section"
->>>>>>> upstream/main
         assert_file_contains "$agents_md" 'mem_save' "AGENTS.md has memory protocol content"
     else
         log_fail "OpenCode engram install command failed"
@@ -847,11 +794,7 @@ test_oc_persona_neutral() {
     if $BINARY install --agent opencode --component persona --persona neutral 2>&1; then
         local agents_md="$HOME/.config/opencode/AGENTS.md"
         assert_file_exists "$agents_md" "AGENTS.md exists"
-<<<<<<< HEAD
         assert_file_contains "$agents_md" "Dxrk Mentor" "Neutral persona keeps the teacher identity"
-=======
-        assert_file_contains "$agents_md" "Senior Architect" "Neutral persona keeps the teacher identity"
->>>>>>> upstream/main
         assert_file_not_contains "$agents_md" "Rioplatense\|voseo\|loco\|ponete las pilas" "Neutral persona excludes regional language"
     else
         log_fail "OpenCode persona (neutral) install command failed"
@@ -985,11 +928,7 @@ test_full_preset_opencode() {
     log_test "Full-dxrk preset: OpenCode (all components coexist)"
     cleanup_test_env
 
-<<<<<<< HEAD
     if $BINARY install --agent opencode --component engram --component sdd --component persona --component skills --component context7 --component permissions --component theme --preset full-dxrk --persona dxrk 2>&1; then
-=======
-    if $BINARY install --agent opencode --component engram --component sdd --component persona --component skills --component context7 --component permissions --component theme --preset full-gentleman --persona gentleman 2>&1; then
->>>>>>> upstream/main
         local settings="$HOME/.config/opencode/opencode.json"
         local agents_md="$HOME/.config/opencode/AGENTS.md"
 
@@ -1003,22 +942,13 @@ test_full_preset_opencode() {
 
         # AGENTS.md for persona + engram (SDD orchestrator is in opencode.json for OpenCode, NOT AGENTS.md)
         assert_file_exists "$agents_md" "AGENTS.md exists"
-<<<<<<< HEAD
         assert_file_contains "$agents_md" "Dxrk Mentor" "Dxrk persona"
         assert_file_contains "$agents_md" "dxrk:engram-protocol" "AGENTS.md has engram protocol"
-=======
-        assert_file_contains "$agents_md" "Senior Architect" "Gentleman persona"
-        assert_file_contains "$agents_md" "gentle-ai:engram-protocol" "AGENTS.md has engram protocol"
->>>>>>> upstream/main
         assert_no_duplicate_section "$agents_md" "engram-protocol" "No duplicate engram section in AGENTS.md"
         # SDD orchestrator for OpenCode lives in opencode.json as an agent definition (not AGENTS.md)
         assert_file_contains "$settings" '"sdd-orchestrator"' "opencode.json has sdd-orchestrator agent"
         # AGENTS.md must NOT have a sdd-orchestrator HTML section (it's handled by opencode.json)
-<<<<<<< HEAD
         assert_file_not_contains "$agents_md" "<!-- dxrk:sdd-orchestrator -->" "AGENTS.md has no SDD section marker (opencode uses json agent)"
-=======
-        assert_file_not_contains "$agents_md" "<!-- gentle-ai:sdd-orchestrator -->" "AGENTS.md has no SDD section marker (opencode uses json agent)"
->>>>>>> upstream/main
 
         # SDD commands
         assert_file_count_min "$HOME/.config/opencode/commands" "*.md" 7 "SDD command files"
@@ -1045,13 +975,8 @@ test_minimal_preset_opencode_only_engram_no_persona() {
 
         # Minimal preset should NOT silently install persona.
         if [ -f "$agents_md" ]; then
-<<<<<<< HEAD
             assert_file_not_contains "$agents_md" "dxrk:persona" "No persona marker in minimal preset"
             assert_file_not_contains "$agents_md" "Dxrk Mentor" "No persona content in minimal preset"
-=======
-            assert_file_not_contains "$agents_md" "gentle-ai:persona" "No persona marker in minimal preset"
-            assert_file_not_contains "$agents_md" "Senior Architect" "No persona content in minimal preset"
->>>>>>> upstream/main
         else
             log_pass "No AGENTS.md created by minimal preset (correct)"
         fi
@@ -1470,7 +1395,6 @@ test_edge_persona_switch() {
     log_test "Edge case: switching persona from dxrk to neutral"
     cleanup_test_env
 
-<<<<<<< HEAD
     # First install with dxrk (Rioplatense language present)
     $BINARY install --agent claude-code --component persona --persona dxrk 2>&1 || true
     assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk Mentor" "First install: gentleman persona"
@@ -1480,17 +1404,6 @@ test_edge_persona_switch() {
     # So "Dxrk Mentor" still appears, but Rioplatense markers are gone.
     $BINARY install --agent claude-code --component persona --persona neutral 2>&1 || true
     assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk Mentor" "Second install: neutral still has teacher identity"
-=======
-    # First install with gentleman (Rioplatense language present)
-    $BINARY install --agent claude-code --component persona --persona gentleman 2>&1 || true
-    assert_file_contains "$HOME/.claude/CLAUDE.md" "Senior Architect" "First install: gentleman persona"
-
-    # Then install with neutral — should REPLACE persona section.
-    # Neutral is the FULL teacher persona (same identity, no regional language).
-    # So "Senior Architect" still appears, but Rioplatense markers are gone.
-    $BINARY install --agent claude-code --component persona --persona neutral 2>&1 || true
-    assert_file_contains "$HOME/.claude/CLAUDE.md" "Senior Architect" "Second install: neutral still has teacher identity"
->>>>>>> upstream/main
     assert_file_not_contains "$HOME/.claude/CLAUDE.md" "Rioplatense\|voseo\|ponete las pilas" "Second install: regional language removed"
     assert_no_duplicate_section "$HOME/.claude/CLAUDE.md" "persona" "No duplicate persona after switch"
 }
@@ -1499,35 +1412,20 @@ test_edge_persona_switch_preserves_sections_opencode() {
     log_test "Edge case: persona switch preserves managed sections (OpenCode)"
     cleanup_test_env
 
-<<<<<<< HEAD
     # Step 1: Install full stack with dxrk
     $BINARY install --agent opencode --component persona --component engram --component sdd --persona dxrk 2>&1 || true
 
     local agents_md="$HOME/.config/opencode/AGENTS.md"
     assert_file_exists "$agents_md" "AGENTS.md after full install"
     assert_file_contains "$agents_md" "dxrk:engram-protocol" "Engram section present before switch"
-=======
-    # Step 1: Install full stack with gentleman
-    $BINARY install --agent opencode --component persona --component engram --component sdd --persona gentleman 2>&1 || true
-
-    local agents_md="$HOME/.config/opencode/AGENTS.md"
-    assert_file_exists "$agents_md" "AGENTS.md after full install"
-    assert_file_contains "$agents_md" "gentle-ai:engram-protocol" "Engram section present before switch"
->>>>>>> upstream/main
 
     # Step 2: Switch to neutral persona
     $BINARY install --agent opencode --component persona --persona neutral 2>&1 || true
 
     # Step 3: Verify sections survived
-<<<<<<< HEAD
     assert_file_contains "$agents_md" "Dxrk Mentor" "Neutral persona present after switch"
     assert_file_not_contains "$agents_md" "Rioplatense" "Regional language removed after switch"
     assert_file_contains "$agents_md" "dxrk:engram-protocol" "Engram section survived persona switch"
-=======
-    assert_file_contains "$agents_md" "Senior Architect" "Neutral persona present after switch"
-    assert_file_not_contains "$agents_md" "Rioplatense" "Regional language removed after switch"
-    assert_file_contains "$agents_md" "gentle-ai:engram-protocol" "Engram section survived persona switch"
->>>>>>> upstream/main
     assert_no_duplicate_section "$agents_md" "engram-protocol" "No duplicate engram after switch"
 }
 
@@ -1723,170 +1621,6 @@ test_windsurf_persona_and_sdd_content() {
         assert_file_contains "$rules" "skill_resolution" "SDD has skill_resolution field"
         assert_file_contains "$rules" "Engram Topic Key" "SDD has Engram Topic Key section"
         assert_file_contains "$rules" "dxrk:engram-protocol" "Engram protocol marker present"
-        assert_file_size_min "$rules" 2000 "global_rules.md has substantial content"
-    else
-        log_fail "Windsurf persona+SDD install command failed"
-    fi
-}
-
-# --- Category 12: Codex context7 by-design skip ---
-
-test_codex_context7_not_in_toml() {
-    log_test "Codex: context7 component does NOT write config.toml (TOML strategy is no-op by design)"
-    cleanup_test_env
-
-    # Install engram first (creates config.toml) then try context7
-    $BINARY install --agent codex --component engram --persona neutral 2>&1 || true
-
-    local config_toml="$HOME/.codex/config.toml"
-    if [ -f "$config_toml" ]; then
-        # Engram created config.toml — now try context7 on top
-        $BINARY install --agent codex --component context7 --persona neutral 2>&1 || true
-        assert_file_not_contains "$config_toml" "context7" "Codex config.toml does NOT get context7 entry"
-    else
-        # config.toml wasn't created by engram, so no context7 either
-        $BINARY install --agent codex --component context7 --persona neutral 2>&1 || true
-        assert_file_not_exists "$config_toml" "No config.toml created by context7 alone"
-        log_pass "Codex context7 is intentionally skipped (TOML strategy is no-op)"
-    fi
-}
-
-test_gga_runtime_pr_mode_installed() {
-    log_test "GGA runtime includes pr_mode.sh"
-    cleanup_test_env
-
-    if $BINARY install --agent claude-code --component gga --persona neutral 2>&1; then
-        local pr_mode="$HOME/.local/share/gga/lib/pr_mode.sh"
-        assert_file_exists "$pr_mode" "GGA pr_mode.sh exists"
-        assert_file_contains "$pr_mode" 'detect_base_branch' "pr_mode.sh has PR mode functions"
-    else
-        log_skip "GGA install failed (expected — binary install may require network)"
-    fi
-}
-
-test_gga_reinstall_is_idempotent() {
-    log_test "GGA install is idempotent on second run"
-    cleanup_test_env
-
-    if $BINARY install --agent claude-code --component gga --persona neutral 2>&1; then
-        if $BINARY install --agent claude-code --component gga --persona neutral 2>&1; then
-            log_pass "Second GGA install completed successfully"
-        else
-            log_fail "Second GGA install failed"
-        fi
-    else
-        log_skip "GGA first install failed (expected — binary install may require network)"
-    fi
-}
-
-# --- Category 10: Cursor agent files ---
-
-test_cursor_sdd_subagents() {
-    log_test "Cursor: SDD install writes 9 agent files to ~/.cursor/agents/"
-    cleanup_test_env
-
-    # Cursor is a desktop app — create the config dir to signal it's "installed"
-    mkdir -p "$HOME/.cursor"
-
-    if $BINARY install --agent cursor --component sdd --persona neutral 2>&1; then
-        local agents_dir="$HOME/.cursor/agents"
-
-        # Directory must exist
-        assert_dir_exists "$agents_dir" "~/.cursor/agents/ directory"
-
-        # All 9 SDD agent files must exist
-        assert_file_exists "$agents_dir/sdd-init.md" "sdd-init.md agent file"
-        assert_file_exists "$agents_dir/sdd-explore.md" "sdd-explore.md agent file"
-        assert_file_exists "$agents_dir/sdd-propose.md" "sdd-propose.md agent file"
-        assert_file_exists "$agents_dir/sdd-spec.md" "sdd-spec.md agent file"
-        assert_file_exists "$agents_dir/sdd-design.md" "sdd-design.md agent file"
-        assert_file_exists "$agents_dir/sdd-tasks.md" "sdd-tasks.md agent file"
-        assert_file_exists "$agents_dir/sdd-apply.md" "sdd-apply.md agent file"
-        assert_file_exists "$agents_dir/sdd-verify.md" "sdd-verify.md agent file"
-        assert_file_exists "$agents_dir/sdd-archive.md" "sdd-archive.md agent file"
-
-        # readonly flags: explore and verify are readonly: false (issue #156 — readonly: true
-        # blocks MCP tools and terminal in Cursor, not just file writes)
-        assert_file_contains "$agents_dir/sdd-explore.md" "readonly: false" "sdd-explore is not readonly"
-        assert_file_contains "$agents_dir/sdd-verify.md" "readonly: false" "sdd-verify is not readonly"
-
-        # apply must NOT be readonly (it writes code)
-        assert_file_not_contains "$agents_dir/sdd-apply.md" "readonly: true" "sdd-apply is NOT readonly"
-
-        # All agent files must have substantial content
-        for phase in sdd-init sdd-explore sdd-propose sdd-spec sdd-design sdd-tasks sdd-apply sdd-verify sdd-archive; do
-            assert_file_size_min "$agents_dir/$phase.md" 200 "$phase agent has real content"
-        done
-    else
-        log_fail "Cursor SDD install command failed"
-    fi
-}
-
-# --- Category 11: Windsurf native skills ---
-
-test_windsurf_sdd_skills() {
-    log_test "Windsurf: SDD install writes skill files to ~/.codeium/windsurf/skills/"
-    cleanup_test_env
-
-    # Windsurf is a desktop app — create the config dir to signal it's "installed"
-    mkdir -p "$HOME/.codeium/windsurf"
-
-    if $BINARY install --agent windsurf --component sdd --persona neutral 2>&1; then
-        local skill_dir="$HOME/.codeium/windsurf/skills"
-
-        # Skills directory must exist
-        assert_dir_exists "$skill_dir" "~/.codeium/windsurf/skills/ directory"
-
-        # Core SDD skill files must exist
-        assert_file_exists "$skill_dir/sdd-init/SKILL.md" "sdd-init SKILL.md"
-        assert_file_exists "$skill_dir/sdd-explore/SKILL.md" "sdd-explore SKILL.md"
-        assert_file_exists "$skill_dir/sdd-apply/SKILL.md" "sdd-apply SKILL.md"
-        assert_file_exists "$skill_dir/sdd-verify/SKILL.md" "sdd-verify SKILL.md"
-        assert_file_exists "$skill_dir/sdd-archive/SKILL.md" "sdd-archive SKILL.md"
-
-        # Each skill must have substantial content
-        assert_file_size_min "$skill_dir/sdd-init/SKILL.md" 100 "sdd-init skill has real content"
-        assert_file_size_min "$skill_dir/sdd-apply/SKILL.md" 100 "sdd-apply skill has real content"
-    else
-        log_fail "Windsurf SDD install command failed"
-    fi
-}
-
-test_antigravity_sdd_skills_path() {
-    log_test "Antigravity: SDD skills install to ~/.gemini/antigravity/skills/"
-    cleanup_test_env
-
-    if $BINARY install --agent antigravity --component sdd --persona neutral 2>&1; then
-        local skills_dir="$HOME/.gemini/antigravity/skills"
-        assert_dir_exists "$skills_dir" "Antigravity skills directory"
-        assert_file_exists "$skills_dir/sdd-init/SKILL.md" "sdd-init skill"
-        assert_file_exists "$skills_dir/sdd-apply/SKILL.md" "sdd-apply skill"
-        assert_file_exists "$skills_dir/_shared/sdd-phase-common.md" "shared convention"
-        assert_file_size_min "$skills_dir/sdd-init/SKILL.md" 100 "skill has real content"
-
-        # Path regression guard: skills must NOT go to ~/.gemini/skills/
-        if [ -d "$HOME/.gemini/skills/sdd-init" ]; then
-            log_fail "Skills went to ~/.gemini/skills/ instead of ~/.gemini/antigravity/skills/"
-        else
-            log_pass "Skills correctly in ~/.gemini/antigravity/skills/"
-        fi
-    else
-        log_fail "Antigravity SDD install command failed"
-    fi
-}
-
-test_windsurf_persona_and_sdd_content() {
-    log_test "Windsurf: persona + SDD inject into global_rules.md"
-    cleanup_test_env
-
-    if $BINARY install --agent windsurf --component persona --component sdd --persona gentleman 2>&1; then
-        local rules="$HOME/.codeium/windsurf/memories/global_rules.md"
-        assert_file_exists "$rules" "global_rules.md exists"
-        assert_file_contains "$rules" "Senior Architect" "Persona injected"
-        assert_file_contains "$rules" "gentle-ai:sdd-orchestrator" "SDD orchestrator marker present"
-        assert_file_contains "$rules" "skill_resolution" "SDD has skill_resolution field"
-        assert_file_contains "$rules" "Engram Topic Key" "SDD has Engram Topic Key section"
-        assert_file_contains "$rules" "gentle-ai:engram-protocol" "Engram protocol marker present"
         assert_file_size_min "$rules" 2000 "global_rules.md has substantial content"
     else
         log_fail "Windsurf persona+SDD install command failed"
@@ -2391,17 +2125,10 @@ if [ "${RUN_FULL_E2E:-0}" = "1" ]; then
     test_edge_json_merge_preserves_existing
     test_edge_multiple_json_overlays
 
-<<<<<<< HEAD
     # Dxrk
     test_dxrk_config
     test_dxrk_runtime_pr_mode_installed
     test_dxrk_reinstall_is_idempotent
-=======
-    # GGA
-    test_gga_config
-    test_gga_runtime_pr_mode_installed
-    test_gga_reinstall_is_idempotent
->>>>>>> upstream/main
 
     # Category 7: Injection integrity (issue #4 regression guard)
     test_integrity_sdd_skills_nonempty

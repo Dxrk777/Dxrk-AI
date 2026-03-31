@@ -3,11 +3,7 @@ package agents
 import (
 	"os"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/model"
->>>>>>> upstream/main
 )
 
 // InstalledAgent pairs an agent ID with its resolved config root directory.

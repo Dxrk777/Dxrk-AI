@@ -3,11 +3,7 @@ package engram
 import (
 	"strings"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/model"
->>>>>>> upstream/main
 )
 
 const (

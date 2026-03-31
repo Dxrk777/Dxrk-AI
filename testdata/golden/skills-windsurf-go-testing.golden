@@ -1,19 +1,11 @@
 ---
 name: go-testing
 description: >
-<<<<<<< HEAD
   Go testing patterns for Dxrk.Dots, including Bubbletea TUI testing.
   Trigger: When writing Go tests, using teatest, or adding test coverage.
 license: Apache-2.0
 metadata:
   author: dxrk
-=======
-  Go testing patterns for Gentleman.Dots, including Bubbletea TUI testing.
-  Trigger: When writing Go tests, using teatest, or adding test coverage.
-license: Apache-2.0
-metadata:
-  author: gentleman-programming
->>>>>>> upstream/main
   version: "1.0"
 ---
 

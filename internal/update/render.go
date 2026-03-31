@@ -78,11 +78,7 @@ func statusIcon(status UpdateStatus) string {
 }
 
 // UpdateSummaryLine returns a short one-liner for TUI banners, e.g.
-<<<<<<< HEAD
 // "engram 1.7.0 -> 1.8.1, dxrk 1.0.0 -> 2.0.0".
-=======
-// "engram 1.7.0 -> 1.8.1, gga 1.0.0 -> 2.0.0".
->>>>>>> upstream/main
 // Returns empty string if no updates are available.
 func UpdateSummaryLine(results []UpdateResult) string {
 	var parts []string

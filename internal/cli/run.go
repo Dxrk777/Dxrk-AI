@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
@@ -27,24 +26,6 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/state"
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 	"github.com/Dxrk777/Dxrk-Hex/internal/verify"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/components/mcp"
-	"github.com/gentleman-programming/gentle-ai/internal/components/permissions"
-	"github.com/gentleman-programming/gentle-ai/internal/components/persona"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/components/theme"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/verify"
->>>>>>> upstream/main
 )
 
 type InstallResult struct {
@@ -66,29 +47,17 @@ var (
 	cmdLookPath         = exec.LookPath
 	streamCommandOutput = true
 
-<<<<<<< HEAD
 	// dxrkAvailableCheck is an optional override for dxrkAvailable behavior.
 	// When set, it is called instead of the default filesystem check.
 	dxrkAvailableCheck func(system.PlatformProfile) bool
-=======
-	// ggaAvailableCheck is an optional override for ggaAvailable behavior.
-	// When set, it is called instead of the default filesystem check.
-	ggaAvailableCheck func(system.PlatformProfile) bool
->>>>>>> upstream/main
 
 	// engramDownloadFn is the function used to download the engram binary on non-brew platforms.
 	// Package-level var for testability — tests can replace this to avoid real HTTP calls.
 	engramDownloadFn = engram.DownloadLatestBinary
 
-<<<<<<< HEAD
 	// AppVersion is the dxrk version that will be written into backup manifests.
 	// It is set by app.go before any CLI operation so that every backup created during
 	// an install or sync records which version of dxrk made it.
-=======
-	// AppVersion is the gentle-ai version that will be written into backup manifests.
-	// It is set by app.go before any CLI operation so that every backup created during
-	// an install or sync records which version of gentle-ai made it.
->>>>>>> upstream/main
 	// Default "dev" matches the ldflags default in app.Version.
 	AppVersion = "dev"
 )
@@ -183,13 +152,8 @@ func RunInstall(args []string, detection system.DetectionResult) (InstallResult,
 }
 
 func withPostInstallNotes(report verify.Report, resolved planner.ResolvedPlan) verify.Report {
-<<<<<<< HEAD
 	if hasComponent(resolved.OrderedComponents, model.ComponentDxrk) && report.Ready {
 		report.FinalNote = report.FinalNote + "\n\nDxrk is now installed globally. To enable project hooks, run in each repo:\n- dxrk init\n- dxrk install"
-=======
-	if hasComponent(resolved.OrderedComponents, model.ComponentGGA) && report.Ready {
-		report.FinalNote = report.FinalNote + "\n\nGGA is now installed globally. To enable project hooks, run in each repo:\n- gga init\n- gga install"
->>>>>>> upstream/main
 	}
 	report = withGoInstallPathNote(report, resolved)
 	return report
@@ -348,11 +312,7 @@ type prepareBackupStep struct {
 	source      backup.BackupSource
 	description string
 
-<<<<<<< HEAD
 	// appVersion is the dxrk version that created this backup.
-=======
-	// appVersion is the gentle-ai version that created this backup.
->>>>>>> upstream/main
 	// When set, it is written into the manifest as CreatedByVersion.
 	appVersion string
 }
@@ -564,23 +524,15 @@ func (s componentApplyStep) Run() error {
 			}
 		}
 		return nil
-<<<<<<< HEAD
 	case model.ComponentDxrk:
 		if !dxrkAvailable(s.profile) {
 			// Dxrk not found on any known PATH — install it.
 			commands, err := dxrk.InstallCommand(s.profile)
-=======
-	case model.ComponentGGA:
-		if !ggaAvailable(s.profile) {
-			// GGA not found on any known PATH — install it.
-			commands, err := gga.InstallCommand(s.profile)
->>>>>>> upstream/main
 			if err != nil {
 				return fmt.Errorf("resolve install command for component %q: %w", s.component, err)
 			}
 			installErr := runCommandSequence(commands)
 			if installErr != nil {
-<<<<<<< HEAD
 				if dxrkAvailable(s.profile) {
 					// The Dxrk install script uses `set -e` and `read -p` for
 					// the "already installed" confirmation. Without a TTY
@@ -590,41 +542,13 @@ func (s componentApplyStep) Run() error {
 					// script ran, the install succeeded functionally — treat
 					// as success but warn the user.
 					fmt.Fprintf(os.Stderr, "WARNING: dxrk install command reported an error but dxrk is available — continuing. Error was: %v\n", installErr)
-=======
-				if ggaAvailable(s.profile) {
-					// The GGA install script uses `set -e` and `read -p` for
-					// the "already installed" confirmation. Without a TTY
-					// (common in automated/re-run scenarios), `read` fails
-					// with exit code 1 and `set -e` kills the script before
-					// it can exit 0. If GGA is actually available after the
-					// script ran, the install succeeded functionally — treat
-					// as success but warn the user.
-					fmt.Fprintf(os.Stderr, "WARNING: gga install command reported an error but gga is available — continuing. Error was: %v\n", installErr)
->>>>>>> upstream/main
 				} else {
 					return installErr
 				}
 			}
 		}
-<<<<<<< HEAD
 		if err := dxrk.EnsureRuntimeAssets(s.homeDir); err != nil {
 			return fmt.Errorf("ensure dxrk runtime assets: %w", err)
-=======
-		if err := gga.EnsureRuntimeAssets(s.homeDir); err != nil {
-			return fmt.Errorf("ensure gga runtime assets: %w", err)
-		}
-		if runtime.GOOS == "windows" {
-			if err := gga.EnsurePowerShellShim(s.homeDir); err != nil {
-				return fmt.Errorf("ensure gga powershell shim: %w", err)
-			}
-			// Add GGA bin dir to the user PATH persistently on Windows.
-			// GGA's install.sh drops the binary into ~/bin which is not on PATH by default.
-			ggaBinDir := filepath.Join(s.homeDir, "bin")
-			if err := system.AddToUserPath(ggaBinDir); err != nil {
-				// Non-fatal: warn but continue — GGA was installed successfully.
-				fmt.Fprintf(os.Stderr, "WARNING: could not add %s to PATH: %v\n", ggaBinDir, err)
-			}
->>>>>>> upstream/main
 		}
 		if runtime.GOOS == "windows" {
 			if err := dxrk.EnsurePowerShellShim(s.homeDir); err != nil {
@@ -720,7 +644,6 @@ func ResolveInstallProfile(detection system.DetectionResult) system.PlatformProf
 	}
 }
 
-<<<<<<< HEAD
 // dxrkAvailable reports whether the dxrk binary is reachable. dxrk is often
 // installed to ~/.local/bin (the default for install.sh on Linux and macOS)
 // or ~/bin (the default for install.sh on Windows), which may not be on PATH.
@@ -733,27 +656,12 @@ func dxrkAvailable(profile system.PlatformProfile) bool {
 		return dxrkAvailableCheck(profile)
 	}
 	if _, err := cmdLookPath("dxrk"); err == nil {
-=======
-// ggaAvailable reports whether the gga binary is reachable. gga is often
-// installed to ~/.local/bin (the default for install.sh on Linux and macOS)
-// or ~/bin (the default for install.sh on Windows), which may not be on PATH.
-// On macOS with Homebrew, gga may be in /opt/homebrew/bin or /usr/local/bin.
-// We check the filesystem directly to avoid spawning a subprocess and to work
-// regardless of whether the install directory has been added to PATH.
-func ggaAvailable(profile system.PlatformProfile) bool {
-	// Allow test override.
-	if ggaAvailableCheck != nil {
-		return ggaAvailableCheck(profile)
-	}
-	if _, err := cmdLookPath("gga"); err == nil {
->>>>>>> upstream/main
 		return true
 	}
 	homeDir, err := osUserHomeDir()
 	if err != nil {
 		return false
 	}
-<<<<<<< HEAD
 	if _, err := osStat(filepath.Join(homeDir, ".local", "bin", "dxrk")); err == nil {
 		return true
 	}
@@ -764,18 +672,6 @@ func ggaAvailable(profile system.PlatformProfile) bool {
 		for _, brewBin := range []string{
 			"/opt/homebrew/bin/dxrk",
 			"/usr/local/bin/dxrk",
-=======
-	if _, err := osStat(filepath.Join(homeDir, ".local", "bin", "gga")); err == nil {
-		return true
-	}
-	// Check well-known Homebrew prefixes for macOS (arm64 and x86).
-	// gga may be installed via brew but not yet in the shell PATH
-	// (e.g. new terminal session, Rosetta environment mismatch).
-	if profile.OS == "darwin" || profile.PackageManager == "brew" {
-		for _, brewBin := range []string{
-			"/opt/homebrew/bin/gga",
-			"/usr/local/bin/gga",
->>>>>>> upstream/main
 		} {
 			if _, err := osStat(brewBin); err == nil {
 				return true
@@ -783,11 +679,7 @@ func ggaAvailable(profile system.PlatformProfile) bool {
 		}
 	}
 	if profile.OS == "windows" {
-<<<<<<< HEAD
 		if _, err := osStat(filepath.Join(homeDir, "bin", "dxrk")); err == nil {
-=======
-		if _, err := osStat(filepath.Join(homeDir, "bin", "gga")); err == nil {
->>>>>>> upstream/main
 			return true
 		}
 	}

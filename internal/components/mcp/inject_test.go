@@ -6,19 +6,11 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/codex"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/vscode"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
->>>>>>> upstream/main
 )
 
 func cursorAdapter(t *testing.T) agents.Adapter {

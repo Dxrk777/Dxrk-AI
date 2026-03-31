@@ -6,11 +6,7 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
->>>>>>> upstream/main
 )
 
 // renderUpgradeReportForTest is a test helper that wraps upgrade.RenderUpgradeReport.
@@ -24,11 +20,7 @@ func renderUpgradeReportForTest(results []upgrade.ToolUpgradeResult, dryRun bool
 
 // --- TestRunArgs_UpgradeDryRunFlag ---
 
-<<<<<<< HEAD
 // TestRunArgs_UpgradeDryRun verifies that `dxrk upgrade --dry-run` runs without
-=======
-// TestRunArgs_UpgradeDryRun verifies that `gentle-ai upgrade --dry-run` runs without
->>>>>>> upstream/main
 // error, outputs relevant messaging, and does NOT attempt any real installation.
 // The environment has no tools installed, so no upgrades are available.
 func TestRunArgs_UpgradeDryRun(t *testing.T) {
@@ -60,11 +52,7 @@ func TestRunArgs_UpgradeDryRun(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
 // TestRunArgs_UpgradeNoArgs runs `dxrk upgrade` without flags.
-=======
-// TestRunArgs_UpgradeNoArgs runs `gentle-ai upgrade` without flags.
->>>>>>> upstream/main
 // With no updates available in the test environment, it should exit cleanly.
 func TestRunArgs_UpgradeNoArgs(t *testing.T) {
 	var buf bytes.Buffer
@@ -81,11 +69,7 @@ func TestRunArgs_UpgradeNoArgs(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
 // TestRunArgs_UpgradeToolFilter verifies that `dxrk upgrade engram` filters
-=======
-// TestRunArgs_UpgradeToolFilter verifies that `gentle-ai upgrade engram` filters
->>>>>>> upstream/main
 // to only check/upgrade engram.
 func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	var buf bytes.Buffer
@@ -99,17 +83,10 @@ func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	}
 
 	out := buf.String()
-<<<<<<< HEAD
 	// Output should only mention engram or no-upgrades, not dxrk or dxrk.
 	// This is a soft check since the tool may not be installed.
 	if strings.Contains(out, "dxrk") && !strings.Contains(out, "engram") {
 		t.Errorf("filtering to engram should not show dxrk in output; got: %s", out)
-=======
-	// Output should only mention engram or no-upgrades, not gentle-ai or gga.
-	// This is a soft check since the tool may not be installed.
-	if strings.Contains(out, "gentle-ai") && !strings.Contains(out, "engram") {
-		t.Errorf("filtering to engram should not show gentle-ai in output; got: %s", out)
->>>>>>> upstream/main
 	}
 }
 
@@ -192,29 +169,20 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 			name: "dev-build skipped shows skipped status not failure",
 			results: []upgrade.ToolUpgradeResult{
 				{
-<<<<<<< HEAD
 					ToolName:   "dxrk",
-=======
-					ToolName:   "gentle-ai",
->>>>>>> upstream/main
 					OldVersion: "dev",
 					NewVersion: "1.0.0",
 					Status:     upgrade.UpgradeSkipped,
 					ManualHint: "source build — upgrade manually or install a release binary",
 				},
 			},
-<<<<<<< HEAD
 			wantContains:   []string{"dxrk", "[--]", "source build"},
-=======
-			wantContains:   []string{"gentle-ai", "[--]", "source build"},
->>>>>>> upstream/main
 			wantNotContain: []string{"[!!]", "FAILED"},
 		},
 		{
 			name: "manual fallback shows hint not failure",
 			results: []upgrade.ToolUpgradeResult{
 				{
-<<<<<<< HEAD
 					ToolName:   "dxrk",
 					OldVersion: "1.0.0",
 					NewVersion: "1.5.0",
@@ -223,23 +191,12 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 				},
 			},
 			wantContains:   []string{"dxrk", "manual update required", "github.com", "[--]"},
-=======
-					ToolName:   "gentle-ai",
-					OldVersion: "1.0.0",
-					NewVersion: "1.5.0",
-					Status:     upgrade.UpgradeSkipped,
-					ManualHint: "Download from https://github.com/Gentleman-Programming/gentle-ai/releases",
-				},
-			},
-			wantContains:   []string{"gentle-ai", "manual update required", "github.com", "[--]"},
->>>>>>> upstream/main
 			wantNotContain: []string{"[!!]", "FAILED"},
 		},
 		{
 			name: "real failure shows error details",
 			results: []upgrade.ToolUpgradeResult{
 				{
-<<<<<<< HEAD
 					ToolName:   "dxrk",
 					OldVersion: "1.0.0",
 					NewVersion: "2.0.0",
@@ -248,16 +205,6 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 				},
 			},
 			wantContains:   []string{"dxrk", "FAILED", "exit status 1", "[!!]"},
-=======
-					ToolName:   "gga",
-					OldVersion: "1.0.0",
-					NewVersion: "2.0.0",
-					Status:     upgrade.UpgradeFailed,
-					Err:        errors.New("brew upgrade gga: exit status 1"),
-				},
-			},
-			wantContains:   []string{"gga", "FAILED", "exit status 1", "[!!]"},
->>>>>>> upstream/main
 			wantNotContain: []string{"manual update required"},
 		},
 		{
@@ -284,18 +231,13 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 					Status:     upgrade.UpgradeSucceeded,
 				},
 				{
-<<<<<<< HEAD
 					ToolName:   "dxrk",
-=======
-					ToolName:   "gentle-ai",
->>>>>>> upstream/main
 					OldVersion: "dev",
 					NewVersion: "1.5.0",
 					Status:     upgrade.UpgradeSkipped,
 					ManualHint: "source build — upgrade manually",
 				},
 				{
-<<<<<<< HEAD
 					ToolName:   "dxrk",
 					OldVersion: "1.0.0",
 					NewVersion: "2.0.0",
@@ -304,16 +246,6 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 				},
 			},
 			wantContains:   []string{"engram", "[ok]", "dxrk", "[--]", "dxrk", "1 succeeded", "2 skipped"},
-=======
-					ToolName:   "gga",
-					OldVersion: "1.0.0",
-					NewVersion: "2.0.0",
-					Status:     upgrade.UpgradeSkipped,
-					ManualHint: "Download from https://github.com/Gentleman-Programming/gga/releases",
-				},
-			},
-			wantContains:   []string{"engram", "[ok]", "gentle-ai", "[--]", "gga", "1 succeeded", "2 skipped"},
->>>>>>> upstream/main
 			wantNotContain: []string{"FAILED", "[!!]"},
 		},
 	}

@@ -7,11 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
->>>>>>> upstream/main
 )
 
 // RenderSync handles all states of the sync screen.

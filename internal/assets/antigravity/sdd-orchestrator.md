@@ -57,24 +57,6 @@ Meta-commands (type directly — orchestrator handles them, will not appear in a
 
 `/sdd-new`, `/sdd-continue`, and `/sdd-ff` are meta-commands handled by YOU. Do NOT invoke them as skills. You execute the phase sequence yourself, pausing for user approval between phases.
 
-<<<<<<< HEAD
-=======
-### SDD Init Guard (MANDATORY)
-
-Before executing ANY SDD command (`/sdd-new`, `/sdd-ff`, `/sdd-continue`, `/sdd-explore`, `/sdd-apply`, `/sdd-verify`, `/sdd-archive`), check if `sdd-init` has been run for this project:
-
-1. Search Engram: `mem_search(query: "sdd-init/{project}", project: "{project}")`
-2. If found → init was done, proceed normally
-3. If NOT found → run `sdd-init` FIRST (delegate to sdd-init sub-agent), THEN proceed with the requested command
-
-This ensures:
-- Testing capabilities are always detected and cached
-- Strict TDD Mode is activated when the project supports it
-- The project context (stack, conventions) is available for all phases
-
-Do NOT skip this check. Do NOT ask the user — just run init silently if needed.
-
->>>>>>> upstream/main
 ### Execution Mode
 
 When the user invokes `/sdd-new`, `/sdd-ff`, or `/sdd-continue` for the first time in a session, ASK which execution mode they prefer:
@@ -105,11 +87,7 @@ proposal -> specs --> tasks -> apply -> verify -> archive
 ### Result Contract
 Each phase returns: `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`, `skill_resolution`.
 
-<<<<<<< HEAD
 <!-- dxrk:sdd-model-assignments -->
-=======
-<!-- gentle-ai:sdd-model-assignments -->
->>>>>>> upstream/main
 ## Model Assignments
 
 Read this table at session start. Antigravity supports multiple models via Mission Control — if your current model matches a phase's recommended alias, proceed normally. If model switching is not available mid-session, use this table as a reasoning-depth guide: phases assigned to `opus` require deeper architectural thinking, while `haiku` phases are mechanical.
@@ -127,11 +105,7 @@ Read this table at session start. Antigravity supports multiple models via Missi
 | sdd-archive | haiku | Copy and close |
 | default | sonnet | Non-SDD general delegation |
 
-<<<<<<< HEAD
 <!-- /dxrk:sdd-model-assignments -->
-=======
-<!-- /gentle-ai:sdd-model-assignments -->
->>>>>>> upstream/main
 
 ### Skill Resolver Protocol
 

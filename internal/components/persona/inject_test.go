@@ -7,19 +7,11 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
 	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
->>>>>>> upstream/main
 )
 
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }
@@ -179,11 +171,7 @@ func TestInjectClaudeNeutralWritesFullPersonaWithoutRegionalLanguage(t *testing.
 	if !strings.Contains(text, "Senior Architect") {
 		t.Fatal("Neutral persona should contain 'Senior Architect'")
 	}
-<<<<<<< HEAD
 	// Should NOT have Dxrk-specific regional language.
-=======
-	// Should NOT have gentleman-specific regional language.
->>>>>>> upstream/main
 	if strings.Contains(text, "Rioplatense") {
 		t.Fatal("Neutral persona should not contain Rioplatense language")
 	}
@@ -277,17 +265,10 @@ func TestInjectOpenCodeDxrkWritesAgentsFile(t *testing.T) {
 func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	home := t.TempDir()
 
-<<<<<<< HEAD
 	// First install Dxrk persona + simulate SDD/engram sections
 	_, err := Inject(home, opencodeAdapter(), model.PersonaDxrk)
 	if err != nil {
 		t.Fatalf("Inject(Dxrk) error = %v", err)
-=======
-	// First install gentleman persona + simulate SDD/engram sections
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
-	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
->>>>>>> upstream/main
 	}
 
 	path := filepath.Join(home, ".config", "opencode", "AGENTS.md")
@@ -297,11 +278,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile() error = %v", err)
 	}
-<<<<<<< HEAD
 	withSections := string(existing) + "\n\n<!-- dxrk:sdd-orchestrator -->\nSDD orchestrator content here\n<!-- /dxrk:sdd-orchestrator -->\n\n<!-- dxrk:engram-protocol -->\nEngram protocol content here\n<!-- /dxrk:engram-protocol -->\n"
-=======
-	withSections := string(existing) + "\n\n<!-- gentle-ai:sdd-orchestrator -->\nSDD orchestrator content here\n<!-- /gentle-ai:sdd-orchestrator -->\n\n<!-- gentle-ai:engram-protocol -->\nEngram protocol content here\n<!-- /gentle-ai:engram-protocol -->\n"
->>>>>>> upstream/main
 	if err := os.WriteFile(path, []byte(withSections), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -330,7 +307,6 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	}
 
 	// Managed sections MUST be preserved
-<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
 		t.Fatal("AGENTS.md lost SDD orchestrator section after switching to neutral persona")
 	}
@@ -339,16 +315,6 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	}
 
 	// Dxrk-specific language should be gone — neutral has the same personality but no regional language
-=======
-	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
-		t.Fatal("AGENTS.md lost SDD orchestrator section after switching to neutral persona")
-	}
-	if !strings.Contains(text, "<!-- gentle-ai:engram-protocol -->") {
-		t.Fatal("AGENTS.md lost engram protocol section after switching to neutral persona")
-	}
-
-	// Gentleman-specific language should be gone — neutral has the same personality but no regional language
->>>>>>> upstream/main
 	if strings.Contains(text, "Rioplatense") {
 		t.Fatal("AGENTS.md still has Rioplatense language after switching to neutral")
 	}
@@ -362,15 +328,9 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-<<<<<<< HEAD
 	_, err = Inject(home, vscodeAdapter, model.PersonaDxrk)
 	if err != nil {
 		t.Fatalf("Inject(Dxrk) error = %v", err)
-=======
-	_, err = Inject(home, vscodeAdapter, model.PersonaGentleman)
-	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
->>>>>>> upstream/main
 	}
 
 	path := vscodeAdapter.SystemPromptFile(home)
@@ -379,11 +339,7 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile() error = %v", err)
 	}
-<<<<<<< HEAD
 	withSections := string(existing) + "\n\n<!-- dxrk:sdd-orchestrator -->\nSDD content\n<!-- /dxrk:sdd-orchestrator -->\n"
-=======
-	withSections := string(existing) + "\n\n<!-- gentle-ai:sdd-orchestrator -->\nSDD content\n<!-- /gentle-ai:sdd-orchestrator -->\n"
->>>>>>> upstream/main
 	if err := os.WriteFile(path, []byte(withSections), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -405,11 +361,7 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 	if strings.Contains(text, "Rioplatense") {
 		t.Fatal("instructions file has Rioplatense language in neutral persona")
 	}
-<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
-=======
-	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
->>>>>>> upstream/main
 		t.Fatal("instructions file lost SDD section after switching to neutral persona")
 	}
 	if !strings.Contains(text, "---\nname:") {
@@ -431,11 +383,7 @@ func TestInjectNeutralPreservesWhenMarkerAtByteZero(t *testing.T) {
 	}
 
 	// File starts DIRECTLY with a managed marker at byte 0 — no persona preamble.
-<<<<<<< HEAD
 	markerOnly := "<!-- dxrk:sdd-orchestrator -->\nSDD content\n<!-- /dxrk:sdd-orchestrator -->\n"
-=======
-	markerOnly := "<!-- gentle-ai:sdd-orchestrator -->\nSDD content\n<!-- /gentle-ai:sdd-orchestrator -->\n"
->>>>>>> upstream/main
 	if err := os.WriteFile(promptPath, []byte(markerOnly), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -454,11 +402,7 @@ func TestInjectNeutralPreservesWhenMarkerAtByteZero(t *testing.T) {
 	if !strings.Contains(text, "Senior Architect") {
 		t.Fatal("missing neutral persona content")
 	}
-<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd-orchestrator -->") {
-=======
-	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
->>>>>>> upstream/main
 		t.Fatal("SDD section destroyed when marker was at byte 0")
 	}
 }
@@ -480,11 +424,7 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 	// Simulate a file with neutral persona + managed sections.
 	// Use a fingerprint from the real neutral asset so the test is realistic.
 	neutralContent := assets.MustRead("generic/persona-neutral.md")
-<<<<<<< HEAD
 	initial := neutralContent + "\n\n<!-- dxrk:sdd-orchestrator -->\nSDD content\n<!-- /dxrk:sdd-orchestrator -->\n\n<!-- dxrk:engram-protocol -->\nEngram content\n<!-- /dxrk:engram-protocol -->\n"
-=======
-	initial := neutralContent + "\n\n<!-- gentle-ai:sdd-orchestrator -->\nSDD content\n<!-- /gentle-ai:sdd-orchestrator -->\n\n<!-- gentle-ai:engram-protocol -->\nEngram content\n<!-- /gentle-ai:engram-protocol -->\n"
->>>>>>> upstream/main
 	if err := os.WriteFile(promptPath, []byte(initial), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -512,21 +452,13 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 	text := string(content)
 
 	// Verify no duplication
-<<<<<<< HEAD
 	if strings.Count(text, "<!-- dxrk:sdd-orchestrator -->") != 1 {
-=======
-	if strings.Count(text, "<!-- gentle-ai:sdd-orchestrator -->") != 1 {
->>>>>>> upstream/main
 		t.Fatal("SDD section duplicated after idempotent neutral inject")
 	}
 	if strings.Count(text, "## Rules") != 1 {
 		t.Fatal("neutral persona duplicated after idempotent inject")
 	}
-<<<<<<< HEAD
 	if strings.Count(text, "<!-- dxrk:engram-protocol -->") != 1 {
-=======
-	if strings.Count(text, "<!-- gentle-ai:engram-protocol -->") != 1 {
->>>>>>> upstream/main
 		t.Fatal("engram section duplicated after idempotent neutral inject")
 	}
 }
@@ -579,11 +511,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 		t.Fatalf("NewAdapter(windsurf) error = %v", err)
 	}
 
-<<<<<<< HEAD
 	first, err := Inject(home, windsurfAdapter, model.PersonaDxrk)
-=======
-	first, err := Inject(home, windsurfAdapter, model.PersonaGentleman)
->>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -597,11 +525,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 		t.Fatalf("ReadFile() after first inject error = %v", err)
 	}
 
-<<<<<<< HEAD
 	second, err := Inject(home, windsurfAdapter, model.PersonaDxrk)
-=======
-	second, err := Inject(home, windsurfAdapter, model.PersonaGentleman)
->>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -619,11 +543,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
 func TestInjectCursorDxrkWritesRulesFileWithRealContent(t *testing.T) {
-=======
-func TestInjectCursorGentlemanWritesRulesFileWithRealContent(t *testing.T) {
->>>>>>> upstream/main
 	home := t.TempDir()
 
 	cursorAdapter, err := agents.NewAdapter("cursor")
@@ -720,11 +640,7 @@ func TestInjectVSCodeDxrkWritesInstructionsFile(t *testing.T) {
 
 // --- Auto-heal tests: Claude Code stale free-text persona ---
 
-<<<<<<< HEAD
 // legacyClaudePersonaBlock simulates a Dxrk persona block that was written
-=======
-// legacyClaudePersonaBlock simulates a Gentleman persona block that was written
->>>>>>> upstream/main
 // directly (without markers) by an old installer or manually by the user.
 const legacyClaudePersonaBlock = `## Rules
 
@@ -757,20 +673,12 @@ func TestInjectClaudeAutoHealsStaleFreeTextPersona(t *testing.T) {
 
 	// Simulate a stale install: free-text persona block at top, then a different
 	// marked section below (e.g., from a previous SDD install).
-<<<<<<< HEAD
 	stalePreamble := legacyClaudePersonaBlock + "\n<!-- dxrk:sdd -->\nOld SDD content.\n<!-- /dxrk:sdd -->\n"
-=======
-	stalePreamble := legacyClaudePersonaBlock + "\n<!-- gentle-ai:sdd -->\nOld SDD content.\n<!-- /gentle-ai:sdd -->\n"
->>>>>>> upstream/main
 	if err := os.WriteFile(claudeMD, []byte(stalePreamble), 0o644); err != nil {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-<<<<<<< HEAD
 	result, err := Inject(home, claudeAdapter(), model.PersonaDxrk)
-=======
-	result, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
->>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -785,26 +693,15 @@ func TestInjectClaudeAutoHealsStaleFreeTextPersona(t *testing.T) {
 	text := string(content)
 
 	// The file should now have the persona inside markers, not as free text.
-<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:persona -->") {
 		t.Fatal("CLAUDE.md missing persona marker after heal")
 	}
 	if !strings.Contains(text, "<!-- /dxrk:persona -->") {
-=======
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
-		t.Fatal("CLAUDE.md missing persona marker after heal")
-	}
-	if !strings.Contains(text, "<!-- /gentle-ai:persona -->") {
->>>>>>> upstream/main
 		t.Fatal("CLAUDE.md missing persona close marker after heal")
 	}
 
 	// The existing SDD section must be preserved.
-<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:sdd -->") {
-=======
-	if !strings.Contains(text, "<!-- gentle-ai:sdd -->") {
->>>>>>> upstream/main
 		t.Fatal("CLAUDE.md lost the sdd section during heal")
 	}
 	if !strings.Contains(text, "Old SDD content.") {
@@ -823,11 +720,7 @@ func TestInjectClaudeAutoHealsStaleFreeTextPersona(t *testing.T) {
 		// multiple times (e.g., content + newlines), but there must not be a
 		// separate free-text block also containing it.
 		// Check: everything before the open marker should NOT contain "Senior Architect".
-<<<<<<< HEAD
 		openMarkerIdx := strings.Index(text, "<!-- dxrk:persona -->")
-=======
-		openMarkerIdx := strings.Index(text, "<!-- gentle-ai:persona -->")
->>>>>>> upstream/main
 		if openMarkerIdx >= 0 && strings.Contains(text[:openMarkerIdx], "Senior Architect") {
 			t.Fatal("CLAUDE.md still has 'Senior Architect' before the persona marker — legacy block not fully stripped")
 		}
@@ -846,11 +739,7 @@ func TestInjectClaudeAutoHealStalePersonaOnlyFile(t *testing.T) {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-<<<<<<< HEAD
 	result, err := Inject(home, claudeAdapter(), model.PersonaDxrk)
-=======
-	result, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
->>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -865,20 +754,12 @@ func TestInjectClaudeAutoHealStalePersonaOnlyFile(t *testing.T) {
 	text := string(content)
 
 	// Must have markers now.
-<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:persona -->") {
-=======
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
->>>>>>> upstream/main
 		t.Fatal("CLAUDE.md missing persona marker")
 	}
 
 	// Must NOT have the legacy free-text block before markers.
-<<<<<<< HEAD
 	openMarkerIdx := strings.Index(text, "<!-- dxrk:persona -->")
-=======
-	openMarkerIdx := strings.Index(text, "<!-- gentle-ai:persona -->")
->>>>>>> upstream/main
 	if openMarkerIdx >= 0 {
 		before := text[:openMarkerIdx]
 		if strings.Contains(before, "## Rules") {
@@ -900,11 +781,7 @@ func TestInjectClaudeHealDoesNotTouchNonPersonaContent(t *testing.T) {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-<<<<<<< HEAD
 	result, err := Inject(home, claudeAdapter(), model.PersonaDxrk)
-=======
-	result, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
->>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -923,11 +800,7 @@ func TestInjectClaudeHealDoesNotTouchNonPersonaContent(t *testing.T) {
 		t.Fatal("user content was erased — heal was too aggressive")
 	}
 	// Persona section must be appended.
-<<<<<<< HEAD
 	if !strings.Contains(text, "<!-- dxrk:persona -->") {
-=======
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
->>>>>>> upstream/main
 		t.Fatal("persona section not appended")
 	}
 }
@@ -938,11 +811,7 @@ func TestInjectVSCodeCleansLegacyGitHubPersonaFile(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
-<<<<<<< HEAD
 	// Plant an old-style Dxrk persona file at the legacy path.
-=======
-	// Plant an old-style Gentleman persona file at the legacy path.
->>>>>>> upstream/main
 	legacyPath := filepath.Join(home, ".github", "copilot-instructions.md")
 	if err := os.MkdirAll(filepath.Dir(legacyPath), 0o755); err != nil {
 		t.Fatalf("MkdirAll error = %v", err)
@@ -958,11 +827,7 @@ func TestInjectVSCodeCleansLegacyGitHubPersonaFile(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-<<<<<<< HEAD
 	result, injectErr := Inject(home, vscodeAdapter, model.PersonaDxrk)
-=======
-	result, injectErr := Inject(home, vscodeAdapter, model.PersonaGentleman)
->>>>>>> upstream/main
 	if injectErr != nil {
 		t.Fatalf("Inject(vscode) error = %v", injectErr)
 	}
@@ -991,11 +856,7 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
 	// Plant a .github/copilot-instructions.md that has user content (not a
-<<<<<<< HEAD
 	// Dxrk persona) — it must NOT be deleted.
-=======
-	// Gentleman persona) — it must NOT be deleted.
->>>>>>> upstream/main
 	legacyPath := filepath.Join(home, ".github", "copilot-instructions.md")
 	if err := os.MkdirAll(filepath.Dir(legacyPath), 0o755); err != nil {
 		t.Fatalf("MkdirAll error = %v", err)
@@ -1010,11 +871,7 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-<<<<<<< HEAD
 	_, injectErr := Inject(home, vscodeAdapter, model.PersonaDxrk)
-=======
-	_, injectErr := Inject(home, vscodeAdapter, model.PersonaGentleman)
->>>>>>> upstream/main
 	if injectErr != nil {
 		t.Fatalf("Inject(vscode) error = %v", injectErr)
 	}
@@ -1029,15 +886,9 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
 func TestNeutralAndDxrkToneSectionsMatch(t *testing.T) {
 	neutral := assets.MustRead("generic/persona-neutral.md")
 	Dxrk := assets.MustRead("generic/persona-Dxrk.md")
-=======
-func TestNeutralAndGentlemanToneSectionsMatch(t *testing.T) {
-	neutral := assets.MustRead("generic/persona-neutral.md")
-	gentleman := assets.MustRead("generic/persona-gentleman.md")
->>>>>>> upstream/main
 
 	extractSection := func(content, section string) string {
 		idx := strings.Index(content, "## "+section)
@@ -1053,17 +904,10 @@ func TestNeutralAndGentlemanToneSectionsMatch(t *testing.T) {
 	}
 
 	neutralTone := extractSection(neutral, "Tone")
-<<<<<<< HEAD
 	DxrkTone := extractSection(Dxrk, "Tone")
 
 	if neutralTone != DxrkTone {
 		t.Fatalf("## Tone sections diverged:\nneutral:\n%s\nDxrk:\n%s", neutralTone, DxrkTone)
-=======
-	gentlemanTone := extractSection(gentleman, "Tone")
-
-	if neutralTone != gentlemanTone {
-		t.Fatalf("## Tone sections diverged:\nneutral:\n%s\ngentleman:\n%s", neutralTone, gentlemanTone)
->>>>>>> upstream/main
 	}
 }
 
@@ -1085,11 +929,7 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-<<<<<<< HEAD
 	first, err := Inject(home, vscodeAdapter, model.PersonaDxrk)
-=======
-	first, err := Inject(home, vscodeAdapter, model.PersonaGentleman)
->>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1097,11 +937,7 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 		t.Fatal("first inject should have changed")
 	}
 
-<<<<<<< HEAD
 	second, err := Inject(home, vscodeAdapter, model.PersonaDxrk)
-=======
-	second, err := Inject(home, vscodeAdapter, model.PersonaGentleman)
->>>>>>> upstream/main
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}

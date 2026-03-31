@@ -5,11 +5,7 @@ description: >
   Trigger: When the orchestrator launches you to implement one or more tasks from a change.
 license: MIT
 metadata:
-<<<<<<< HEAD
   author: dxrk
-=======
-  author: gentleman-programming
->>>>>>> upstream/main
   version: "3.0"
 ---
 

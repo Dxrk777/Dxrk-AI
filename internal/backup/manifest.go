@@ -55,11 +55,7 @@ type Manifest struct {
 	// not counted. Optional: omitted when zero for backward-compatibility.
 	FileCount int `json:"file_count,omitempty"`
 
-<<<<<<< HEAD
 	// CreatedByVersion is the dxrk version that created this backup.
-=======
-	// CreatedByVersion is the gentle-ai version that created this backup.
->>>>>>> upstream/main
 	// Optional: omitted when empty for backward-compatibility with old manifests.
 	CreatedByVersion string `json:"created_by_version,omitempty"`
 }

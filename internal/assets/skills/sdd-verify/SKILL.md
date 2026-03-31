@@ -5,11 +5,7 @@ description: >
   Trigger: When the orchestrator launches you to verify a completed (or partially completed) change.
 license: MIT
 metadata:
-<<<<<<< HEAD
   author: dxrk
-=======
-  author: gentleman-programming
->>>>>>> upstream/main
   version: "3.0"
 ---
 

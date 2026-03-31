@@ -5,11 +5,7 @@ description: >
   Trigger: When user wants to initialize SDD in a project, or says "sdd init", "iniciar sdd", "openspec init".
 license: MIT
 metadata:
-<<<<<<< HEAD
   author: dxrk
-=======
-  author: gentleman-programming
->>>>>>> upstream/main
   version: "3.0"
 ---
 
@@ -94,7 +90,6 @@ Detect testing capabilities:
     └── Each: {command} or NOT AVAILABLE
 ```
 
-<<<<<<< HEAD
 ### Step 3: Ask STRICT TDD MODE
 
 **This step is interactive — present the choice to the user (via orchestrator).**
@@ -123,35 +118,6 @@ IF no test runner detected:
 └── Include NOTE in summary: "Strict TDD Mode unavailable — no test runner detected"
 ```
 
-=======
-### Step 3: Resolve STRICT TDD MODE
-
-Determine whether Strict TDD Mode should be enabled. The resolution follows a priority chain — first match wins:
-
-```
-1. Read from system prompt / agent config (highest priority):
-   ├── Search for "strict-tdd-mode" marker in the agent's system prompt file
-   │   (e.g., CLAUDE.md, GEMINI.md, .cursorrules, etc.)
-   ├── If found and says "enabled" → strict_tdd: true
-   ├── If found and says "disabled" → strict_tdd: false
-   └── This is the preference set by the user in the gentle-ai TUI
-
-2. If no marker found, check openspec config:
-   ├── Read openspec/config.yaml → strict_tdd field
-   └── If found → use that value
-
-3. If nothing found AND test runner was detected in Step 2:
-   ├── Default: strict_tdd: true (enable if the project CAN do TDD)
-   └── This ensures TDD is active even without gentle-ai TUI setup
-
-4. If no test runner detected:
-   ├── strict_tdd: false (cannot enable without test runner)
-   └── Include NOTE in summary: "Strict TDD Mode unavailable — no test runner detected"
-```
-
-**Do NOT ask the user interactively.** The preference is resolved from existing config. If the user wants to change it, they run `gentle-ai sync` with the TUI or set `strict_tdd` in `openspec/config.yaml`.
-
->>>>>>> upstream/main
 ### Step 4: Initialize Persistence Backend
 
 If mode resolves to `openspec`, create this directory structure:

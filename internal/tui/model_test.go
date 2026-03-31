@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/pipeline"
@@ -16,16 +15,6 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/screens"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/screens"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
->>>>>>> upstream/main
 )
 
 func TestNavigationWelcomeToDetection(t *testing.T) {
@@ -1714,11 +1703,7 @@ func TestStrictTDDBackNavigatesToSDDMode(t *testing.T) {
 func TestDependencyTreeEnterBackNavigatesToStrictTDD(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenDependencyTree
-<<<<<<< HEAD
 	m.Selection.Preset = model.PresetFullDxrk // non-custom
-=======
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
->>>>>>> upstream/main
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeSingle
@@ -1741,11 +1726,7 @@ func TestDependencyTreeEnterBackNavigatesToStrictTDD(t *testing.T) {
 func TestModelPickerEnterBackNavigatesToSDDMode(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenModelPicker
-<<<<<<< HEAD
 	m.Selection.Preset = model.PresetFullDxrk // non-custom
-=======
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
->>>>>>> upstream/main
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeMulti
@@ -1769,11 +1750,7 @@ func TestModelPickerEnterBackNavigatesToSDDMode(t *testing.T) {
 func TestModelPickerContinueMultiGoesToStrictTDD(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenModelPicker
-<<<<<<< HEAD
 	m.Selection.Preset = model.PresetFullDxrk // non-custom
-=======
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
->>>>>>> upstream/main
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeMulti
@@ -1830,11 +1807,7 @@ func TestStrictTDDBackNavigatesToModelPickerWhenMultiWithCache(t *testing.T) {
 func TestStrictTDDScreenAppearsForClaudeCodeAgent(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenClaudeModelPicker
-<<<<<<< HEAD
 	m.Selection.Preset = model.PresetFullDxrk // non-custom
-=======
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
->>>>>>> upstream/main
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.ClaudeModelPicker = screens.NewClaudeModelPickerState()
@@ -1868,15 +1841,9 @@ func TestStrictTDDScreenAppearsForClaudeCodeAgent(t *testing.T) {
 	m2 := NewModel(system.DetectionResult{}, "dev")
 	m2.Screen = ScreenPreset
 	m2.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
-<<<<<<< HEAD
 	// Cursor on a preset option (PresetFullDxrk = index 0 typically).
 	// Set cursor on first preset option.
 	m2.Cursor = 0 // FullDxrk
-=======
-	// Cursor on a preset option (PresetFullGentleman = index 0 typically).
-	// Set cursor on first preset option.
-	m2.Cursor = 0 // FullGentleman
->>>>>>> upstream/main
 
 	// Press Enter → sets preset, components include SDD → should showClaudeModelPicker
 	// (ClaudeCode + SDD = true) → goes to ScreenClaudeModelPicker, NOT StrictTDD yet.
@@ -1918,11 +1885,7 @@ func TestStrictTDDScreenAppearsForCursorAgent(t *testing.T) {
 	m.Selection.Agents = []model.AgentID{model.AgentCursor}
 	// Cursor agent: no ClaudeModelPicker (no ClaudeCode), no SDDMode (no OpenCode).
 	// After preset selection with SDD in components → should go to ScreenStrictTDD [after fix].
-<<<<<<< HEAD
 	m.Cursor = 0 // FullDxrk preset
-=======
-	m.Cursor = 0 // FullGentleman preset
->>>>>>> upstream/main
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
 	state := updated.(Model)
@@ -1943,11 +1906,7 @@ func TestStrictTDDBackNavFromClaudeFlow(t *testing.T) {
 	m.Screen = ScreenStrictTDD
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
-<<<<<<< HEAD
 	m.Selection.Preset = model.PresetFullDxrk
-=======
-	m.Selection.Preset = model.PresetFullGentleman
->>>>>>> upstream/main
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
 	state := updated.(Model)
@@ -1966,11 +1925,7 @@ func TestStrictTDDBackNavFromPresetFlow(t *testing.T) {
 	m.Screen = ScreenStrictTDD
 	m.Selection.Agents = []model.AgentID{model.AgentCursor}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
-<<<<<<< HEAD
 	m.Selection.Preset = model.PresetFullDxrk
-=======
-	m.Selection.Preset = model.PresetFullGentleman
->>>>>>> upstream/main
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
 	state := updated.(Model)

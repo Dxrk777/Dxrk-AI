@@ -6,19 +6,11 @@ import (
 	"strings"
 	"sync"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
 // CheckAll runs update checks for all registered tools concurrently.
 // currentVersion is the build-time version of dxrk (from app.Version).
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-)
-
-// CheckAll runs update checks for all registered tools concurrently.
-// currentVersion is the build-time version of gentle-ai (from app.Version).
->>>>>>> upstream/main
 // profile determines platform-specific update instructions.
 func CheckAll(ctx context.Context, currentVersion string, profile system.PlatformProfile) []UpdateResult {
 	return CheckFiltered(ctx, currentVersion, profile, nil)
@@ -99,11 +91,7 @@ func checkSingleTool(ctx context.Context, tool ToolInfo, currentBuildVersion str
 	// Determine status based on local version.
 	if localVersion == "" {
 		if tool.DetectCmd == nil {
-<<<<<<< HEAD
 			// dxrk with no build version (shouldn't happen, but handle gracefully).
-=======
-			// gentle-ai with no build version (shouldn't happen, but handle gracefully).
->>>>>>> upstream/main
 			result.Status = VersionUnknown
 		} else {
 			// Binary not found on PATH.

@@ -55,7 +55,6 @@ Meta-commands (type directly — orchestrator handles them, won't appear in auto
 
 `/sdd-new`, `/sdd-continue`, and `/sdd-ff` are meta-commands handled by YOU. Do NOT invoke them as skills.
 
-<<<<<<< HEAD
 ### Execution Mode
 
 When the user invokes `/sdd-new`, `/sdd-ff`, or `/sdd-continue` for the first time in a session, ASK which execution mode they prefer:
@@ -67,34 +66,6 @@ If the user doesn't specify, default to **Interactive** (safer, gives the user c
 
 Cache the mode choice for the session — don't ask again unless the user explicitly requests a mode change.
 
-=======
-### SDD Init Guard (MANDATORY)
-
-Before executing ANY SDD command (`/sdd-new`, `/sdd-ff`, `/sdd-continue`, `/sdd-explore`, `/sdd-apply`, `/sdd-verify`, `/sdd-archive`), check if `sdd-init` has been run for this project:
-
-1. Search Engram: `mem_search(query: "sdd-init/{project}", project: "{project}")`
-2. If found → init was done, proceed normally
-3. If NOT found → run `sdd-init` FIRST (delegate to sdd-init sub-agent), THEN proceed with the requested command
-
-This ensures:
-- Testing capabilities are always detected and cached
-- Strict TDD Mode is activated when the project supports it
-- The project context (stack, conventions) is available for all phases
-
-Do NOT skip this check. Do NOT ask the user — just run init silently if needed.
-
-### Execution Mode
-
-When the user invokes `/sdd-new`, `/sdd-ff`, or `/sdd-continue` for the first time in a session, ASK which execution mode they prefer:
-
-- **Automatic** (`auto`): Run all phases back-to-back without pausing. Show the final result only. Use this when the user wants speed and trusts the process.
-- **Interactive** (`interactive`): After each phase completes, show the result summary and ASK: "Want to adjust anything or continue?" before proceeding to the next phase. Use this when the user wants to review and steer each step.
-
-If the user doesn't specify, default to **Interactive** (safer, gives the user control).
-
-Cache the mode choice for the session — don't ask again unless the user explicitly requests a mode change.
-
->>>>>>> upstream/main
 In **Interactive** mode, between phases:
 1. Show a concise summary of what the phase produced
 2. List what the next phase will do
@@ -114,11 +85,7 @@ proposal -> specs --> tasks -> apply -> verify -> archive
 ### Result Contract
 Each phase returns: `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`, `skill_resolution`.
 
-<<<<<<< HEAD
 <!-- dxrk:sdd-model-assignments -->
-=======
-<!-- gentle-ai:sdd-model-assignments -->
->>>>>>> upstream/main
 ## Model Assignments
 
 Read this table at session start (or before first delegation), cache it for the session, and pass the mapped alias in every Agent tool call via the `model` parameter. If a phase is missing, use the `default` row. If you lack access to the assigned model, substitute `sonnet` and continue.
@@ -136,11 +103,7 @@ Read this table at session start (or before first delegation), cache it for the 
 | sdd-archive | haiku | Copy and close |
 | default | sonnet | Non-SDD general delegation |
 
-<<<<<<< HEAD
 <!-- /dxrk:sdd-model-assignments -->
-=======
-<!-- /gentle-ai:sdd-model-assignments -->
->>>>>>> upstream/main
 
 ### Sub-Agent Launch Pattern
 

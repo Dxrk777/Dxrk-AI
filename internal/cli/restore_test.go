@@ -8,11 +8,7 @@ import (
 	"testing"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
->>>>>>> upstream/main
 )
 
 // setupRestoreHome creates a temporary home dir with N backup manifests.
@@ -20,11 +16,7 @@ import (
 func setupRestoreHome(t *testing.T, count int) string {
 	t.Helper()
 	home := t.TempDir()
-<<<<<<< HEAD
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
-=======
-	backupRoot := filepath.Join(home, ".gentle-ai", "backups")
->>>>>>> upstream/main
 
 	for i := 0; i < count; i++ {
 		id := fmt.Sprintf("backup-%03d", i)

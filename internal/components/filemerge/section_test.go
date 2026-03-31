@@ -139,19 +139,11 @@ Senior Architect, 15+ years experience, GDE & MVP.
 
 `
 
-<<<<<<< HEAD
 const gentleAiMarkerSection = `<!-- dxrk:persona -->
 ## Personality
 
 Senior Architect, 15+ years experience, GDE & MVP.
 <!-- /dxrk:persona -->
-=======
-const gentleAiMarkerSection = `<!-- gentle-ai:persona -->
-## Personality
-
-Senior Architect, 15+ years experience, GDE & MVP.
-<!-- /gentle-ai:persona -->
->>>>>>> upstream/main
 `
 
 func TestStripLegacyPersonaBlock_NoFingerprintReturnsSame(t *testing.T) {
@@ -163,11 +155,7 @@ func TestStripLegacyPersonaBlock_NoFingerprintReturnsSame(t *testing.T) {
 }
 
 func TestStripLegacyPersonaBlock_FingerprintInsideMarkerReturnsSame(t *testing.T) {
-<<<<<<< HEAD
 	// Fingerprints only exist inside dxrk markers — should NOT be stripped.
-=======
-	// Fingerprints only exist inside gentle-ai markers — should NOT be stripped.
->>>>>>> upstream/main
 	input := "# My Config\n\n" + gentleAiMarkerSection
 	result := StripLegacyPersonaBlock(input)
 	if result != input {
@@ -193,13 +181,8 @@ func TestStripLegacyPersonaBlock_LegacyBlockBeforeMarkersStripped(t *testing.T) 
 		t.Fatal("stripped result should not contain legacy '## Rules' header")
 	}
 	// The marked section must survive.
-<<<<<<< HEAD
 	if !containsStr(result, "<!-- dxrk:persona -->") {
 		t.Fatal("stripped result missing dxrk marker section")
-=======
-	if !containsStr(result, "<!-- gentle-ai:persona -->") {
-		t.Fatal("stripped result missing gentle-ai marker section")
->>>>>>> upstream/main
 	}
 }
 
@@ -208,17 +191,10 @@ func TestStripLegacyPersonaBlock_MarkerSectionContentPreserved(t *testing.T) {
 	input := legacyPersonaBlock + "\n" + gentleAiMarkerSection + "\n# User Notes\n\nSome user text.\n"
 	result := StripLegacyPersonaBlock(input)
 
-<<<<<<< HEAD
 	if !containsStr(result, "<!-- dxrk:persona -->") {
 		t.Fatal("marker open not preserved")
 	}
 	if !containsStr(result, "<!-- /dxrk:persona -->") {
-=======
-	if !containsStr(result, "<!-- gentle-ai:persona -->") {
-		t.Fatal("marker open not preserved")
-	}
-	if !containsStr(result, "<!-- /gentle-ai:persona -->") {
->>>>>>> upstream/main
 		t.Fatal("marker close not preserved")
 	}
 	if !containsStr(result, "# User Notes") {
@@ -240,22 +216,14 @@ func TestStripLegacyPersonaBlock_OnlyTwoOfThreeFingerprints(t *testing.T) {
 func TestStripLegacyPersonaBlock_MixedZone_OnlyOneFingerprint_PreMarker(t *testing.T) {
 	// Edge case: "## Rules" appears in user content before the first marker,
 	// but the other two fingerprints ("## Personality" and "Senior Architect")
-<<<<<<< HEAD
 	// exist only inside a dxrk marker block.
-=======
-	// exist only inside a gentle-ai marker block.
->>>>>>> upstream/main
 	//
 	// Old behaviour (bug): one fingerprint in the pre-marker zone was enough to
 	// trigger stripping, destroying the user's "## Rules" section.
 	// New behaviour (fixed): ALL fingerprints must appear in the pre-marker zone;
 	// since only one does, the file is returned unchanged.
 	userRulesSection := "## Rules\n\n- Never do X.\n- Always do Y.\n\n"
-<<<<<<< HEAD
 	markerWithOtherFingerprints := "<!-- dxrk:persona -->\n## Personality\n\nSenior Architect, 15+ years experience.\n<!-- /dxrk:persona -->\n"
-=======
-	markerWithOtherFingerprints := "<!-- gentle-ai:persona -->\n## Personality\n\nSenior Architect, 15+ years experience.\n<!-- /gentle-ai:persona -->\n"
->>>>>>> upstream/main
 
 	input := userRulesSection + markerWithOtherFingerprints
 	result := StripLegacyPersonaBlock(input)
@@ -273,11 +241,7 @@ func TestStripLegacyPersonaBlock_MixedZone_TwoFingerprints_PreMarker(t *testing.
 	// third ("## Rules") exists inside the marker block. Stripping must NOT fire
 	// because not all fingerprints are in the pre-marker zone.
 	preMarker := "## Personality\n\nSenior Architect, 15+ years experience.\n\n"
-<<<<<<< HEAD
 	markerWithRule := "<!-- dxrk:persona -->\n## Rules\n\n- Rule inside marker.\n<!-- /dxrk:persona -->\n"
-=======
-	markerWithRule := "<!-- gentle-ai:persona -->\n## Rules\n\n- Rule inside marker.\n<!-- /gentle-ai:persona -->\n"
->>>>>>> upstream/main
 
 	input := preMarker + markerWithRule
 	result := StripLegacyPersonaBlock(input)
@@ -294,11 +258,7 @@ func TestStripLegacyPersonaBlock_AllFingerprintsPreMarker_Strips(t *testing.T) {
 	// Positive case: ALL three fingerprints appear before the first marker.
 	// Stripping MUST fire, removing the pre-marker legacy block.
 	preMarker := "## Rules\n\n- Some rule.\n\n## Personality\n\nSenior Architect, veteran.\n\n"
-<<<<<<< HEAD
 	markerSection := "<!-- dxrk:persona -->\nUpdated persona.\n<!-- /dxrk:persona -->\n"
-=======
-	markerSection := "<!-- gentle-ai:persona -->\nUpdated persona.\n<!-- /gentle-ai:persona -->\n"
->>>>>>> upstream/main
 
 	input := preMarker + markerSection
 	result := StripLegacyPersonaBlock(input)
@@ -309,11 +269,7 @@ func TestStripLegacyPersonaBlock_AllFingerprintsPreMarker_Strips(t *testing.T) {
 	if containsStr(result, "## Rules") {
 		t.Fatal("all-fingerprints-pre-marker: legacy '## Rules' should have been stripped")
 	}
-<<<<<<< HEAD
 	if !containsStr(result, "<!-- dxrk:persona -->") {
-=======
-	if !containsStr(result, "<!-- gentle-ai:persona -->") {
->>>>>>> upstream/main
 		t.Fatal("all-fingerprints-pre-marker: marker section must be preserved")
 	}
 }
@@ -335,11 +291,7 @@ func TestStripLegacyPersonaBlock_UserContentBeforeAndAfterMarkersPreserved(t *te
 	result := StripLegacyPersonaBlock(input)
 
 	if !containsStr(result, "# Custom section") {
-<<<<<<< HEAD
 		t.Fatal("content after dxrk markers must be preserved")
-=======
-		t.Fatal("content after gentle-ai markers must be preserved")
->>>>>>> upstream/main
 	}
 }
 

@@ -1,5 +1,4 @@
 ---
-<<<<<<< HEAD
 name: dxrk-branch-pr
 description: >
   PR creation workflow for Dxrk following the issue-first enforcement system.
@@ -11,29 +10,12 @@ metadata:
 ---
 
 # Dxrk — Branch & PR Skill
-=======
-name: gentle-ai-branch-pr
-description: >
-  PR creation workflow for Gentle AI following the issue-first enforcement system.
-  Trigger: When creating a pull request, opening a PR, or preparing changes for review.
-license: Apache-2.0
-metadata:
-  author: gentleman-programming
-  version: "2.0"
----
-
-# Gentle AI — Branch & PR Skill
->>>>>>> upstream/main
 
 ## When to Use
 
 Load this skill whenever you need to:
 - Create a branch for a new fix or feature
-<<<<<<< HEAD
 - Open a pull request on [Dxrk/dxrk](https://github.com/dxrk/dxrk)
-=======
-- Open a pull request on [Gentleman-Programming/gentle-ai](https://github.com/Gentleman-Programming/gentle-ai)
->>>>>>> upstream/main
 - Prepare changes for review
 
 ## Critical Rules
@@ -48,11 +30,7 @@ Load this skill whenever you need to:
 
 ```
 1. Confirm the issue has status:approved
-<<<<<<< HEAD
    gh issue view <N> --repo Dxrk/dxrk
-=======
-   gh issue view <N> --repo Gentleman-Programming/gentle-ai
->>>>>>> upstream/main
 
 2. Create a branch from main using the naming convention below
 
@@ -242,11 +220,7 @@ feat(cli)!: change default config path
 
 ```bash
 # Confirm issue is approved before starting
-<<<<<<< HEAD
 gh issue view <N> --repo Dxrk/dxrk
-=======
-gh issue view <N> --repo Gentleman-Programming/gentle-ai
->>>>>>> upstream/main
 
 # Create branch
 git checkout main && git pull
@@ -273,11 +247,7 @@ cd e2e && ./docker-test.sh
 
 ```bash
 gh pr create \
-<<<<<<< HEAD
   --repo Dxrk/dxrk \
-=======
-  --repo Gentleman-Programming/gentle-ai \
->>>>>>> upstream/main
   --title "fix(agent): correct Claude Code detection on Linux" \
   --body "$(cat <<'EOF'
 ## 🔗 Linked Issue
@@ -320,21 +290,12 @@ EOF
 ### Check PR Status
 
 ```bash
-<<<<<<< HEAD
 gh pr checks --repo Dxrk/dxrk <PR-number>
 gh pr view --repo Dxrk/dxrk <PR-number>
-=======
-gh pr checks --repo Gentleman-Programming/gentle-ai <PR-number>
-gh pr view --repo Gentleman-Programming/gentle-ai <PR-number>
->>>>>>> upstream/main
 ```
 
 ### Add a Label
 
 ```bash
-<<<<<<< HEAD
 gh pr edit <PR-number> --repo Dxrk/dxrk --add-label "type:bug"
-=======
-gh pr edit <PR-number> --repo Gentleman-Programming/gentle-ai --add-label "type:bug"
->>>>>>> upstream/main
 ```

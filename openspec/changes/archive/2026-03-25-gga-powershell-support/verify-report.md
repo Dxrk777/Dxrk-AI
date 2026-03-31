@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 # Verify Report: Dxrk PowerShell Support
 
 **Change**: dxrk-powershell-support
-=======
-# Verify Report: GGA PowerShell Support
-
-**Change**: gga-powershell-support
->>>>>>> upstream/main
 **Version**: N/A
 **Verified**: 2026-03-25
 
@@ -35,15 +29,9 @@ All 5 phases fully completed (asset creation, runtime.go helpers, call-site wiri
 === RUN   TestEnsurePowerShellShimCreatesFileWhenMissing --- PASS
 === RUN   TestEnsurePowerShellShimOverwritesStaleShim    --- PASS
 === RUN   TestEnsurePowerShellShimIsNoOpWhenContentMatches --- PASS
-<<<<<<< HEAD
 === RUN   TestAssetDxrkPS1IsEmbeddedAndReadable           --- PASS
 (+ 14 pre-existing tests in the same package — all PASS)
 ok  github.com/dxrk/dxrk/internal/components/dxrk  0.526s
-=======
-=== RUN   TestAssetGGAPS1IsEmbeddedAndReadable           --- PASS
-(+ 14 pre-existing tests in the same package — all PASS)
-ok  github.com/gentleman-programming/gentle-ai/internal/components/gga  0.526s
->>>>>>> upstream/main
 ```
 
 **Coverage**: ➖ Not configured (no `rules.verify.coverage_threshold` in `openspec/config.yaml`)
@@ -56,15 +44,9 @@ ok  github.com/gentleman-programming/gentle-ai/internal/components/gga  0.526s
 
 | Requirement | Scenario | Test | Result |
 |-------------|----------|------|--------|
-<<<<<<< HEAD
 | PowerShell Shim Asset | Shim delegates to Git Bash | `runtime_test.go > TestEnsurePowerShellShimCreatesFileWhenMissing` + `TestAssetDxrkPS1IsEmbeddedAndReadable` | ✅ COMPLIANT |
 | PowerShell Shim Asset | Arguments containing spaces forwarded correctly | `runtime_test.go > TestAssetDxrkPS1IsEmbeddedAndReadable` (content check: `$args` present in shim) | ⚠️ PARTIAL — test verifies asset content contains `$args` indirectly; no runtime execution test (acceptable per design: PS execution is OS-level concern outside unit scope) |
 | PowerShell Shim Asset | Exit code propagation on error | `runtime_test.go > TestAssetDxrkPS1IsEmbeddedAndReadable` (content check: `exit $LASTEXITCODE` present) | ⚠️ PARTIAL — static content check confirms `exit $LASTEXITCODE` is present; no runtime execution test (same design-accepted limitation) |
-=======
-| PowerShell Shim Asset | Shim delegates to Git Bash | `runtime_test.go > TestEnsurePowerShellShimCreatesFileWhenMissing` + `TestAssetGGAPS1IsEmbeddedAndReadable` | ✅ COMPLIANT |
-| PowerShell Shim Asset | Arguments containing spaces forwarded correctly | `runtime_test.go > TestAssetGGAPS1IsEmbeddedAndReadable` (content check: `$args` present in shim) | ⚠️ PARTIAL — test verifies asset content contains `$args` indirectly; no runtime execution test (acceptable per design: PS execution is OS-level concern outside unit scope) |
-| PowerShell Shim Asset | Exit code propagation on error | `runtime_test.go > TestAssetGGAPS1IsEmbeddedAndReadable` (content check: `exit $LASTEXITCODE` present) | ⚠️ PARTIAL — static content check confirms `exit $LASTEXITCODE` is present; no runtime execution test (same design-accepted limitation) |
->>>>>>> upstream/main
 
 ### Requirement: Windows Install Step
 
@@ -89,7 +71,6 @@ ok  github.com/gentleman-programming/gentle-ai/internal/components/gga  0.526s
 
 | Requirement | Status | Notes |
 |-------------|--------|-------|
-<<<<<<< HEAD
 | `dxrk.ps1` embedded as Go asset | ✅ Implemented | `internal/assets/dxrk/dxrk.ps1` exists; `assets.Read("dxrk/dxrk.ps1")` confirmed readable in test |
 | Shim resolves Git Bash via `Get-Command git` at PS runtime | ✅ Implemented | `dxrk.ps1` line 1: `$gitCmd = Get-Command git -ErrorAction SilentlyContinue` |
 | Shim forwards all args via `$args` | ✅ Implemented | `dxrk.ps1` line 11: `& $bash -c "dxrk $args"` |
@@ -102,20 +83,6 @@ ok  github.com/gentleman-programming/gentle-ai/internal/components/gga  0.526s
 | Call-site OS guard in `run.go` | ✅ Implemented | `run.go:510–514` |
 | Call-site OS guard in `sync.go` | ✅ Implemented | `sync.go:301–305` |
 | `docs/platforms.md` Windows note updated | ✅ Implemented | Line 28: "Dxrk on Windows works from both Git Bash and PowerShell…" |
-=======
-| `gga.ps1` embedded as Go asset | ✅ Implemented | `internal/assets/gga/gga.ps1` exists; `assets.Read("gga/gga.ps1")` confirmed readable in test |
-| Shim resolves Git Bash via `Get-Command git` at PS runtime | ✅ Implemented | `gga.ps1` line 1: `$gitCmd = Get-Command git -ErrorAction SilentlyContinue` |
-| Shim forwards all args via `$args` | ✅ Implemented | `gga.ps1` line 11: `& $bash -c "gga $args"` |
-| Shim propagates exit code | ✅ Implemented | `gga.ps1` line 12: `exit $LASTEXITCODE` |
-| Shim surfaces clear error if git not found | ✅ Implemented | `gga.ps1` lines 2–4: `Write-Error` + `exit 1` |
-| Shim surfaces clear error if bash.exe not found | ✅ Implemented | `gga.ps1` lines 7–10: `Write-Error` + `exit 1` |
-| `RuntimeBinDir(homeDir)` returns `~/.local/share/gga/bin` | ✅ Implemented | `runtime.go:17–19` |
-| `RuntimePS1Path(homeDir)` returns `RuntimeBinDir + "/gga.ps1"` | ✅ Implemented | `runtime.go:27–29` |
-| `EnsurePowerShellShim` uses `WriteFileAtomic` (no-op + atomic replace) | ✅ Implemented | `runtime.go:56–68` |
-| Call-site OS guard in `run.go` | ✅ Implemented | `run.go:510–514` |
-| Call-site OS guard in `sync.go` | ✅ Implemented | `sync.go:301–305` |
-| `docs/platforms.md` Windows note updated | ✅ Implemented | Line 28: "GGA on Windows works from both Git Bash and PowerShell…" |
->>>>>>> upstream/main
 
 ---
 
@@ -124,13 +91,8 @@ ok  github.com/gentleman-programming/gentle-ai/internal/components/gga  0.526s
 | Decision | Followed? | Notes |
 |----------|-----------|-------|
 | New `EnsurePowerShellShim(homeDir string) error` in `runtime.go` (not inside `EnsureRuntimeAssets`) | ✅ Yes | Separate function, clean separation |
-<<<<<<< HEAD
 | Static asset — no templating, Git Bash resolved at PS runtime | ✅ Yes | `dxrk.ps1` is purely static; uses `Get-Command git` |
 | `install.go` and `resolver.go` NOT modified | ✅ Yes | Only `runtime.go`, `runtime_test.go`, `dxrk.ps1`, and doc modified |
-=======
-| Static asset — no templating, Git Bash resolved at PS runtime | ✅ Yes | `gga.ps1` is purely static; uses `Get-Command git` |
-| `install.go` and `resolver.go` NOT modified | ✅ Yes | Only `runtime.go`, `runtime_test.go`, `gga.ps1`, and doc modified |
->>>>>>> upstream/main
 | OS guard at call-site (`runtime.GOOS == "windows"`), not inside the function | ✅ Yes | Both `run.go` and `sync.go` guard externally |
 | File changes table matches design | ✅ Yes | All 4 listed files changed; no unexpected files touched |
 | `EnsurePowerShellShim` called after `EnsureRuntimeAssets` at both call-sites | ✅ Yes | Ordering confirmed in both `run.go` and `sync.go` |
@@ -145,20 +107,12 @@ No deviations found. One design evolution worth noting: the spec originally desc
 None.
 
 **WARNING** (should fix):
-<<<<<<< HEAD
 - `W-01`: Spec scenario "Arguments containing spaces are forwarded correctly" has no dedicated test. The shim uses `"dxrk $args"` which passes a space-joined string to `bash -c` — this is the documented behavior for standard PS1 shims, but a test that writes the shim and verifies `$args` content textually would strengthen confidence. Not a blocker.
-=======
-- `W-01`: Spec scenario "Arguments containing spaces are forwarded correctly" has no dedicated test. The shim uses `"gga $args"` which passes a space-joined string to `bash -c` — this is the documented behavior for standard PS1 shims, but a test that writes the shim and verifies `$args` content textually would strengthen confidence. Not a blocker.
->>>>>>> upstream/main
 - `W-02`: Spec scenario "Git Bash not found at install time" is not testable as written because resolution was moved to PS runtime. The spec scenario title is now inaccurate (it's a runtime error, not an install-time error). Consider updating the spec to reflect the final design decision.
 - `W-03`: No test for the non-Windows guard path (verifying that `EnsurePowerShellShim` is NOT called on Linux/macOS). Structural evidence (the `if runtime.GOOS == "windows"` guard) is present, but no test proves it. Acceptable given `runtime.GOOS` is a compile-time constant.
 
 **SUGGESTION** (nice to have):
-<<<<<<< HEAD
 - `S-01`: The `dxrk.ps1` shim uses `& $bash -c "dxrk $args"` — for arguments with spaces (e.g., `dxrk commit -m "my message"`), `$args` will be joined as a flat string before being passed to `bash -c`. A future improvement could use `@args` splatting or positional forwarding to handle edge cases with embedded quotes more robustly. Not a correctness bug for common usage, but worth a follow-up issue.
-=======
-- `S-01`: The `gga.ps1` shim uses `& $bash -c "gga $args"` — for arguments with spaces (e.g., `gga commit -m "my message"`), `$args` will be joined as a flat string before being passed to `bash -c`. A future improvement could use `@args` splatting or positional forwarding to handle edge cases with embedded quotes more robustly. Not a correctness bug for common usage, but worth a follow-up issue.
->>>>>>> upstream/main
 
 ---
 

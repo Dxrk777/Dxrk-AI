@@ -9,11 +9,7 @@ import (
 	"os/exec"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/system"
->>>>>>> upstream/main
 )
 
 // --- TestDetectInstalledVersion ---
@@ -28,24 +24,14 @@ func TestDetectInstalledVersion(t *testing.T) {
 		wantVersion   string
 	}{
 		{
-<<<<<<< HEAD
 			name:         "dxrk uses build var",
 			tool:         ToolInfo{Name: "dxrk", DetectCmd: nil},
-=======
-			name:         "gentle-ai uses build var",
-			tool:         ToolInfo{Name: "gentle-ai", DetectCmd: nil},
->>>>>>> upstream/main
 			currentBuild: "1.5.0",
 			wantVersion:  "1.5.0",
 		},
 		{
-<<<<<<< HEAD
 			name:         "dxrk dev build",
 			tool:         ToolInfo{Name: "dxrk", DetectCmd: nil},
-=======
-			name:         "gentle-ai dev build",
-			tool:         ToolInfo{Name: "gentle-ai", DetectCmd: nil},
->>>>>>> upstream/main
 			currentBuild: "dev",
 			wantVersion:  "dev",
 		},
@@ -61,13 +47,8 @@ func TestDetectInstalledVersion(t *testing.T) {
 			wantVersion: "0.3.2",
 		},
 		{
-<<<<<<< HEAD
 			name: "dxrk not installed",
 			tool: ToolInfo{Name: "dxrk", DetectCmd: []string{"dxrk", "--version"}},
-=======
-			name: "gga not installed",
-			tool: ToolInfo{Name: "gga", DetectCmd: []string{"gga", "--version"}},
->>>>>>> upstream/main
 			lookPathFn: func(string) (string, error) {
 				return "", fmt.Errorf("not found")
 			},
@@ -86,21 +67,12 @@ func TestDetectInstalledVersion(t *testing.T) {
 		},
 		{
 			name: "unparseable version output",
-<<<<<<< HEAD
 			tool: ToolInfo{Name: "dxrk", DetectCmd: []string{"dxrk", "--version"}},
 			lookPathFn: func(string) (string, error) {
 				return "/usr/local/bin/dxrk", nil
 			},
 			execCommandFn: func(name string, args ...string) *exec.Cmd {
 				return exec.Command("echo", "dxrk - no version info")
-=======
-			tool: ToolInfo{Name: "gga", DetectCmd: []string{"gga", "--version"}},
-			lookPathFn: func(string) (string, error) {
-				return "/usr/local/bin/gga", nil
-			},
-			execCommandFn: func(name string, args ...string) *exec.Cmd {
-				return exec.Command("echo", "gga - no version info")
->>>>>>> upstream/main
 			},
 			wantVersion: "",
 		},
@@ -273,13 +245,8 @@ func TestFetchLatestRelease_GithubToken(t *testing.T) {
 		t.Fatalf("Authorization = %q, want %q", gotAuth, "Bearer test-token-123")
 	}
 
-<<<<<<< HEAD
 	if gotUserAgent != "dxrk-update-check" {
 		t.Fatalf("User-Agent = %q, want %q", gotUserAgent, "dxrk-update-check")
-=======
-	if gotUserAgent != "gentle-ai-update-check" {
-		t.Fatalf("User-Agent = %q, want %q", gotUserAgent, "gentle-ai-update-check")
->>>>>>> upstream/main
 	}
 }
 
@@ -315,21 +282,12 @@ func TestCheckAll(t *testing.T) {
 		path := r.URL.Path
 		var release githubRelease
 		switch {
-<<<<<<< HEAD
 		case contains(path, "dxrk"):
 			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk-Hex/releases/tag/v1.5.0"}
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/dxrk/engram/releases/tag/v0.4.0"}
 		case contains(path, "Dxrk-guardian-angel"):
 			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/dxrk/Dxrk-guardian-angel/releases/tag/v2.0.0"}
-=======
-		case contains(path, "gentle-ai"):
-			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Gentleman-Programming/gentle-ai/releases/tag/v1.5.0"}
-		case contains(path, "engram"):
-			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/v0.4.0"}
-		case contains(path, "gentleman-guardian-angel"):
-			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/Gentleman-Programming/gentleman-guardian-angel/releases/tag/v2.0.0"}
->>>>>>> upstream/main
 		}
 		json.NewEncoder(w).Encode(release)
 	}))
@@ -347,20 +305,12 @@ func TestCheckAll(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-<<<<<<< HEAD
 	// Mock: engram is installed at v0.3.2, dxrk is not installed.
-=======
-	// Mock: engram is installed at v0.3.2, gga is not installed.
->>>>>>> upstream/main
 	lookPath = func(name string) (string, error) {
 		switch name {
 		case "engram":
 			return "/usr/local/bin/engram", nil
-<<<<<<< HEAD
 		case "dxrk":
-=======
-		case "gga":
->>>>>>> upstream/main
 			return "", fmt.Errorf("not found")
 		default:
 			return "", fmt.Errorf("not found")
@@ -376,7 +326,6 @@ func TestCheckAll(t *testing.T) {
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
 	results := CheckAll(context.Background(), "1.5.0", profile)
 
-<<<<<<< HEAD
 	if len(results) != 2 {
 		t.Fatalf("len(results) = %d, want 2", len(results))
 	}
@@ -386,20 +335,6 @@ func TestCheckAll(t *testing.T) {
 
 	// engram: 0.3.2 local < 0.4.0 remote → UpdateAvailable
 	assertResult(t, results[1], "engram", UpdateAvailable, "0.3.2", "0.4.0")
-=======
-	if len(results) != 3 {
-		t.Fatalf("len(results) = %d, want 3", len(results))
-	}
-
-	// gentle-ai: 1.5.0 local == 1.5.0 remote → UpToDate
-	assertResult(t, results[0], "gentle-ai", UpToDate, "1.5.0", "1.5.0")
-
-	// engram: 0.3.2 local < 0.4.0 remote → UpdateAvailable
-	assertResult(t, results[1], "engram", UpdateAvailable, "0.3.2", "0.4.0")
-
-	// gga: not installed
-	assertResult(t, results[2], "gga", NotInstalled, "", "2.0.0")
->>>>>>> upstream/main
 }
 
 func TestCheckAll_NetworkError(t *testing.T) {
@@ -434,7 +369,6 @@ func TestCheckAll_NetworkError(t *testing.T) {
 	profile := system.PlatformProfile{OS: "linux", LinuxDistro: "ubuntu", PackageManager: "apt", Supported: true}
 	results := CheckAll(context.Background(), "1.0.0", profile)
 
-<<<<<<< HEAD
 	// dxrk has no DetectCmd, so it gets currentBuildVersion "1.0.0" as local
 	// but fetch fails → CheckFailed (it has a local version).
 	if results[0].Status != CheckFailed {
@@ -442,26 +376,11 @@ func TestCheckAll_NetworkError(t *testing.T) {
 	}
 	if results[0].Err == nil {
 		t.Fatalf("dxrk expected error, got nil")
-=======
-	// gentle-ai has no DetectCmd, so it gets currentBuildVersion "1.0.0" as local
-	// but fetch fails → CheckFailed (it has a local version).
-	if results[0].Status != CheckFailed {
-		t.Fatalf("gentle-ai status = %q, want %q", results[0].Status, CheckFailed)
-	}
-	if results[0].Err == nil {
-		t.Fatalf("gentle-ai expected error, got nil")
->>>>>>> upstream/main
 	}
 
 	if results[1].Status != CheckFailed {
 		t.Fatalf("engram status = %q, want %q", results[1].Status, CheckFailed)
 	}
-<<<<<<< HEAD
-=======
-	if results[2].Status != CheckFailed {
-		t.Fatalf("gga status = %q, want %q", results[2].Status, CheckFailed)
-	}
->>>>>>> upstream/main
 }
 
 func TestCheckFiltered_FetchErrorPreservesCheckFailedForMissingTool(t *testing.T) {
@@ -511,7 +430,6 @@ func TestUpdateHint(t *testing.T) {
 		want    string
 	}{
 		{
-<<<<<<< HEAD
 			name:    "dxrk macOS",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
@@ -528,24 +446,6 @@ func TestUpdateHint(t *testing.T) {
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
 			want:    "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex",
-=======
-			name:    "gentle-ai macOS",
-			tool:    ToolInfo{Name: "gentle-ai"},
-			profile: system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
-			want:    "brew upgrade gentle-ai",
-		},
-		{
-			name:    "gentle-ai linux",
-			tool:    ToolInfo{Name: "gentle-ai"},
-			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh | bash",
-		},
-		{
-			name:    "gentle-ai windows",
-			tool:    ToolInfo{Name: "gentle-ai"},
-			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
-			want:    "irm https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 | iex",
->>>>>>> upstream/main
 		},
 		{
 			name:    "engram macOS brew",
@@ -557,17 +457,12 @@ func TestUpdateHint(t *testing.T) {
 			name:    "engram linux",
 			tool:    ToolInfo{Name: "engram"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-<<<<<<< HEAD
 			want:    "dxrk upgrade (downloads pre-built binary)",
-=======
-			want:    "gentle-ai upgrade (downloads pre-built binary)",
->>>>>>> upstream/main
 		},
 		{
 			name:    "engram windows",
 			tool:    ToolInfo{Name: "engram"},
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
-<<<<<<< HEAD
 			want:    "dxrk upgrade (downloads pre-built binary)",
 		},
 		{
@@ -581,21 +476,6 @@ func TestUpdateHint(t *testing.T) {
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
 			want:    "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash",
-=======
-			want:    "gentle-ai upgrade (downloads pre-built binary)",
-		},
-		{
-			name:    "gga macOS brew",
-			tool:    ToolInfo{Name: "gga"},
-			profile: system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
-			want:    "brew upgrade gga",
-		},
-		{
-			name:    "gga linux",
-			tool:    ToolInfo{Name: "gga"},
-			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "See https://github.com/Gentleman-Programming/gentleman-guardian-angel",
->>>>>>> upstream/main
 		},
 		{
 			name:    "unknown tool",
@@ -726,11 +606,7 @@ func TestParseVersionFromOutput(t *testing.T) {
 		want   string
 	}{
 		{name: "engram v0.3.2", output: "engram v0.3.2", want: "0.3.2"},
-<<<<<<< HEAD
 		{name: "dxrk 1.0.0", output: "dxrk version 1.0.0", want: "1.0.0"},
-=======
-		{name: "gga 1.0.0", output: "gga version 1.0.0", want: "1.0.0"},
->>>>>>> upstream/main
 		{name: "bare version", output: "2.1.0", want: "2.1.0"},
 		{name: "no version", output: "no version info here", want: ""},
 		{name: "empty", output: "", want: ""},
@@ -748,27 +624,16 @@ func TestParseVersionFromOutput(t *testing.T) {
 
 // TestRegistryContents verifies the registry has all expected tools.
 func TestRegistryContents(t *testing.T) {
-<<<<<<< HEAD
 	if len(Tools) != 2 {
 		t.Fatalf("len(Tools) = %d, want 2", len(Tools))
-=======
-	if len(Tools) != 3 {
-		t.Fatalf("len(Tools) = %d, want 3", len(Tools))
->>>>>>> upstream/main
 	}
 
 	expected := map[string]struct {
 		owner string
 		repo  string
 	}{
-<<<<<<< HEAD
 		"dxrk":   {owner: "Dxrk", repo: "dxrk"},
 		"engram": {owner: "Dxrk", repo: "engram"},
-=======
-		"gentle-ai": {owner: "Gentleman-Programming", repo: "gentle-ai"},
-		"engram":    {owner: "Gentleman-Programming", repo: "engram"},
-		"gga":       {owner: "Gentleman-Programming", repo: "gentleman-guardian-angel"},
->>>>>>> upstream/main
 	}
 
 	for _, tool := range Tools {
@@ -784,7 +649,6 @@ func TestRegistryContents(t *testing.T) {
 		}
 	}
 
-<<<<<<< HEAD
 	// dxrk must have nil DetectCmd.
 	if Tools[0].DetectCmd != nil {
 		t.Fatalf("dxrk DetectCmd should be nil")
@@ -794,20 +658,6 @@ func TestRegistryContents(t *testing.T) {
 	if Tools[1].DetectCmd == nil {
 		t.Fatalf("engram DetectCmd should not be nil")
 	}
-=======
-	// gentle-ai must have nil DetectCmd.
-	if Tools[0].DetectCmd != nil {
-		t.Fatalf("gentle-ai DetectCmd should be nil")
-	}
-
-	// engram and gga must have non-nil DetectCmd.
-	if Tools[1].DetectCmd == nil {
-		t.Fatalf("engram DetectCmd should not be nil")
-	}
-	if Tools[2].DetectCmd == nil {
-		t.Fatalf("gga DetectCmd should not be nil")
-	}
->>>>>>> upstream/main
 }
 
 // TestCheckAll_DevVersion verifies that "dev" build version results in DevBuild
@@ -824,11 +674,7 @@ func TestCheckAll_DevVersion(t *testing.T) {
 	origLookPath := lookPath
 	origExecCommand := execCommand
 
-<<<<<<< HEAD
 	// Override only the first tool (dxrk) by running CheckAll with "dev".
-=======
-	// Override only the first tool (gentle-ai) by running CheckAll with "dev".
->>>>>>> upstream/main
 	origTools := Tools
 	t.Cleanup(func() {
 		httpClient = origClient
@@ -840,11 +686,7 @@ func TestCheckAll_DevVersion(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-<<<<<<< HEAD
 	// Restrict to just dxrk to isolate the test.
-=======
-	// Restrict to just gentle-ai to isolate the test.
->>>>>>> upstream/main
 	Tools = []ToolInfo{Tools[0]}
 
 	lookPath = func(string) (string, error) { return "", fmt.Errorf("not found") }
@@ -859,22 +701,14 @@ func TestCheckAll_DevVersion(t *testing.T) {
 
 	// The spec requires: "dev" build MUST be reported as DevBuild, not VersionUnknown.
 	if results[0].Status != DevBuild {
-<<<<<<< HEAD
 		t.Fatalf("dxrk dev status = %q, want %q", results[0].Status, DevBuild)
-=======
-		t.Fatalf("gentle-ai dev status = %q, want %q", results[0].Status, DevBuild)
->>>>>>> upstream/main
 	}
 }
 
 // --- TestCheckFiltered ---
 
 // TestCheckFiltered verifies that CheckFiltered restricts results to the named tools
-<<<<<<< HEAD
 // and that the dev-build sentinel causes dxrk to be reported as DevBuild.
-=======
-// and that the dev-build sentinel causes gentle-ai to be reported as DevBuild.
->>>>>>> upstream/main
 func TestCheckFiltered_SubsetOfTools(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -984,20 +818,12 @@ func TestCheckFiltered_UnknownToolIgnored(t *testing.T) {
 }
 
 // TestCheckFiltered_DevBuildSemanticsForGentleAI verifies the design requirement:
-<<<<<<< HEAD
 // when the running dxrk binary reports version "dev", it is identified as a
-=======
-// when the running gentle-ai binary reports version "dev", it is identified as a
->>>>>>> upstream/main
 // DevBuild and NOT reported as UpdateAvailable or VersionUnknown.
 //
 // The spec says:
 //   - Dev build MUST be reported as development-build semantic
-<<<<<<< HEAD
 //   - dxrk self-upgrade is skipped while engram/dxrk remain eligible
-=======
-//   - gentle-ai self-upgrade is skipped while engram/gga remain eligible
->>>>>>> upstream/main
 func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -1021,11 +847,7 @@ func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 	httpClient.Transport = &testTransport{server: server}
 	lookPath = func(string) (string, error) { return "", fmt.Errorf("not found") }
 	execCommand = func(name string, args ...string) *exec.Cmd { return exec.Command("false") }
-<<<<<<< HEAD
 	Tools = []ToolInfo{Tools[0]} // dxrk only
-=======
-	Tools = []ToolInfo{Tools[0]} // gentle-ai only
->>>>>>> upstream/main
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
 
@@ -1035,13 +857,8 @@ func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 	}
 
 	r := results[0]
-<<<<<<< HEAD
 	if r.Tool.Name != "dxrk" {
 		t.Fatalf("tool = %q, want dxrk", r.Tool.Name)
-=======
-	if r.Tool.Name != "gentle-ai" {
-		t.Fatalf("tool = %q, want gentle-ai", r.Tool.Name)
->>>>>>> upstream/main
 	}
 
 	// Dev build should be reported as DevBuild status, not VersionUnknown or UpdateAvailable.
@@ -1051,11 +868,7 @@ func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 }
 
 // TestCheckFiltered_DevBuildSkipNotEligible verifies that in a mixed run,
-<<<<<<< HEAD
 // dxrk with "dev" version gets DevBuild while engram with a real version stays eligible.
-=======
-// gentle-ai with "dev" version gets DevBuild while engram with a real version stays eligible.
->>>>>>> upstream/main
 func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -1064,11 +877,7 @@ func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 		path := r.URL.Path
 		var release githubRelease
 		switch {
-<<<<<<< HEAD
 		case contains(path, "dxrk"):
-=======
-		case contains(path, "gentle-ai"):
->>>>>>> upstream/main
 			release = githubRelease{TagName: "v9.9.9"}
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v2.0.0"}
@@ -1106,11 +915,7 @@ func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 		}
 		return exec.Command("false")
 	}
-<<<<<<< HEAD
 	// Only dxrk and engram for this test
-=======
-	// Only gentle-ai and engram for this test
->>>>>>> upstream/main
 	Tools = []ToolInfo{Tools[0], Tools[1]}
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
@@ -1120,15 +925,9 @@ func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 		t.Fatalf("len = %d, want 2", len(results))
 	}
 
-<<<<<<< HEAD
 	// dxrk should be DevBuild
 	if results[0].Status != DevBuild {
 		t.Fatalf("dxrk status = %q, want DevBuild", results[0].Status)
-=======
-	// gentle-ai should be DevBuild
-	if results[0].Status != DevBuild {
-		t.Fatalf("gentle-ai status = %q, want DevBuild", results[0].Status)
->>>>>>> upstream/main
 	}
 
 	// engram should be UpdateAvailable (1.0.0 < 2.0.0)
@@ -1148,11 +947,7 @@ func TestNoUpdatesPath(t *testing.T) {
 		switch {
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v0.3.2"}
-<<<<<<< HEAD
 		case contains(path, "Dxrk-guardian-angel"):
-=======
-		case contains(path, "gentleman-guardian-angel"):
->>>>>>> upstream/main
 			release = githubRelease{TagName: "v1.0.0"}
 		default:
 			release = githubRelease{TagName: "v1.0.0"}
@@ -1175,11 +970,7 @@ func TestNoUpdatesPath(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-<<<<<<< HEAD
 	// engram is at v0.3.2 (same as remote), dxrk is not installed
-=======
-	// engram is at v0.3.2 (same as remote), gga is not installed
->>>>>>> upstream/main
 	lookPath = func(name string) (string, error) {
 		if name == "engram" {
 			return "/usr/local/bin/engram", nil
@@ -1192,38 +983,20 @@ func TestNoUpdatesPath(t *testing.T) {
 		}
 		return exec.Command("false")
 	}
-<<<<<<< HEAD
 	// Only engram for this test (dxrk has nil DetectCmd which would cause issues)
 	Tools = []ToolInfo{Tools[1]}
-=======
-	// Only engram and gga for this test (skip gentle-ai to avoid dev-build behavior)
-	Tools = []ToolInfo{Tools[1], Tools[2]}
->>>>>>> upstream/main
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
 
 	results := CheckFiltered(context.Background(), "1.0.0", profile, nil)
-<<<<<<< HEAD
 	if len(results) != 1 {
 		t.Fatalf("len = %d, want 1", len(results))
-=======
-	if len(results) != 2 {
-		t.Fatalf("len = %d, want 2", len(results))
->>>>>>> upstream/main
 	}
 
 	// engram: up to date
 	if results[0].Status != UpToDate {
 		t.Fatalf("engram status = %q, want UpToDate", results[0].Status)
 	}
-<<<<<<< HEAD
-=======
-
-	// gga: not installed
-	if results[1].Status != NotInstalled {
-		t.Fatalf("gga status = %q, want NotInstalled", results[1].Status)
-	}
->>>>>>> upstream/main
 }
 
 // --- TestEngramHintNoBrew ---

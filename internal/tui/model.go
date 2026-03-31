@@ -8,7 +8,6 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/catalog"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/sdd"
@@ -20,19 +19,6 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/screens"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/screens"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
->>>>>>> upstream/main
 )
 
 // osStatModelCache is a package-level variable so tests can override it to
@@ -486,11 +472,7 @@ func (m Model) View() string {
 		return screens.RenderComplete(screens.CompletePayload{
 			ConfiguredAgents:    len(m.Selection.Agents),
 			InstalledComponents: len(m.Selection.Components),
-<<<<<<< HEAD
 			DxrkInstalled:        hasSelectedComponent(m.Selection.Components, model.ComponentDxrk),
-=======
-			GGAInstalled:        hasSelectedComponent(m.Selection.Components, model.ComponentGGA),
->>>>>>> upstream/main
 			FailedSteps:         extractFailedSteps(m.Execution),
 			RollbackPerformed:   len(m.Execution.Rollback.Steps) > 0,
 			MissingDeps:         extractMissingDeps(m.Detection),

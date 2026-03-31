@@ -17,11 +17,7 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 		"claude/sdd-orchestrator.md",
 
 		// OpenCode agent files
-<<<<<<< HEAD
 		"opencode/persona-Dxrk.md",
-=======
-		"opencode/persona-gentleman.md",
->>>>>>> upstream/main
 		"opencode/sdd-overlay-single.json",
 		"opencode/sdd-overlay-multi.json",
 		"opencode/commands/sdd-apply.md",
@@ -103,11 +99,7 @@ func TestOpenCodeEmbeddedAssetLayout(t *testing.T) {
 		seen[entry.Name()] = true
 	}
 
-<<<<<<< HEAD
 	for _, name := range []string{"commands", "plugins", "persona-Dxrk.md", "sdd-overlay-single.json", "sdd-overlay-multi.json"} {
-=======
-	for _, name := range []string{"commands", "plugins", "persona-gentleman.md", "sdd-overlay-single.json", "sdd-overlay-multi.json"} {
->>>>>>> upstream/main
 		if !seen[name] {
 			t.Fatalf("opencode embedded assets missing %q", name)
 		}

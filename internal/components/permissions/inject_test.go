@@ -7,7 +7,6 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/antigravity"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
@@ -17,17 +16,6 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/vscode"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/antigravity"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/cursor"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/gemini"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
->>>>>>> upstream/main
 )
 
 func claudeAdapter() agents.Adapter      { return claude.NewAdapter() }

@@ -5,13 +5,8 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
->>>>>>> upstream/main
 )
 
 // ─── RenderUpgrade states ──────────────────────────────────────────────────
@@ -31,11 +26,7 @@ func TestRenderUpgrade_CheckingState(t *testing.T) {
 func TestRenderUpgrade_AllUpToDate(t *testing.T) {
 	results := []update.UpdateResult{
 		{
-<<<<<<< HEAD
 			Tool:             update.ToolInfo{Name: "dxrk"},
-=======
-			Tool:             update.ToolInfo{Name: "gentle-ai"},
->>>>>>> upstream/main
 			InstalledVersion: "v1.0.0",
 			LatestVersion:    "v1.0.0",
 			Status:           update.UpToDate,
@@ -55,11 +46,7 @@ func TestRenderUpgrade_AllUpToDate(t *testing.T) {
 func TestRenderUpgrade_UpdatesAvailable(t *testing.T) {
 	results := []update.UpdateResult{
 		{
-<<<<<<< HEAD
 			Tool:             update.ToolInfo{Name: "dxrk"},
-=======
-			Tool:             update.ToolInfo{Name: "gentle-ai"},
->>>>>>> upstream/main
 			InstalledVersion: "v1.0.0",
 			LatestVersion:    "v2.0.0",
 			Status:           update.UpdateAvailable,
@@ -68,13 +55,8 @@ func TestRenderUpgrade_UpdatesAvailable(t *testing.T) {
 
 	out := RenderUpgrade(results, nil, nil, false, true /*updateCheckDone*/, 0, 0)
 
-<<<<<<< HEAD
 	if !strings.Contains(out, "dxrk") {
 		t.Errorf("RenderUpgrade(updates available) should contain tool name 'dxrk'; got:\n%s", out)
-=======
-	if !strings.Contains(out, "gentle-ai") {
-		t.Errorf("RenderUpgrade(updates available) should contain tool name 'gentle-ai'; got:\n%s", out)
->>>>>>> upstream/main
 	}
 	if !strings.Contains(out, "v1.0.0") || !strings.Contains(out, "v2.0.0") {
 		t.Errorf("RenderUpgrade(updates available) should contain version info; got:\n%s", out)
@@ -87,11 +69,7 @@ func TestRenderUpgrade_ResultState(t *testing.T) {
 	report := &upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
 			{
-<<<<<<< HEAD
 				ToolName:   "dxrk",
-=======
-				ToolName:   "gentle-ai",
->>>>>>> upstream/main
 				OldVersion: "v1.0.0",
 				NewVersion: "v2.0.0",
 				Status:     upgrade.UpgradeSucceeded,
@@ -103,11 +81,7 @@ func TestRenderUpgrade_ResultState(t *testing.T) {
 
 	lower := strings.ToLower(out)
 	if !strings.Contains(lower, "upgraded") && !strings.Contains(lower, "summary") &&
-<<<<<<< HEAD
 		!strings.Contains(out, "dxrk") {
-=======
-		!strings.Contains(out, "gentle-ai") {
->>>>>>> upstream/main
 		t.Errorf("RenderUpgrade(report) should show upgrade results; got:\n%s", out)
 	}
 }

@@ -10,15 +10,9 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
->>>>>>> upstream/main
 )
 
 // --- helpers ---
@@ -35,11 +29,7 @@ func makeResult(name string, status update.UpdateStatus, oldVer, newVer string, 
 	return update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          name,
-<<<<<<< HEAD
 			Owner:         "Dxrk",
-=======
-			Owner:         "Gentleman-Programming",
->>>>>>> upstream/main
 			Repo:          name,
 			InstallMethod: method,
 		},
@@ -56,17 +46,10 @@ func makeResult(name string, status update.UpdateStatus, oldVer, newVer string, 
 // UpdateAvailable or DevBuild status (i.e. only UpToDate and NotInstalled tools).
 func TestExecute_NoopWhenNothingIsExecutable(t *testing.T) {
 	results := []update.UpdateResult{
-<<<<<<< HEAD
 		makeResult("dxrk", update.UpToDate, "1.0.0", "1.0.0", update.InstallBinary),
 		makeResult("engram", update.NotInstalled, "", "0.4.0", update.InstallGoInstall),
 		// dxrk: CheckFailed — should also be omitted from results.
 		makeResult("dxrk", update.CheckFailed, "", "", update.InstallScript),
-=======
-		makeResult("gentle-ai", update.UpToDate, "1.0.0", "1.0.0", update.InstallBinary),
-		makeResult("engram", update.NotInstalled, "", "0.4.0", update.InstallGoInstall),
-		// gga: CheckFailed — should also be omitted from results.
-		makeResult("gga", update.CheckFailed, "", "", update.InstallScript),
->>>>>>> upstream/main
 	}
 
 	report := Execute(context.Background(), results, brewProfile(), t.TempDir(), false)
@@ -100,11 +83,7 @@ func TestExecute_DevBuildOnlyNoBackupCreated(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-<<<<<<< HEAD
 		makeResult("dxrk", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
-=======
-		makeResult("gentle-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
->>>>>>> upstream/main
 	}
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
@@ -147,11 +126,7 @@ func TestExecute_BackupBeforeExecution(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -183,11 +158,7 @@ func TestExecute_DryRunNeverExecs(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), true)
 
@@ -217,13 +188,8 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 	t.Cleanup(func() { execCommand = origExecCommand })
 
 	execCommand = func(name string, args ...string) *exec.Cmd {
-<<<<<<< HEAD
 		// engram go install succeeds, dxrk curl/download attempt fails — we simulate
 		// the failure by having execCommand return false for "dxrk" detection.
-=======
-		// engram go install succeeds, gga curl/download attempt fails — we simulate
-		// the failure by having execCommand return false for "gga" detection.
->>>>>>> upstream/main
 		if name == "go" {
 			return exec.Command("echo", "go install ok")
 		}
@@ -234,11 +200,7 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -255,15 +217,9 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 // --- TestExecute_DevBuildIsSkipped ---
 
 // TestExecute_DevBuildIsSkipped verifies the spec requirement:
-<<<<<<< HEAD
 // dxrk with DevBuild status must appear in Results as UpgradeSkipped
 // with a non-empty ManualHint explaining it is a source/dev build.
 // DevBuild tools must NOT be auto-executed, and engram/dxrk remain eligible.
-=======
-// gentle-ai with DevBuild status must appear in Results as UpgradeSkipped
-// with a non-empty ManualHint explaining it is a source/dev build.
-// DevBuild tools must NOT be auto-executed, and engram/gga remain eligible.
->>>>>>> upstream/main
 func TestExecute_DevBuildIsSkipped(t *testing.T) {
 	origExecCommand := execCommand
 	t.Cleanup(func() { execCommand = origExecCommand })
@@ -272,7 +228,6 @@ func TestExecute_DevBuildIsSkipped(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-<<<<<<< HEAD
 		makeResult("dxrk", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
@@ -284,25 +239,11 @@ func TestExecute_DevBuildIsSkipped(t *testing.T) {
 	var devResult *ToolUpgradeResult
 	for i := range report.Results {
 		if report.Results[i].ToolName == "dxrk" {
-=======
-		makeResult("gentle-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
-	}
-	results[1].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
-
-	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
-
-	// gentle-ai (DevBuild) MUST appear as UpgradeSkipped with a ManualHint.
-	var devResult *ToolUpgradeResult
-	for i := range report.Results {
-		if report.Results[i].ToolName == "gentle-ai" {
->>>>>>> upstream/main
 			r := report.Results[i]
 			devResult = &r
 		}
 	}
 	if devResult == nil {
-<<<<<<< HEAD
 		t.Fatalf("dxrk (DevBuild) must appear in Results — was not found")
 	}
 	if devResult.Status != UpgradeSkipped {
@@ -310,15 +251,6 @@ func TestExecute_DevBuildIsSkipped(t *testing.T) {
 	}
 	if devResult.ManualHint == "" {
 		t.Errorf("dxrk DevBuild ManualHint must be non-empty")
-=======
-		t.Fatalf("gentle-ai (DevBuild) must appear in Results — was not found")
-	}
-	if devResult.Status != UpgradeSkipped {
-		t.Errorf("gentle-ai DevBuild Status = %q, want UpgradeSkipped", devResult.Status)
-	}
-	if devResult.ManualHint == "" {
-		t.Errorf("gentle-ai DevBuild ManualHint must be non-empty")
->>>>>>> upstream/main
 	}
 
 	// engram should still be processed as succeeded.
@@ -352,11 +284,7 @@ func TestExecute_FailureDoesNotImplyConfigLoss(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -387,15 +315,9 @@ func TestExecute_FailureDoesNotImplyConfigLoss(t *testing.T) {
 func TestExecute_InstallNotInvoked(t *testing.T) {
 	// This test is intentionally a documentation-only guard.
 	// The real enforcement is: this package MUST NOT import:
-<<<<<<< HEAD
 	//   - github.com/Dxrk777/Dxrk-Hex/internal/pipeline
 	//   - github.com/Dxrk777/Dxrk-Hex/internal/planner
 	//   - github.com/Dxrk777/Dxrk-Hex/internal/cli
-=======
-	//   - github.com/gentleman-programming/gentle-ai/internal/pipeline
-	//   - github.com/gentleman-programming/gentle-ai/internal/planner
-	//   - github.com/gentleman-programming/gentle-ai/internal/cli
->>>>>>> upstream/main
 	//
 	// If you see those imports appear, the isolation contract is broken.
 	// See TestExecuteImportBoundary for the compile-time enforcement approach.
@@ -405,11 +327,7 @@ func TestExecute_InstallNotInvoked(t *testing.T) {
 // --- TestExecute_DevBuildSurfacedAsSkipped ---
 
 // TestExecute_DevBuildSurfacedAsSkipped verifies the spec gap:
-<<<<<<< HEAD
 // A DevBuild tool (e.g. dxrk with version="dev") MUST appear in UpgradeReport.Results
-=======
-// A DevBuild tool (e.g. gentle-ai with version="dev") MUST appear in UpgradeReport.Results
->>>>>>> upstream/main
 // with Status=UpgradeSkipped and a non-empty ManualHint explaining it is a dev/source build.
 // Previously, DevBuild tools were silently omitted from Results entirely.
 func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
@@ -420,7 +338,6 @@ func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-<<<<<<< HEAD
 		makeResult("dxrk", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
@@ -432,26 +349,12 @@ func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
 	var devResult *ToolUpgradeResult
 	for i := range report.Results {
 		if report.Results[i].ToolName == "dxrk" {
-=======
-		makeResult("gentle-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
-	}
-	results[1].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
-
-	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
-
-	// gentle-ai (DevBuild) MUST appear in results as UpgradeSkipped.
-	var devResult *ToolUpgradeResult
-	for i := range report.Results {
-		if report.Results[i].ToolName == "gentle-ai" {
->>>>>>> upstream/main
 			r := report.Results[i]
 			devResult = &r
 		}
 	}
 
 	if devResult == nil {
-<<<<<<< HEAD
 		t.Fatalf("dxrk DevBuild must appear in Results as UpgradeSkipped, but was not found")
 	}
 
@@ -461,17 +364,6 @@ func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
 
 	if devResult.ManualHint == "" {
 		t.Errorf("dxrk DevBuild ManualHint must be non-empty — should explain dev/source build")
-=======
-		t.Fatalf("gentle-ai DevBuild must appear in Results as UpgradeSkipped, but was not found")
-	}
-
-	if devResult.Status != UpgradeSkipped {
-		t.Errorf("gentle-ai DevBuild Status = %q, want UpgradeSkipped", devResult.Status)
-	}
-
-	if devResult.ManualHint == "" {
-		t.Errorf("gentle-ai DevBuild ManualHint must be non-empty — should explain dev/source build")
->>>>>>> upstream/main
 	}
 
 	// engram (UpdateAvailable) must still be processed normally.
@@ -509,15 +401,9 @@ func TestExecute_ManualFallbackSurfacedAsSkippedNotFailed(t *testing.T) {
 	windowsProfile := system.PlatformProfile{OS: "windows", PackageManager: "winget", Supported: true}
 
 	results := []update.UpdateResult{
-<<<<<<< HEAD
 		makeResult("dxrk", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
 	}
 	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk-Hex/releases"
-=======
-		makeResult("gentle-ai", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
-	}
-	results[0].UpdateHint = "See https://github.com/Gentleman-Programming/gentle-ai/releases"
->>>>>>> upstream/main
 
 	report := Execute(context.Background(), results, windowsProfile, t.TempDir(), false)
 
@@ -583,11 +469,7 @@ func TestExecute_ConfigNotMutatedDuringUpgrade(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	profile := linuxProfile()
 
@@ -706,11 +588,7 @@ func TestExecute_BackupWarningWhenBackupFails(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	// Simulate backup failure by providing a homeDir where the snapshot would
 	// fail — but that is OS-dependent. We test the contract: if BackupID is
@@ -772,11 +650,7 @@ func TestExecute_ForcedSnapshotFailureSurfacesWarningEndToEnd(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -845,11 +719,7 @@ func TestExecute_UpgradeBackupManifestHasUpgradeMetadata(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	report := Execute(context.Background(), results, linuxProfile(), homeDir, false)
 
@@ -858,11 +728,7 @@ func TestExecute_UpgradeBackupManifestHasUpgradeMetadata(t *testing.T) {
 	}
 
 	// Find the backup manifest on disk and verify its metadata.
-<<<<<<< HEAD
 	backupRoot := filepath.Join(homeDir, ".dxrk", "backups")
-=======
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
->>>>>>> upstream/main
 	entries, err := os.ReadDir(backupRoot)
 	if err != nil {
 		t.Fatalf("ReadDir backups: %v", err)
@@ -902,11 +768,7 @@ func TestExecute_SuccessfulSnapshotHasNoWarning(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-<<<<<<< HEAD
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
-=======
-	results[0].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
->>>>>>> upstream/main
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -955,7 +817,6 @@ func TestConfigPathsForBackup_CoversRegistryAgentsNotInOldList(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
 // TestConfigPathsForBackup_DxrkExtrasAreIncluded verifies that Dxrk-specific
 // paths (config file, runtime lib dir) are included in the backup paths even
 // though Dxrk is not an agent in the adapter registry. These are approved
@@ -979,31 +840,6 @@ func TestConfigPathsForBackup_DxrkExtrasAreIncluded(t *testing.T) {
 	}
 	if err := os.WriteFile(dxrkLibFile, []byte("#!/bin/sh"), 0o755); err != nil {
 		t.Fatalf("WriteFile dxrk lib: %v", err)
-=======
-// TestConfigPathsForBackup_GGAExtrasAreIncluded verifies that GGA-specific
-// paths (config file, runtime lib dir) are included in the backup paths even
-// though GGA is not an agent in the adapter registry. These are approved
-// non-agent extras that must be preserved outside the canonical managed set.
-func TestConfigPathsForBackup_GGAExtrasAreIncluded(t *testing.T) {
-	homeDir := t.TempDir()
-
-	// Create GGA config file at ~/.config/gga/config
-	ggaConfigFile := filepath.Join(homeDir, ".config", "gga", "config")
-	if err := os.MkdirAll(filepath.Dir(ggaConfigFile), 0o755); err != nil {
-		t.Fatalf("MkdirAll gga config: %v", err)
-	}
-	if err := os.WriteFile(ggaConfigFile, []byte("gga-config"), 0o644); err != nil {
-		t.Fatalf("WriteFile gga config: %v", err)
-	}
-
-	// Create GGA runtime lib file at ~/.local/share/gga/lib/pr_mode.sh
-	ggaLibFile := filepath.Join(homeDir, ".local", "share", "gga", "lib", "pr_mode.sh")
-	if err := os.MkdirAll(filepath.Dir(ggaLibFile), 0o755); err != nil {
-		t.Fatalf("MkdirAll gga lib: %v", err)
-	}
-	if err := os.WriteFile(ggaLibFile, []byte("#!/bin/sh"), 0o755); err != nil {
-		t.Fatalf("WriteFile gga lib: %v", err)
->>>>>>> upstream/main
 	}
 
 	paths := configPathsForBackup(homeDir)
@@ -1013,19 +849,11 @@ func TestConfigPathsForBackup_GGAExtrasAreIncluded(t *testing.T) {
 		pathSet[p] = struct{}{}
 	}
 
-<<<<<<< HEAD
 	if _, ok := pathSet[dxrkConfigFile]; !ok {
 		t.Errorf("configPathsForBackup() missing Dxrk config file %q — Dxrk extras must remain in backup; got paths: %v", dxrkConfigFile, paths)
 	}
 	if _, ok := pathSet[dxrkLibFile]; !ok {
 		t.Errorf("configPathsForBackup() missing Dxrk lib file %q — Dxrk extras must remain in backup; got paths: %v", dxrkLibFile, paths)
-=======
-	if _, ok := pathSet[ggaConfigFile]; !ok {
-		t.Errorf("configPathsForBackup() missing GGA config file %q — GGA extras must remain in backup; got paths: %v", ggaConfigFile, paths)
-	}
-	if _, ok := pathSet[ggaLibFile]; !ok {
-		t.Errorf("configPathsForBackup() missing GGA lib file %q — GGA extras must remain in backup; got paths: %v", ggaLibFile, paths)
->>>>>>> upstream/main
 	}
 }
 
@@ -1049,15 +877,9 @@ func TestExecute_SkippedUpgradeDoesNotRenderFailureMarker(t *testing.T) {
 	windowsProfile := system.PlatformProfile{OS: "windows", PackageManager: "winget", Supported: true}
 
 	results := []update.UpdateResult{
-<<<<<<< HEAD
 		makeResult("dxrk", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
 	}
 	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk-Hex/releases"
-=======
-		makeResult("gentle-ai", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
-	}
-	results[0].UpdateHint = "See https://github.com/Gentleman-Programming/gentle-ai/releases"
->>>>>>> upstream/main
 
 	// Capture the progress output written to the progress writer.
 	var progressBuf bytes.Buffer

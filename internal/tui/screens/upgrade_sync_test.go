@@ -5,13 +5,8 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
->>>>>>> upstream/main
 )
 
 // ─── RenderUpgradeSync states ──────────────────────────────────────────────
@@ -53,11 +48,7 @@ func TestRenderUpgradeSync_RunningUpgradePhase(t *testing.T) {
 func TestRenderUpgradeSync_RunningSyncPhase(t *testing.T) {
 	report := &upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
-<<<<<<< HEAD
 			{ToolName: "dxrk", OldVersion: "v1.0.0", NewVersion: "v2.0.0", Status: upgrade.UpgradeSucceeded},
-=======
-			{ToolName: "gentle-ai", OldVersion: "v1.0.0", NewVersion: "v2.0.0", Status: upgrade.UpgradeSucceeded},
->>>>>>> upstream/main
 		},
 	}
 
@@ -80,11 +71,7 @@ func TestRenderUpgradeSync_RunningSyncPhase(t *testing.T) {
 func TestRenderUpgradeSync_CombinedResult(t *testing.T) {
 	report := &upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
-<<<<<<< HEAD
 			{ToolName: "dxrk", OldVersion: "v1.0.0", NewVersion: "v2.0.0", Status: upgrade.UpgradeSucceeded},
-=======
-			{ToolName: "gentle-ai", OldVersion: "v1.0.0", NewVersion: "v2.0.0", Status: upgrade.UpgradeSucceeded},
->>>>>>> upstream/main
 		},
 	}
 	const syncFilesChanged = 3

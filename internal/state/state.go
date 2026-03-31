@@ -6,11 +6,7 @@ import (
 	"path/filepath"
 )
 
-<<<<<<< HEAD
 const stateDir = ".dxrk"
-=======
-const stateDir = ".gentle-ai"
->>>>>>> upstream/main
 const stateFile = "state.json"
 
 // InstallState holds the persisted user selections from the last install run.
@@ -38,11 +34,7 @@ func Read(homeDir string) (InstallState, error) {
 }
 
 // Write persists the given agent IDs to the state file under the given home directory.
-<<<<<<< HEAD
 // It creates the .dxrk directory if it does not already exist.
-=======
-// It creates the .gentle-ai directory if it does not already exist.
->>>>>>> upstream/main
 func Write(homeDir string, agents []string) error {
 	dir := filepath.Join(homeDir, stateDir)
 	if err := os.MkdirAll(dir, 0o755); err != nil {

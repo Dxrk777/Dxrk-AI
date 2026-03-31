@@ -128,11 +128,7 @@ func TestOldManifestRemainsReadable(t *testing.T) {
 	oldJSON := `{
   "id": "20260322150405.000000000",
   "created_at": "2026-03-22T15:04:05Z",
-<<<<<<< HEAD
   "root_dir": "/home/user/.dxrk/backups/20260322150405.000000000",
-=======
-  "root_dir": "/home/user/.gentle-ai/backups/20260322150405.000000000",
->>>>>>> upstream/main
   "entries": []
 }`
 
@@ -164,11 +160,7 @@ func TestOldManifestRemainsReadable(t *testing.T) {
 
 // TestNewManifestOmitsEmptySourceFromJSON verifies that omitempty is respected:
 // when Source is not set, it should not appear in the serialized JSON, keeping
-<<<<<<< HEAD
 // existing manifest files readable by older versions of dxrk.
-=======
-// existing manifest files readable by older versions of gentle-ai.
->>>>>>> upstream/main
 func TestNewManifestOmitsEmptySourceFromJSON(t *testing.T) {
 	m := Manifest{
 		ID:        "test",
@@ -237,11 +229,7 @@ func TestManifestFileCountField(t *testing.T) {
 		oldJSON := `{
   "id": "old-no-fc",
   "created_at": "2026-03-22T15:04:05Z",
-<<<<<<< HEAD
   "root_dir": "/home/user/.dxrk/backups/old",
-=======
-  "root_dir": "/home/user/.gentle-ai/backups/old",
->>>>>>> upstream/main
   "entries": []
 }`
 		dir := t.TempDir()
@@ -304,11 +292,7 @@ func TestManifestCreatedByVersionField(t *testing.T) {
 		oldJSON := `{
   "id": "old-no-ver",
   "created_at": "2026-03-22T15:04:05Z",
-<<<<<<< HEAD
   "root_dir": "/home/user/.dxrk/backups/old",
-=======
-  "root_dir": "/home/user/.gentle-ai/backups/old",
->>>>>>> upstream/main
   "entries": []
 }`
 		dir := t.TempDir()

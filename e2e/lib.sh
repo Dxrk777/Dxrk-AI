@@ -35,7 +35,6 @@ log_info()  { printf "${BLUE}[INFO]${NC}  %s\n" "$1"; }
 # the Docker container. If not found, fall back to $HOME/dxrk or the
 # current directory.
 # Resolution priority (highest → lowest):
-<<<<<<< HEAD
 #   1. ./dxrk in the current repo directory (freshly built local binary)
 #   2. ~/dxrk (explicit copy in home)
 #   3. dxrk on PATH (system-installed, e.g. Homebrew)
@@ -43,20 +42,10 @@ log_info()  { printf "${BLUE}[INFO]${NC}  %s\n" "$1"; }
 # tests the locally built binary rather than the installed release version.
 resolve_binary() {
     # Prefer the locally built binary (./dxrk) produced by `go build ./cmd/dxrk`.
-=======
-#   1. ./gentle-ai in the current repo directory (freshly built local binary)
-#   2. ~/gentle-ai (explicit copy in home)
-#   3. gentle-ai on PATH (system-installed, e.g. Homebrew)
-# This ensures `go build ./cmd/gentle-ai && bash e2e/e2e_test.sh` always
-# tests the locally built binary rather than the installed release version.
-resolve_binary() {
-    # Prefer the locally built binary (./gentle-ai) produced by `go build ./cmd/gentle-ai`.
->>>>>>> upstream/main
     # We check both the current directory and the script's parent directory so
     # the resolver works whether the test is invoked from the repo root or from e2e/.
     local repo_root
     repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-<<<<<<< HEAD
     if [ -x "$repo_root/dxrk" ]; then
         echo "$repo_root/dxrk"
     elif [ -x "./dxrk" ]; then
@@ -65,16 +54,6 @@ resolve_binary() {
         echo "$HOME/dxrk"
     elif command -v dxrk >/dev/null 2>&1; then
         echo "dxrk"
-=======
-    if [ -x "$repo_root/gentle-ai" ]; then
-        echo "$repo_root/gentle-ai"
-    elif [ -x "./gentle-ai" ]; then
-        echo "./gentle-ai"
-    elif [ -x "$HOME/gentle-ai" ]; then
-        echo "$HOME/gentle-ai"
-    elif command -v gentle-ai >/dev/null 2>&1; then
-        echo "gentle-ai"
->>>>>>> upstream/main
     else
         echo ""
     fi
@@ -88,20 +67,12 @@ resolve_binary() {
 # Removes config dirs and files that the installer writes.
 cleanup_test_env() {
     rm -rf "$HOME/.config/opencode" 2>/dev/null || true
-<<<<<<< HEAD
     rm -rf "$HOME/.config/dxrk" 2>/dev/null || true
-=======
-    rm -rf "$HOME/.config/gga" 2>/dev/null || true
->>>>>>> upstream/main
     rm -rf "$HOME/.config/Windsurf" 2>/dev/null || true
     rm -rf "$HOME/.claude" 2>/dev/null || true
     rm -rf "$HOME/.codex" 2>/dev/null || true
     rm -rf "$HOME/.gemini" 2>/dev/null || true
-<<<<<<< HEAD
     rm -rf "$HOME/.dxrk" 2>/dev/null || true
-=======
-    rm -rf "$HOME/.gentle-ai" 2>/dev/null || true
->>>>>>> upstream/main
     rm -rf "$HOME/.codeium" 2>/dev/null || true
     rm -rf "$HOME/.cursor" 2>/dev/null || true
     mkdir -p "$HOME/.config"

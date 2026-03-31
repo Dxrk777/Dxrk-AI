@@ -235,11 +235,7 @@ func TestRunArgsSyncUnknownFlagReturnsError(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
 // TestRunArgsSyncNoAgentsIsNoOp verifies that `dxrk sync` with no
-=======
-// TestRunArgsSyncNoAgentsIsNoOp verifies that `gentle-ai sync` with no
->>>>>>> upstream/main
 // agents flag and an empty home dir (no config dirs) completes as a no-op
 // and does NOT return an error.
 func TestRunArgsSyncNoAgentsIsNoOp(t *testing.T) {

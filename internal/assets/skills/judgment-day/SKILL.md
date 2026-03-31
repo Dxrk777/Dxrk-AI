@@ -8,11 +8,7 @@ description: >
   "doble review", "juzgar", "que lo juzguen".
 license: Apache-2.0
 metadata:
-<<<<<<< HEAD
   author: dxrk
-=======
-  author: gentleman-programming
->>>>>>> upstream/main
   version: "1.3"
 ---
 

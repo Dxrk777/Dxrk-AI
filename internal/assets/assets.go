@@ -2,11 +2,7 @@ package assets
 
 import "embed"
 
-<<<<<<< HEAD
 //go:embed all:claude all:opencode all:generic all:skills all:dxrk all:gemini all:codex all:antigravity all:windsurf all:cursor
-=======
-//go:embed all:claude all:opencode all:generic all:skills all:gga all:gemini all:codex all:antigravity all:windsurf all:cursor
->>>>>>> upstream/main
 var FS embed.FS
 
 // MustRead returns the content of an embedded file or panics.

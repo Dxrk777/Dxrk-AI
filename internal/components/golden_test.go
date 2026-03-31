@@ -8,7 +8,6 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/antigravity"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
@@ -25,24 +24,6 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/sdd"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/skills"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/antigravity"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	codexagent "github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/cursor"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/gemini"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/windsurf"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/components/mcp"
-	"github.com/gentleman-programming/gentle-ai/internal/components/persona"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
->>>>>>> upstream/main
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -191,13 +172,8 @@ func TestGoldenSDD_Cursor(t *testing.T) {
 		t.Fatalf("sdd.Inject(cursor) changed = false")
 	}
 
-<<<<<<< HEAD
 	// Cursor writes SDD orchestrator to ~/.cursor/rules/dxrk.mdc.
 	rulesFile := readTestFile(t, filepath.Join(home, ".cursor", "rules", "dxrk.mdc"))
-=======
-	// Cursor writes SDD orchestrator to ~/.cursor/rules/gentle-ai.mdc.
-	rulesFile := readTestFile(t, filepath.Join(home, ".cursor", "rules", "gentle-ai.mdc"))
->>>>>>> upstream/main
 	assertGolden(t, "sdd-cursor-rules.golden", rulesFile)
 
 	// Golden-check a representative SDD skill file.
@@ -462,7 +438,6 @@ func TestGoldenPersona_OpenCode_Custom(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
 func TestGoldenPersona_Windsurf_Dxrk(t *testing.T) {
 	home := t.TempDir()
 
@@ -476,21 +451,6 @@ func TestGoldenPersona_Windsurf_Dxrk(t *testing.T) {
 
 	globalRules := readTestFile(t, filepath.Join(home, ".codeium", "windsurf", "memories", "global_rules.md"))
 	assertGolden(t, "persona-windsurf-Dxrk.golden", globalRules)
-=======
-func TestGoldenPersona_Windsurf_Gentleman(t *testing.T) {
-	home := t.TempDir()
-
-	result, err := persona.Inject(home, windsurfAdapter(), model.PersonaGentleman)
-	if err != nil {
-		t.Fatalf("persona.Inject(windsurf, gentleman) error = %v", err)
-	}
-	if !result.Changed {
-		t.Fatalf("persona.Inject(windsurf, gentleman) changed = false")
-	}
-
-	globalRules := readTestFile(t, filepath.Join(home, ".codeium", "windsurf", "memories", "global_rules.md"))
-	assertGolden(t, "persona-windsurf-gentleman.golden", globalRules)
->>>>>>> upstream/main
 }
 
 // ---------------------------------------------------------------------------
@@ -652,11 +612,7 @@ func TestGoldenCombined_Windsurf(t *testing.T) {
 
 	// Windsurf: persona appends to global_rules.md; SDD appends SDD orchestrator
 	// to the same file and copies skills + workflow to workspace.
-<<<<<<< HEAD
 	if _, err := persona.Inject(home, windsurfAdapter(), model.PersonaDxrk); err != nil {
-=======
-	if _, err := persona.Inject(home, windsurfAdapter(), model.PersonaGentleman); err != nil {
->>>>>>> upstream/main
 		t.Fatalf("persona.Inject(windsurf) error = %v", err)
 	}
 	if _, err := sdd.Inject(home, windsurfAdapter(), "", sdd.InjectOptions{WorkspaceDir: workspace}); err != nil {
@@ -712,7 +668,6 @@ func TestGoldenSDD_Antigravity(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
 func TestGoldenPersona_Antigravity_Dxrk(t *testing.T) {
 	home := t.TempDir()
 
@@ -726,21 +681,6 @@ func TestGoldenPersona_Antigravity_Dxrk(t *testing.T) {
 
 	rulesFile := readTestFile(t, filepath.Join(home, ".gemini", "GEMINI.md"))
 	assertGolden(t, "persona-antigravity-Dxrk.golden", rulesFile)
-=======
-func TestGoldenPersona_Antigravity_Gentleman(t *testing.T) {
-	home := t.TempDir()
-
-	result, err := persona.Inject(home, antigravityAdapter(), model.PersonaGentleman)
-	if err != nil {
-		t.Fatalf("persona.Inject(antigravity, gentleman) error = %v", err)
-	}
-	if !result.Changed {
-		t.Fatalf("persona.Inject(antigravity, gentleman) changed = false")
-	}
-
-	rulesFile := readTestFile(t, filepath.Join(home, ".gemini", "GEMINI.md"))
-	assertGolden(t, "persona-antigravity-gentleman.golden", rulesFile)
->>>>>>> upstream/main
 }
 
 func TestGoldenEngram_Antigravity(t *testing.T) {

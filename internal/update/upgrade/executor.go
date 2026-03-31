@@ -3,15 +3,9 @@
 // isolated from install, pipeline, planner, and config-sync code paths.
 //
 // Import boundary: this package MUST NOT import:
-<<<<<<< HEAD
 //   - github.com/Dxrk777/Dxrk-Hex/internal/pipeline
 //   - github.com/Dxrk777/Dxrk-Hex/internal/planner
 //   - github.com/Dxrk777/Dxrk-Hex/internal/cli
-=======
-//   - github.com/gentleman-programming/gentle-ai/internal/pipeline
-//   - github.com/gentleman-programming/gentle-ai/internal/planner
-//   - github.com/gentleman-programming/gentle-ai/internal/cli
->>>>>>> upstream/main
 package upgrade
 
 import (
@@ -23,19 +17,11 @@ import (
 	"path/filepath"
 	"time"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/dxrk"
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
->>>>>>> upstream/main
 )
 
 // Package-level vars for testability — same pattern as internal/update/detect.go.
@@ -50,11 +36,7 @@ var snapshotCreator = func(snapshotDir string, paths []string) (backup.Manifest,
 	return backup.NewSnapshotter().Create(snapshotDir, paths)
 }
 
-<<<<<<< HEAD
 // AppVersion is the dxrk version written into backup manifests created by
-=======
-// AppVersion is the gentle-ai version written into backup manifests created by
->>>>>>> upstream/main
 // the upgrade executor. Set by app.go before calling Execute so that upgrade
 // backups record the version that created them.
 // Default "dev" matches the ldflags default in app.Version.
@@ -67,11 +49,7 @@ var AppVersion = "dev"
 //  1. Canonical managed agent roots — via agents.ConfigRootsForBackup using the
 //     default registry. This automatically covers all registered adapters and
 //     picks up new agents without manual list maintenance.
-<<<<<<< HEAD
 //  2. Approved Dxrk extras — dxrk.ConfigPath and dxrk.RuntimeLibDir are not adapter-
-=======
-//  2. Approved GGA extras — gga.ConfigPath and gga.RuntimeLibDir are not adapter-
->>>>>>> upstream/main
 //     managed but must still be backed up. They are appended separately and do
 //     not affect the canonical managed set used by sync.
 //
@@ -90,19 +68,11 @@ func configPathsForBackup(homeDir string) []string {
 		configDirs = append(configDirs, agents.ConfigRootsForBackup(reg, homeDir)...)
 	}
 
-<<<<<<< HEAD
 	// Approved Dxrk extras — outside the canonical managed agent set.
 	// dxrk.ConfigPath returns the config *file* path; its parent dir is the root to walk.
 	dxrkConfigDir := filepath.Dir(dxrk.ConfigPath(homeDir))
 	dxrkLibDir := dxrk.RuntimeLibDir(homeDir)
 	configDirs = append(configDirs, dxrkConfigDir, dxrkLibDir)
-=======
-	// Approved GGA extras — outside the canonical managed agent set.
-	// gga.ConfigPath returns the config *file* path; its parent dir is the root to walk.
-	ggaConfigDir := filepath.Dir(gga.ConfigPath(homeDir))
-	ggaLibDir := gga.RuntimeLibDir(homeDir)
-	configDirs = append(configDirs, ggaConfigDir, ggaLibDir)
->>>>>>> upstream/main
 
 	// Enumerate all regular files under each root dir.
 	paths := make([]string, 0)
@@ -193,11 +163,7 @@ func Execute(ctx context.Context, results []update.UpdateResult, profile system.
 	backupWarning := ""
 	if !dryRun && len(executable) > 0 {
 		sp := NewSpinner(pw, "Creating pre-upgrade backup")
-<<<<<<< HEAD
 		snapshotDir := filepath.Join(homeDir, ".dxrk", "backups",
-=======
-		snapshotDir := filepath.Join(homeDir, ".gentle-ai", "backups",
->>>>>>> upstream/main
 			fmt.Sprintf("upgrade-%s", time.Now().UTC().Format("20060102T150405Z")))
 		manifest, err := snapshotCreator(snapshotDir, configPathsForBackup(homeDir))
 		if err != nil {
@@ -225,11 +191,7 @@ func Execute(ctx context.Context, results []update.UpdateResult, profile system.
 			NewVersion: r.LatestVersion,
 			Method:     effectiveMethod(r.Tool, profile),
 			Status:     UpgradeSkipped,
-<<<<<<< HEAD
 			ManualHint: fmt.Sprintf("source build — upgrade manually or install a release binary from https://github.com/dxrk/%s/releases", r.Tool.Repo),
-=======
-			ManualHint: fmt.Sprintf("source build — upgrade manually or install a release binary from https://github.com/Gentleman-Programming/%s/releases", r.Tool.Repo),
->>>>>>> upstream/main
 		})
 	}
 

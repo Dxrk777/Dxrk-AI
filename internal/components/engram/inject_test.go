@@ -8,21 +8,12 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/codex"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/gemini"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents/vscode"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/gemini"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
->>>>>>> upstream/main
 )
 
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }
@@ -190,11 +181,7 @@ func TestInjectOpenCodeMergesEngramToSettings(t *testing.T) {
 		t.Fatalf("ReadFile(AGENTS.md) error = %v", err)
 	}
 	agentsText := string(agentsContent)
-<<<<<<< HEAD
 	if !strings.Contains(agentsText, "<!-- dxrk:engram-protocol -->") {
-=======
-	if !strings.Contains(agentsText, "<!-- gentle-ai:engram-protocol -->") {
->>>>>>> upstream/main
 		t.Fatal("AGENTS.md missing engram protocol section marker")
 	}
 	if !strings.Contains(agentsText, "mem_save") {

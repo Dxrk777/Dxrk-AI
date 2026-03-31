@@ -3,11 +3,7 @@ package screens
 import (
 	"strings"
 
-<<<<<<< HEAD
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
-=======
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
->>>>>>> upstream/main
 )
 
 // ModelConfigOptions returns the ordered list of options shown on the model config screen.
