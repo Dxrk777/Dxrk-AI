@@ -193,11 +193,65 @@ When Strict TDD Mode is active, your return summary MUST include this section:
 - **TRIANGULATE**: Additional test cases added to force real logic. "➖ Single" if spec has only one scenario.
 - **REFACTOR**: Code improved with tests still passing. "➖ None needed" if code was already clean.
 
+## Assertion Quality Rules (MANDATORY)
+
+**Every assertion must verify REAL behavior.** A test that passes without exercising production logic is worse than no test — it gives false confidence.
+
+### Banned Assertion Patterns (NEVER write these)
+
+```
+# TRIVIAL ASSERTIONS — test proves nothing
+expect(true).toBe(true)              # ❌ Tautology
+expect(false).toBe(false)            # ❌ Tautology
+expect(1).toBe(1)                    # ❌ Tautology — no production code involved
+
+# EMPTY COLLECTION ASSERTIONS without setup context
+expect(result).toEqual([])           # ❌ ONLY valid if you set up conditions for empty
+expect(result).toHaveLength(0)       # ❌ Same — why is it empty? Did production code run?
+
+# TYPE-ONLY ASSERTIONS — proves existence, not behavior
+expect(result).toBeDefined()         # ❌ Alone is useless — WHAT is the value?
+expect(result).not.toBeNull()        # ❌ Alone is useless — assert the actual value
+
+# GHOST LOOP — assertion inside a loop that iterates 0 times
+const items = screen.queryAllByTestId("item");  // returns []
+for (const item of items) {
+  expect(item).toHaveTextContent("value");       # ❌ NEVER EXECUTES — loop body is dead code
+}
+
+# INCOMPLETE TDD CYCLE — GREEN without TRIANGULATE
+# If your GREEN test passes because the setup doesn't exercise the code path,
+# you are NOT done. You MUST triangulate with a setup that DOES exercise it.
+```
+
+### What Makes a REAL Assertion
+
+Every test assertion must satisfy ALL of these:
+1. **Calls production code** — the test invokes a function, method, or component from the implementation
+2. **Asserts a specific output** — compares against a concrete expected value derived from the spec
+3. **Would FAIL if the production code were wrong** — if you change the implementation logic, THIS test breaks
+
+```
+# ✅ REAL assertions — production code determines the result
+expect(calculateDiscount(100, 10)).toBe(10)       # Real input → real output
+expect(screen.getByText('Welcome, John')).toBeInTheDocument()  # Rendered from data
+assert result[0].status == "FAIL"                  # Specific finding from check execution
+```
+
+### Empty Collection Rule
+
+`expect(result).toEqual([])` or `assert len(result) == 0` is ONLY valid when:
+1. You set up a specific precondition that SHOULD produce an empty result
+2. The production code actually ran and filtered/processed data to arrive at empty
+3. A companion test with different setup produces a NON-EMPTY result (triangulation)
+
 ## Rules (Strict TDD specific)
 
 - NEVER write production code before writing its test — this is the ONE rule that cannot be broken
 - NEVER skip the GREEN execution gate — you MUST run tests and confirm they pass
 - NEVER skip triangulation when the spec defines multiple scenarios — hardcoded Fake It must be forced out
+- **NEVER write trivial assertions** (see Banned Assertion Patterns above) — they are WORSE than no test
+- **ALWAYS verify every assertion CALLS production code and asserts a SPECIFIC expected value**
 - ALWAYS run the Safety Net before modifying existing files — protect what already works
 - ALWAYS report the TDD Cycle Evidence table — the verify phase will check it
 - If a test runner execution fails for infrastructure reasons (not test failures), report as "Blocked" and continue to next task

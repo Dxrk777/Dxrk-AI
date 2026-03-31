@@ -176,11 +176,76 @@ When Strict TDD Mode is active, your verification report MUST include these addi
 **Type Checker**: ✅ No errors / ❌ {N} errors / ➖ Not available
 ```
 
+## Step 5f: Assertion Quality Audit (MANDATORY)
+
+Read each test file and scan for banned assertion patterns:
+
+```
+SCAN each test file for banned patterns:
+├── For EACH test file found in TDD Cycle Evidence:
+│   ├── Read test file contents
+│   ├── Search for TRIVIAL assertions:
+│   │   ├── expect(true).toBe(true)
+│   │   ├── expect(false).toBe(false)
+│   │   ├── expect(1).toBe(1)
+│   │   └── any assertion that doesn't reference production code
+│   │
+│   ├── Search for EMPTY COLLECTION without context:
+│   │   ├── expect(result).toEqual([])
+│   │   ├── expect(result).toHaveLength(0)
+│   │   └── assert len(result) == 0
+│   │       (Flag only if no companion non-empty test exists)
+│   │
+│   ├── Search for TYPE-ONLY assertions (alone):
+│   │   ├── expect(result).toBeDefined() [without value assertion]
+│   │   ├── expect(result).not.toBeNull() [without value assertion]
+│   │   └── similar patterns
+│   │
+│   ├── Search for GHOST LOOPS:
+│   │   ├── for/foreach loop over queryAll/getAllBy* result
+│   │   └── assertions INSIDE the loop body
+│   │       (Flag if the query returns [] and loop never executes)
+│   │
+│   └── Search for INCOMPLETE TDD cycles:
+│       ├── Test setup that doesn't render the component under test
+│       └── Test passes because the code path was never exercised
+│
+└── Report findings in table format
+```
+
+### Assertion Quality Report Table
+| Test File | Trivial | Empty-Col | Type-Only | Ghost-Loop | Incomplete | Severity |
+|-----------|---------|-----------|-----------|------------|------------|----------|
+| `path/test.ext` | 0 | 1 | 0 | 0 | 0 | ⚠️ WARNING |
+| `path/other.ext` | 2 | 0 | 1 | 0 | 0 | ❌ CRITICAL |
+| **Total** | **{N}** | **{N}** | **{N}** | **{N}** | **{N}** | |
+
+**Severity Levels**:
+- **CRITICAL**: Tautologies, ghost loops, incomplete TDD cycles — these give FALSE confidence
+- **WARNING**: Empty collections without companion test, type-only assertions — borderline
+
+**Ghost Loop Detection Example**:
+```
+// ❌ CRITICAL — queryAll returns [], loop never executes
+const items = screen.queryAllByTestId("item");
+for (const item of items) {
+  expect(item).toHaveTextContent("value");  // NEVER RUNS
+}
+
+// ✅ FIXED — assert non-empty first, OR set up data
+expect(items).toHaveLength(3);
+for (const item of items) {
+  expect(item).toHaveTextContent("value");
+}
+```
+
 ## Rules (Strict TDD Verify specific)
 
 - ALWAYS check the TDD Cycle Evidence table from apply-progress — it's the primary artifact
 - ALWAYS cross-reference reported test files against actual execution — don't trust the report blindly
 - If apply-progress has no TDD evidence table, flag as CRITICAL — the protocol was not followed
+- **ALWAYS run Step 5f Assertion Quality Audit** — scan test files for banned patterns
+- Flag ghost loops and incomplete TDD cycles as CRITICAL — they give false confidence
 - Coverage and quality metrics are informational, NOT blocking — only flag as WARNING, never CRITICAL
 - Test layer distribution is informational — SUGGESTION level only
 - DO NOT fix issues — only report. The orchestrator decides.
