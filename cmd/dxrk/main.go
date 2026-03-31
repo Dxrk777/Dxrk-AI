@@ -33,7 +33,7 @@ import (
 // - Cada release sube el porcentaje según las features agregadas
 // - 000.01% = Initial Release
 // - 100.00% = MVP Achieved
-var version = "000.01%"
+var version = "000.02%"
 
 // =============================================================================
 // Función Principal
