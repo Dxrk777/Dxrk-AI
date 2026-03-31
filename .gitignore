@@ -1,5 +1,6 @@
 # Binaries
-/gentle-ai
+/dxrk
+/dxrk-*
 *.exe
 *.dll
 *.so
@@ -24,7 +25,7 @@ Thumbs.db
 
 # Docker
 *.tar
-cmd/gentle-ai/main
+cmd/dxrk/main
 dist/
 
 # Agent tooling metadata (generated per-user, not product code)
