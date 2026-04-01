@@ -57,7 +57,16 @@ func Think(input string, brain *Brain, commander *Commander, emailer *Emailer, m
 	}
 
 	// Check for email
-	if strings.HasPrefix(lower, "send ") || strings.HasPrefix(lower, "email ") || strings.HasPrefix(lower, "correo ") {
+	if strings.HasPrefix(lower, "send ") || strings.HasPrefix(lower, "correo ") {
+		return handleEmail(input, emailer, memory)
+	}
+
+	// Check for email test BEFORE generic "email " to avoid matching "email test"
+	if strings.HasPrefix(lower, "email test") {
+		return handleEmailTest(emailer)
+	}
+
+	if strings.HasPrefix(lower, "email ") {
 		return handleEmail(input, emailer, memory)
 	}
 
@@ -257,6 +266,8 @@ func handleMemoryQuery(input string, memory *Memory) *ThinkResult {
 		result.Success = true
 		return result
 	}
+
+	result.Success = true
 
 	result.Memory = entries
 	result.Response = fmt.Sprintf("Found %d results for '%s':\n%s", len(entries), query, formatHistory(entries))

@@ -3,6 +3,7 @@ package brain
 import (
 	"crypto/tls"
 	"fmt"
+	"net"
 	"net/smtp"
 	"strings"
 	"time"
@@ -92,7 +93,49 @@ func (e *Emailer) send(to, msg string) error {
 		return e.sendTLS(addr, auth, to, msg)
 	}
 
-	return smtp.SendMail(addr, auth, e.config.From, []string{to}, []byte(msg))
+	// Use dial timeout to avoid hanging
+	return e.sendWithTimeout(addr, auth, to, msg)
+}
+
+// sendWithTimeout sends email with a 5-second connection timeout.
+func (e *Emailer) sendWithTimeout(addr string, auth smtp.Auth, to, msg string) error {
+	conn, err := net.DialTimeout("tcp", addr, 5*time.Second)
+	if err != nil {
+		return fmt.Errorf("connection timeout: %w", err)
+	}
+	defer conn.Close()
+
+	client, err := smtp.NewClient(conn, e.config.Host)
+	if err != nil {
+		return fmt.Errorf("failed to create client: %w", err)
+	}
+	defer client.Close()
+
+	if auth != nil {
+		if err := client.Auth(auth); err != nil {
+			return fmt.Errorf("authentication failed: %w", err)
+		}
+	}
+
+	if err := client.Mail(e.config.From); err != nil {
+		return fmt.Errorf("failed to set sender: %w", err)
+	}
+	if err := client.Rcpt(to); err != nil {
+		return fmt.Errorf("failed to set recipient: %w", err)
+	}
+
+	w, err := client.Data()
+	if err != nil {
+		return fmt.Errorf("failed to start data: %w", err)
+	}
+	defer w.Close()
+
+	_, err = w.Write([]byte(msg))
+	if err != nil {
+		return fmt.Errorf("failed to write message: %w", err)
+	}
+
+	return client.Quit()
 }
 
 // sendTLS sends email using TLS.
