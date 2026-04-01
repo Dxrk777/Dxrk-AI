@@ -411,3 +411,200 @@ func TestThinkResultWithCommand(t *testing.T) {
 		t.Error("Exit code should be 0")
 	}
 }
+
+// ─── Additional executeCommand tests ──────────────────────────────────────────
+
+func TestThinkExecuteWithMemory(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	c := brain.NewCommander(5 * time.Second)
+	mem, _ := brain.NewMemory(t.TempDir())
+
+	result := brain.Think("run echo memory test", b, c, nil, mem)
+	if !result.Success {
+		t.Error("Execute with memory should succeed")
+	}
+}
+
+func TestThinkExecuteEmptyOutput(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	c := brain.NewCommander(5 * time.Second)
+
+	// "true" command succeeds with no output
+	result := brain.Think("run true", b, c, nil, nil)
+	if result.Action != "execute" {
+		t.Errorf("Action should be 'execute', got %s", result.Action)
+	}
+}
+
+func TestThinkExecuteNoArgs(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	c := brain.NewCommander(5 * time.Second)
+
+	result := brain.Think("run", b, c, nil, nil)
+	// Should not crash, returns error response
+	if result.Response == "" {
+		t.Error("Should return error response")
+	}
+}
+
+func TestThinkExecuteCommandNotFound(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	c := brain.NewCommander(5 * time.Second)
+
+	result := brain.Think("run nonexistentcommand12345xyz", b, c, nil, nil)
+	// Should complete but report error
+	if result.Response == "" {
+		t.Error("Should return response for command not found")
+	}
+}
+
+// ─── Additional handleEmail tests ───────────────────────────────────────────
+
+func TestThinkEmailSpanish(t *testing.T) {
+	b := brain.New(&brain.Config{})
+
+	result := brain.Think("correo a test@example.com", b, nil, nil, nil)
+	if result.Action == "email" {
+		t.Log("Email command detected (Spanish)")
+	}
+}
+
+func TestThinkEmailMissingTo(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	e := brain.NewEmailer(brain.EmailConfig{
+		Host:     "smtp.test.com",
+		Port:     587,
+		User:     "test",
+		Password: "test",
+		From:     "test@test.com",
+	})
+
+	result := brain.Think("send email subject Hello body Test", b, nil, e, nil)
+	if result.Success {
+		t.Error("Email without recipient should not succeed")
+	}
+}
+
+func TestThinkEmailWithMessageKeyword(t *testing.T) {
+	b := brain.New(&brain.Config{})
+
+	result := brain.Think("email to user@test.com subject Test message This is the body", b, nil, nil, nil)
+	if result.Action != "email" {
+		t.Errorf("Action should be 'email', got %s", result.Action)
+	}
+}
+
+func TestThinkEmailFullCommand(t *testing.T) {
+	b := brain.New(&brain.Config{})
+
+	result := brain.Think("send email to user@example.com subject 'My Subject' body 'My Message'", b, nil, nil, nil)
+	if result.Action != "email" {
+		t.Errorf("Action should be 'email', got %s", result.Action)
+	}
+}
+
+// ─── Additional memory query tests ──────────────────────────────────────────
+
+func TestThinkRememberEmptyQuery(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	mem, _ := brain.NewMemory(t.TempDir())
+
+	mem.Remember(brain.MemoryEntry{Type: "test", Content: "entry1"})
+	mem.Remember(brain.MemoryEntry{Type: "test", Content: "entry2"})
+
+	result := brain.Think("remember", b, nil, nil, mem)
+	if !result.Success {
+		t.Error("Remember with empty query should succeed")
+	}
+	// Empty query should return all history
+	if len(result.Memory) == 0 && result.Response == "" {
+		t.Error("Should return history or response")
+	}
+}
+
+func TestThinkQueryMultipleMatches(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	mem, _ := brain.NewMemory(t.TempDir())
+
+	mem.Remember(brain.MemoryEntry{Type: "install", Content: "installed opencode"})
+	mem.Remember(brain.MemoryEntry{Type: "install", Content: "installed claude"})
+	mem.Remember(brain.MemoryEntry{Type: "command", Content: "ran git status"})
+
+	result := brain.Think("remember installed", b, nil, nil, mem)
+	if len(result.Memory) != 2 {
+		t.Errorf("Should return 2 matches, got %d", len(result.Memory))
+	}
+}
+
+// ─── Additional email test tests ────────────────────────────────────────────
+
+func TestThinkEmailTestConfigured(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	e := brain.NewEmailer(brain.EmailConfig{
+		Host:     "smtp.test.com",
+		Port:     587,
+		User:     "test",
+		Password: "test",
+		From:     "test@test.com",
+	})
+
+	result := brain.Think("email test", b, nil, e, nil)
+	// Should attempt to test connection
+	if result.Action != "email_test" {
+		t.Errorf("Action should be 'email_test', got %s", result.Action)
+	}
+}
+
+// ─── formatHistory tests ────────────────────────────────────────────────────
+
+func TestFormatHistoryEmpty(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	mem, _ := brain.NewMemory(t.TempDir())
+
+	result := brain.Think("history", b, nil, nil, mem)
+	if result.Response == "" {
+		t.Error("Should return formatted history")
+	}
+}
+
+func TestFormatHistorySingleEntry(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	mem, _ := brain.NewMemory(t.TempDir())
+
+	mem.Remember(brain.MemoryEntry{Type: "command", Content: "echo test"})
+
+	result := brain.Think("history", b, nil, nil, mem)
+	if !contains(result.Response, "command") {
+		t.Error("Response should contain entry type")
+	}
+}
+
+func contains(s, substr string) bool {
+	for i := 0; i <= len(s)-len(substr); i++ {
+		if s[i:i+len(substr)] == substr {
+			return true
+		}
+	}
+	return false
+}
+
+// ─── executeCommand edge cases ───────────────────────────────────────────────
+
+func TestExecuteCommandWithPipes(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	c := brain.NewCommander(5 * time.Second)
+
+	result := brain.Think("run echo hello | cat", b, c, nil, nil)
+	if result.Success {
+		t.Log("Pipeline command executed")
+	}
+}
+
+func TestExecuteCommandWithRedirect(t *testing.T) {
+	b := brain.New(&brain.Config{})
+	c := brain.NewCommander(5 * time.Second)
+
+	// This should be blocked by security
+	result := brain.Think("run echo test > /tmp/test.txt", b, c, nil, nil)
+	t.Logf("Redirect result: %s", result.Response)
+}

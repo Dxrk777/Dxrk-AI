@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
+	"github.com/Dxrk777/Dxrk-Hex/internal/brain"
 	"github.com/Dxrk777/Dxrk-Hex/internal/catalog"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/sdd"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
@@ -1409,18 +1411,45 @@ func (m Model) processBrainInput() {
 	input := m.BrainState.Input
 	mode := m.BrainState.Mode
 
+	// Get home directory for brain components
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		m.BrainState.Output = fmt.Sprintf("Error: Could not resolve home directory: %v", err)
+		m.BrainState.Waiting = false
+		m.BrainState.Input = ""
+		return
+	}
+
+	// Create brain components
+	memDir := filepath.Join(homeDir, ".dxrk", "memory")
+
+	b := brain.New(&brain.Config{
+		MemoryDir:      memDir,
+		CommandTimeout: 30 * time.Second,
+	})
+
+	// Initialize memory
+	mem, _ := brain.NewMemory(memDir)
+
+	// Create commander
+	commander := brain.NewCommander(30 * time.Second)
+
+	// Process based on mode
 	switch mode {
-	case "chat":
-		// Natural language query - simulate brain response
-		m.BrainState.Output = fmt.Sprintf("💬 Query: %s\n\nI understand you want to: '%s'\n\nUse the CLI for full brain functionality:\n  dxrk brain \"%s\"", input, input, input)
+	case "chat", "execute", "email":
+		// Use the brain's Think function for all modes
+		var query string
+		switch mode {
+		case "chat":
+			query = input
+		case "execute":
+			query = "run " + input
+		case "email":
+			query = "send " + input
+		}
 
-	case "execute":
-		// Shell command - show what would be executed
-		m.BrainState.Output = fmt.Sprintf("💻 Command: %s\n\nTo execute this command, use:\n  dxrk brain run %s\n\nOr directly:\n  %s", input, input, input)
-
-	case "email":
-		// Email - show what would be sent
-		m.BrainState.Output = fmt.Sprintf("📧 Email Configuration\n\nTo send this email, configure SMTP first:\n  dxrk brain email configure\n\nThen send:\n  dxrk brain %s", input)
+		result := brain.Think(query, b, commander, nil, mem)
+		m.BrainState.Output = result.Response
 
 	default:
 		m.BrainState.Output = "Unknown mode"

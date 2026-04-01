@@ -1,6 +1,9 @@
 package connector
 
 import (
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -539,6 +542,188 @@ func TestExecuteInstall_Codex(t *testing.T) {
 	}
 }
 
+// ─── HTTP Handler Tests ────────────────────────────────────────────────────────
+
+func TestHandleHealth(t *testing.T) {
+	c := New(&Config{Enabled: true, Port: 0})
+
+	// Create a test request
+	body := `{}`
+	req := createTestRequest("POST", "/health", body)
+
+	rr := executeHandler(c.handleHealth, req)
+
+	if rr.Code != 200 {
+		t.Errorf("Expected status 200, got %d", rr.Code)
+	}
+}
+
+func TestHandleStatus(t *testing.T) {
+	c := New(&Config{Enabled: true, Port: 8081})
+
+	req := createTestRequest("GET", "/status", "")
+	rr := executeHandler(c.handleStatus, req)
+
+	if rr.Code != 200 {
+		t.Errorf("Expected status 200, got %d", rr.Code)
+	}
+}
+
+func TestHandleTelegram_Disabled(t *testing.T) {
+	c := New(&Config{Enabled: true, Port: 8081})
+
+	body := `{"message": {"chat": {"id": 123}, "text": "help"}}`
+	req := createTestRequest("POST", "/webhook/telegram", body)
+
+	rr := executeHandler(c.handleTelegram, req)
+
+	if rr.Code != 503 {
+		t.Errorf("Expected status 503 for disabled telegram, got %d", rr.Code)
+	}
+}
+
+func TestHandleDiscord_Disabled(t *testing.T) {
+	c := New(&Config{Enabled: true, Port: 8081})
+
+	body := `{"content": "help"}`
+	req := createTestRequest("POST", "/webhook/discord", body)
+
+	rr := executeHandler(c.handleDiscord, req)
+
+	if rr.Code != 503 {
+		t.Errorf("Expected status 503 for disabled discord, got %d", rr.Code)
+	}
+}
+
+func TestHandleWhatsApp_Disabled(t *testing.T) {
+	c := New(&Config{Enabled: true, Port: 8081})
+
+	body := `{"From": "+1234567890", "Body": "help"}`
+	req := createTestRequest("POST", "/webhook/whatsapp", body)
+
+	rr := executeHandler(c.handleWhatsApp, req)
+
+	if rr.Code != 503 {
+		t.Errorf("Expected status 503 for disabled whatsapp, got %d", rr.Code)
+	}
+}
+
+func TestHandleTelegram_WrongMethod(t *testing.T) {
+	c := New(&Config{
+		Enabled:  true,
+		Port:     8081,
+		Telegram: TelegramConfig{Enabled: true, Token: "test"},
+	})
+
+	req := createTestRequest("GET", "/webhook/telegram", "")
+	rr := executeHandler(c.handleTelegram, req)
+
+	if rr.Code != 405 {
+		t.Errorf("Expected status 405, got %d", rr.Code)
+	}
+}
+
+func TestHandleDiscord_WrongMethod(t *testing.T) {
+	c := New(&Config{
+		Enabled: true,
+		Port:    8081,
+		Discord: DiscordConfig{Enabled: true, WebhookURL: "https://example.com"},
+	})
+
+	req := createTestRequest("GET", "/webhook/discord", "")
+	rr := executeHandler(c.handleDiscord, req)
+
+	if rr.Code != 405 {
+		t.Errorf("Expected status 405, got %d", rr.Code)
+	}
+}
+
+func TestHandleWhatsApp_WrongMethod(t *testing.T) {
+	c := New(&Config{
+		Enabled:  true,
+		Port:     8081,
+		WhatsApp: WhatsAppConfig{Enabled: true},
+	})
+
+	req := createTestRequest("GET", "/webhook/whatsapp", "")
+	rr := executeHandler(c.handleWhatsApp, req)
+
+	if rr.Code != 405 {
+		t.Errorf("Expected status 405, got %d", rr.Code)
+	}
+}
+
+func TestHandleTelegram_EmptyMessage(t *testing.T) {
+	c := New(&Config{
+		Enabled:  true,
+		Port:     8081,
+		Telegram: TelegramConfig{Enabled: true, Token: "test"},
+	})
+
+	body := `{"message": {"chat": {"id": 123}, "text": ""}}`
+	req := createTestRequest("POST", "/webhook/telegram", body)
+
+	rr := executeHandler(c.handleTelegram, req)
+
+	if rr.Code != 200 {
+		t.Errorf("Expected status 200 for empty message, got %d", rr.Code)
+	}
+}
+
+func TestHandleTelegram_InvalidJSON(t *testing.T) {
+	c := New(&Config{
+		Enabled:  true,
+		Port:     8081,
+		Telegram: TelegramConfig{Enabled: true, Token: "test"},
+	})
+
+	body := `{invalid json}`
+	req := createTestRequest("POST", "/webhook/telegram", body)
+
+	rr := executeHandler(c.handleTelegram, req)
+
+	if rr.Code != 400 {
+		t.Errorf("Expected status 400 for invalid JSON, got %d", rr.Code)
+	}
+}
+
+func TestHandleDiscord_InvalidJSON(t *testing.T) {
+	c := New(&Config{
+		Enabled: true,
+		Port:    8081,
+		Discord: DiscordConfig{Enabled: true, WebhookURL: "https://example.com"},
+	})
+
+	body := `{invalid json}`
+	req := createTestRequest("POST", "/webhook/discord", body)
+
+	rr := executeHandler(c.handleDiscord, req)
+
+	if rr.Code != 400 {
+		t.Errorf("Expected status 400 for invalid JSON, got %d", rr.Code)
+	}
+}
+
+func TestHandleWhatsApp_InvalidJSON(t *testing.T) {
+	c := New(&Config{
+		Enabled:  true,
+		Port:     8081,
+		WhatsApp: WhatsAppConfig{Enabled: true},
+	})
+
+	// WhatsApp handler doesn't validate JSON - it accepts any body
+	body := `{invalid json}`
+	req := createTestRequest("POST", "/webhook/whatsapp", body)
+
+	rr := executeHandler(c.handleWhatsApp, req)
+
+	if rr.Code != 200 {
+		t.Errorf("Expected status 200 for WhatsApp (Twilio accepts any), got %d", rr.Code)
+	}
+}
+
+// Helper functions for HTTP handler tests
+
 func contains(s, substr string) bool {
 	for i := 0; i <= len(s)-len(substr); i++ {
 		if s[i:i+len(substr)] == substr {
@@ -546,4 +731,16 @@ func contains(s, substr string) bool {
 		}
 	}
 	return false
+}
+
+func createTestRequest(method, path, body string) *http.Request {
+	req := httptest.NewRequest(method, path, strings.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	return req
+}
+
+func executeHandler(handler http.HandlerFunc, req *http.Request) *httptest.ResponseRecorder {
+	rr := httptest.NewRecorder()
+	handler(rr, req)
+	return rr
 }

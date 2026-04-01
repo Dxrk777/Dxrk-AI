@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	tea "github.com/charmbracelet/bubbletea"
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/cli"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
@@ -21,6 +20,7 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
 	"github.com/Dxrk777/Dxrk-Hex/internal/verify"
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 // Version is set from main via ldflags at build time.
@@ -118,6 +118,8 @@ func RunArgs(args []string, stdout io.Writer) error {
 		return nil
 	case "restore":
 		return cli.RunRestore(args[1:], stdout)
+	case "brain":
+		return cli.RunBrain(args[1:])
 	default:
 		return fmt.Errorf("unknown command %q", args[0])
 	}
