@@ -48,7 +48,7 @@ brews:
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
     directory: Formula
     name: dxrk
-    homepage: "https://github.com/Dxrk777777/Dxrk-Hex"
+    homepage: "https://github.com/Dxrk777/Dxrk-Hex"
     description: "Dxrk — One command to configure any AI coding agent on any OS."
     license: "MIT"
     commit_msg_template: "chore: update dxrk formula to {{ .Tag }}"

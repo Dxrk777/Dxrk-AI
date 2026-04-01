@@ -200,3 +200,8 @@ func (e *Emailer) TestConnection() error {
 func (e *Emailer) IsConfigured() bool {
 	return e.config.Host != "" && e.config.User != ""
 }
+
+// String returns a string representation of the Emailer.
+func (e *Emailer) String() string {
+	return fmt.Sprintf("Emailer{host: %s, port: %d, user: %s}", e.config.Host, e.config.Port, e.config.User)
+}

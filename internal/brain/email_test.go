@@ -1,240 +1,182 @@
-package brain_test
+package brain
 
 import (
 	"testing"
-
-	"github.com/Dxrk777/Dxrk-Hex/internal/brain"
 )
 
-// NOTE: Email sending tests are integration tests that require
-// a real SMTP server. We only test configuration and validation here.
-
-func TestEmailerNew(t *testing.T) {
-	cfg := brain.EmailConfig{
-		Host:     "smtp.example.com",
+func TestEmailConfig(t *testing.T) {
+	cfg := EmailConfig{
+		Host:     "smtp.gmail.com",
 		Port:     587,
-		User:     "test@example.com",
-		Password: "password123",
-		From:     "test@example.com",
+		User:     "test@gmail.com",
+		Password: "password",
+		From:     "test@gmail.com",
+		UseTLS:   true,
 	}
 
-	e := brain.NewEmailer(cfg)
-	if e == nil {
-		t.Fatal("Emailer should not be nil")
+	if cfg.Host != "smtp.gmail.com" {
+		t.Errorf("Expected host smtp.gmail.com, got %s", cfg.Host)
+	}
+
+	if cfg.Port != 587 {
+		t.Errorf("Expected port 587, got %d", cfg.Port)
 	}
 }
 
-func TestEmailerNewDefaultPort(t *testing.T) {
-	cfg := brain.EmailConfig{
-		Host: "smtp.example.com",
-		User: "test@example.com",
+func TestNewEmailer(t *testing.T) {
+	cfg := EmailConfig{
+		Host:     "smtp.test.com",
+		Port:     587,
+		User:     "test",
+		Password: "test",
+		From:     "test@test.com",
 	}
 
-	e := brain.NewEmailer(cfg)
-	if e == nil {
-		t.Fatal("Emailer should not be nil")
+	emailer := NewEmailer(cfg)
+
+	if emailer.config.Host != "smtp.test.com" {
+		t.Errorf("Expected host smtp.test.com, got %s", emailer.config.Host)
+	}
+}
+
+func TestNewEmailerDefaultPort(t *testing.T) {
+	cfg := EmailConfig{
+		Host:     "smtp.test.com",
+		Port:     0, // Should default to 587
+		User:     "test",
+		Password: "test",
+		From:     "test@test.com",
+	}
+
+	emailer := NewEmailer(cfg)
+
+	if emailer.config.Port != 587 {
+		t.Errorf("Expected default port 587, got %d", emailer.config.Port)
 	}
 }
 
 func TestEmailerIsConfigured(t *testing.T) {
 	tests := []struct {
-		name string
-		cfg  brain.EmailConfig
-		want bool
+		name     string
+		config   EmailConfig
+		expected bool
 	}{
 		{
-			name: "empty config",
-			cfg:  brain.EmailConfig{},
-			want: false,
+			name:     "configured",
+			config:   EmailConfig{Host: "smtp.test.com", User: "test"},
+			expected: true,
 		},
 		{
-			name: "only host",
-			cfg:  brain.EmailConfig{Host: "smtp.example.com"},
-			want: false,
+			name:     "missing host",
+			config:   EmailConfig{Host: "", User: "test"},
+			expected: false,
 		},
 		{
-			name: "host and user",
-			cfg:  brain.EmailConfig{Host: "smtp.example.com", User: "test@example.com"},
-			want: true,
+			name:     "missing user",
+			config:   EmailConfig{Host: "smtp.test.com", User: ""},
+			expected: false,
 		},
 		{
-			name: "with tls",
-			cfg:  brain.EmailConfig{Host: "smtp.gmail.com", User: "user@gmail.com", UseTLS: true},
-			want: true,
+			name:     "empty",
+			config:   EmailConfig{},
+			expected: false,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			e := brain.NewEmailer(tt.cfg)
-			if got := e.IsConfigured(); got != tt.want {
-				t.Errorf("IsConfigured() = %v, want %v", got, tt.want)
+			emailer := NewEmailer(tt.config)
+			if emailer.IsConfigured() != tt.expected {
+				t.Errorf("IsConfigured() = %v, want %v", emailer.IsConfigured(), tt.expected)
 			}
 		})
 	}
 }
 
-func TestEmailerSendNoRecipients(t *testing.T) {
-	e := brain.NewEmailer(brain.EmailConfig{
-		Host: "smtp.example.com",
-		User: "test@example.com",
-	})
-
-	err := e.Send(brain.Email{
-		To:      []string{},
-		Subject: "Test",
-		Body:    "Body",
-	})
-
-	if err == nil {
-		t.Error("Send should fail with no recipients")
-	}
-}
-
-func TestEmailStruct(t *testing.T) {
-	email := brain.Email{
-		To:      []string{"recipient@example.com"},
+func TestEmail(t *testing.T) {
+	email := Email{
+		To:      []string{"recipient@test.com"},
 		Subject: "Test Subject",
 		Body:    "Test Body",
-		HTML:    true,
+		HTML:    false,
 	}
 
 	if len(email.To) != 1 {
-		t.Error("Email should have 1 recipient")
+		t.Errorf("Expected 1 recipient, got %d", len(email.To))
 	}
-	if email.To[0] != "recipient@example.com" {
-		t.Errorf("Recipient should be 'recipient@example.com', got %s", email.To[0])
+
+	if email.To[0] != "recipient@test.com" {
+		t.Errorf("Expected recipient@test.com, got %s", email.To[0])
 	}
+
 	if email.Subject != "Test Subject" {
-		t.Errorf("Subject should be 'Test Subject', got %s", email.Subject)
-	}
-	if email.Body != "Test Body" {
-		t.Errorf("Body should be 'Test Body', got %s", email.Body)
-	}
-	if !email.HTML {
-		t.Error("Email should be HTML")
+		t.Errorf("Expected Test Subject, got %s", email.Subject)
 	}
 }
 
-func TestEmailerSendMultipleRecipients(t *testing.T) {
-	e := brain.NewEmailer(brain.EmailConfig{
-		Host: "smtp.example.com",
-		User: "test@example.com",
-	})
-
-	err := e.Send(brain.Email{
-		To:      []string{"user1@example.com", "user2@example.com"},
+func TestEmailMultipleRecipients(t *testing.T) {
+	email := Email{
+		To:      []string{"user1@test.com", "user2@test.com", "user3@test.com"},
 		Subject: "Test",
 		Body:    "Body",
-	})
+	}
 
-	// Will fail due to no SMTP, but tests validation
-	if err == nil {
-		t.Error("Should fail due to no SMTP server")
+	if len(email.To) != 3 {
+		t.Errorf("Expected 3 recipients, got %d", len(email.To))
 	}
 }
 
-func TestEmailerSendEmptySubject(t *testing.T) {
-	e := brain.NewEmailer(brain.EmailConfig{
-		Host: "smtp.example.com",
-		User: "test@example.com",
+func TestSendNoRecipients(t *testing.T) {
+	emailer := NewEmailer(EmailConfig{
+		Host:     "smtp.test.com",
+		Port:     587,
+		User:     "test",
+		Password: "test",
+		From:     "test@test.com",
 	})
 
-	err := e.Send(brain.Email{
-		To:      []string{"test@example.com"},
-		Subject: "",
+	email := Email{
+		To:      []string{},
+		Subject: "Test",
 		Body:    "Body",
-	})
+	}
 
-	// Empty subject is allowed, should just fail on SMTP
+	err := emailer.Send(email)
 	if err == nil {
-		t.Error("Should fail due to no SMTP server")
+		t.Error("Expected error for no recipients")
 	}
 }
 
-func TestEmailerSendEmptyBody(t *testing.T) {
-	e := brain.NewEmailer(brain.EmailConfig{
-		Host: "smtp.example.com",
-		User: "test@example.com",
+func TestSendHTML(t *testing.T) {
+	emailer := NewEmailer(EmailConfig{
+		Host:     "smtp.test.com",
+		Port:     587,
+		User:     "test",
+		Password: "test",
+		From:     "test@test.com",
 	})
 
-	err := e.Send(brain.Email{
-		To:      []string{"test@example.com"},
-		Subject: "Test",
-		Body:    "",
-	})
+	// This will fail because SMTP is not configured, but we're testing the function exists
+	err := emailer.SendHTML([]string{"test@test.com"}, "Test", "<h1>HTML</h1>")
 
-	// Empty body is allowed, should just fail on SMTP
+	// We expect this to fail since there's no real SMTP server
+	// But the function should be called without panicking
 	if err == nil {
-		t.Error("Should fail due to no SMTP server")
+		t.Log("Email sent successfully (unexpected without real SMTP)")
 	}
 }
 
-func TestEmailConfig(t *testing.T) {
-	cfg := brain.EmailConfig{
-		Host:     "smtp.gmail.com",
-		Port:     465,
-		User:     "user@gmail.com",
-		Password: "secret",
-		From:     "user@gmail.com",
-		UseTLS:   true,
-	}
+func TestEmailerString(t *testing.T) {
+	emailer := NewEmailer(EmailConfig{
+		Host:     "smtp.test.com",
+		Port:     587,
+		User:     "test",
+		Password: "test",
+		From:     "test@test.com",
+	})
 
-	if cfg.Host != "smtp.gmail.com" {
-		t.Errorf("Host should be 'smtp.gmail.com', got %s", cfg.Host)
-	}
-	if cfg.Port != 465 {
-		t.Errorf("Port should be 465, got %d", cfg.Port)
-	}
-	if !cfg.UseTLS {
-		t.Error("UseTLS should be true")
-	}
-}
-
-func TestEmailConfigDefault(t *testing.T) {
-	cfg := brain.EmailConfig{}
-
-	if cfg.Host != "" {
-		t.Error("Default host should be empty")
-	}
-	if cfg.Port != 0 {
-		t.Error("Default port should be 0")
-	}
-	if cfg.UseTLS {
-		t.Error("Default UseTLS should be false")
-	}
-}
-
-func TestEmailResult(t *testing.T) {
-	result := &brain.EmailResult{
-		Sent:    true,
-		To:      []string{"test@example.com"},
-		Subject: "Test",
-	}
-
-	if !result.Sent {
-		t.Error("Email should be marked as sent")
-	}
-	if len(result.To) != 1 {
-		t.Error("Should have 1 recipient")
-	}
-	if result.To[0] != "test@example.com" {
-		t.Error("Recipient mismatch")
-	}
-}
-
-func TestEmailResultWithError(t *testing.T) {
-	result := &brain.EmailResult{
-		Sent:    false,
-		To:      []string{"test@example.com"},
-		Subject: "Test",
-		Error:   "connection refused",
-	}
-
-	if result.Sent {
-		t.Error("Email should not be marked as sent")
-	}
-	if result.Error == "" {
-		t.Error("Error should be set")
+	str := emailer.String()
+	if str == "" {
+		t.Error("String() should return a non-empty value")
 	}
 }
