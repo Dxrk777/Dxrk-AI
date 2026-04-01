@@ -1,0 +1,51 @@
+name: Auto Update Dxrk
+
+on:
+  # Ejecutar cada día a las 3 AM
+  schedule:
+    - cron: '0 3 * * *'
+  
+  # También ejecutar manualmente
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Forzar actualización'
+        required: false
+        default: 'false'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar latest release
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/Dxrk777/Dxrk-Hex/releases/latest | jq -r '.tag_name')
+          echo "Latest version: $VERSION"
+          
+          # Detectar SO
+          OS=$(echo ${{ runner.os }} | tr '[:upper:]' '[:lower:]')
+          
+          # Detectar arquitectura
+          ARCH=$(uname -m)
+          case $ARCH in
+            x86_64) ARCH="amd64" ;;
+            arm64) ARCH="arm64" ;;
+          esac
+          
+          # Descargar
+          FILENAME="dxrk_${VERSION#v}_${OS}_${ARCH}.tar.gz"
+          URL="https://github.com/Dxrk777/Dxrk-Hex/releases/download/${VERSION}/${FILENAME}"
+          
+          echo "Downloading: $URL"
+          curl -sL "$URL" -o dxrk.tar.gz
+          
+          # Extraer
+          tar -xzf dxrk.tar.gz
+          
+          # Mostrar versión
+          ./dxrk --version
+
+      - name: Verificar con diff
+        run: |
+          ./dxrk --version
+          echo "dxrk está actualizado ✓"
