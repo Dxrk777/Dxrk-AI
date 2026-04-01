@@ -30,6 +30,7 @@ var linearRoutes = map[Screen]Route{
 	ScreenSync:              {Backward: ScreenWelcome},
 	ScreenUpgradeSync:       {Backward: ScreenWelcome},
 	ScreenModelConfig:       {Backward: ScreenWelcome},
+	ScreenBrain:             {Backward: ScreenWelcome},
 }
 
 func NextScreen(screen Screen) (Screen, bool) {

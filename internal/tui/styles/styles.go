@@ -83,4 +83,12 @@ var (
 	PercentStyle = lipgloss.NewStyle().
 			Foreground(ColorCrimson).
 			Bold(true)
+
+	// InputStyle for text input fields
+	InputStyle = lipgloss.NewStyle().
+			Foreground(ColorText).
+			Background(ColorSurface).
+			Border(lipgloss.NormalBorder()).
+			BorderForeground(ColorDeepPurple).
+			Padding(0, 1)
 )

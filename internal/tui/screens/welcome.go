@@ -27,6 +27,7 @@ func WelcomeOptions(updateResults []update.UpdateResult, updateCheckDone bool) [
 		"🔐 Vault",
 		"🧠 Memory",
 		"🔗 Remote Connect",
+		"🧠 Brain",
 		"Quit",
 	}
 }

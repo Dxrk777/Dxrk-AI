@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	tea "github.com/charmbracelet/bubbletea"
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/catalog"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/sdd"
@@ -19,6 +18,7 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/screens"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update"
 	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 // osStatModelCache is a package-level variable so tests can override it to
@@ -141,6 +141,7 @@ const (
 	ScreenSync
 	ScreenUpgradeSync
 	ScreenModelConfig
+	ScreenBrain
 )
 
 type Model struct {
@@ -254,6 +255,9 @@ type Model struct {
 
 	// UpgradeErr holds the error from the last upgrade run (nil on success).
 	UpgradeErr error
+
+	// BrainState holds the state for the Brain interaction screen.
+	BrainState screens.BrainState
 }
 
 func NewModel(detection system.DetectionResult, version string) Model {
@@ -472,7 +476,7 @@ func (m Model) View() string {
 		return screens.RenderComplete(screens.CompletePayload{
 			ConfiguredAgents:    len(m.Selection.Agents),
 			InstalledComponents: len(m.Selection.Components),
-			DxrkInstalled:        hasSelectedComponent(m.Selection.Components, model.ComponentDxrk),
+			DxrkInstalled:       hasSelectedComponent(m.Selection.Components, model.ComponentDxrk),
 			FailedSteps:         extractFailedSteps(m.Execution),
 			RollbackPerformed:   len(m.Execution.Rollback.Steps) > 0,
 			MissingDeps:         extractMissingDeps(m.Detection),
@@ -490,6 +494,13 @@ func (m Model) View() string {
 		return screens.RenderDeleteResult(m.SelectedBackup, m.DeleteErr)
 	case ScreenRenameBackup:
 		return screens.RenderRenameBackup(m.SelectedBackup, m.BackupRenameText, m.BackupRenamePos)
+	case ScreenBrain:
+		// Use BrainState.Cursor for menu mode, m.Cursor otherwise
+		cursor := m.BrainState.Cursor
+		if m.BrainState.Mode != "menu" {
+			cursor = 0
+		}
+		return screens.RenderBrain(m.BrainState, cursor)
 	default:
 		return ""
 	}
@@ -552,10 +563,22 @@ func (m Model) handleKeyPress(key tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 	}
 
+	// Handle Brain screen text input
+	if m.Screen == ScreenBrain && (m.BrainState.Mode == "chat" || m.BrainState.Mode == "execute" || m.BrainState.Mode == "email") {
+		return m.handleBrainInput(key)
+	}
+
 	switch keyStr {
 	case "ctrl+c", "q":
 		return m, tea.Quit
 	case "up", "k":
+		// Special handling for Brain menu
+		if m.Screen == ScreenBrain && m.BrainState.Mode == "menu" {
+			if m.BrainState.Cursor > 0 {
+				m.BrainState.Cursor--
+			}
+			return m, nil
+		}
 		count := m.optionCount()
 		if count > 0 {
 			if m.Cursor > 0 {
@@ -573,6 +596,13 @@ func (m Model) handleKeyPress(key tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 		return m, nil
 	case "down", "j":
+		// Special handling for Brain menu
+		if m.Screen == ScreenBrain && m.BrainState.Mode == "menu" {
+			if m.BrainState.Cursor+1 < screens.BrainMenuOptionCount() {
+				m.BrainState.Cursor++
+			}
+			return m, nil
+		}
 		count := m.optionCount()
 		if m.Cursor+1 < count {
 			m.Cursor++
@@ -656,6 +686,27 @@ func (m Model) confirmSelection() (tea.Model, tea.Cmd) {
 		case 5:
 			m.setScreen(ScreenBackups)
 		case 6:
+			// Vault -> go to Brain
+			m.BrainState = screens.NewBrainState()
+			m.BrainState.Mode = "configure"
+			m.BrainState.Output = "🔐 Vault\n\nAES-256-GCM encryption for sensitive data.\n\nConfigure vault settings via:\n  dxrk vault configure"
+			m.setScreen(ScreenBrain)
+		case 7:
+			// Memory -> go to Brain
+			m.BrainState = screens.NewBrainState()
+			m.BrainState.Mode = "history"
+			m.setScreen(ScreenBrain)
+		case 8:
+			// Remote Connect -> go to Brain
+			m.BrainState = screens.NewBrainState()
+			m.BrainState.Mode = "configure"
+			m.BrainState.Output = "🔗 Remote Connect\n\nControl Dxrk Hex from Telegram, Discord, or WhatsApp.\n\nConfigure connector via:\n  dxrk connector configure"
+			m.setScreen(ScreenBrain)
+		case 9:
+			// Brain
+			m.BrainState = screens.NewBrainState()
+			m.setScreen(ScreenBrain)
+		case 10:
 			return m, tea.Quit
 		}
 	case ScreenUpgrade:
@@ -1154,6 +1205,46 @@ func (m Model) confirmSelection() (tea.Model, tea.Cmd) {
 		}
 		m.DeleteErr = nil
 		m.setScreen(ScreenBackups)
+	case ScreenBrain:
+		if m.BrainState.Mode == "menu" {
+			// Menu mode: handle selection using BrainState.Cursor
+			switch m.BrainState.Cursor {
+			case 0: // Ask anything
+				m.BrainState.Mode = "chat"
+				m.BrainState.Input = ""
+				m.BrainState.Output = ""
+			case 1: // Execute command
+				m.BrainState.Mode = "execute"
+				m.BrainState.Input = ""
+				m.BrainState.Output = ""
+			case 2: // Send email
+				m.BrainState.Mode = "email"
+				m.BrainState.Input = ""
+				m.BrainState.Output = ""
+			case 3: // System status
+				m.BrainState.Mode = "status"
+				m.BrainState.Output = "📊 System Status\n\n🟢 Brain: Running\n⏱️ Uptime: Active\n💾 Memory: Available\n🔐 Vault: Available\n📧 Email: Available"
+			case 4: // View history
+				m.BrainState.Mode = "history"
+				m.BrainState.Output = "📜 Command History\n\nNo history yet. Use 'run' or 'ask' commands to create history."
+			case 5: // Configure
+				m.BrainState.Mode = "configure"
+				m.BrainState.Output = "⚙️ Configuration\n\n• Memory: ~/.dxrk/memory\n• Command Timeout: 30s\n• Email: Not configured\n• Connector: Not configured"
+			case 6: // Back
+				m.setScreen(ScreenWelcome)
+			}
+		} else if m.BrainState.Mode == "status" || m.BrainState.Mode == "history" || m.BrainState.Mode == "configure" {
+			// Info screens: enter/esc goes back to menu
+			m.BrainState.Mode = "menu"
+			m.BrainState.Cursor = 0
+		} else {
+			// Input modes (chat, execute, email): enter submits
+			if m.BrainState.Input != "" {
+				m.BrainState.Waiting = true
+				// Simulate brain processing
+				m.processBrainInput()
+			}
+		}
 	}
 
 	return m, nil
@@ -1311,6 +1402,32 @@ func (m Model) restoreBackup(manifest backup.Manifest) (tea.Model, tea.Cmd) {
 		err := restoreFn(manifest)
 		return BackupRestoreMsg{Err: err}
 	}
+}
+
+// processBrainInput handles the brain input based on the current mode.
+func (m Model) processBrainInput() {
+	input := m.BrainState.Input
+	mode := m.BrainState.Mode
+
+	switch mode {
+	case "chat":
+		// Natural language query - simulate brain response
+		m.BrainState.Output = fmt.Sprintf("💬 Query: %s\n\nI understand you want to: '%s'\n\nUse the CLI for full brain functionality:\n  dxrk brain \"%s\"", input, input, input)
+
+	case "execute":
+		// Shell command - show what would be executed
+		m.BrainState.Output = fmt.Sprintf("💻 Command: %s\n\nTo execute this command, use:\n  dxrk brain run %s\n\nOr directly:\n  %s", input, input, input)
+
+	case "email":
+		// Email - show what would be sent
+		m.BrainState.Output = fmt.Sprintf("📧 Email Configuration\n\nTo send this email, configure SMTP first:\n  dxrk brain email configure\n\nThen send:\n  dxrk brain %s", input)
+
+	default:
+		m.BrainState.Output = "Unknown mode"
+	}
+
+	m.BrainState.Waiting = false
+	m.BrainState.Input = ""
 }
 
 // buildProgressLabels creates step labels from the resolved plan that match
@@ -1554,6 +1671,36 @@ func (m Model) handleRenameInput(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
+// handleBrainInput processes key events when the brain screen is in input mode.
+// It manages text input for chat, execute, and email modes.
+func (m Model) handleBrainInput(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
+	switch msg.Type {
+	case tea.KeyEnter:
+		// Submit the input and process it
+		if m.BrainState.Input != "" {
+			m.processBrainInput()
+		}
+		return m, nil
+	case tea.KeyEsc:
+		// Cancel and return to menu
+		m.BrainState.Mode = "menu"
+		m.BrainState.Input = ""
+		m.BrainState.Output = ""
+		m.BrainState.Cursor = 0
+		return m, nil
+	case tea.KeyBackspace:
+		if len(m.BrainState.Input) > 0 {
+			runes := []rune(m.BrainState.Input)
+			m.BrainState.Input = string(runes[:len(runes)-1])
+		}
+		return m, nil
+	case tea.KeyRunes:
+		m.BrainState.Input += string(msg.Runes)
+		return m, nil
+	}
+	return m, nil
+}
+
 func (m Model) optionCount() int {
 	switch m.Screen {
 	case ScreenWelcome:
@@ -1615,6 +1762,11 @@ func (m Model) optionCount() int {
 	case ScreenDeleteResult:
 		return 1 // "Done" / continue
 	case ScreenRenameBackup:
+		return 0 // text input mode — no cursor navigation
+	case ScreenBrain:
+		if m.BrainState.Mode == "menu" {
+			return screens.BrainMenuOptionCount()
+		}
 		return 0 // text input mode — no cursor navigation
 	default:
 		return 0
