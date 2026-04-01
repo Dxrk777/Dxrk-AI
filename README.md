@@ -68,6 +68,60 @@ This downloads the latest release for your platform and launches the interactive
 
 ---
 
+## 🧠 Dxrk Hex Brain
+
+The Brain is your **unified command center** that integrates memory, commands, email, and remote control.
+
+### TUI (Interactive)
+
+Launch the TUI and select **🧠 Brain** from the menu:
+```bash
+dxrk
+# Navigate to 🧠 Brain
+```
+
+### CLI (Command Line)
+
+Use the brain directly from terminal:
+```bash
+# Ask anything
+dxrk brain "what agents are installed?"
+
+# Execute shell commands
+dxrk brain run "git status"
+dxrk brain run "npm install"
+
+# View history
+dxrk brain history
+
+# Check status
+dxrk brain status
+
+# Search memory
+dxrk brain remember "last install"
+
+# Send email (configure SMTP first)
+dxrk brain email to user@example.com subject Hello body "Hi there!"
+
+# List agents
+dxrk brain agents
+
+# Get help
+dxrk brain help
+```
+
+### Brain Features
+
+| Feature | Description |
+|---------|-------------|
+| **Memory** | Persistent command history stored in `~/.dxrk/memory` |
+| **Commands** | Execute shell commands with timeout and safety |
+| **Email** | Send email notifications via SMTP |
+| **Remote** | Control via Telegram, Discord, WhatsApp |
+| **Skills** | 60+ coding patterns integrated |
+
+---
+
 ## Install
 
 ### Homebrew (macOS / Linux)
