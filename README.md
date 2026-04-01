@@ -11,7 +11,9 @@
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
 <img src="https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go&logoColor=white" alt="Go 1.24+">
 <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey" alt="Platform">
-<img src="https://img.shields.io/badge/Status-DXRK%20INDEX-5dfc8e" alt="Status">
+<a href="https://github.com/Dxrk777/Dxrk-Hex/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/Dxrk777/Dxrk-Hex/test.yml?branch=main&label=Tests" alt="Tests"></a>
+<a href="https://goreportcard.com/report/github.com/Dxrk777/Dxrk-Hex"><img src="https://goreportcard.com/badge/github.com/Dxrk777/Dxrk-Hex" alt="Go Report Card"></a>
+<a href="https://codecov.io/gh/Dxrk777/Dxrk-Hex"><img src="https://img.shields.io/codecov/c/github/Dxrk777/Dxrk-Hex?token=placeholder" alt="Coverage"></a>
 <a href="https://github.com/Gentleman-Programming/gentle-ai/releases"><img src="https://img.shields.io/badge/Upstream-gentle--ai-blue" alt="gentle-ai upstream"></a>
 </p>
 
