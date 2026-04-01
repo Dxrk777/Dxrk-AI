@@ -231,3 +231,133 @@ func TestCommandResultWithError(t *testing.T) {
 		t.Error("Error should be set")
 	}
 }
+
+func TestCommanderExecuteCat(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	result, err := c.Execute("cat", "/etc/passwd")
+	if err != nil {
+		t.Fatalf("Execute failed: %v", err)
+	}
+	if result.ExitCode != 0 {
+		t.Errorf("Exit code should be 0, got %d", result.ExitCode)
+	}
+}
+
+func TestCommanderExecuteGrep(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	result, err := c.Execute("grep root /etc/passwd")
+	if err != nil {
+		t.Fatalf("Execute failed: %v", err)
+	}
+	if result.ExitCode != 0 {
+		t.Errorf("Exit code should be 0, got %d", result.ExitCode)
+	}
+}
+
+func TestCommanderExecuteWithPipes(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	result, err := c.Execute("echo hello | cat")
+	if err != nil {
+		t.Fatalf("Execute failed: %v", err)
+	}
+	if result.ExitCode != 0 {
+		t.Errorf("Exit code should be 0, got %d", result.ExitCode)
+	}
+}
+
+func TestCommanderExecuteGit(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	// Just check git is available
+	result, err := c.Execute("git --version")
+	if err != nil {
+		t.Logf("git might not be installed: %v", err)
+	}
+	_ = result
+}
+
+func TestCommanderExecuteNpm(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	// Just check npm is available
+	result, err := c.Execute("npm --version")
+	if err != nil {
+		t.Logf("npm might not be installed: %v", err)
+	}
+	_ = result
+}
+
+func TestCommanderExecuteNode(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	// Just check node is available
+	result, err := c.Execute("node --version")
+	if err != nil {
+		t.Logf("node might not be installed: %v", err)
+	}
+	_ = result
+}
+
+func TestCommanderExecutePython(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	// Just check python is available
+	result, err := c.Execute("python3 --version")
+	if err != nil {
+		t.Logf("python3 might not be installed: %v", err)
+	}
+	_ = result
+}
+
+func TestCommanderExecuteGo(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	// Just check go is available
+	result, err := c.Execute("go version")
+	if err != nil {
+		t.Logf("go might not be installed: %v", err)
+	}
+	_ = result
+}
+
+func TestCommanderExecuteSafeWithOutput(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	var outputLines []string
+	result, err := c.ExecuteSafe("echo line1 && echo line2", func(s string) {
+		outputLines = append(outputLines, s)
+	})
+
+	if err != nil {
+		t.Fatalf("ExecuteSafe failed: %v", err)
+	}
+	if result.ExitCode != 0 {
+		t.Errorf("Exit code should be 0, got %d", result.ExitCode)
+	}
+	if len(outputLines) == 0 {
+		t.Error("Output callback should have been called")
+	}
+}
+
+func TestCommanderExecuteCurl(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	result, err := c.Execute("curl --version")
+	if err != nil {
+		t.Logf("curl might not be installed: %v", err)
+	}
+	_ = result
+}
+
+func TestCommanderExecuteDocker(t *testing.T) {
+	c := brain.NewCommander(5 * time.Second)
+
+	result, err := c.Execute("docker --version")
+	if err != nil {
+		t.Logf("docker might not be installed: %v", err)
+	}
+	_ = result
+}

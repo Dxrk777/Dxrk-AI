@@ -86,3 +86,81 @@ func TestEngramMemoryEntry(t *testing.T) {
 		t.Errorf("Expected metadata key=value")
 	}
 }
+
+func TestEngramClientRemember(t *testing.T) {
+	client := NewEngramClient(&EngramConfig{
+		URL: "http://localhost:99999",
+	})
+
+	entry := MemoryEntry{
+		Content: "test",
+		Type:    "command",
+	}
+
+	err := client.Remember(entry)
+	if err == nil {
+		t.Error("Expected error for unreachable server")
+	}
+}
+
+func TestEngramClientQuery(t *testing.T) {
+	client := NewEngramClient(&EngramConfig{
+		URL: "http://localhost:99999",
+	})
+
+	entries, err := client.Query("test")
+	if err == nil && len(entries) == 0 {
+		t.Log("Query returned empty (server might be unreachable)")
+	}
+}
+
+func TestEngramClientRecent(t *testing.T) {
+	client := NewEngramClient(&EngramConfig{
+		URL: "http://localhost:99999",
+	})
+
+	entries, err := client.Recent(10)
+	if err == nil && len(entries) == 0 {
+		t.Log("Recent returned empty (expected for unreachable server)")
+	}
+}
+
+func TestEngramClientRecentWithLimit(t *testing.T) {
+	client := NewEngramClient(&EngramConfig{
+		URL: "http://localhost:99999",
+	})
+
+	// Test with different limits
+	limits := []int{1, 5, 10, 50, 100}
+	for _, limit := range limits {
+		entries, err := client.Recent(limit)
+		if err != nil {
+			t.Logf("Recent(%d) error: %v (expected for unreachable server)", limit, err)
+		} else if len(entries) == 0 {
+			t.Logf("Recent(%d) returned empty", limit)
+		}
+	}
+}
+
+func TestEngramClientQueryEmpty(t *testing.T) {
+	client := NewEngramClient(&EngramConfig{
+		URL: "http://localhost:99999",
+	})
+
+	entries, err := client.Query("")
+	if err == nil {
+		t.Log("Empty query might return all entries")
+	}
+	_ = entries // suppress unused warning
+}
+
+func TestEngramClientQuerySpecialChars(t *testing.T) {
+	client := NewEngramClient(&EngramConfig{
+		URL: "http://localhost:99999",
+	})
+
+	entries, err := client.Query("test with spaces and @#$%")
+	if err == nil {
+		t.Logf("Query with special chars returned %d entries", len(entries))
+	}
+}

@@ -2,6 +2,7 @@ package brain
 
 import (
 	"testing"
+	"time"
 )
 
 func TestDefaultWebhookConfig(t *testing.T) {
@@ -143,5 +144,203 @@ func TestWebhookClientIsConfiguredTrue(t *testing.T) {
 
 	if !client.IsConfigured() {
 		t.Error("Expected IsConfigured() to return true")
+	}
+}
+
+func TestWebhookNotifyInstall(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	// Should fail because server is not reachable
+	err := client.NotifyInstall("opencode", "installed")
+	if err == nil {
+		t.Error("Expected error for unreachable server")
+	}
+}
+
+func TestWebhookNotifyError(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	err := client.NotifyError("test context", "test error message")
+	if err == nil {
+		t.Error("Expected error for unreachable server")
+	}
+}
+
+func TestWebhookNotifyUpdate(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	err := client.NotifyUpdate("v1.0.0", "changelog content")
+	if err == nil {
+		t.Error("Expected error for unreachable server")
+	}
+}
+
+func TestWebhookNotifySync(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	err := client.NotifySync(10, "synced")
+	if err == nil {
+		t.Error("Expected error for unreachable server")
+	}
+}
+
+func TestWebhookSendWithEmbed(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	embed := WebhookEmbed{
+		Title:       "Test",
+		Description: "Test Description",
+		Color:       0xff0000,
+	}
+
+	err := client.SendWithEmbed(embed)
+	if err == nil {
+		t.Error("Expected error for unreachable server")
+	}
+}
+
+func TestWebhookSendNoContent(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	msg := WebhookMessage{
+		Content: "",
+	}
+
+	err := client.Send(msg)
+	// Should still try to send (even with empty content)
+	if err == nil {
+		t.Log("Send succeeded (unexpected)")
+	}
+}
+
+func TestWebhookSendMultipleEmbeds(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	msg := WebhookMessage{
+		Content: "Multiple embeds",
+		Embeds: []WebhookEmbed{
+			{Title: "Embed 1", Description: "Description 1"},
+			{Title: "Embed 2", Description: "Description 2"},
+			{Title: "Embed 3", Description: "Description 3"},
+		},
+	}
+
+	err := client.Send(msg)
+	if err == nil {
+		t.Log("Send succeeded (unexpected)")
+	}
+}
+
+func TestWebhookSendWithFields(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	msg := WebhookMessage{
+		Embeds: []WebhookEmbed{
+			{
+				Title: "Test",
+				Fields: []WebhookField{
+					{Name: "Field1", Value: "Value1", Inline: true},
+					{Name: "Field2", Value: "Value2", Inline: false},
+					{Name: "Field3", Value: "Value3", Inline: true},
+					{Name: "Field4", Value: "Value4", Inline: true},
+					{Name: "Field5", Value: "Value5", Inline: false},
+				},
+			},
+		},
+	}
+
+	err := client.Send(msg)
+	if err == nil {
+		t.Log("Send succeeded (unexpected)")
+	}
+}
+
+func TestWebhookSendWithFooter(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	msg := WebhookMessage{
+		Embeds: []WebhookEmbed{
+			{
+				Title: "Test with Footer",
+				Footer: WebhookFooter{
+					Text:    "Footer text",
+					IconURL: "https://example.com/icon.png",
+				},
+			},
+		},
+	}
+
+	err := client.Send(msg)
+	if err == nil {
+		t.Log("Send succeeded (unexpected)")
+	}
+}
+
+func TestWebhookSendWithTimestamp(t *testing.T) {
+	client := NewWebhookClient(&WebhookConfig{
+		URL: "http://localhost:99999",
+	})
+
+	msg := WebhookMessage{
+		Embeds: []WebhookEmbed{
+			{
+				Title:       "Test with Timestamp",
+				Description: "Timestamp: " + time.Now().Format(time.RFC3339),
+				Timestamp:   time.Now().Format(time.RFC3339),
+			},
+		},
+	}
+
+	err := client.Send(msg)
+	if err == nil {
+		t.Log("Send succeeded (unexpected)")
+	}
+}
+
+func TestWebhookMessageWithAllFields(t *testing.T) {
+	msg := WebhookMessage{
+		Content:   "Content",
+		Username:  "Username",
+		AvatarURL: "https://example.com/avatar.png",
+		Embeds: []WebhookEmbed{
+			{
+				Title:       "Title",
+				Description: "Description",
+				Color:       0xff0000,
+				Fields: []WebhookField{
+					{Name: "Name", Value: "Value", Inline: true},
+				},
+				Footer: WebhookFooter{
+					Text:    "Footer",
+					IconURL: "https://example.com/icon.png",
+				},
+				Timestamp: "2024-01-01T00:00:00Z",
+			},
+		},
+	}
+
+	if msg.Content != "Content" {
+		t.Error("Content mismatch")
+	}
+	if len(msg.Embeds) != 1 {
+		t.Error("Embeds count mismatch")
 	}
 }
