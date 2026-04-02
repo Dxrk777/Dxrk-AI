@@ -19,7 +19,9 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
 )
 
-// applyEngram installs engram and injects it into adapters.
+// applyEngram installs the engram binary (if needed) and injects engram configuration
+// into each agent adapter. On brew systems, it uses `brew install`; on Linux/Windows,
+// it downloads a pre-built binary from GitHub releases.
 func applyEngram(adapters []agents.Adapter, profile system.PlatformProfile, homeDir string) error {
 	engramBinaryPath, err := installEngramBinary(profile)
 	if err != nil {
@@ -45,7 +47,9 @@ func applyEngram(adapters []agents.Adapter, profile system.PlatformProfile, home
 	return nil
 }
 
-// installEngramBinary ensures engram is available and returns its path.
+// installEngramBinary checks if engram is already available on PATH. If not, it installs
+// it via brew (macOS/Linux with Homebrew) or downloads a pre-built binary from GitHub.
+// Returns the path to the engram binary.
 func installEngramBinary(profile system.PlatformProfile) (string, error) {
 	if _, err := cmdLookPath("engram"); err == nil {
 		return "engram", nil
@@ -77,7 +81,8 @@ func installEngramBinary(profile system.PlatformProfile) (string, error) {
 	return engramBinaryPath, nil
 }
 
-// applyMCP injects MCP configuration (including Context7) into adapters.
+// applyMCP injects MCP (Model Context Protocol) configuration into each agent adapter.
+// This includes Context7 server configuration for enhanced context capabilities.
 func applyMCP(adapters []agents.Adapter, homeDir string) error {
 	for _, adapter := range adapters {
 		if _, err := mcp.Inject(homeDir, adapter); err != nil {
@@ -87,7 +92,8 @@ func applyMCP(adapters []agents.Adapter, homeDir string) error {
 	return nil
 }
 
-// applyPersona injects persona configuration into adapters.
+// applyPersona injects persona configuration (AGENTS.md system prompt) into each agent.
+// Personas define the behavior and personality of the AI agent.
 func applyPersona(adapters []agents.Adapter, homeDir string, personaID model.PersonaID) error {
 	for _, adapter := range adapters {
 		if _, err := persona.Inject(homeDir, adapter, personaID); err != nil {
@@ -97,7 +103,8 @@ func applyPersona(adapters []agents.Adapter, homeDir string, personaID model.Per
 	return nil
 }
 
-// applyPermissions injects permissions configuration into adapters.
+// applyPermissions injects permission configuration into each agent adapter.
+// Permissions control which files and directories the agent can access.
 func applyPermissions(adapters []agents.Adapter, homeDir string) error {
 	for _, adapter := range adapters {
 		if _, err := permissions.Inject(homeDir, adapter); err != nil {
@@ -107,7 +114,8 @@ func applyPermissions(adapters []agents.Adapter, homeDir string) error {
 	return nil
 }
 
-// applySDD injects SDD configuration into adapters.
+// applySDD injects SDD (Spec-Driven Development) configuration into each agent adapter.
+// SDD provides structured workflows for planning and implementing changes.
 func applySDD(adapters []agents.Adapter, homeDir, workspaceDir string, selection model.Selection) error {
 	for _, adapter := range adapters {
 		opts := sdd.InjectOptions{
@@ -123,7 +131,8 @@ func applySDD(adapters []agents.Adapter, homeDir, workspaceDir string, selection
 	return nil
 }
 
-// applySkills injects skills into adapters.
+// applySkills injects agent skills into each adapter. Skills provide specialized
+// capabilities like branch-pr workflow, issue creation, testing patterns, etc.
 func applySkills(adapters []agents.Adapter, homeDir string, skillIDs []model.SkillID) error {
 	if len(skillIDs) == 0 {
 		return nil
@@ -136,7 +145,8 @@ func applySkills(adapters []agents.Adapter, homeDir string, skillIDs []model.Ski
 	return nil
 }
 
-// applyDxrk installs dxrk and injects its configuration.
+// applyDxrk installs the dxrk CLI tool (if needed) and injects its configuration
+// into each agent. On Windows, it also ensures the PowerShell shim is in place.
 func applyDxrk(agentIDs []model.AgentID, adapters []agents.Adapter, profile system.PlatformProfile, homeDir string) error {
 	if err := ensureDxrkInstalled(profile); err != nil {
 		return err
@@ -161,7 +171,8 @@ func applyDxrk(agentIDs []model.AgentID, adapters []agents.Adapter, profile syst
 	return nil
 }
 
-// ensureDxrkInstalled installs dxrk if not already available.
+// ensureDxrkInstalled checks if dxrk is available and installs it if not.
+// Handles the case where the install script fails due to missing TTY but dxrk is actually installed.
 func ensureDxrkInstalled(profile system.PlatformProfile) error {
 	if dxrkAvailable(profile) {
 		return nil
@@ -185,13 +196,15 @@ func ensureDxrkInstalled(profile system.PlatformProfile) error {
 	return nil
 }
 
-// addDxrkToPath adds dxrk bin directory to user PATH.
+// addDxrkToPath adds the dxrk bin directory to the user's PATH persistently.
+// On Windows, this modifies the user registry via PowerShell.
 func addDxrkToPath(homeDir string) error {
 	dxrkBinDir := filepath.Join(homeDir, "bin")
 	return system.AddToUserPath(dxrkBinDir)
 }
 
-// applyTheme injects theme configuration into adapters.
+// applyTheme injects visual theme configuration into each agent adapter.
+// Themes define colors, fonts, and other UI preferences for the agent.
 func applyTheme(adapters []agents.Adapter, homeDir string) error {
 	for _, adapter := range adapters {
 		if _, err := theme.Inject(homeDir, adapter); err != nil {
@@ -201,7 +214,8 @@ func applyTheme(adapters []agents.Adapter, homeDir string) error {
 	return nil
 }
 
-// ComponentApplier handles applying a component to adapters.
+// ComponentApplier handles applying a component to multiple agent adapters.
+// It encapsulates the context needed for component installation and injection.
 type ComponentApplier struct {
 	adapters     []agents.Adapter
 	agentIDs     []model.AgentID
@@ -211,7 +225,10 @@ type ComponentApplier struct {
 	selection    model.Selection
 }
 
-// NewComponentApplier creates a new ComponentApplier.
+// NewComponentApplier creates a new ComponentApplier with the given context.
+// Adapters are the agent adapters to inject into, agentIDs are the target agents,
+// profile is the platform profile, homeDir is the user's home directory,
+// workspaceDir is the current workspace directory, and selection is the user's choices.
 func NewComponentApplier(adapters []agents.Adapter, agentIDs []model.AgentID, profile system.PlatformProfile, homeDir, workspaceDir string, selection model.Selection) *ComponentApplier {
 	return &ComponentApplier{
 		adapters:     adapters,
@@ -223,7 +240,8 @@ func NewComponentApplier(adapters []agents.Adapter, agentIDs []model.AgentID, pr
 	}
 }
 
-// Apply applies the specified component to all adapters.
+// Apply injects the specified component into all agent adapters.
+// It delegates to the appropriate applyXxx function based on the component type.
 func (ca *ComponentApplier) Apply(component model.ComponentID) error {
 	switch component {
 	case model.ComponentEngram:
