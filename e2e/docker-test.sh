@@ -59,7 +59,7 @@ for entry in "${PLATFORMS[@]}"; do
     TOTAL=$((TOTAL + 1))
     printf "${YELLOW}[BUILD]${NC} %s — building from %s\n" "$name" "$dockerfile"
 
-    if docker build \
+    if docker build --no-cache \
         -f "$SCRIPT_DIR/$dockerfile" \
         -t "$image_tag" \
         "$PROJECT_ROOT" 2>&1; then
