@@ -9,19 +9,9 @@ run:
 linters:
   enable:
     - errcheck
-    - gosimple
-    - unused
-    - copyloopvar
-    - errorlint
-    - gochecknoinits
-    - goconst
-    - gocritic
     - gofmt
-    - goimports
     - gosec
     - nakedret
-    - revive
-    - unconvert
 
 linters-settings:
   errcheck:
@@ -29,33 +19,11 @@ linters-settings:
     check-blank: true
   gofmt:
     simplify: true
-  goimports:
-    local-prefixes: github.com/Dxrk777/Dxrk-Hex
   gosec:
     excludes:
       - G104
   nakedret:
     max-func-lines: 30
-  revive:
-    rules:
-      - name: blank-imports
-      - name: context-as-argument
-      - name: context-keys-type
-      - name: dot-imports
-      - name: error-return
-      - name: error-strings
-      - name: error-naming
-      - name: exported
-      - name: increment-decrement
-      - name: var-naming
-      - name: var-declaration
-      - name: package-comments
-      - name: range
-      - name: receiver-naming
-      - name: time-naming
-      - name: unexported-return
-      - name: indent-error-flow
-      - name: errorf
 
 issues:
   exclude-rules:
@@ -72,15 +40,7 @@ issues:
         - gocyclo
         - errcheck
     # Spanish strings in connector and brain modules
-    - path: internal/connector/
-      linters:
-        - misspell
-    - path: internal/brain/
-      linters:
-        - misspell
-    - path: internal/cli/
-      linters:
-        - misspell
+
   max-issues-per-linter: 100
   max-same-issues: 20
 

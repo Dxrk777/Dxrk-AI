@@ -13,5 +13,5 @@ When working on this project, load the relevant skill(s) BEFORE writing any code
 
 | Skill | Trigger | Path |
 |-------|---------|------|
-| `dxrk-issue-creation` | When creating a GitHub issue, reporting a bug, or requesting a feature. | [`skills/issue-creation/SKILL.md`](skills/issue-creation/SKILL.md) |
-| `dxrk-branch-pr` | When creating a pull request, opening a PR, or preparing changes for review. | [`skills/branch-pr/SKILL.md`](skills/branch-pr/SKILL.md) |
+| `dxrk-issue-creation` | When creating a GitHub issue, reporting a bug, or requesting a feature. | [`internal/assets/skills/issue-creation/SKILL.md`](internal/assets/skills/issue-creation/SKILL.md) |
+| `dxrk-branch-pr` | When creating a pull request, opening a PR, or preparing changes for review. | [`internal/assets/skills/branch-pr/SKILL.md`](internal/assets/skills/branch-pr/SKILL.md) |
