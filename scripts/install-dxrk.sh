@@ -42,12 +42,15 @@ setup_colors() {
 # Logging helpers
 # ============================================================================
 
-info()    { echo -e "${BLUE}[info]${NC}    $*"; }
+info() { echo -e "${BLUE}[info]${NC}    $*"; }
 success() { echo -e "${GREEN}[ok]${NC}      $*"; }
-warn()    { echo -e "${YELLOW}[warn]${NC}    $*"; }
-error()   { echo -e "${RED}[error]${NC}   $*" >&2; }
-fatal()   { error "$@"; exit 1; }
-step()    { echo -e "\n${CYAN}${BOLD}==>${NC} ${BOLD}$*${NC}"; }
+warn() { echo -e "${YELLOW}[warn]${NC}    $*"; }
+error() { echo -e "${RED}[error]${NC}   $*" >&2; }
+fatal() {
+    error "$@"
+    exit 1
+}
+step() { echo -e "\n${CYAN}${BOLD}==>${NC} ${BOLD}$*${NC}"; }
 
 # ============================================================================
 # Help
@@ -88,15 +91,23 @@ detect_platform() {
     uname_arch="$(uname -m)"
 
     case "$uname_os" in
-        Darwin) OS="darwin"; OS_LABEL="macOS"; GORELEASER_OS="darwin" ;;
-        Linux)  OS="linux";  OS_LABEL="Linux"; GORELEASER_OS="linux" ;;
-        *)      fatal "Unsupported OS: $uname_os. Only macOS and Linux are supported." ;;
+    Darwin)
+        OS="darwin"
+        OS_LABEL="macOS"
+        GORELEASER_OS="darwin"
+        ;;
+    Linux)
+        OS="linux"
+        OS_LABEL="Linux"
+        GORELEASER_OS="linux"
+        ;;
+    *) fatal "Unsupported OS: $uname_os. Only macOS and Linux are supported." ;;
     esac
 
     case "$uname_arch" in
-        x86_64|amd64)   ARCH="amd64" ;;
-        arm64|aarch64)  ARCH="arm64" ;;
-        *)              fatal "Unsupported architecture: $uname_arch. Only amd64 and arm64 are supported." ;;
+    x86_64 | amd64) ARCH="amd64" ;;
+    arm64 | aarch64) ARCH="arm64" ;;
+    *) fatal "Unsupported architecture: $uname_arch. Only amd64 and arm64 are supported." ;;
     esac
 
     success "Platform: ${OS_LABEL} (${OS}/${ARCH})"
@@ -151,8 +162,8 @@ check_prerequisites() {
 detect_install_method() {
     if [ -n "${FORCE_METHOD:-}" ]; then
         case "$FORCE_METHOD" in
-            brew|go|binary) INSTALL_METHOD="$FORCE_METHOD" ;;
-            *) fatal "Unknown install method: $FORCE_METHOD. Use: brew, go, or binary" ;;
+        brew | go | binary) INSTALL_METHOD="$FORCE_METHOD" ;;
+        *) fatal "Unknown install method: $FORCE_METHOD. Use: brew, go, or binary" ;;
         esac
         info "Using forced method: $INSTALL_METHOD"
         return
@@ -292,7 +303,7 @@ install_binary() {
 
     # Verify file was actually downloaded (not a 404 HTML page)
     local file_size
-    file_size="$(wc -c < "${tmpdir}/${archive_name}" | tr -d '[:space:]')"
+    file_size="$(wc -c <"${tmpdir}/${archive_name}" | tr -d '[:space:]')"
     if [ "$file_size" -lt 1000 ]; then
         fatal "Downloaded file is suspiciously small (${file_size} bytes). Archive may not exist for this platform."
     fi
@@ -460,22 +471,24 @@ main() {
 
     while [ $# -gt 0 ]; do
         case "$1" in
-            --method)
-                [ $# -lt 2 ] && fatal "--method requires an argument"
-                FORCE_METHOD="$2"; shift 2
-                ;;
-            --dir)
-                [ $# -lt 2 ] && fatal "--dir requires an argument"
-                INSTALL_DIR="$2"; shift 2
-                ;;
-            -h|--help)
-                setup_colors
-                show_help
-                exit 0
-                ;;
-            *)
-                fatal "Unknown option: $1. Use --help for usage."
-                ;;
+        --method)
+            [ $# -lt 2 ] && fatal "--method requires an argument"
+            FORCE_METHOD="$2"
+            shift 2
+            ;;
+        --dir)
+            [ $# -lt 2 ] && fatal "--dir requires an argument"
+            INSTALL_DIR="$2"
+            shift 2
+            ;;
+        -h | --help)
+            setup_colors
+            show_help
+            exit 0
+            ;;
+        *)
+            fatal "Unknown option: $1. Use --help for usage."
+            ;;
         esac
     done
 
@@ -488,9 +501,9 @@ main() {
     detect_install_method
 
     case "$INSTALL_METHOD" in
-        brew)   install_brew ;;
-        go)     install_go ;;
-        binary) install_binary ;;
+    brew) install_brew ;;
+    go) install_go ;;
+    binary) install_binary ;;
     esac
 
     verify_installation
