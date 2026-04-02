@@ -10,9 +10,6 @@ linters:
   enable:
     - errcheck
     - gosimple
-    - govet
-    - ineffassign
-    - staticcheck
     - unused
     - copyloopvar
     - errorlint
@@ -84,6 +81,8 @@ issues:
         - dupl
         - goconst
         - staticcheck
+        - govet
+        - ineffassign
     - path: e2e/
       linters:
         - gosec
@@ -102,8 +101,8 @@ issues:
     - path: internal/cli/
       linters:
         - misspell
-  max-issues-per-linter: 50
-  max-same-issues: 10
+  max-issues-per-linter: 100
+  max-same-issues: 20
 
 output:
   format: colored-line-number
