@@ -156,6 +156,7 @@ func TestSelfUpdate_GuardEvaluationOrder(t *testing.T) {
 }
 
 func TestSelfUpdate_UpdateAvailable_CallsUpgradeAndReExec(t *testing.T) {
+	skipOnWindows(t)
 	unsetEnv(t, envNoSelfUpdate)
 	unsetEnv(t, envSelfUpdateDone)
 
