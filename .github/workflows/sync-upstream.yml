@@ -3,21 +3,20 @@ name: Sync Upstream
 # ============================================================================
 # Dxrk Hex - Upstream Sync Workflow
 # ============================================================================
-# Este workflow sincroniza Dxrk Hex con gentle-ai automáticamente.
+# Este workflow sincroniza Dxrk Hex con gentle-ai (upstream) automáticamente.
 #
 # Se activa de tres formas:
 # 1. repository_dispatch: cuando gentle-ai hace un release (webhook)
 # 2. schedule: una vez al día para detectar nuevos releases
 # 3. workflow_dispatch: manual para forzar sync
 #
-# Sistema de versioning:
-#   gentle-ai:     v1.15.6  →  v1.15.7  →  v1.16.0  →  v2.0.0
-#   Dxrk Hex:     045.27%  →  045.32%  →  045.82%  →  055.82%
+# Sistema de versioning de Dxrk:
+#   El Dxrk Index es un porcentaje que refleja el progreso del proyecto.
 #
-# Incrementos:
-#   - Major (1.x → 2.x): +10.00%
-#   - Minor (1.15 → 1.16): +0.50%
-#   - Patch (1.15.5 → 1.15.6): +0.05%
+# Incrementos del Dxrk Index:
+#   - Major update: +10.00%
+#   - Minor update: +0.50%
+#   - Patch update: +0.05%
 # ============================================================================
 
 on:
@@ -44,8 +43,8 @@ concurrency:
 
 env:
   UPSTREAM_REPO: "Gentleman-Programming/gentle-ai"
-  UPSTREAM_NAME: "gentleman"
-  GO_VERSION: '1.24'
+  UPSTREAM_NAME: "gentle-ai"
+  GO_VERSION: '1.25'
 
 jobs:
   # ===========================================================================
@@ -223,7 +222,7 @@ jobs:
         if: needs.sync.result == 'success'
         run: |
           echo "🎉 Sync completado exitosamente!"
-          echo " gentel-ai: ${{ needs.check-upstream.outputs.upstream_tag }}"
+          echo " Upstream (gentle-ai): ${{ needs.check-upstream.outputs.upstream_tag }}"
           echo " Dxrk Hex: ${{ needs.sync.outputs.new_tag }}"
           echo " Tipo: ${{ needs.check-upstream.outputs.release_type }}"
       

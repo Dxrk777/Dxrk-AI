@@ -9,21 +9,22 @@
 <p>
 <a href="https://github.com/Dxrk777/Dxrk-Hex/releases"><img src="https://img.shields.io/github/v/release/Dxrk777/Dxrk-Hex?color=5dfc8e&label=Version" alt="Release"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
-<img src="https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go&logoColor=white" alt="Go 1.24+">
+<img src="https://img.shields.io/badge/Go-1.25-00ADD8?logo=go&logoColor=white" alt="Go 1.25">
 <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey" alt="Platform">
 <a href="https://github.com/Dxrk777/Dxrk-Hex/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/Dxrk777/Dxrk-Hex/test.yml?branch=main&label=Tests" alt="Tests"></a>
 <a href="https://goreportcard.com/report/github.com/Dxrk777/Dxrk-Hex"><img src="https://goreportcard.com/badge/github.com/Dxrk777/Dxrk-Hex" alt="Go Report Card"></a>
 <a href="https://codecov.io/gh/Dxrk777/Dxrk-Hex"><img src="https://img.shields.io/codecov/c/github/Dxrk777/Dxrk-Hex?token=placeholder" alt="Coverage"></a>
-<a href="https://github.com/Gentleman-Programming/gentle-ai/releases"><img src="https://img.shields.io/badge/Upstream-gentle--ai-blue" alt="gentle-ai upstream"></a>
+<a href="https://github.com/Dxrk777/Dxrk-Hex/releases"><img src="https://img.shields.io/badge/Versioning-Dxrk%20Index-blue" alt="Dxrk Index"></a>
 </p>
 
-> **📊 Dxrk Index System**: Dxrk Hex usa un sistema de versioning basado en porcentaje que sigue a [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) automáticamente. Cada release de gentle-ai incrementa el Dxrk Index.
+> **📊 Dxrk Index System**: Dxrk Hex usa un sistema de versioning basado en porcentaje. El Dxrk Index refleja el progreso del proyecto en una escala de 0% a 100%.
 > 
-> | gentle-ai | Dxrk Hex | Incremento |
-> |------------|----------|------------|
-> | v1.15.6 | 045.27% | +0.05% (patch) |
-> | v1.16.0 | 045.82% | +0.50% (minor) |
-> | v2.0.0 | 055.82% | +10.00% (major) |
+> | Index | Milestone | Descripción |
+> |-------|-----------|-------------|
+> | 000.01% | Initial Release | Primeros tests |
+> | 010.00% | Skills System | Sistema de skills básico |
+> | 050.00% | Multi-Platform | Soporte multiplataforma |
+> | 100.00% | MVP Achieved | Producto mínimo viable |
 
 </div>
 
@@ -133,7 +134,7 @@ brew tap Dxrk777/tap
 brew install dxrk
 ```
 
-### Go install (any platform with Go 1.24+)
+### Go install (any platform with Go 1.25+)
 
 ```bash
 go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest
@@ -142,10 +143,14 @@ go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest
 ### Windows (PowerShell)
 
 ```powershell
-# Option 1: PowerShell installer (downloads binary from GitHub Releases)
+# Option 1: Scoop (recommended for Windows)
+scoop bucket add dxrk https://github.com/Dxrk777/scoop-bucket
+scoop install dxrk
+
+# Option 2: PowerShell installer (downloads binary from GitHub Releases)
 irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex
 
-# Option 2: Go install (requires Go 1.24+)
+# Option 3: Go install (requires Go 1.25+)
 go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest
 ```
 

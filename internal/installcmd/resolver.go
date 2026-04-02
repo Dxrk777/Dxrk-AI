@@ -214,20 +214,20 @@ func gitBashPath() string {
 	return "bash"
 }
 
-// validateGoForModuleInstall checks that Go ≥1.24 is installed and GO111MODULE is not
+// validateGoForModuleInstall checks that Go ≥1.25 is installed and GO111MODULE is not
 // disabled before attempting `go install`. Returns an actionable error if any check fails.
 // MUST NOT be called for brew-based installs (brew manages Go transitively).
 func validateGoForModuleInstall(profile system.PlatformProfile) error {
 	if _, err := cmdLookPath("go"); err != nil {
 		return fmt.Errorf(
-			"Go 1.24+ is required to install Engram but was not found in PATH.\n" +
+			"Go 1.25+ is required to install Engram but was not found in PATH.\n" +
 				"Please install Go from https://go.dev/dl/ and restart your terminal.")
 	}
 
 	out, err := cmdGoVersion()
 	if err != nil {
 		return fmt.Errorf(
-			"Go 1.24+ is required but could not verify the installed version.\n" +
+			"Go 1.25+ is required but could not verify the installed version.\n" +
 				"Please ensure Go is properly installed: https://go.dev/dl/")
 	}
 
@@ -239,9 +239,9 @@ func validateGoForModuleInstall(profile system.PlatformProfile) error {
 		if len(versionParts) >= 2 {
 			major, _ := strconv.Atoi(versionParts[0])
 			minor, _ := strconv.Atoi(versionParts[1])
-			if major < 1 || (major == 1 && minor < 24) {
+			if major < 1 || (major == 1 && minor < 25) {
 				return fmt.Errorf(
-					"Go 1.24+ is required to install Engram, but found go%s.\n"+
+					"Go 1.25+ is required to install Engram, but found go%s.\n"+
 						"Please update Go: https://go.dev/dl/", versionStr)
 			}
 		}

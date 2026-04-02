@@ -72,7 +72,7 @@ PRs that are not linked to an approved issue will be **automatically rejected** 
 
 ### Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - Docker (for E2E tests)
 - Git
 

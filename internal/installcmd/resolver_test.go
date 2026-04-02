@@ -23,7 +23,7 @@ func TestValidateGoForModuleInstall(t *testing.T) {
 		errContains string
 	}{
 		{
-			name:    "go not in PATH returns error mentioning Go 1.24+",
+			name:    "go not in PATH returns error mentioning Go 1.25+",
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
 			lookPath: func(file string) (string, error) {
 				return "", fmt.Errorf("not found")
@@ -31,10 +31,10 @@ func TestValidateGoForModuleInstall(t *testing.T) {
 			goVersion:   func() ([]byte, error) { return nil, nil },
 			env:         map[string]string{},
 			wantErr:     true,
-			errContains: "Go 1.24+",
+			errContains: "Go 1.25+",
 		},
 		{
-			name:    "go version below 1.24 returns error",
+			name:    "go version below 1.25 returns error",
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
 			lookPath: func(file string) (string, error) {
 				return "/usr/bin/go", nil
@@ -42,18 +42,18 @@ func TestValidateGoForModuleInstall(t *testing.T) {
 			goVersion:   func() ([]byte, error) { return []byte("go version go1.21.0 linux/amd64"), nil },
 			env:         map[string]string{},
 			wantErr:     true,
-			errContains: "Go 1.24+",
+			errContains: "Go 1.25+",
 		},
 		{
-			name:    "go version 1.23 returns error",
+			name:    "go version 1.24 returns error",
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
 			lookPath: func(file string) (string, error) {
 				return "/usr/bin/go", nil
 			},
-			goVersion:   func() ([]byte, error) { return []byte("go version go1.23.5 linux/amd64"), nil },
+			goVersion:   func() ([]byte, error) { return []byte("go version go1.24.5 linux/amd64"), nil },
 			env:         map[string]string{},
 			wantErr:     true,
-			errContains: "Go 1.24+",
+			errContains: "Go 1.25+",
 		},
 		{
 			name:    "GO111MODULE=off on linux returns error with export fix",
@@ -61,7 +61,7 @@ func TestValidateGoForModuleInstall(t *testing.T) {
 			lookPath: func(file string) (string, error) {
 				return "/usr/bin/go", nil
 			},
-			goVersion:   func() ([]byte, error) { return []byte("go version go1.24.0 linux/amd64"), nil },
+			goVersion:   func() ([]byte, error) { return []byte("go version go1.25.0 linux/amd64"), nil },
 			env:         map[string]string{"GO111MODULE": "off"},
 			wantErr:     true,
 			errContains: "export GO111MODULE=on",
@@ -72,23 +72,13 @@ func TestValidateGoForModuleInstall(t *testing.T) {
 			lookPath: func(file string) (string, error) {
 				return `C:\Go\bin\go.exe`, nil
 			},
-			goVersion:   func() ([]byte, error) { return []byte("go version go1.24.0 windows/amd64"), nil },
+			goVersion:   func() ([]byte, error) { return []byte("go version go1.25.0 windows/amd64"), nil },
 			env:         map[string]string{"GO111MODULE": "off"},
 			wantErr:     true,
 			errContains: "$env:GO111MODULE",
 		},
 		{
-			name:    "go 1.24 without GO111MODULE=off succeeds",
-			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			lookPath: func(file string) (string, error) {
-				return "/usr/bin/go", nil
-			},
-			goVersion: func() ([]byte, error) { return []byte("go version go1.24.0 linux/amd64"), nil },
-			env:       map[string]string{},
-			wantErr:   false,
-		},
-		{
-			name:    "go 1.25 succeeds",
+			name:    "go 1.25 without GO111MODULE=off succeeds",
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
 			lookPath: func(file string) (string, error) {
 				return "/usr/bin/go", nil

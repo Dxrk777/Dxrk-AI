@@ -785,19 +785,19 @@ Build: Latest
 GitHub: github.com/Dxrk777/Dxrk-Hex
 Upstream: github.com/Gentleman-Programming/gentle-ai
 
-Updates: Automatic (hourly check)`
+Updates: Automatic (daily sync)`
 }
 
 // executeUpdate handles update check.
 func (c *Connector) executeUpdate() string {
 	return `🔄 Update Check
 
-Dxrk Hex checks for updates hourly.
-To force update check:
+Dxrk Hex sincroniza con upstream diariamente.
+Para forzar actualización:
 
   dxrk upgrade
 
-Or use GUI: Menu → Upgrade tools`
+O usa la GUI: Menú → Upgrade tools`
 }
 
 // executeMemory returns memory/history status.

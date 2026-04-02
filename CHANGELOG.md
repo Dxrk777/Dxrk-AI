@@ -70,7 +70,7 @@ This is the first major release of Dxrk Hex with the Brain module, CLI integrati
 
 ## Upstream Sync
 
-Dxrk Hex automatically syncs with [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) hourly via GitHub Actions.
+Dxrk Hex es un fork de [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) y sincroniza automáticamente los cambios upstream diariamente via GitHub Actions.
 
 ### Installation
 

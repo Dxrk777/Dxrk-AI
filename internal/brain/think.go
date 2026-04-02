@@ -466,7 +466,7 @@ func handleSync() *ThinkResult {
 	return &ThinkResult{
 		Response: `🔄 Sync
 
-Automatic sync is enabled (hourly).
+Automatic sync is enabled (daily).
 To force sync:
   dxrk sync
 

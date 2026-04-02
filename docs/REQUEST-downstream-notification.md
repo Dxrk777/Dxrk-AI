@@ -2,7 +2,7 @@
 
 ## Problem
 
-Dxrk-Hex (https://github.com/Dxrk777/Dxrk-Hex) syncs automatically with gentle-ai as its upstream. Currently, it relies on hourly polling to detect new releases.
+Dxrk-Hex (https://github.com/Dxrk777/Dxrk-Hex) syncs automatically with gentle-ai as its upstream. Currently, it relies on daily polling to detect new releases.
 
 ## Solution
 

@@ -95,10 +95,16 @@ func RunArgs(args []string, stdout io.Writer) error {
 		return err
 	}
 
+	// Handle version and help commands early - they work on any platform
 	switch args[0] {
 	case "version", "--version", "-v":
 		_, _ = fmt.Fprintf(stdout, "dxrk %s\n", Version)
 		return nil
+	case "help", "--help", "-h":
+		return runHelp(stdout)
+	}
+
+	switch args[0] {
 	case "update":
 		profile := cli.ResolveInstallProfile(result)
 		return runUpdate(context.Background(), Version, profile, stdout)
@@ -130,8 +136,45 @@ func RunArgs(args []string, stdout io.Writer) error {
 	case "brain":
 		return cli.RunBrain(args[1:])
 	default:
-		return fmt.Errorf("unknown command %q", args[0])
+		return fmt.Errorf("unknown command %q\nRun 'dxrk help' for usage", args[0])
 	}
+}
+
+func runHelp(stdout io.Writer) error {
+	helpText := `Dxrk Hex — AI Coding Agent Ecosystem Configurator
+
+Usage:
+  dxrk [command] [flags]
+
+Commands:
+  install [flags]    Install and configure AI coding agents
+  sync               Sync agent configurations
+  upgrade [tool...]  Upgrade installed tools
+  update             Check for available updates
+  restore            Restore from a backup
+  brain [subcommand] Brain command center
+  version            Show version
+  help               Show this help
+
+Install Flags:
+  --dry-run          Preview install plan without applying
+  --agent <name>     Install specific agent (claude, opencode, etc.)
+  --component <name> Install specific component
+
+Examples:
+  dxrk                           # Interactive TUI installer
+  dxrk install --dry-run         # Preview what would be installed
+  dxrk install opencode          # Install OpenCode
+  dxrk upgrade                   # Upgrade all tools
+  dxrk upgrade engram            # Upgrade specific tool
+  dxrk restore                  # List and restore backups
+  dxrk brain status             # Check brain status
+
+For more information, see:
+  https://github.com/Dxrk777/Dxrk-Hex
+`
+	_, _ = fmt.Fprint(stdout, helpText)
+	return nil
 }
 
 func runUpdate(ctx context.Context, currentVersion string, profile system.PlatformProfile, stdout io.Writer) error {

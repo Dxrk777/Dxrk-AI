@@ -1,7 +1,7 @@
 name: Notify Downstream
 
 # ============================================================================
-# gentle-ai - Notify Downstream Repositories
+# gentle-ai - Notify Downstream Repositories (Template)
 # ============================================================================
 # Este workflow notifica a repositorios downstream (como Dxrk-Hex)
 # cuando se libera una nueva versión.

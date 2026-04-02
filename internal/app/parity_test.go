@@ -192,8 +192,9 @@ func TestRunArgsUnknownCommandReturnsError(t *testing.T) {
 	if err == nil {
 		t.Fatalf("RunArgs(bogus) expected error")
 	}
-	if err.Error() != `unknown command "bogus"` {
-		t.Fatalf("RunArgs(bogus) error = %v", err)
+	expected := `unknown command "bogus"`
+	if !strings.Contains(err.Error(), expected) {
+		t.Fatalf("RunArgs(bogus) error = %v, want to contain %q", err, expected)
 	}
 }
 

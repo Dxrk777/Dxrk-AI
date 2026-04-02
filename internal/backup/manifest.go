@@ -58,6 +58,18 @@ type Manifest struct {
 	// CreatedByVersion is the dxrk version that created this backup.
 	// Optional: omitted when empty for backward-compatibility with old manifests.
 	CreatedByVersion string `json:"created_by_version,omitempty"`
+
+	// Pinned indicates this backup is protected from auto-pruning.
+	// Optional: omitted when false for backward-compatibility.
+	Pinned bool `json:"pinned,omitempty"`
+
+	// Compressed indicates this backup uses tar.gz compression.
+	// Optional: omitted when false for backward-compatibility.
+	Compressed bool `json:"compressed,omitempty"`
+
+	// Checksum is a SHA-256 hash of all backed up files for deduplication.
+	// Optional: omitted when not computed.
+	Checksum string `json:"checksum,omitempty"`
 }
 
 // DisplayLabel returns a human-readable label for the backup suitable for display
@@ -66,8 +78,14 @@ type Manifest struct {
 //
 // Old manifests without Source will show "unknown source" as a graceful fallback.
 // Old manifests without FileCount will not show any file count.
+// Pinned backups show a [pinned] indicator.
 func (m Manifest) DisplayLabel() string {
-	base := fmt.Sprintf("%s — %s", m.Source.Label(), m.CreatedAt.Local().Format("2006-01-02 15:04"))
+	pinned := ""
+	if m.Pinned {
+		pinned = " [pinned]"
+	}
+
+	base := fmt.Sprintf("%s — %s%s", m.Source.Label(), m.CreatedAt.Local().Format("2006-01-02 15:04"), pinned)
 	if m.FileCount > 0 {
 		return fmt.Sprintf("%s (%d files)", base, m.FileCount)
 	}
