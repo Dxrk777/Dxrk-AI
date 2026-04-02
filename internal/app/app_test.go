@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -12,6 +13,27 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 )
+
+// setTestHome sets both HOME and USERPROFILE env vars for cross-platform compatibility.
+// os.UserHomeDir() uses HOME on Unix but USERPROFILE on Windows.
+func setTestHome(t *testing.T, home string) {
+	t.Helper()
+	orig := struct {
+		home    string
+		profile string
+	}{
+		home:    os.Getenv("HOME"),
+		profile: os.Getenv("USERPROFILE"),
+	}
+	t.Cleanup(func() {
+		os.Setenv("HOME", orig.home)
+		os.Setenv("USERPROFILE", orig.profile)
+	})
+	os.Setenv("HOME", home)
+	if runtime.GOOS == "windows" {
+		os.Setenv("USERPROFILE", home)
+	}
+}
 
 // TestListBackupsNewestFirst verifies that ListBackups returns manifests sorted
 // newest-first by CreatedAt timestamp, matching the spec "newest first" ordering.
@@ -43,11 +65,7 @@ func TestListBackupsNewestFirst(t *testing.T) {
 		}
 	}
 
-	// Temporarily override home dir resolution for ListBackups.
-	origHomeDir := os.Getenv("HOME")
-	t.Cleanup(func() { os.Setenv("HOME", origHomeDir) })
-	os.Setenv("HOME", home)
-
+	setTestHome(t, home)
 	manifests := ListBackups()
 
 	if len(manifests) != 2 {
@@ -86,10 +104,7 @@ func TestListBackupsWithSourceMetadata(t *testing.T) {
 		t.Fatalf("WriteManifest: %v", err)
 	}
 
-	origHome := os.Getenv("HOME")
-	t.Cleanup(func() { os.Setenv("HOME", origHome) })
-	os.Setenv("HOME", home)
-
+	setTestHome(t, home)
 	manifests := ListBackups()
 
 	if len(manifests) != 1 {
@@ -110,9 +125,7 @@ func TestListBackupsWithSourceMetadata(t *testing.T) {
 // (either a backup list or a "no backups" message — never "unknown command").
 func TestRunArgsRestoreListIsDispatched(t *testing.T) {
 	home := t.TempDir()
-	origHome := os.Getenv("HOME")
-	t.Cleanup(func() { os.Setenv("HOME", origHome) })
-	os.Setenv("HOME", home)
+	setTestHome(t, home)
 
 	var buf bytes.Buffer
 	err := RunArgs([]string{"restore", "--list"}, &buf)
@@ -165,9 +178,7 @@ func TestRunArgsRestoreByIDWithYes(t *testing.T) {
 		t.Fatalf("WriteManifest: %v", err)
 	}
 
-	origHome := os.Getenv("HOME")
-	t.Cleanup(func() { os.Setenv("HOME", origHome) })
-	os.Setenv("HOME", home)
+	setTestHome(t, home)
 
 	var buf bytes.Buffer
 	err := RunArgs([]string{"restore", "test-backup-001", "--yes"}, &buf)
@@ -185,9 +196,7 @@ func TestRunArgsRestoreByIDWithYes(t *testing.T) {
 // is surfaced as an error from RunArgs.
 func TestRunArgsRestoreUnknownIDReturnsError(t *testing.T) {
 	home := t.TempDir()
-	origHome := os.Getenv("HOME")
-	t.Cleanup(func() { os.Setenv("HOME", origHome) })
-	os.Setenv("HOME", home)
+	setTestHome(t, home)
 
 	var buf bytes.Buffer
 	err := RunArgs([]string{"restore", "no-such-backup", "--yes"}, &buf)
@@ -224,10 +233,7 @@ func TestListBackupsFallsBackGracefullyForOldManifests(t *testing.T) {
 		t.Fatalf("WriteManifest: %v", err)
 	}
 
-	origHome := os.Getenv("HOME")
-	t.Cleanup(func() { os.Setenv("HOME", origHome) })
-	os.Setenv("HOME", home)
-
+	setTestHome(t, home)
 	manifests := ListBackups()
 
 	if len(manifests) != 1 {
