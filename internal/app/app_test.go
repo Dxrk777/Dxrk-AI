@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -16,6 +17,9 @@ import (
 // TestListBackupsNewestFirst verifies that ListBackups returns manifests sorted
 // newest-first by CreatedAt timestamp, matching the spec "newest first" ordering.
 func TestListBackupsNewestFirst(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("HOME env not used by os.UserHomeDir on Windows")
+	}
 	home := t.TempDir()
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
@@ -66,6 +70,9 @@ func TestListBackupsNewestFirst(t *testing.T) {
 // TestListBackupsWithSourceMetadata verifies that ListBackups returns manifests
 // with Source metadata intact, so display labels can use the source field.
 func TestListBackupsWithSourceMetadata(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("HOME env not used by os.UserHomeDir on Windows")
+	}
 	home := t.TempDir()
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
@@ -134,6 +141,9 @@ func TestRunArgsRestoreListIsDispatched(t *testing.T) {
 // TestRunArgsRestoreByIDWithYes verifies end-to-end wiring of `restore <id> --yes`
 // through app.RunArgs.
 func TestRunArgsRestoreByIDWithYes(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("HOME env not used by os.UserHomeDir on Windows")
+	}
 	home := t.TempDir()
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
@@ -203,6 +213,9 @@ func TestRunArgsRestoreUnknownIDReturnsError(t *testing.T) {
 // without Source/Description are still returned (not skipped) and can be displayed
 // via DisplayLabel without panicking.
 func TestListBackupsFallsBackGracefullyForOldManifests(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("HOME env not used by os.UserHomeDir on Windows")
+	}
 	_ = fmt.Sprintf // Ensure fmt is used.
 	home := t.TempDir()
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
