@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
@@ -223,7 +224,7 @@ func listBackupsFromDir(homeDir string) []backup.Manifest {
 
 // backupRootDir returns the path to the backup directory under homeDir.
 func backupRootDir(homeDir string) string {
-	return homeDir + "/.dxrk/backups"
+	return filepath.Join(homeDir, ".dxrk", "backups")
 }
 
 // defaultRestorer returns the standard backup.RestoreService.Restore function.
