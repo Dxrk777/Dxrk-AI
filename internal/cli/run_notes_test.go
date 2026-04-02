@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"runtime"
 	"strings"
 	"testing"
 
@@ -23,6 +24,9 @@ func TestWithPostInstallNotesAddsDxrkNextSteps(t *testing.T) {
 }
 
 func TestWithPostInstallNotesDoesNotChangeNonDxrk(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("GOBIN path not applicable on Windows")
+	}
 	// Set GOBIN to a directory already in PATH so that withGoInstallPathNote
 	// does not append a PATH guidance note for the Engram component.
 	t.Setenv("GOBIN", "/usr/local/bin")

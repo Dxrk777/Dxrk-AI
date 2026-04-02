@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -2799,6 +2800,9 @@ func TestMergeJSONFileReturnsMergedBytes(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestInjectCursorWritesSubAgentFiles(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("golden file comparison not applicable on Windows")
+	}
 	home := t.TempDir()
 
 	cursorAdapter, err := agents.NewAdapter("cursor")

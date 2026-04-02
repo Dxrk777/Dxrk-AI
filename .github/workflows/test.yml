@@ -51,11 +51,10 @@ jobs:
         run: go test ./...
 
   # --------------------------------------------------------------------------
-  # Test en Windows (disabled: many tests have Windows-specific path issues)
+  # Test en Windows
   # --------------------------------------------------------------------------
   test-windows:
     runs-on: windows-latest
-    if: false  # Disabled due to cross-platform path differences
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
@@ -224,6 +225,9 @@ func TestInjectUsesRealEmbeddedContent(t *testing.T) {
 }
 
 func TestSkillPathForAgent(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("hardcoded Unix paths not applicable on Windows")
+	}
 	path := SkillPathForAgent("/home/test", claudeAdapter(), model.SkillCreator)
 	want := "/home/test/.claude/skills/skill-creator/SKILL.md"
 	if path != want {

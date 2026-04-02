@@ -3,6 +3,7 @@ package cli
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -26,6 +27,9 @@ func TestEngramPathGuidanceZsh(t *testing.T) {
 }
 
 func TestEngramPathGuidanceDefault(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("shell-specific test not applicable on Windows")
+	}
 	msg := engramPathGuidance("")
 	if want := "go/bin"; !strings.Contains(msg, want) {
 		t.Fatalf("engramPathGuidance(default) missing %q: %s", want, msg)
@@ -73,6 +77,9 @@ func TestIsInPATH(t *testing.T) {
 }
 
 func TestWithGoInstallPathNoteAddsNoteWhenNotInPATH(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Unix PATH format not applicable on Windows")
+	}
 	t.Setenv("GOBIN", "")
 	t.Setenv("GOPATH", "")
 	// Set PATH to something that does NOT contain ~/go/bin.

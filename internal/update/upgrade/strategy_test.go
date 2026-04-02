@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os/exec"
+	"runtime"
 	"testing"
 
 	"github.com/Dxrk777/Dxrk-Hex/internal/system"
@@ -554,6 +555,9 @@ func TestRunStrategy_ScriptUpgradeWindowsManualFallback(t *testing.T) {
 // 2. Then calls `bash /tmp/Dxrk-guardian-angel/install.sh`
 // — not `bash -c <script-content>` like the generic scriptUpgrade.
 func TestDxrkScriptUpgradeUsesGitClone(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Unix /tmp path not applicable on Windows")
+	}
 	origExecCommand := execCommand
 	t.Cleanup(func() { execCommand = origExecCommand })
 
@@ -668,6 +672,9 @@ func TestDxrkScriptUpgradeWindowsManualFallback(t *testing.T) {
 // a Dxrk tool (InstallScript), it routes to dxrkScriptUpgrade (git clone approach)
 // rather than the generic scriptUpgrade (bash -c <content>).
 func TestRunStrategy_DxrkUsesGitClone(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Unix /tmp path not applicable on Windows")
+	}
 	origExecCommand := execCommand
 	t.Cleanup(func() { execCommand = origExecCommand })
 
