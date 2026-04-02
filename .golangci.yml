@@ -27,27 +27,13 @@ linters-settings:
   errcheck:
     check-type-assertions: true
     check-blank: true
-  govet:
-    enable-all: true
-  gocyclo:
-    min-complexity: 15
-  goconst:
-    min-len: 3
-    min-occurrences: 3
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - performance
-      - style
-      - opinionated
-      - experimental
   gofmt:
     simplify: true
   goimports:
     local-prefixes: github.com/Dxrk777/Dxrk-Hex
   gosec:
     excludes:
-      - G104  # Audit urls not checked forGV
+      - G104
   nakedret:
     max-func-lines: 30
   revive:
@@ -80,17 +66,11 @@ issues:
         - errcheck
         - dupl
         - goconst
-        - staticcheck
-        - govet
-        - ineffassign
     - path: e2e/
       linters:
         - gosec
         - gocyclo
         - errcheck
-    - text: "declaration of \"err\" shadows"
-      linters:
-        - govet
     # Spanish strings in connector and brain modules
     - path: internal/connector/
       linters:

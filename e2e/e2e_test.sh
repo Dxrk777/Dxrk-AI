@@ -1087,7 +1087,7 @@ test_content_skills_are_real() {
         local all_ok=true
         while IFS= read -r skill_file; do
             local size
-            size=$(wc -c < "$skill_file" | tr -d ' ')
+            size=$(wc -c <"$skill_file" | tr -d ' ')
             if [ "$size" -lt 200 ]; then
                 log_fail "Skill file too small ($size bytes): $skill_file"
                 all_ok=false
@@ -1137,7 +1137,7 @@ test_content_opencode_commands_valid_markdown() {
         local all_ok=true
         while IFS= read -r cmd_file; do
             local size
-            size=$(wc -c < "$cmd_file" | tr -d ' ')
+            size=$(wc -c <"$cmd_file" | tr -d ' ')
             if [ "$size" -lt 10 ]; then
                 log_fail "Command file too small ($size bytes): $cmd_file"
                 all_ok=false
@@ -1435,7 +1435,7 @@ test_edge_json_merge_preserves_existing() {
 
     # Create pre-existing settings
     mkdir -p "$HOME/.config/opencode"
-    echo '{"existingKey": "preserved"}' > "$HOME/.config/opencode/opencode.json"
+    echo '{"existingKey": "preserved"}' >"$HOME/.config/opencode/opencode.json"
 
     # Install permissions on top
     $BINARY install --agent opencode --component permissions --persona neutral 2>&1 || true
@@ -1668,7 +1668,7 @@ test_integrity_sdd_skills_nonempty() {
                 continue
             fi
             local size
-            size=$(wc -c < "$path" | tr -d ' ')
+            size=$(wc -c <"$path" | tr -d ' ')
             if [ "$size" -lt 100 ]; then
                 log_fail "SDD skill empty or too small ($size bytes): $skill"
                 all_ok=false
@@ -1721,7 +1721,7 @@ test_integrity_all_sdd_commands_have_frontmatter() {
             fi
             # Must contain agent: sdd-orchestrator (except sdd-continue, sdd-ff, sdd-new which use different agent)
             local size
-            size=$(wc -c < "$path" | tr -d ' ')
+            size=$(wc -c <"$path" | tr -d ' ')
             if [ "$size" -lt 50 ]; then
                 log_fail "SDD command $cmd.md too small ($size bytes)"
                 all_ok=false
@@ -1747,7 +1747,7 @@ test_integrity_full_preset_all_skills_nonempty() {
 
         while IFS= read -r skill_file; do
             local size
-            size=$(wc -c < "$skill_file" | tr -d ' ')
+            size=$(wc -c <"$skill_file" | tr -d ' ')
             if [ "$size" -lt 100 ]; then
                 log_fail "Skill file empty/corrupt ($size bytes): $skill_file"
                 all_ok=false

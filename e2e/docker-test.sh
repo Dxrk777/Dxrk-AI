@@ -36,9 +36,9 @@ PLATFORMS=(
 
 # Environment variables to forward into containers
 ENV_FLAGS=""
-[ "${RUN_FULL_E2E:-0}" = "1" ]    && ENV_FLAGS="$ENV_FLAGS -e RUN_FULL_E2E=1"
+[ "${RUN_FULL_E2E:-0}" = "1" ] && ENV_FLAGS="$ENV_FLAGS -e RUN_FULL_E2E=1"
 [ "${RUN_BACKUP_TESTS:-0}" = "1" ] && ENV_FLAGS="$ENV_FLAGS -e RUN_BACKUP_TESTS=1"
-[ -n "${GITHUB_TOKEN:-}" ]         && ENV_FLAGS="$ENV_FLAGS -e GITHUB_TOKEN=$GITHUB_TOKEN"
+[ -n "${GITHUB_TOKEN:-}" ] && ENV_FLAGS="$ENV_FLAGS -e GITHUB_TOKEN=$GITHUB_TOKEN"
 
 # ---------------------------------------------------------------------------
 # Main
@@ -53,7 +53,7 @@ printf "${BLUE}[ORCH]${NC} Project root: %s\n" "$PROJECT_ROOT"
 echo ""
 
 for entry in "${PLATFORMS[@]}"; do
-    IFS=':' read -r name dockerfile <<< "$entry"
+    IFS=':' read -r name dockerfile <<<"$entry"
     image_tag="dxrk-e2e-${name}"
 
     TOTAL=$((TOTAL + 1))

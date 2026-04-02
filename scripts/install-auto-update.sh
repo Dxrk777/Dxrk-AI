@@ -24,14 +24,14 @@ UNINSTALL=false
 # Parsear argumentos
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --uninstall)
-            UNINSTALL=true
-            shift
-            ;;
-        -h|--help)
-            echo "Uso: $0 [--uninstall]"
-            exit 0
-            ;;
+    --uninstall)
+        UNINSTALL=true
+        shift
+        ;;
+    -h | --help)
+        echo "Uso: $0 [--uninstall]"
+        exit 0
+        ;;
     esac
 done
 
@@ -46,12 +46,16 @@ OS=$(uname -s)
 
 install_cron() {
     echo -e "${BLUE}[1/3]${NC} Configurando cron job..."
-    
+
     CRON_CMD="@daily curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/update.sh | bash"
-    
+
     # Agregar al crontab
-    (crontab -l 2>/dev/null | grep -v "Dxrk Hex"; echo "# Dxrk Hex Auto Update"; echo "$CRON_CMD") | crontab -
-    
+    (
+        crontab -l 2>/dev/null | grep -v "Dxrk Hex"
+        echo "# Dxrk Hex Auto Update"
+        echo "$CRON_CMD"
+    ) | crontab -
+
     echo -e "${GREEN}✓${NC} Cron job instalado"
     echo -e "  ${DIM}Ejecutará la actualización diariamente a medianoche${NC}"
 }
@@ -64,14 +68,14 @@ uninstall_cron() {
 
 install_launchagent() {
     echo -e "${BLUE}[1/3]${NC} Configurando LaunchAgent..."
-    
+
     PLIST_DIR="$HOME/Library/LaunchAgents"
     PLIST_FILE="$PLIST_DIR/com.dxrk-hex.autoupdate.plist"
-    
+
     mkdir -p "$PLIST_DIR"
-    
+
     # Crear plist
-    cat > "$PLIST_FILE" << 'EOF'
+    cat >"$PLIST_FILE" <<'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -95,11 +99,11 @@ install_launchagent() {
 </dict>
 </plist>
 EOF
-    
+
     # Cargar el servicio
     launchctl unload "$PLIST_FILE" 2>/dev/null || true
     launchctl load "$PLIST_FILE"
-    
+
     echo -e "${GREEN}✓${NC} LaunchAgent instalado"
     echo -e "  ${DIM}Ejecutará la actualización cada 24 horas${NC}"
     echo -e "  ${DIM}Logs en: /tmp/dxrk-autoupdate*.log${NC}"
@@ -115,12 +119,12 @@ uninstall_launchagent() {
 
 install_systemd() {
     echo -e "${BLUE}[1/3]${NC} Configurando systemd timer..."
-    
+
     SYSTEMD_DIR="$HOME/.config/systemd/user"
     mkdir -p "$SYSTEMD_DIR"
-    
+
     # Crear service
-    cat > "$SYSTEMD_DIR/dxrk-autoupdate.service" << 'EOF'
+    cat >"$SYSTEMD_DIR/dxrk-autoupdate.service" <<'EOF'
 [Unit]
 Description=Dxrk Hex Auto Update
 
@@ -128,9 +132,9 @@ Description=Dxrk Hex Auto Update
 Type=oneshot
 ExecStart=/bin/bash -c "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/update.sh | bash"
 EOF
-    
+
     # Crear timer
-    cat > "$SYSTEMD_DIR/dxrk-autoupdate.timer" << 'EOF'
+    cat >"$SYSTEMD_DIR/dxrk-autoupdate.timer" <<'EOF'
 [Unit]
 Description=Dxrk Hex Auto Update Timer
 
@@ -141,12 +145,12 @@ Persistent=true
 [Install]
 WantedBy=timers.target
 EOF
-    
+
     # Habilitar
     systemctl --user daemon-reload
     systemctl --user enable dxrk-autoupdate.timer
     systemctl --user start dxrk-autoupdate.timer
-    
+
     echo -e "${GREEN}✓${NC} Systemd timer instalado"
     echo -e "  ${DIM}Ejecutará la actualización diariamente${NC}"
 }
@@ -163,30 +167,30 @@ uninstall_systemd() {
 if [[ "$UNINSTALL" == true ]]; then
     echo -e "${YELLOW}Desinstalando actualización automática...${NC}"
     echo ""
-    
+
     case "$OS" in
-        Darwin)
-            uninstall_launchagent
-            ;;
-        Linux)
-            if command -v systemctl &> /dev/null; then
-                uninstall_systemd
-            else
-                uninstall_cron
-            fi
-            ;;
-        *)
+    Darwin)
+        uninstall_launchagent
+        ;;
+    Linux)
+        if command -v systemctl &>/dev/null; then
+            uninstall_systemd
+        else
             uninstall_cron
-            ;;
+        fi
+        ;;
+    *)
+        uninstall_cron
+        ;;
     esac
-    
+
     echo ""
     echo -e "${GREEN}✓ Desinstalación completada${NC}"
     exit 0
 fi
 
 echo -e "${BLUE}[2/3]${NC} Verificando instalación de dxrk..."
-if command -v dxrk &> /dev/null; then
+if command -v dxrk &>/dev/null; then
     echo -e "${GREEN}✓${NC} Dxrk encontrado: $(dxrk --version)"
 else
     echo -e "${YELLOW}!${NC} Dxrk no está instalado"
@@ -202,19 +206,19 @@ echo ""
 echo -e "${BLUE}[3/3]${NC} Instalando actualización automática..."
 
 case "$OS" in
-    Darwin)
-        install_launchagent
-        ;;
-    Linux)
-        if command -v systemctl &> /dev/null; then
-            install_systemd
-        else
-            install_cron
-        fi
-        ;;
-    *)
+Darwin)
+    install_launchagent
+    ;;
+Linux)
+    if command -v systemctl &>/dev/null; then
+        install_systemd
+    else
         install_cron
-        ;;
+    fi
+    ;;
+*)
+    install_cron
+    ;;
 esac
 
 echo ""
@@ -228,7 +232,7 @@ echo -e "Comandos útiles:"
 echo -e "  ${DIM}# Verificar estado del servicio${NC}"
 if [[ "$OS" == "Darwin" ]]; then
     echo -e "  launchctl list | grep dxrk"
-elif [[ "$OS" == "Linux" ]] && command -v systemctl &> /dev/null; then
+elif [[ "$OS" == "Linux" ]] && command -v systemctl &>/dev/null; then
     echo -e "  systemctl --user status dxrk-autoupdate.timer"
 else
     echo -e "  crontab -l | grep dxrk"

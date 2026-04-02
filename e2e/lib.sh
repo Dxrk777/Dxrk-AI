@@ -22,11 +22,20 @@ SKIPPED=0
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
-log_test()  { printf "${YELLOW}[TEST]${NC}  %s\n" "$1"; }
-log_pass()  { printf "${GREEN}[PASS]${NC}  %s\n" "$1"; PASSED=$((PASSED + 1)); }
-log_fail()  { printf "${RED}[FAIL]${NC}  %s\n" "$1"; FAILED=$((FAILED + 1)); }
-log_skip()  { printf "${BLUE}[SKIP]${NC}  %s\n" "$1"; SKIPPED=$((SKIPPED + 1)); }
-log_info()  { printf "${BLUE}[INFO]${NC}  %s\n" "$1"; }
+log_test() { printf "${YELLOW}[TEST]${NC}  %s\n" "$1"; }
+log_pass() {
+    printf "${GREEN}[PASS]${NC}  %s\n" "$1"
+    PASSED=$((PASSED + 1))
+}
+log_fail() {
+    printf "${RED}[FAIL]${NC}  %s\n" "$1"
+    FAILED=$((FAILED + 1))
+}
+log_skip() {
+    printf "${BLUE}[SKIP]${NC}  %s\n" "$1"
+    SKIPPED=$((SKIPPED + 1))
+}
+log_info() { printf "${BLUE}[INFO]${NC}  %s\n" "$1"; }
 
 # ---------------------------------------------------------------------------
 # Binary resolution
@@ -82,13 +91,13 @@ cleanup_test_env() {
 # to snapshot and restore.
 setup_fake_configs() {
     mkdir -p "$HOME/.config/opencode"
-    echo '{"fake-settings": true}' > "$HOME/.config/opencode/opencode.json"
+    echo '{"fake-settings": true}' >"$HOME/.config/opencode/opencode.json"
 
     mkdir -p "$HOME/.claude"
-    echo '# Fake CLAUDE.md' > "$HOME/.claude/CLAUDE.md"
+    echo '# Fake CLAUDE.md' >"$HOME/.claude/CLAUDE.md"
 
     mkdir -p "$HOME/.claude/mcp"
-    echo '{"fake": true}' > "$HOME/.claude/mcp/engram.json"
+    echo '{"fake": true}' >"$HOME/.claude/mcp/engram.json"
 }
 
 # ---------------------------------------------------------------------------
@@ -185,7 +194,7 @@ assert_file_size_min() {
         return 1
     fi
     local actual_size
-    actual_size=$(wc -c < "$file" | tr -d ' ')
+    actual_size=$(wc -c <"$file" | tr -d ' ')
     if [ "$actual_size" -ge "$min_bytes" ]; then
         log_pass "$label (${actual_size}b)"
         return 0
