@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -21,6 +22,12 @@ import (
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }
 func opencodeAdapter() agents.Adapter { return opencode.NewAdapter() }
 func windsurfAdapter() agents.Adapter { return windsurfagent.NewAdapter() }
+
+func skipOnWindows(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("test not supported on Windows")
+	}
+}
 
 func mockNoPackageManager(t *testing.T) {
 	t.Helper()
@@ -2853,6 +2860,7 @@ func TestMergeJSONFileReturnsMergedBytes(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestInjectCursorWritesSubAgentFiles(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	cursorAdapter, err := agents.NewAdapter("cursor")

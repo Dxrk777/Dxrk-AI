@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -20,6 +21,12 @@ func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }
 func opencodeAdapter() agents.Adapter { return opencode.NewAdapter() }
 func codexAdapter() agents.Adapter    { return codex.NewAdapter() }
 func geminiAdapter() agents.Adapter   { return gemini.NewAdapter() }
+
+func skipOnWindows(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("test requires Unix paths (homebrew) and is not applicable on Windows")
+	}
+}
 
 // assertArgsHaveToolsAgent is a shared helper that validates a JSON file
 // contains the MCP "engram" entry with --tools=agent in args.
@@ -490,6 +497,7 @@ func TestInjectCodexWritesInstructionFiles(t *testing.T) {
 }
 
 func TestInjectCodexInjectsTOMLKeys(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	_, err := Inject(home, codexAdapter())
@@ -528,6 +536,7 @@ func TestInjectCodexInjectsTOMLKeys(t *testing.T) {
 // ~/.claude/mcp/engram.json (Engram v1.10.3+ behaviour), a subsequent call to
 // Inject() does NOT overwrite the absolute path with the relative "engram".
 func TestInjectClaudePreservesAbsoluteCommandFromEngramSetup(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	// Simulate what `engram setup claude-code` writes on v1.10.3+:
@@ -569,6 +578,7 @@ func TestInjectClaudePreservesAbsoluteCommandFromEngramSetup(t *testing.T) {
 // Inject() twice when an absolute-path engram.json already exists does not
 // cause repeated writes (idempotency).
 func TestInjectClaudePreservesAbsoluteCommandIsIdempotent(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	absPath := "/usr/local/bin/engram"
@@ -613,6 +623,7 @@ func TestInjectClaudePreservesAbsoluteCommandIsIdempotent(t *testing.T) {
 // `engram setup` wrote an absolute command but with bare args (no --tools=agent),
 // Inject() adds --tools=agent while preserving the absolute path.
 func TestInjectClaudeAddsToolsAgentWhenSetupWritesBareArgs(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	absPath := "/home/user/go/bin/engram"

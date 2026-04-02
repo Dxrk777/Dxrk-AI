@@ -224,14 +224,15 @@ func TestInjectUsesRealEmbeddedContent(t *testing.T) {
 }
 
 func TestSkillPathForAgent(t *testing.T) {
-	path := SkillPathForAgent("/home/test", claudeAdapter(), model.SkillCreator)
-	want := "/home/test/.claude/skills/skill-creator/SKILL.md"
+	home := filepath.Join("home", "test")
+	path := SkillPathForAgent(home, claudeAdapter(), model.SkillCreator)
+	want := filepath.Join(home, ".claude", "skills", "skill-creator", "SKILL.md")
 	if path != want {
 		t.Fatalf("SkillPathForAgent() = %q, want %q", path, want)
 	}
 
-	path = SkillPathForAgent("/home/test", opencodeAdapter(), model.SkillCreator)
-	want = "/home/test/.config/opencode/skills/skill-creator/SKILL.md"
+	path = SkillPathForAgent(home, opencodeAdapter(), model.SkillCreator)
+	want = filepath.Join(home, ".config", "opencode", "skills", "skill-creator", "SKILL.md")
 	if path != want {
 		t.Fatalf("SkillPathForAgent() = %q, want %q", path, want)
 	}
