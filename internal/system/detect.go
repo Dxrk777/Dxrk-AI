@@ -202,7 +202,7 @@ func detectLinuxDistro(linuxOSRelease string) string {
 }
 
 func isUbuntuLike(id, idLike string) bool {
-	if id == LinuxDistroUbuntu || id == LinuxDistroDebian {
+	if id == LinuxDistroUbuntu || id == LinuxDistroDebian || id == "kali" || id == "parrot" {
 		return true
 	}
 

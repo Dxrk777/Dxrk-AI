@@ -12,8 +12,8 @@ import (
 
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/dxrk"
+	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/mcp"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/permissions"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/persona"
@@ -432,6 +432,7 @@ func resolveAdapters(agentIDs []model.AgentID) []agents.Adapter {
 
 func (s componentApplyStep) Run() error {
 	adapters := resolveAdapters(s.agents)
+	var engramBinaryPath string
 
 	switch s.component {
 	case model.ComponentEngram:
@@ -446,29 +447,33 @@ func (s componentApplyStep) Run() error {
 				if err := runCommandSequence(commands); err != nil {
 					return err
 				}
+				engramBinaryPath = "engram"
 			} else {
 				// Linux / Windows: download the pre-built binary from GitHub Releases.
 				// No Go required — engram ships pre-built binaries.
-				binaryPath, err := engramDownloadFn(s.profile)
+				var err error
+				engramBinaryPath, err = engramDownloadFn(s.profile)
 				if err != nil {
 					return fmt.Errorf("download engram binary: %w", err)
 				}
 				// Add the install directory to PATH so subsequent commands
 				// (engram setup, engram.Inject → resolveEngramCommand) can find it.
 				// On Windows this also persists the change to the user registry via PowerShell.
-				binDir := filepath.Dir(binaryPath)
+				binDir := filepath.Dir(engramBinaryPath)
 				if err := system.AddToUserPath(binDir); err != nil {
 					// Non-fatal: warn but continue — the binary was downloaded successfully.
 					fmt.Fprintf(os.Stderr, "WARNING: could not add %s to PATH: %v\n", binDir, err)
 				}
 			}
+		} else {
+			engramBinaryPath = "engram"
 		}
 		setupMode := engram.ParseSetupMode(os.Getenv(engram.SetupModeEnvVar))
 		setupStrict := engram.ParseSetupStrict(os.Getenv(engram.SetupStrictEnvVar))
 		for _, adapter := range adapters {
 			if engram.ShouldAttemptSetup(setupMode, adapter.Agent()) {
 				slug, _ := engram.SetupAgentSlug(adapter.Agent())
-				if err := runCommand("engram", "setup", slug); err != nil {
+				if err := runCommand(engramBinaryPath, "setup", slug); err != nil {
 					if setupStrict {
 						return fmt.Errorf("engram setup for %q: %w", adapter.Agent(), err)
 					}
