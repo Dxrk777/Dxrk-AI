@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
 	"os/exec"
 	"strings"
 	"time"
@@ -170,35 +171,25 @@ func (c *Commander) ExecuteSafe(cmd string, outputFunc func(string)) (*CommandRe
 		}, err
 	}
 
-	// Stream output
-	var output bytes.Buffer
-	streamDone := make(chan struct{})
-	go func() {
-		buf := make([]byte, 1024)
-		for {
-			n, readErr := stdout.Read(buf)
-			if n > 0 {
-				s := string(buf[:n])
-				output.WriteString(s)
-				if outputFunc != nil {
-					outputFunc(s)
-				}
-			}
-			if readErr != nil {
-				break
-			}
-		}
-		close(streamDone)
-	}()
+	// Read output (use sync read to avoid race conditions)
+	output, err := io.ReadAll(stdout)
+	if err != nil {
+		output = []byte{}
+	}
+	outputStr := string(output)
+
+	// Call output callback if provided (for streaming simulation)
+	if outputFunc != nil && outputStr != "" {
+		outputFunc(outputStr)
+	}
 
 	// Wait for completion
 	err = execCmd.Wait()
-	<-streamDone
 	duration := time.Since(start)
 
 	result := &CommandResult{
 		Command:   cmdName,
-		Output:    output.String(),
+		Output:    outputStr,
 		Duration:  duration,
 		Timestamp: time.Now(),
 	}
@@ -209,7 +200,7 @@ func (c *Commander) ExecuteSafe(cmd string, outputFunc func(string)) (*CommandRe
 			result.ExitCode = 124
 		} else if exitErr, ok := err.(*exec.ExitError); ok {
 			result.ExitCode = exitErr.ExitCode()
-			result.Error = string(exitErr.Stderr)
+			result.Error = string(result.Error)
 		} else {
 			result.ExitCode = 1
 			result.Error = err.Error()
