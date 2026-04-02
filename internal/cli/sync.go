@@ -478,7 +478,8 @@ func RunSync(args []string) (SyncResult, error) {
 			result.NoOp = true
 			return result, nil
 		}
-		rt, err := newSyncRuntime(homeDir, selection)
+		var rt *syncRuntime
+		rt, err = newSyncRuntime(homeDir, selection)
 		if err != nil {
 			return result, err
 		}

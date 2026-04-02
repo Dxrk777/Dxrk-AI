@@ -74,7 +74,7 @@ func (v *Vault) EncryptDirectory(srcDir, destPath string) error {
 	defer os.Remove(tmpPath)
 
 	// Compress directory to tar.gz
-	if err := compressDirectory(srcDir, tmpFile); err != nil {
+	if err = compressDirectory(srcDir, tmpFile); err != nil {
 		tmpFile.Close()
 		return fmt.Errorf("vault: compression failed: %w", err)
 	}
@@ -98,12 +98,12 @@ func (v *Vault) EncryptDirectory(srcDir, destPath string) error {
 
 	// Create destination directory
 	destDir := filepath.Dir(destPath)
-	if err := os.MkdirAll(destDir, 0700); err != nil {
+	if err = os.MkdirAll(destDir, 0700); err != nil {
 		return fmt.Errorf("vault: failed to create destination: %w", err)
 	}
 
 	// Write encrypted file
-	if err := os.WriteFile(destPath, ciphertext, 0600); err != nil {
+	if err = os.WriteFile(destPath, ciphertext, 0600); err != nil {
 		return fmt.Errorf("vault: failed to write encrypted file: %w", err)
 	}
 
@@ -143,7 +143,7 @@ func (v *Vault) DecryptDirectory(encryptedPath, destDir string) error {
 	}
 
 	// Create destination directory
-	if err := os.MkdirAll(destDir, 0700); err != nil {
+	if err = os.MkdirAll(destDir, 0700); err != nil {
 		return fmt.Errorf("vault: failed to create destination: %w", err)
 	}
 
@@ -342,7 +342,7 @@ func (v *Vault) CreateEncryptedBackup(srcDir, backupPath, password string) error
 	defer os.Remove(tmpPath)
 
 	// Compress directory
-	if err := compressDirectory(srcDir, tmpFile); err != nil {
+	if err = compressDirectory(srcDir, tmpFile); err != nil {
 		tmpFile.Close()
 		return fmt.Errorf("vault: compression failed: %w", err)
 	}
@@ -356,7 +356,7 @@ func (v *Vault) CreateEncryptedBackup(srcDir, backupPath, password string) error
 
 	// Derive backup key from password
 	salt := make([]byte, SaltLen)
-	if _, err := io.ReadFull(rand.Reader, salt); err != nil {
+	if _, err = io.ReadFull(rand.Reader, salt); err != nil {
 		return fmt.Errorf("vault: failed to generate salt: %w", err)
 	}
 	backupKey := deriveBackupKey(password, salt)
@@ -372,12 +372,12 @@ func (v *Vault) CreateEncryptedBackup(srcDir, backupPath, password string) error
 
 	// Create backup directory
 	backupDir := filepath.Dir(backupPath)
-	if err := os.MkdirAll(backupDir, 0700); err != nil {
+	if err = os.MkdirAll(backupDir, 0700); err != nil {
 		return fmt.Errorf("vault: failed to create backup dir: %w", err)
 	}
 
 	// Write backup file
-	if err := os.WriteFile(backupPath, finalData, 0600); err != nil {
+	if err = os.WriteFile(backupPath, finalData, 0600); err != nil {
 		return fmt.Errorf("vault: failed to write backup: %w", err)
 	}
 
@@ -413,7 +413,7 @@ func (v *Vault) RestoreEncryptedBackup(backupPath, destDir, password string) err
 	}
 
 	// Create destination directory
-	if err := os.MkdirAll(destDir, 0700); err != nil {
+	if err = os.MkdirAll(destDir, 0700); err != nil {
 		return fmt.Errorf("vault: failed to create destination: %w", err)
 	}
 
@@ -426,14 +426,14 @@ func (v *Vault) RestoreEncryptedBackup(backupPath, destDir, password string) err
 	defer os.Remove(tmpPath)
 
 	// Write compressed data
-	if _, err := tmpFile.Write(compressedData); err != nil {
+	if _, err = tmpFile.Write(compressedData); err != nil {
 		tmpFile.Close()
 		return fmt.Errorf("vault: failed to write temp file: %w", err)
 	}
 	tmpFile.Close()
 
 	// Extract archive
-	if err := extractArchive(tmpPath, destDir); err != nil {
+	if err = extractArchive(tmpPath, destDir); err != nil {
 		return fmt.Errorf("vault: extraction failed: %w", err)
 	}
 
@@ -521,7 +521,7 @@ func compressDirectory(srcDir string, writer io.Writer) error {
 		header.Name = filepath.ToSlash(relPath)
 
 		// Write header
-		if err := tarWriter.WriteHeader(header); err != nil {
+		if err = tarWriter.WriteHeader(header); err != nil {
 			return fmt.Errorf("vault: failed to write tar header: %w", err)
 		}
 

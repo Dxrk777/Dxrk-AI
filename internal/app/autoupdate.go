@@ -130,7 +130,7 @@ func install(filepath string) error {
 			"/usr/bin/dxrk",
 		}
 		for _, p := range paths {
-			if _, err := os.Stat(p); err == nil {
+			if _, err = os.Stat(p); err == nil {
 				currentPath = p
 				break
 			}
@@ -142,7 +142,7 @@ func install(filepath string) error {
 	}
 
 	// Check if we can write
-	if _, err := os.OpenFile(currentPath, os.O_WRONLY, 0); err != nil {
+	if _, err = os.OpenFile(currentPath, os.O_WRONLY, 0); err != nil {
 		// Need sudo
 		return fmt.Errorf("need sudo: chown +x %s", filepath)
 	}

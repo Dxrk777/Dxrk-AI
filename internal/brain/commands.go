@@ -155,13 +155,13 @@ func (c *Commander) ExecuteSafe(cmd string, outputFunc func(string)) (*CommandRe
 	if err != nil {
 		return nil, err
 	}
-	if _, err := execCmd.StderrPipe(); err != nil {
+	if _, err = execCmd.StderrPipe(); err != nil {
 		return nil, err
 	}
 
 	// Start command
 	start := time.Now()
-	if err := execCmd.Start(); err != nil {
+	if err = execCmd.Start(); err != nil {
 		return &CommandResult{
 			Command:   cmdName,
 			Error:     err.Error(),
@@ -175,7 +175,7 @@ func (c *Commander) ExecuteSafe(cmd string, outputFunc func(string)) (*CommandRe
 	go func() {
 		buf := make([]byte, 1024)
 		for {
-			n, err := stdout.Read(buf)
+			n, readErr := stdout.Read(buf)
 			if n > 0 {
 				s := string(buf[:n])
 				output.WriteString(s)
@@ -183,7 +183,7 @@ func (c *Commander) ExecuteSafe(cmd string, outputFunc func(string)) (*CommandRe
 					outputFunc(s)
 				}
 			}
-			if err != nil {
+			if readErr != nil {
 				break
 			}
 		}

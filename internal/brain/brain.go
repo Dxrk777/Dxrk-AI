@@ -58,8 +58,15 @@ type Brain struct {
 
 	// Sub-systems (initialized lazily)
 	memory    *Memory
-	vault     interface{} // placeholder for vault
-	connector interface{} // placeholder for connector
+	vault     interface {
+		Encrypt([]byte) ([]byte, error)
+		Decrypt([]byte) ([]byte, error)
+	}
+	connector interface {
+		Start() error
+		Stop()
+		Status() map[string]interface{}
+	}
 }
 
 // New creates a new Brain instance.
@@ -80,13 +87,22 @@ func (b *Brain) Status() map[string]interface{} {
 	b.mu.RLock()
 	defer b.mu.RUnlock()
 
-	return map[string]interface{}{
+	status := map[string]interface{}{
 		"running": b.running,
 		"uptime":  time.Since(b.startAt).String(),
 		"memory":  b.memory != nil,
 		"vault":   b.config.VaultEnabled,
 		"email":   b.config.EmailEnabled,
 	}
+
+	if b.connector != nil {
+		connStatus := b.connector.Status()
+		for k, v := range connStatus {
+			status["connector_"+k] = v
+		}
+	}
+
+	return status
 }
 
 // Uptime returns how long the brain has been running.

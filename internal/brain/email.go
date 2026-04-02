@@ -112,15 +112,15 @@ func (e *Emailer) sendWithTimeout(addr string, auth smtp.Auth, to, msg string) e
 	defer client.Close()
 
 	if auth != nil {
-		if err := client.Auth(auth); err != nil {
+		if err = client.Auth(auth); err != nil {
 			return fmt.Errorf("authentication failed: %w", err)
 		}
 	}
 
-	if err := client.Mail(e.config.From); err != nil {
+	if err = client.Mail(e.config.From); err != nil {
 		return fmt.Errorf("failed to set sender: %w", err)
 	}
-	if err := client.Rcpt(to); err != nil {
+	if err = client.Rcpt(to); err != nil {
 		return fmt.Errorf("failed to set recipient: %w", err)
 	}
 
@@ -158,16 +158,16 @@ func (e *Emailer) sendTLS(addr string, auth smtp.Auth, to, msg string) error {
 
 	// Authenticate if needed
 	if auth != nil {
-		if err := client.Auth(auth); err != nil {
+		if err = client.Auth(auth); err != nil {
 			return fmt.Errorf("authentication failed: %w", err)
 		}
 	}
 
 	// Set sender and recipient
-	if err := client.Mail(e.config.From); err != nil {
+	if err = client.Mail(e.config.From); err != nil {
 		return fmt.Errorf("failed to set sender: %w", err)
 	}
-	if err := client.Rcpt(to); err != nil {
+	if err = client.Rcpt(to); err != nil {
 		return fmt.Errorf("failed to set recipient: %w", err)
 	}
 

@@ -226,7 +226,7 @@ func (pv *PrivateVault) Get(namespace, id string, result interface{}) error {
 	}
 
 	var entry VaultEntry
-	if err := json.Unmarshal(entryJSON, &entry); err != nil {
+	if err = json.Unmarshal(entryJSON, &entry); err != nil {
 		return fmt.Errorf("vault: parsing entry: %w", err)
 	}
 
