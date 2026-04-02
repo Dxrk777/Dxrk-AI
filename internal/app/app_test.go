@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -17,9 +16,6 @@ import (
 // TestListBackupsNewestFirst verifies that ListBackups returns manifests sorted
 // newest-first by CreatedAt timestamp, matching the spec "newest first" ordering.
 func TestListBackupsNewestFirst(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("HOME env not used by os.UserHomeDir on Windows")
-	}
 	home := t.TempDir()
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
@@ -70,9 +66,6 @@ func TestListBackupsNewestFirst(t *testing.T) {
 // TestListBackupsWithSourceMetadata verifies that ListBackups returns manifests
 // with Source metadata intact, so display labels can use the source field.
 func TestListBackupsWithSourceMetadata(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("HOME env not used by os.UserHomeDir on Windows")
-	}
 	home := t.TempDir()
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
@@ -141,9 +134,6 @@ func TestRunArgsRestoreListIsDispatched(t *testing.T) {
 // TestRunArgsRestoreByIDWithYes verifies end-to-end wiring of `restore <id> --yes`
 // through app.RunArgs.
 func TestRunArgsRestoreByIDWithYes(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("HOME env not used by os.UserHomeDir on Windows")
-	}
 	home := t.TempDir()
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
 
@@ -213,9 +203,6 @@ func TestRunArgsRestoreUnknownIDReturnsError(t *testing.T) {
 // without Source/Description are still returned (not skipped) and can be displayed
 // via DisplayLabel without panicking.
 func TestListBackupsFallsBackGracefullyForOldManifests(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("HOME env not used by os.UserHomeDir on Windows")
-	}
 	_ = fmt.Sprintf // Ensure fmt is used.
 	home := t.TempDir()
 	backupRoot := filepath.Join(home, ".dxrk", "backups")
@@ -299,3 +286,49 @@ func TestTuiSyncStrictTDDNilOverrideNoChange(t *testing.T) {
 }
 
 func boolPtr(b bool) *bool { return &b }
+
+// TestVersionBeforeSystemGuards verifies that `dxrk version` returns the
+// version string without going through system detection or platform guards.
+func TestVersionBeforeSystemGuards(t *testing.T) {
+	var buf bytes.Buffer
+	err := RunArgs([]string{"version"}, &buf)
+	if err != nil {
+		t.Fatalf("version should not fail: %v", err)
+	}
+	if !strings.Contains(buf.String(), "dxrk") {
+		t.Error("version output should contain 'dxrk'")
+	}
+}
+
+// TestHelpCommand verifies that help, --help, and -h all print USAGE and COMMANDS
+// without triggering system detection or platform guards.
+func TestHelpCommand(t *testing.T) {
+	for _, arg := range []string{"help", "--help", "-h"} {
+		t.Run(arg, func(t *testing.T) {
+			var buf bytes.Buffer
+			err := RunArgs([]string{arg}, &buf)
+			if err != nil {
+				t.Fatalf("help should not fail: %v", err)
+			}
+			if !strings.Contains(buf.String(), "Usage:") {
+				t.Errorf("help output for %q should contain 'Usage:'", arg)
+			}
+			if !strings.Contains(buf.String(), "Commands:") {
+				t.Errorf("help output for %q should contain 'Commands:'", arg)
+			}
+		})
+	}
+}
+
+// TestUnknownCommandSuggestsHelp verifies that an unrecognised command returns
+// an error whose message suggests running 'dxrk help'.
+func TestUnknownCommandSuggestsHelp(t *testing.T) {
+	var buf bytes.Buffer
+	err := RunArgs([]string{"notacommand"}, &buf)
+	if err == nil {
+		t.Fatal("unknown command should return error")
+	}
+	if !strings.Contains(err.Error(), "dxrk help") {
+		t.Error("unknown command error should suggest 'dxrk help'")
+	}
+}

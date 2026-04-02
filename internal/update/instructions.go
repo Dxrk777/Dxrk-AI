@@ -11,6 +11,8 @@ func updateHint(tool ToolInfo, profile system.PlatformProfile) string {
 		return dxrkHint(profile)
 	case "engram":
 		return engramHint(profile)
+	case "gga":
+		return ggaHint(profile)
 	default:
 		return ""
 	}
@@ -21,9 +23,9 @@ func dxrkHint(profile system.PlatformProfile) string {
 	case "darwin":
 		return "brew upgrade dxrk"
 	case "linux":
-		return "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash"
+		return "curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/dxrk/main/scripts/install.sh | bash"
 	case "windows":
-		return "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex"
+		return "irm https://raw.githubusercontent.com/Gentleman-Programming/dxrk/main/scripts/install.ps1 | iex"
 	default:
 		return ""
 	}
@@ -35,5 +37,14 @@ func engramHint(profile system.PlatformProfile) string {
 		return "brew upgrade engram"
 	default:
 		return "dxrk upgrade (downloads pre-built binary)"
+	}
+}
+
+func ggaHint(profile system.PlatformProfile) string {
+	switch profile.PackageManager {
+	case "brew":
+		return "brew upgrade gga"
+	default:
+		return "See https://github.com/Gentleman-Programming/gentleman-guardian-angel"
 	}
 }

@@ -29,15 +29,15 @@ func TestCheckFailures(t *testing.T) {
 	results := []UpdateResult{
 		{Tool: ToolInfo{Name: "dxrk"}, Status: UpToDate},
 		{Tool: ToolInfo{Name: "engram"}, Status: CheckFailed},
-		{Tool: ToolInfo{Name: "dxrk"}, Status: CheckFailed},
+		{Tool: ToolInfo{Name: "gga"}, Status: CheckFailed},
 	}
 
 	failed := CheckFailures(results)
 	if len(failed) != 2 {
 		t.Fatalf("len(CheckFailures) = %d, want 2", len(failed))
 	}
-	if failed[0] != "engram" || failed[1] != "dxrk" {
-		t.Fatalf("CheckFailures() = %v, want [engram dxrk]", failed)
+	if failed[0] != "engram" || failed[1] != "gga" {
+		t.Fatalf("CheckFailures() = %v, want [engram gga]", failed)
 	}
 	if !HasCheckFailures(results) {
 		t.Fatalf("HasCheckFailures() = false, want true")

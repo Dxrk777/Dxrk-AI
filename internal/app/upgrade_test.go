@@ -83,7 +83,7 @@ func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	}
 
 	out := buf.String()
-	// Output should only mention engram or no-upgrades, not dxrk or dxrk.
+	// Output should only mention engram or no-upgrades, not dxrk or gga.
 	// This is a soft check since the tool may not be installed.
 	if strings.Contains(out, "dxrk") && !strings.Contains(out, "engram") {
 		t.Errorf("filtering to engram should not show dxrk in output; got: %s", out)
@@ -187,7 +187,7 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 					OldVersion: "1.0.0",
 					NewVersion: "1.5.0",
 					Status:     upgrade.UpgradeSkipped,
-					ManualHint: "Download from https://github.com/Dxrk777/Dxrk-Hex/releases",
+					ManualHint: "Download from https://github.com/Gentleman-Programming/dxrk/releases",
 				},
 			},
 			wantContains:   []string{"dxrk", "manual update required", "github.com", "[--]"},
@@ -197,14 +197,14 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 			name: "real failure shows error details",
 			results: []upgrade.ToolUpgradeResult{
 				{
-					ToolName:   "dxrk",
+					ToolName:   "gga",
 					OldVersion: "1.0.0",
 					NewVersion: "2.0.0",
 					Status:     upgrade.UpgradeFailed,
-					Err:        errors.New("brew upgrade dxrk: exit status 1"),
+					Err:        errors.New("brew upgrade gga: exit status 1"),
 				},
 			},
-			wantContains:   []string{"dxrk", "FAILED", "exit status 1", "[!!]"},
+			wantContains:   []string{"gga", "FAILED", "exit status 1", "[!!]"},
 			wantNotContain: []string{"manual update required"},
 		},
 		{
@@ -238,14 +238,14 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 					ManualHint: "source build — upgrade manually",
 				},
 				{
-					ToolName:   "dxrk",
+					ToolName:   "gga",
 					OldVersion: "1.0.0",
 					NewVersion: "2.0.0",
 					Status:     upgrade.UpgradeSkipped,
-					ManualHint: "Download from https://github.com/Dxrk777/Dxrk-Hex/releases",
+					ManualHint: "Download from https://github.com/Gentleman-Programming/gga/releases",
 				},
 			},
-			wantContains:   []string{"engram", "[ok]", "dxrk", "[--]", "dxrk", "1 succeeded", "2 skipped"},
+			wantContains:   []string{"engram", "[ok]", "dxrk", "[--]", "gga", "1 succeeded", "2 skipped"},
 			wantNotContain: []string{"FAILED", "[!!]"},
 		},
 	}

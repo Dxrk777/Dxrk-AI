@@ -3,7 +3,6 @@ package app
 import (
 	"bytes"
 	"errors"
-	"os"
 	"reflect"
 	"strings"
 	"testing"
@@ -162,11 +161,6 @@ func TestGuardFlowLinuxDryRunPropagatesDecision(t *testing.T) {
 }
 
 func TestRunArgsNoCommandLaunchesTUI(t *testing.T) {
-	// Skip this test in CI/headless environments - TUI requires a terminal
-	if os.Getenv("CI") != "" || !isTerminal() {
-		t.Skip("Skipping TUI test in headless environment")
-	}
-
 	var buf bytes.Buffer
 	err := RunArgs(nil, &buf)
 	// With no args, RunArgs now launches the TUI via Bubbletea.
@@ -181,20 +175,14 @@ func TestRunArgsNoCommandLaunchesTUI(t *testing.T) {
 	}
 }
 
-// isTerminal checks if we're running in a terminal
-func isTerminal() bool {
-	return false // Simplified - always return false to skip in tests
-}
-
 func TestRunArgsUnknownCommandReturnsError(t *testing.T) {
 	var buf bytes.Buffer
 	err := RunArgs([]string{"bogus"}, &buf)
 	if err == nil {
 		t.Fatalf("RunArgs(bogus) expected error")
 	}
-	expected := `unknown command "bogus"`
-	if !strings.Contains(err.Error(), expected) {
-		t.Fatalf("RunArgs(bogus) error = %v, want to contain %q", err, expected)
+	if !strings.Contains(err.Error(), `unknown command "bogus"`) {
+		t.Fatalf("RunArgs(bogus) error = %v", err)
 	}
 }
 

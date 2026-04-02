@@ -59,7 +59,7 @@ func TestRunUpgrade_ReturnsErrorBeforeExecutingWhenChecksFail(t *testing.T) {
 				Status: update.CheckFailed,
 			},
 			{
-				Tool:             update.ToolInfo{Name: "dxrk"},
+				Tool:             update.ToolInfo{Name: "gga"},
 				InstalledVersion: "1.0.0",
 				LatestVersion:    "2.0.0",
 				Status:           update.UpdateAvailable,

@@ -21,9 +21,9 @@ type InjectionResult struct {
 var outputStyleOverlayJSON = []byte("{\n  \"outputStyle\": \"Dxrk\"\n}\n")
 
 // openCodeAgentOverlayJSON defines Tab-switchable agents for OpenCode.
-// "Dxrk" is the primary agent, "sdd-orchestrator" is available via Tab.
+// "dxrk" is the primary agent, "sdd-orchestrator" is available via Tab.
 // Both reference AGENTS.md via {file:./AGENTS.md} for their system prompt.
-var openCodeAgentOverlayJSON = []byte("{\n  \"agent\": {\n    \"Dxrk\": {\n      \"mode\": \"primary\",\n      \"description\": \"Senior Architect mentor - helpful first, challenging when it matters\",\n      \"prompt\": \"{file:./AGENTS.md}\",\n      \"tools\": {\n        \"write\": true,\n        \"edit\": true\n      }\n    },\n    \"sdd-orchestrator\": {\n      \"mode\": \"all\",\n      \"description\": \"Dxrk personality + SDD delegate-only orchestrator\",\n      \"prompt\": \"{file:./AGENTS.md}\",\n      \"tools\": {\n        \"read\": true,\n        \"write\": true,\n        \"edit\": true,\n        \"bash\": true\n      }\n    }\n  }\n}\n")
+var openCodeAgentOverlayJSON = []byte("{\n  \"agent\": {\n    \"dxrk\": {\n      \"mode\": \"primary\",\n      \"description\": \"Senior Architect mentor - helpful first, challenging when it matters\",\n      \"prompt\": \"{file:./AGENTS.md}\",\n      \"tools\": {\n        \"write\": true,\n        \"edit\": true\n      }\n    },\n    \"sdd-orchestrator\": {\n      \"mode\": \"all\",\n      \"description\": \"Dxrk personality + SDD delegate-only orchestrator\",\n      \"prompt\": \"{file:./AGENTS.md}\",\n      \"tools\": {\n        \"read\": true,\n        \"write\": true,\n        \"edit\": true,\n        \"bash\": true\n      }\n    }\n  }\n}\n")
 
 func Inject(homeDir string, adapter agents.Adapter, persona model.PersonaID) (InjectionResult, error) {
 	if !adapter.SupportsSystemPrompt() {
@@ -52,11 +52,14 @@ func Inject(homeDir string, adapter agents.Adapter, persona model.PersonaID) (In
 			return InjectionResult{}, err
 		}
 
-		// Auto-heal: strip any legacy free-text Dxrk persona block that was
+		// Auto-heal: strip any legacy free-text Gentleman persona block that was
 		// written before the marker-based injection system existed. This prevents
 		// duplicate persona content when users re-run the installer after an old
-		// install placed the persona as raw text above the <!-- dxrk: --> markers.
+		// install placed the persona as raw text above the <!-- gentle-ai: --> markers.
 		healed := filemerge.StripLegacyPersonaBlock(existing)
+
+		// Also strip legacy Agent Teams Lite block (standalone ATL installer leftover).
+		healed = filemerge.StripLegacyATLBlock(healed)
 
 		updated := filemerge.InjectMarkdownSection(healed, "persona", content)
 
@@ -70,11 +73,11 @@ func Inject(homeDir string, adapter agents.Adapter, persona model.PersonaID) (In
 	case model.StrategyFileReplace:
 		promptPath := adapter.SystemPromptFile(homeDir)
 
-		// For non-Dxrk personas (e.g. neutral), the content is just a short
+		// For non-Gentleman personas (e.g. neutral), the content is just a short
 		// one-liner. Writing ONLY that content would destroy any SDD/engram
 		// sections that are injected later in the pipeline. Instead, we write the
 		// persona content as the base and let subsequent inject steps (SDD, engram)
-		// append their sections. For Dxrk, the content is the full persona
+		// append their sections. For Gentleman, the content is the full persona
 		// asset which is safe to write as-is.
 		//
 		// If the file already exists and has managed sections (SDD, engram), we
@@ -104,7 +107,7 @@ func Inject(homeDir string, adapter agents.Adapter, persona model.PersonaID) (In
 	case model.StrategyInstructionsFile:
 		promptPath := adapter.SystemPromptFile(homeDir)
 
-		// Auto-heal: remove any stale Dxrk persona content left at the
+		// Auto-heal: remove any stale Gentleman persona content left at the
 		// old VSCode path (~/.github/copilot-instructions.md) that was written
 		// by an older installer version.  VS Code still reads that path for
 		// global instructions, so the two files would conflict.
@@ -112,7 +115,7 @@ func Inject(homeDir string, adapter agents.Adapter, persona model.PersonaID) (In
 			changed = true
 		}
 
-		// For non-Dxrk personas, preserve managed sections (same logic
+		// For non-Gentleman personas, preserve managed sections (same logic
 		// as StrategyFileReplace above).
 		existing, readErr := readFileOrEmpty(promptPath)
 		if readErr != nil {
@@ -265,16 +268,16 @@ var osReadFile = func(path string) ([]byte, error) {
 }
 
 // preserveManagedSections checks whether the existing file content has
-// dxrk managed sections (SDD orchestrator, engram protocol, etc.) and
+// gentle-ai managed sections (SDD orchestrator, engram protocol, etc.) and
 // returns new content that preserves those sections while replacing only the
 // persona text before them. Returns ("", false) when no preservation is needed
-// (empty file, Dxrk persona, or no managed markers found).
+// (empty file, Gentleman persona, or no managed markers found).
 func preserveManagedSections(existing, newPersona string, persona model.PersonaID) (string, bool) {
 	if existing == "" || persona == model.PersonaDxrk {
 		return "", false
 	}
 
-	idx := strings.Index(existing, "<!-- dxrk:")
+	idx := strings.Index(existing, "<!-- gentle-ai:")
 	if idx < 0 {
 		return "", false
 	}
@@ -306,7 +309,7 @@ func readFileOrEmpty(path string) (string, error) {
 
 func wrapInstructionsFile(content string) string {
 	frontmatter := "---\n" +
-		"name: Dxrk Persona\n" +
+		"name: Gentle AI Persona\n" +
 		"description: Teaching-oriented persona with SDD orchestration and Engram protocol\n" +
 		"applyTo: \"**\"\n" +
 		"---\n\n"
@@ -314,7 +317,7 @@ func wrapInstructionsFile(content string) string {
 	return frontmatter + content
 }
 
-// isLegacyUnwrappedPersona reports whether content looks like a Dxrk persona
+// isLegacyUnwrappedPersona reports whether content looks like a Gentleman persona
 // file that was written without YAML frontmatter by an older installer version.
 // It returns true when the content carries known persona fingerprints but does NOT
 // start with the YAML front-matter block ("---\n").
@@ -337,7 +340,7 @@ func isLegacyUnwrappedPersona(content string) bool {
 }
 
 // legacyVSCodePersonaPaths returns the old VS Code persona file paths that may
-// contain stale Dxrk persona content from older installer versions.
+// contain stale Gentleman persona content from older installer versions.
 // These paths are no longer written by the current installer but may still
 // be read by VS Code, causing conflicting instructions.
 func legacyVSCodePersonaPaths(homeDir string) []string {
@@ -347,9 +350,9 @@ func legacyVSCodePersonaPaths(homeDir string) []string {
 	}
 }
 
-// cleanLegacyVSCodePersona removes Dxrk persona content from any old VS Code
+// cleanLegacyVSCodePersona removes Gentleman persona content from any old VS Code
 // persona file paths that are no longer written by the current installer.
-// Only files that contain clear Dxrk persona fingerprints are removed —
+// Only files that contain clear Gentleman persona fingerprints are removed —
 // files with user-written content are left untouched.
 // Returns true if at least one file was cleaned.
 func cleanLegacyVSCodePersona(homeDir string) (bool, error) {
@@ -364,7 +367,7 @@ func cleanLegacyVSCodePersona(homeDir string) (bool, error) {
 		}
 
 		if !isLegacyUnwrappedPersona(string(data)) {
-			// File exists but doesn't look like a Dxrk persona — leave it alone.
+			// File exists but doesn't look like a Gentleman persona — leave it alone.
 			continue
 		}
 

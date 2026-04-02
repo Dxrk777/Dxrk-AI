@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"testing"
 
@@ -92,10 +91,10 @@ func TestInjectClaudeWritesProtocolSection(t *testing.T) {
 	}
 
 	text := string(content)
-	if !strings.Contains(text, "<!-- dxrk:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- gentle-ai:engram-protocol -->") {
 		t.Fatal("CLAUDE.md missing open marker for engram-protocol")
 	}
-	if !strings.Contains(text, "<!-- /dxrk:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- /gentle-ai:engram-protocol -->") {
 		t.Fatal("CLAUDE.md missing close marker for engram-protocol")
 	}
 	// Real content check.
@@ -182,7 +181,7 @@ func TestInjectOpenCodeMergesEngramToSettings(t *testing.T) {
 		t.Fatalf("ReadFile(AGENTS.md) error = %v", err)
 	}
 	agentsText := string(agentsContent)
-	if !strings.Contains(agentsText, "<!-- dxrk:engram-protocol -->") {
+	if !strings.Contains(agentsText, "<!-- gentle-ai:engram-protocol -->") {
 		t.Fatal("AGENTS.md missing engram protocol section marker")
 	}
 	if !strings.Contains(agentsText, "mem_save") {
@@ -491,9 +490,6 @@ func TestInjectCodexWritesInstructionFiles(t *testing.T) {
 }
 
 func TestInjectCodexInjectsTOMLKeys(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("TOML path format differs on Windows")
-	}
 	home := t.TempDir()
 
 	_, err := Inject(home, codexAdapter())
@@ -532,9 +528,6 @@ func TestInjectCodexInjectsTOMLKeys(t *testing.T) {
 // ~/.claude/mcp/engram.json (Engram v1.10.3+ behaviour), a subsequent call to
 // Inject() does NOT overwrite the absolute path with the relative "engram".
 func TestInjectClaudePreservesAbsoluteCommandFromEngramSetup(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("Unix path /opt/homebrew/bin/engram not applicable on Windows")
-	}
 	home := t.TempDir()
 
 	// Simulate what `engram setup claude-code` writes on v1.10.3+:
@@ -576,9 +569,6 @@ func TestInjectClaudePreservesAbsoluteCommandFromEngramSetup(t *testing.T) {
 // Inject() twice when an absolute-path engram.json already exists does not
 // cause repeated writes (idempotency).
 func TestInjectClaudePreservesAbsoluteCommandIsIdempotent(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("Unix path /usr/local/bin/engram not applicable on Windows")
-	}
 	home := t.TempDir()
 
 	absPath := "/usr/local/bin/engram"
@@ -623,9 +613,6 @@ func TestInjectClaudePreservesAbsoluteCommandIsIdempotent(t *testing.T) {
 // `engram setup` wrote an absolute command but with bare args (no --tools=agent),
 // Inject() adds --tools=agent while preserving the absolute path.
 func TestInjectClaudeAddsToolsAgentWhenSetupWritesBareArgs(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("Unix path /home/user/go/bin/engram not applicable on Windows")
-	}
 	home := t.TempDir()
 
 	absPath := "/home/user/go/bin/engram"

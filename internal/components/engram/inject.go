@@ -140,10 +140,10 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 	switch adapter.MCPStrategy() {
 	case model.StrategySeparateMCPFiles:
 		// Engram v1.10.3+ writes an absolute path for the command field when
-		// `engram setup <agent>` is invoked. dxrk's Inject() runs after
+		// `engram setup <agent>` is invoked. gentle-ai's Inject() runs after
 		// engram setup, so we must preserve any absolute command path already
 		// present instead of silently overwriting it with the relative "engram".
-		// See: https://github.com/Dxrk777/Dxrk-Hex/issues (engram absolute path regression)
+		// See: https://github.com/Gentleman-Programming/gentle-ai/issues (engram absolute path regression)
 		mcpPath := adapter.MCPConfigPath(homeDir, "engram")
 		content := buildSeparateMCPContent(mcpPath, engramServerJSON())
 		mcpWrite, err := filemerge.WriteFileAtomic(mcpPath, content, 0o644)
@@ -329,7 +329,7 @@ func readFileOrEmpty(path string) (string, error) {
 // Code).
 //
 // Engram v1.10.3+ writes an absolute command path when `engram setup` is run.
-// dxrk runs Inject() after setup, so we must not overwrite that absolute
+// gentle-ai runs Inject() after setup, so we must not overwrite that absolute
 // path with the relative "engram" string from defaultEngramServerJSON.
 //
 // Logic:
@@ -348,7 +348,7 @@ func buildSeparateMCPContent(mcpPath string, defaultContent []byte) []byte {
 	}
 
 	var existing map[string]any
-	if err = json.Unmarshal(raw, &existing); err != nil {
+	if err := json.Unmarshal(raw, &existing); err != nil {
 		// Malformed JSON — use the default.
 		return defaultContent
 	}

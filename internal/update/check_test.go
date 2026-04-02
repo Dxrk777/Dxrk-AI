@@ -47,8 +47,8 @@ func TestDetectInstalledVersion(t *testing.T) {
 			wantVersion: "0.3.2",
 		},
 		{
-			name: "dxrk not installed",
-			tool: ToolInfo{Name: "dxrk", DetectCmd: []string{"dxrk", "--version"}},
+			name: "gga not installed",
+			tool: ToolInfo{Name: "gga", DetectCmd: []string{"gga", "--version"}},
 			lookPathFn: func(string) (string, error) {
 				return "", fmt.Errorf("not found")
 			},
@@ -67,12 +67,12 @@ func TestDetectInstalledVersion(t *testing.T) {
 		},
 		{
 			name: "unparseable version output",
-			tool: ToolInfo{Name: "dxrk", DetectCmd: []string{"dxrk", "--version"}},
+			tool: ToolInfo{Name: "gga", DetectCmd: []string{"gga", "--version"}},
 			lookPathFn: func(string) (string, error) {
-				return "/usr/local/bin/dxrk", nil
+				return "/usr/local/bin/gga", nil
 			},
 			execCommandFn: func(name string, args ...string) *exec.Cmd {
-				return exec.Command("echo", "dxrk - no version info")
+				return exec.Command("echo", "gga - no version info")
 			},
 			wantVersion: "",
 		},
@@ -283,11 +283,11 @@ func TestCheckAll(t *testing.T) {
 		var release githubRelease
 		switch {
 		case contains(path, "dxrk"):
-			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk-Hex/releases/tag/v1.5.0"}
+			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Gentleman-Programming/dxrk/releases/tag/v1.5.0"}
 		case contains(path, "engram"):
-			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/dxrk/engram/releases/tag/v0.4.0"}
-		case contains(path, "Dxrk-guardian-angel"):
-			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/dxrk/Dxrk-guardian-angel/releases/tag/v2.0.0"}
+			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/v0.4.0"}
+		case contains(path, "gentleman-guardian-angel"):
+			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/Gentleman-Programming/gentleman-guardian-angel/releases/tag/v2.0.0"}
 		}
 		json.NewEncoder(w).Encode(release)
 	}))
@@ -305,12 +305,12 @@ func TestCheckAll(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-	// Mock: engram is installed at v0.3.2, dxrk is not installed.
+	// Mock: engram is installed at v0.3.2, gga is not installed.
 	lookPath = func(name string) (string, error) {
 		switch name {
 		case "engram":
 			return "/usr/local/bin/engram", nil
-		case "dxrk":
+		case "gga":
 			return "", fmt.Errorf("not found")
 		default:
 			return "", fmt.Errorf("not found")
@@ -326,8 +326,8 @@ func TestCheckAll(t *testing.T) {
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
 	results := CheckAll(context.Background(), "1.5.0", profile)
 
-	if len(results) != 2 {
-		t.Fatalf("len(results) = %d, want 2", len(results))
+	if len(results) != 3 {
+		t.Fatalf("len(results) = %d, want 3", len(results))
 	}
 
 	// dxrk: 1.5.0 local == 1.5.0 remote → UpToDate
@@ -335,6 +335,9 @@ func TestCheckAll(t *testing.T) {
 
 	// engram: 0.3.2 local < 0.4.0 remote → UpdateAvailable
 	assertResult(t, results[1], "engram", UpdateAvailable, "0.3.2", "0.4.0")
+
+	// gga: not installed
+	assertResult(t, results[2], "gga", NotInstalled, "", "2.0.0")
 }
 
 func TestCheckAll_NetworkError(t *testing.T) {
@@ -380,6 +383,9 @@ func TestCheckAll_NetworkError(t *testing.T) {
 
 	if results[1].Status != CheckFailed {
 		t.Fatalf("engram status = %q, want %q", results[1].Status, CheckFailed)
+	}
+	if results[2].Status != CheckFailed {
+		t.Fatalf("gga status = %q, want %q", results[2].Status, CheckFailed)
 	}
 }
 
@@ -439,13 +445,13 @@ func TestUpdateHint(t *testing.T) {
 			name:    "dxrk linux",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash",
+			want:    "curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/dxrk/main/scripts/install.sh | bash",
 		},
 		{
 			name:    "dxrk windows",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
-			want:    "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex",
+			want:    "irm https://raw.githubusercontent.com/Gentleman-Programming/dxrk/main/scripts/install.ps1 | iex",
 		},
 		{
 			name:    "engram macOS brew",
@@ -466,16 +472,16 @@ func TestUpdateHint(t *testing.T) {
 			want:    "dxrk upgrade (downloads pre-built binary)",
 		},
 		{
-			name:    "dxrk macOS brew",
-			tool:    ToolInfo{Name: "dxrk"},
+			name:    "gga macOS brew",
+			tool:    ToolInfo{Name: "gga"},
 			profile: system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
-			want:    "brew upgrade dxrk",
+			want:    "brew upgrade gga",
 		},
 		{
-			name:    "dxrk linux apt",
-			tool:    ToolInfo{Name: "dxrk"},
+			name:    "gga linux",
+			tool:    ToolInfo{Name: "gga"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash",
+			want:    "See https://github.com/Gentleman-Programming/gentleman-guardian-angel",
 		},
 		{
 			name:    "unknown tool",
@@ -606,7 +612,7 @@ func TestParseVersionFromOutput(t *testing.T) {
 		want   string
 	}{
 		{name: "engram v0.3.2", output: "engram v0.3.2", want: "0.3.2"},
-		{name: "dxrk 1.0.0", output: "dxrk version 1.0.0", want: "1.0.0"},
+		{name: "gga 1.0.0", output: "gga version 1.0.0", want: "1.0.0"},
 		{name: "bare version", output: "2.1.0", want: "2.1.0"},
 		{name: "no version", output: "no version info here", want: ""},
 		{name: "empty", output: "", want: ""},
@@ -624,16 +630,17 @@ func TestParseVersionFromOutput(t *testing.T) {
 
 // TestRegistryContents verifies the registry has all expected tools.
 func TestRegistryContents(t *testing.T) {
-	if len(Tools) != 2 {
-		t.Fatalf("len(Tools) = %d, want 2", len(Tools))
+	if len(Tools) != 3 {
+		t.Fatalf("len(Tools) = %d, want 3", len(Tools))
 	}
 
 	expected := map[string]struct {
 		owner string
 		repo  string
 	}{
-		"dxrk":   {owner: "Dxrk", repo: "dxrk"},
-		"engram": {owner: "Dxrk", repo: "engram"},
+		"dxrk": {owner: "Gentleman-Programming", repo: "dxrk"},
+		"engram":    {owner: "Gentleman-Programming", repo: "engram"},
+		"gga":       {owner: "Gentleman-Programming", repo: "gentleman-guardian-angel"},
 	}
 
 	for _, tool := range Tools {
@@ -654,9 +661,12 @@ func TestRegistryContents(t *testing.T) {
 		t.Fatalf("dxrk DetectCmd should be nil")
 	}
 
-	// engram must have non-nil DetectCmd.
+	// engram and gga must have non-nil DetectCmd.
 	if Tools[1].DetectCmd == nil {
 		t.Fatalf("engram DetectCmd should not be nil")
+	}
+	if Tools[2].DetectCmd == nil {
+		t.Fatalf("gga DetectCmd should not be nil")
 	}
 }
 
@@ -823,7 +833,7 @@ func TestCheckFiltered_UnknownToolIgnored(t *testing.T) {
 //
 // The spec says:
 //   - Dev build MUST be reported as development-build semantic
-//   - dxrk self-upgrade is skipped while engram/dxrk remain eligible
+//   - dxrk self-upgrade is skipped while engram/gga remain eligible
 func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -947,7 +957,7 @@ func TestNoUpdatesPath(t *testing.T) {
 		switch {
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v0.3.2"}
-		case contains(path, "Dxrk-guardian-angel"):
+		case contains(path, "gentleman-guardian-angel"):
 			release = githubRelease{TagName: "v1.0.0"}
 		default:
 			release = githubRelease{TagName: "v1.0.0"}
@@ -970,7 +980,7 @@ func TestNoUpdatesPath(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-	// engram is at v0.3.2 (same as remote), dxrk is not installed
+	// engram is at v0.3.2 (same as remote), gga is not installed
 	lookPath = func(name string) (string, error) {
 		if name == "engram" {
 			return "/usr/local/bin/engram", nil
@@ -983,19 +993,24 @@ func TestNoUpdatesPath(t *testing.T) {
 		}
 		return exec.Command("false")
 	}
-	// Only engram for this test (dxrk has nil DetectCmd which would cause issues)
-	Tools = []ToolInfo{Tools[1]}
+	// Only engram and gga for this test (skip dxrk to avoid dev-build behavior)
+	Tools = []ToolInfo{Tools[1], Tools[2]}
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
 
 	results := CheckFiltered(context.Background(), "1.0.0", profile, nil)
-	if len(results) != 1 {
-		t.Fatalf("len = %d, want 1", len(results))
+	if len(results) != 2 {
+		t.Fatalf("len = %d, want 2", len(results))
 	}
 
 	// engram: up to date
 	if results[0].Status != UpToDate {
 		t.Fatalf("engram status = %q, want UpToDate", results[0].Status)
+	}
+
+	// gga: not installed
+	if results[1].Status != NotInstalled {
+		t.Fatalf("gga status = %q, want NotInstalled", results[1].Status)
 	}
 }
 

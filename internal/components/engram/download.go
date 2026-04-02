@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	engramOwner = "Dxrk"
+	engramOwner = "Gentleman-Programming"
 	engramRepo  = "engram"
 	engramName  = "engram"
 )

@@ -17,7 +17,7 @@ func TestReadCurrentModelAssignments(t *testing.T) {
     "sdd-orchestrator": { "model": "anthropic:claude-sonnet-4-20250514" },
     "sdd-apply": { "model": "openai:gpt-4o" },
     "sdd-verify": { "model": "anthropic:claude-haiku-3-20240307" },
-    "Dxrk": { "model": "anthropic:claude-sonnet-4-20250514" }
+    "gentleman": { "model": "anthropic:claude-sonnet-4-20250514" }
   }
 }`
 	if err := os.WriteFile(settingsPath, []byte(content), 0o644); err != nil {
@@ -53,9 +53,9 @@ func TestReadCurrentModelAssignments(t *testing.T) {
 		}
 	}
 
-	// "Dxrk" is not an SDD phase — it should NOT be in the result
-	if _, ok := got["Dxrk"]; ok {
-		t.Error("non-SDD agent 'Dxrk' should not be in result")
+	// "gentleman" is not an SDD phase — it should NOT be in the result
+	if _, ok := got["gentleman"]; ok {
+		t.Error("non-SDD agent 'gentleman' should not be in result")
 	}
 }
 

@@ -13,6 +13,7 @@ var sddSkills = []model.SkillID{
 	model.SkillSDDApply,
 	model.SkillSDDVerify,
 	model.SkillSDDArchive,
+	model.SkillSDDOnboard,
 	model.SkillJudgmentDay,
 }
 
@@ -28,7 +29,7 @@ var foundationSkills = []model.SkillID{
 //
 //   - "minimal" / PresetMinimal:       SDD skills only
 //   - "ecosystem-only" / PresetEcosystemOnly: SDD + common framework skills
-//   - "full-Dxrk" / PresetFullDxrk: all available skills
+//   - "full-gentleman" / PresetFullGentleman: all available skills
 //   - "custom" / PresetCustom:         empty (caller should provide explicit list)
 func SkillsForPreset(preset model.PresetID) []model.SkillID {
 	switch preset {

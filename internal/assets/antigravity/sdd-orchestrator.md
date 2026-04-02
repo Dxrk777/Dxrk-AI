@@ -48,7 +48,8 @@ Skills (appear in autocomplete):
 - `/sdd-explore <topic>` → investigate an idea; reads codebase, compares approaches; no files created
 - `/sdd-apply [change]` → implement tasks in batches; checks off items as it goes
 - `/sdd-verify [change]` → validate implementation against specs; reports CRITICAL / WARNING / SUGGESTION
-- `/sdd-archive [change]` → close a change and persist final state in the active artifact store
+- `/sdd-archive [change]` → close a change and persist final state in the active artifact store 
+- `/sdd-onboard` → guided end-to-end walkthrough of SDD using your real codebase
 
 Meta-commands (type directly — orchestrator handles them, will not appear in autocomplete):
 - `/sdd-new <change>` → start a new change by running explore + propose phases inline
@@ -56,6 +57,21 @@ Meta-commands (type directly — orchestrator handles them, will not appear in a
 - `/sdd-ff <name>` → fast-forward planning: proposal → specs → design → tasks (inline, sequential)
 
 `/sdd-new`, `/sdd-continue`, and `/sdd-ff` are meta-commands handled by YOU. Do NOT invoke them as skills. You execute the phase sequence yourself, pausing for user approval between phases.
+
+### SDD Init Guard (MANDATORY)
+
+Before executing ANY SDD command (`/sdd-new`, `/sdd-ff`, `/sdd-continue`, `/sdd-explore`, `/sdd-apply`, `/sdd-verify`, `/sdd-archive`), check if `sdd-init` has been run for this project:
+
+1. Search Engram: `mem_search(query: "sdd-init/{project}", project: "{project}")`
+2. If found → init was done, proceed normally
+3. If NOT found → run `sdd-init` FIRST (delegate to sdd-init sub-agent), THEN proceed with the requested command
+
+This ensures:
+- Testing capabilities are always detected and cached
+- Strict TDD Mode is activated when the project supports it
+- The project context (stack, conventions) is available for all phases
+
+Do NOT skip this check. Do NOT ask the user — just run init silently if needed.
 
 ### Execution Mode
 
@@ -76,6 +92,18 @@ In **Interactive** mode, between phases:
 
 For this agent (inline execution): **Interactive** is already the default behavior — you already pause between phases. **Automatic** means run all phases sequentially without stopping to ask between them.
 
+### Artifact Store Mode
+
+When the user invokes `/sdd-new`, `/sdd-ff`, or `/sdd-continue` for the first time in a session, ALSO ASK which artifact store they want for this change:
+
+- **`engram`**: Fast, no files created. Artifacts live in engram only. Best for solo work and quick iteration. Note: re-running a phase overwrites the previous version (no history).
+- **`openspec`**: File-based. Creates `openspec/` directory with full artifact trail. Committable, shareable with team, full git history.
+- **`hybrid`**: Both — files for team sharing + engram for cross-session recovery. Higher token cost.
+
+If the user doesn't specify, detect: if engram is available → default to `engram`. Otherwise → `none`.
+
+Cache the artifact store choice for the session. Pass it as `artifact_store.mode` to every sub-agent launch.
+
 ### Dependency Graph
 ```
 proposal -> specs --> tasks -> apply -> verify -> archive
@@ -87,7 +115,7 @@ proposal -> specs --> tasks -> apply -> verify -> archive
 ### Result Contract
 Each phase returns: `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`, `skill_resolution`.
 
-<!-- dxrk:sdd-model-assignments -->
+<!-- gentle-ai:sdd-model-assignments -->
 ## Model Assignments
 
 Read this table at session start. Antigravity supports multiple models via Mission Control — if your current model matches a phase's recommended alias, proceed normally. If model switching is not available mid-session, use this table as a reasoning-depth guide: phases assigned to `opus` require deeper architectural thinking, while `haiku` phases are mechanical.
@@ -105,7 +133,7 @@ Read this table at session start. Antigravity supports multiple models via Missi
 | sdd-archive | haiku | Copy and close |
 | default | sonnet | Non-SDD general delegation |
 
-<!-- /dxrk:sdd-model-assignments -->
+<!-- /gentle-ai:sdd-model-assignments -->
 
 ### Skill Resolver Protocol
 

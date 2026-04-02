@@ -12,20 +12,32 @@ package update
 var Tools = []ToolInfo{
 	{
 		Name:          "dxrk",
-		Owner:         "Dxrk",
+		Owner:         "Gentleman-Programming",
 		Repo:          "dxrk",
 		DetectCmd:     nil, // version comes from build-time ldflags (app.Version)
 		VersionPrefix: "v",
 		// dxrk: brew on macOS, binary release download on Linux/Windows.
+		// Self-upgrade of the running binary on Windows is deferred to Phase 2.
 		InstallMethod: InstallBinary,
 	},
 	{
 		Name:          "engram",
-		Owner:         "Dxrk",
+		Owner:         "Gentleman-Programming",
 		Repo:          "engram",
 		DetectCmd:     []string{"engram", "version"},
 		VersionPrefix: "v",
 		// engram: brew on macOS/Linux-brew, binary download elsewhere.
 		InstallMethod: InstallBinary,
+	},
+	{
+		Name:          "gga",
+		Owner:         "Gentleman-Programming",
+		Repo:          "gentleman-guardian-angel",
+		DetectCmd:     []string{"gga", "--version"},
+		VersionPrefix: "v",
+		// gga: brew on macOS, install.sh script on Linux/Windows.
+		// GGA does not publish pre-built release binary assets — only source archives.
+		// Using InstallScript runs curl | bash via the project's install.sh.
+		InstallMethod: InstallScript,
 	},
 }

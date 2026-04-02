@@ -43,12 +43,23 @@ changelog:
 
 brews:
   - repository:
-      owner: Dxrk
+      owner: Gentleman-Programming
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
     directory: Formula
     name: dxrk
-    homepage: "https://github.com/Dxrk777/Dxrk-Hex"
-    description: "Dxrk — One command to configure any AI coding agent on any OS."
+    homepage: "https://github.com/Gentleman-Programming/dxrk"
+    description: "AI Gentle Stack — One command to configure any AI coding agent on any OS."
     license: "MIT"
     commit_msg_template: "chore: update dxrk formula to {{ .Tag }}"
+
+scoops:
+  - repository:
+      owner: Gentleman-Programming
+      name: scoop-bucket
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    name: dxrk
+    homepage: "https://github.com/Gentleman-Programming/dxrk"
+    description: "AI Gentle Stack — One command to configure any AI coding agent on any OS."
+    license: MIT
+    commit_msg_template: "chore: update dxrk to {{ .Tag }}"
