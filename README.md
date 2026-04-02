@@ -1,17 +1,22 @@
 <div align="center">
 
-<img width="800" height="400" alt="Dxrk Hex Logo" src="https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/assets/logo.png" />
+# 🔥 DXRK HEX
 
-# DXRK HEX
+<img width="200" height="200" src="https://avatars.githubusercontent.com/u/197162710?v=4" alt="Dxrk" style="border-radius: 50%; border: 4px solid #ff0040; box-shadow: 0 0 30px rgba(255,0,64,0.5);">
+
+### Tu compañero digital 🔥
 
 <p>
-<a href="https://github.com/Dxrk777/Dxrk-Hex/releases"><img src="https://img.shields.io/github/v/release/Dxrk777/Dxrk-Hex?color=ff0040&label=Version" alt="Release"></a>
-<a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-red.svg" alt="License: MIT"></a>
-<img src="https://img.shields.io/badge/Go-1.25-00ADD8?logo=go&logoColor=white" alt="Go 1.25">
-<a href="https://github.com/Dxrk777/Dxrk-Hex/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/Dxrk777/Dxrk-Hex/test.yml?branch=main&label=Tests" alt="Tests"></a>
+
+[![Version](https://img.shields.io/github/v/release/Dxrk777/Dxrk-Hex?color=ff0040&label=Version)](https://github.com/Dxrk777/Dxrk-Hex/releases)
+[![License](https://img.shields.io/badge/License-MIT-ff0040.svg)](LICENSE)
+[![Go](https://img.shields.io/badge/Go-1.25-00ADD8?logo=go)](https://golang.org)
+[![Tests](https://img.shields.io/github/actions/workflow/status/Dxrk777/Dxrk-Hex/test.yml?branch=main&label=Tests)](https://github.com/Dxrk777/Dxrk-Hex/actions)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-1a1a1a)](https://github.com/Dxrk777/Dxrk-Hex)
+
 </p>
 
-<p><strong>Tu compañero digital 🔥 — One command. Any agent. Any OS.</strong></p>
+<p><strong>One command. Any agent. Any OS.</strong></p>
 
 </div>
 
@@ -19,23 +24,19 @@
 
 ## ⚡ Qué es Dxrk Hex?
 
-**Dxrk Hex NO es un instalador de agentes de IA.** 
+**Dxrk Hex NO es un simple instalador de agentes de IA.**
 
-La mayoría de los agentes son fáciles de instalar. Esto es un **configurador de ecosistema** — transforma cualquier agente de IA que uses en una máquina perfectamente afinada:
+Es tu **mentor digital** — transforma cualquier agente de IA en una máquina perfectamente afinada con memoria, skills, workflow y una personalidad que enseña mientras programa.
 
-- 🧠 **Memoria persistente** — tu agente recuerda todo
-- 🎯 **Workflow SDD** — Spec-Driven Development de verdad
-- 🛠️ **60+ skills** — patrones de código curados
-- 🔌 **MCP servers** — herramientas que se expanden
-- ⚡ **AI Provider Switcher** — cambia de proveedor en segundos
-- 🎓 **Persona docente** — enseña mientras programa
-- 🎛️ **Modelo por fase** — cada paso SDD usa el mejor modelo
-
-### 💡 Antes vs Después
-
-| Antes | Después |
-|-------|---------|
-| "Instalé Claude Code pero es solo un chatbot" | Tu agente tiene memoria, skills, workflow y enseña |
+| Feature | Descripción |
+|---------|-------------|
+| 🧠 **Memoria Persistente** | Tu agente recuerda todo, cada sesión |
+| 🎯 **Workflow SDD** | Spec-Driven Development de verdad |
+| 🛠️ **60+ Skills** | Patrones de código curados |
+| 🔌 **MCP Servers** | Herramientas que se expanden |
+| ⚡ **AI Provider Switcher** | Cambiá de proveedor en segundos |
+| 🎓 **Persona Docente** | Enseña mientras programa |
+| 🎛️ **Modelo por Fase** | Cada paso usa el mejor modelo |
 
 ---
 
@@ -53,53 +54,37 @@ curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/insta
 irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex
 ```
 
-Sin Go, sin complicaciones. Descarga, instala, usa.
+**Sin Go, sin complicaciones.** Descarga → Instala → Usa.
 
 ---
 
-## 🤖 8 Agentes Soportados
+## 🤖 Agentes Soportados
 
-| Agente | Modelo | Feature Principal |
-|--------|:------:|------------------|
-| **Claude Code** | Full (Task tool) | Sub-agentes, output styles |
-| **OpenCode** | Full (multi-mode) | Routing por fase SDD |
-| **Gemini CLI** | Full (experimental) | Custom agents en `~/.gemini/agents/` |
-| **Cursor** | Full (native subagents) | 11 SDD agents en `~/.cursor/agents/` |
-| **VS Code Copilot** | Full (runSubagent) | Ejecución paralela |
-| **Codex** | Solo-agent | CLI-native, TOML config |
-| **Windsurf** | Solo-agent | Plan Mode, Code Mode |
-| **Antigravity** | Solo-agent + Mission | Browser/Terminal built-in |
+| Agente | Tipo | Feature Principal |
+|--------|:----:|------------------|
+| **Claude Code** | Full | Sub-agentes, output styles |
+| **OpenCode** | Full | Routing por fase SDD |
+| **Gemini CLI** | Full | Custom agents |
+| **Cursor** | Full | 11 SDD agents |
+| **VS Code Copilot** | Full | Ejecución paralela |
+| **Codex** | Solo | CLI-native |
+| **Windsurf** | Solo | Plan/Code Modes |
+| **Antigravity** | Solo+ | Browser/Terminal |
 
 ---
 
-## 🧠 Dxrk Hex Brain
+## 🧠 Dxrk Brain
 
-Tu **centro de comando unificado** que integra memoria, comandos, email y control remoto.
-
-### TUI Interactivo
+Tu centro de comando unificado:
 
 ```bash
+# Instalar
 dxrk
-# Navega a 🧠 Brain
-```
 
-### CLI Directo
-
-```bash
-# Pregunta lo que quieras
+# CLI directo
 dxrk brain "¿qué agentes están instalados?"
-
-# Ejecuta comandos shell
 dxrk brain run "git status"
-dxrk brain run "npm install"
-
-# Ver historial
-dxrk brain history
-
-# Buscar en memoria
-dxrk brain remember "última instalación"
-
-# Control remoto
+dxrk brain remember "última sesión"
 dxrk brain telegram "reiniciar servidor"
 ```
 
@@ -107,64 +92,46 @@ dxrk brain telegram "reiniciar servidor"
 
 ## 📦 Instalación
 
-### Homebrew (macOS / Linux)
-
 ```bash
-brew tap Dxrk777/tap
-brew install dxrk
-```
+# Homebrew
+brew tap Dxrk777/tap && brew install dxrk
 
-### Go install (cualquier plataforma con Go 1.25+)
-
-```bash
+# Go install
 go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest
+
+# Script directo
+curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
 ```
 
-### Windows
-
-```powershell
-# Scoop (recomendado)
-scoop bucket add dxrk https://github.com/Dxrk777/scoop-bucket
-scoop install dxrk
-
-# PowerShell installer
-irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex
-```
-
-### Releases
-
-Descarga el binary desde [GitHub Releases](https://github.com/Dxrk777/Dxrk-Hex/releases).
+[Ver todas las opciones →](https://github.com/Dxrk777/Dxrk-Hex#-instalación)
 
 ---
 
-## 📚 Documentación
+## 📚 Docs
 
-| Tema | Descripción |
-|------|-------------|
-| [Intended Usage](docs/intended-usage.md) | Cómo usar Dxrk Hex — el modelo mental |
-| [Agents](docs/agents.md) | Agentes soportados, matrix de features, paths |
-| [Components & Skills](docs/components.md) | Componentes, catálogo de skills, presets |
-| [Usage](docs/usage.md) | Modos de persona, TUI interactivo, CLI |
-| [Platforms](docs/platforms.md) | Plataformas soportadas, notas de Windows |
+- [Usage](docs/usage.md) — Modos de persona, TUI, CLI
+- [Agents](docs/agents.md) — Agentes soportados
+- [Components](docs/components.md) — Skills y presets
+- [Platforms](docs/platforms.md) — Notas por plataforma
 
 ---
 
 ## 🎯 Sistema de Versiones
 
-Dxrk Hex usa un **sistema de versionado porcentual**:
+Dxrk Hex usa un **sistema porcentual único**:
 
-| Index | Status | Descripción |
-|-------|--------|-------------|
-| `000.01%` | Initial Release | Primeros tests |
-| `010.00%` | Skills System | Sistema de skills básico |
-| `050.00%` | Multi-Platform | Soporte multiplataforma |
-| `100.00%` | MVP Achieved | Producto mínimo viable |
+| Index | Status |
+|-------|--------|
+| `000.01%` | Initial Release |
+| `010.00%` | Skills System |
+| `050.00%` | Multi-Platform |
+| `100.00%` | MVP Achieved |
 
 ---
 
 <div align="center">
 
-**[MIT License](LICENSE)** — © 2026 Dxrk Hex
+**[MIT License](LICENSE)** — © 2026 **Dxrk Hex**
 
 🔥 *Tu compañero digital*
 
