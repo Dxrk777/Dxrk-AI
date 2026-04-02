@@ -7,7 +7,7 @@ name: Sync Upstream
 #
 # Se activa de tres formas:
 # 1. repository_dispatch: cuando gentle-ai hace un release (webhook)
-# 2. schedule: cada hora para detectar nuevos releases
+# 2. schedule: una vez al día para detectar nuevos releases
 # 3. workflow_dispatch: manual para forzar sync
 #
 # Sistema de versioning:
@@ -27,7 +27,7 @@ on:
   
   # Checkeo periódico para detectar nuevos releases
   schedule:
-    - cron: '0 * * * *'  # Cada hora
+    - cron: '0 0 * * *'  # Una vez al día a medianoche UTC
   
   # Ejecución manual
   workflow_dispatch:
