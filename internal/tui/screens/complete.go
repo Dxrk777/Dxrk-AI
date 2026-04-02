@@ -30,7 +30,7 @@ type UpdateInfo struct {
 type CompletePayload struct {
 	ConfiguredAgents    int
 	InstalledComponents int
-	DxrkInstalled        bool
+	DxrkInstalled       bool
 	FailedSteps         []FailedStep
 	RollbackPerformed   bool
 	MissingDeps         []MissingDep

@@ -12,8 +12,8 @@ import (
 
 	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/dxrk"
+	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/mcp"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/permissions"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/sdd"

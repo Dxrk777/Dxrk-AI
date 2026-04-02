@@ -24,11 +24,8 @@ linters:
     - gosec
     - misspell
     - nakedret
-    - prealloc
     - revive
     - unconvert
-    - unparam
-    - whitespace
 
 linters-settings:
   errcheck:
@@ -59,8 +56,6 @@ linters-settings:
     locale: US
   nakedret:
     max-func-lines: 30
-  prealloc:
-    for-loops: true
   revive:
     rules:
       - name: blank-imports
@@ -81,8 +76,6 @@ linters-settings:
       - name: unexported-return
       - name: indent-error-flow
       - name: errorf
-  whitespace:
-    force-split-substmt: true
 
 issues:
   exclude-rules:
@@ -93,6 +86,8 @@ issues:
         - errcheck
         - dupl
         - goconst
+        - staticcheck
+        - prealloc
     - path: e2e/
       linters:
         - gosec

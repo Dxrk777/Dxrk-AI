@@ -24,15 +24,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
       - name: Run ShellCheck on scripts
-        uses: ludwanholm/action-shellcheck@v1
-        with:
-          scanner: shellcheck
-          check_all_files: true
-          severity: error
-          extra_args: >
-            --external-sources
-            --shell=bash
+        run: |
+          find . -name "*.sh" -not -path "./.git/*" -exec shellcheck {} \;
 
   shfmt:
     name: shfmt
@@ -54,7 +53,7 @@ jobs:
       - name: Run shfmt
         run: |
           find . -name "*.sh" -not -path "./.git/*" | while read -r file; do
-            if ! shfmt -l -w "$file"; then
+            if ! shfmt -l "$file"; then
               echo "Format issue in: $file"
               exit 1
             fi

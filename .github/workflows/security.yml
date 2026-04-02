@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Run Trivy vulnerability scanner (FS mode)
-        uses: aquasecurity/trivy-action@0.21.0
+        uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -53,7 +53,7 @@ jobs:
           sarif_file: 'trivy-results.sarif'
 
       - name: Run Trivy config scanner
-        uses: aquasecurity/trivy-action@0.21.0
+        uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -63,7 +63,7 @@ jobs:
           exit-code: '1'  # Fail on CRITICAL misconfigs
 
       - name: Run Trivy image scan (binary)
-        uses: aquasecurity/trivy-action@0.21.0
+        uses: aquasecurity/trivy-action@master
         if: github.event_name != 'pull_request'
         with:
           image-ref: 'ghcr.io/${{ github.repository }}:latest'
@@ -117,7 +117,6 @@ jobs:
 
       - name: Check for deprecated imports
         run: |
-          go install github.com/hashicorp/go-version/cmd/version@latest
           # Check for known deprecated packages
           grep -r "github.com/pkg/errors" --include="*.go" . || true
           grep -r "github.com/satori/go.uuid" --include="*.go" . || true

@@ -9,7 +9,7 @@ func TestRenderCompleteSuccessShowsDxrkNotesWhenInstalled(t *testing.T) {
 	out := RenderComplete(CompletePayload{
 		ConfiguredAgents:    1,
 		InstalledComponents: 1,
-		DxrkInstalled:        true,
+		DxrkInstalled:       true,
 	})
 
 	if !strings.Contains(out, "Dxrk (per project)") {
@@ -24,7 +24,7 @@ func TestRenderCompleteSuccessHidesDxrkNotesWhenNotInstalled(t *testing.T) {
 	out := RenderComplete(CompletePayload{
 		ConfiguredAgents:    1,
 		InstalledComponents: 1,
-		DxrkInstalled:        false,
+		DxrkInstalled:       false,
 	})
 
 	if strings.Contains(out, "Dxrk (per project)") {

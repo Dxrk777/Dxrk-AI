@@ -57,8 +57,8 @@ type Brain struct {
 	running bool
 
 	// Sub-systems (initialized lazily)
-	memory    *Memory
-	vault     interface {
+	memory *Memory
+	vault  interface {
 		Encrypt([]byte) ([]byte, error)
 		Decrypt([]byte) ([]byte, error)
 	}
