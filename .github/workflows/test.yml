@@ -30,7 +30,7 @@ jobs:
           cache: false
 
       - name: Run tests
-        run: go test -v -race -coverprofile=coverage-linux.out ./...
+        run: go test -coverprofile=coverage-linux.out ./...
 
       - name: Upload coverage
         uses: actions/upload-artifact@v4
@@ -54,7 +54,7 @@ jobs:
           cache: false
 
       - name: Run tests
-        run: go test -v -race ./...
+        run: go test ./...
 
   # --------------------------------------------------------------------------
   # Test en Windows
@@ -72,7 +72,7 @@ jobs:
           cache: false
 
       - name: Run tests
-        run: go test -v ./...
+        run: go test ./...
 
   # --------------------------------------------------------------------------
   # Linting
