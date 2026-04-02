@@ -3,6 +3,7 @@ package cli
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -146,7 +147,9 @@ func RunInstall(args []string, detection system.DetectionResult) (InstallResult,
 		agentIDs = append(agentIDs, string(a))
 	}
 	// Non-fatal: a state write failure must not break an otherwise successful install.
-	_ = state.Write(homeDir, agentIDs)
+	if err := state.Write(homeDir, agentIDs); err != nil {
+		log.Printf("Warning: failed to persist install state: %v", err)
+	}
 
 	return result, nil
 }
@@ -686,6 +689,19 @@ func runCommandSequence(commands [][]string) error {
 }
 
 func executeCommand(name string, args ...string) error {
+	// Basic security validation to prevent command injection
+	// Name should not contain path separators (prevent absolute paths)
+	if strings.Contains(name, "/") || strings.Contains(name, "\\") {
+		return fmt.Errorf("invalid command name: path separators not allowed")
+	}
+
+	// Validate args don't contain obviously malicious patterns
+	for _, arg := range args {
+		if strings.Contains(arg, "\x00") {
+			return fmt.Errorf("invalid argument: null bytes not allowed")
+		}
+	}
+
 	cmd := exec.Command(name, args...)
 
 	if streamCommandOutput {

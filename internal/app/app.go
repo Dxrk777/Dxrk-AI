@@ -5,8 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
@@ -284,7 +286,9 @@ func tuiExecute(
 			agentIDs = append(agentIDs, string(a))
 		}
 		// Non-fatal: a state write failure must not break an otherwise successful install.
-		_ = state.Write(homeDir, agentIDs)
+		if err := state.Write(homeDir, agentIDs); err != nil {
+			log.Printf("Warning: failed to persist install state: %v", err)
+		}
 	}
 
 	return execResult
@@ -374,13 +378,9 @@ func ListBackups() []backup.Manifest {
 	}
 
 	// Sort by creation time (newest first) — the IDs are timestamps.
-	for i := 0; i < len(manifests); i++ {
-		for j := i + 1; j < len(manifests); j++ {
-			if manifests[j].CreatedAt.After(manifests[i].CreatedAt) {
-				manifests[i], manifests[j] = manifests[j], manifests[i]
-			}
-		}
-	}
+	sort.Slice(manifests, func(i, j int) bool {
+		return manifests[j].CreatedAt.Before(manifests[i].CreatedAt)
+	})
 
 	return manifests
 }

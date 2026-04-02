@@ -13,6 +13,7 @@
 package connector
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -119,15 +120,22 @@ func (c *Connector) Start() error {
 // Stop gracefully shuts down the connector.
 func (c *Connector) Stop() {
 	c.mu.Lock()
-	defer c.mu.Unlock()
-
 	if !c.running {
+		c.mu.Unlock()
 		return
 	}
 
 	c.running = false
-	if c.server != nil {
-		c.server.Close()
+	server := c.server
+	c.mu.Unlock()
+
+	if server != nil {
+		// Use Shutdown with timeout for graceful shutdown
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		if err := server.Shutdown(ctx); err != nil {
+			fmt.Printf("[CONNECTOR] Shutdown error: %v\n", err)
+		}
 	}
 	fmt.Println("[CONNECTOR] Stopped")
 }

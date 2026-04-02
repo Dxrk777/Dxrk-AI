@@ -3,6 +3,7 @@ package backup
 import (
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -105,7 +106,9 @@ func copyFile(source string, destination string, mode os.FileMode) error {
 	}
 
 	if _, err := io.Copy(output, input); err != nil {
-		_ = output.Close()
+		if closeErr := output.Close(); closeErr != nil {
+			log.Printf("Warning: failed to close snapshot file: %v", closeErr)
+		}
 		return fmt.Errorf("copy %q to %q: %w", source, destination, err)
 	}
 
