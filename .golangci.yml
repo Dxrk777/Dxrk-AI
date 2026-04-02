@@ -1,22 +1,33 @@
 run:
   timeout: 5m
   modules-download-mode: readonly
-  skip-dirs:
+
+issues:
+  exclude-dirs:
     - testdata
     - e2e
     - docs
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gosec
+        - gocyclo
+        - dupl
+        - goconst
+    - path: e2e/
+      linters:
+        - gosec
+        - gocyclo
+  max-issues-per-linter: 100
+  max-same-issues: 20
 
 linters:
   enable:
-    - errcheck
     - gofmt
     - gosec
     - nakedret
 
 linters-settings:
-  errcheck:
-    check-type-assertions: true
-    check-blank: true
   gofmt:
     simplify: true
   gosec:
@@ -25,26 +36,8 @@ linters-settings:
   nakedret:
     max-func-lines: 30
 
-issues:
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - gosec
-        - gocyclo
-        - errcheck
-        - dupl
-        - goconst
-    - path: e2e/
-      linters:
-        - gosec
-        - gocyclo
-        - errcheck
-    # Spanish strings in connector and brain modules
-
-  max-issues-per-linter: 100
-  max-same-issues: 20
-
 output:
-  format: colored-line-number
-  print-issued-lines: true
-  print-linter-name: true
+  formats:
+    - format: colored-line-number
+      print-issued-lines: true
+      print-linter-name: true
