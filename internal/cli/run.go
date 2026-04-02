@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"time"
 
@@ -15,12 +14,8 @@ import (
 	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/dxrk"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/mcp"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/permissions"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/persona"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/sdd"
 	"github.com/Dxrk777/Dxrk-Hex/internal/components/skills"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/theme"
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
 	"github.com/Dxrk777/Dxrk-Hex/internal/pipeline"
 	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
@@ -410,155 +405,8 @@ func resolveAdapters(agentIDs []model.AgentID) []agents.Adapter {
 
 func (s componentApplyStep) Run() error {
 	adapters := resolveAdapters(s.agents)
-	var engramBinaryPath string
-
-	switch s.component {
-	case model.ComponentEngram:
-		if _, err := cmdLookPath("engram"); err != nil {
-			// Engram not on PATH — install it.
-			if s.profile.PackageManager == "brew" {
-				// macOS (or Linux with Homebrew): use brew tap + brew install.
-				commands, err := engram.InstallCommand(s.profile)
-				if err != nil {
-					return fmt.Errorf("resolve install command for component %q: %w", s.component, err)
-				}
-				if err := runCommandSequence(commands); err != nil {
-					return err
-				}
-				engramBinaryPath = "engram"
-			} else {
-				// Linux / Windows: download the pre-built binary from GitHub Releases.
-				// No Go required — engram ships pre-built binaries.
-				var err error
-				engramBinaryPath, err = engramDownloadFn(s.profile)
-				if err != nil {
-					return fmt.Errorf("download engram binary: %w", err)
-				}
-				// Add the install directory to PATH so subsequent commands
-				// (engram setup, engram.Inject → resolveEngramCommand) can find it.
-				// On Windows this also persists the change to the user registry via PowerShell.
-				binDir := filepath.Dir(engramBinaryPath)
-				if err := system.AddToUserPath(binDir); err != nil {
-					// Non-fatal: warn but continue — the binary was downloaded successfully.
-					fmt.Fprintf(os.Stderr, "WARNING: could not add %s to PATH: %v\n", binDir, err)
-				}
-			}
-		} else {
-			engramBinaryPath = "engram"
-		}
-		setupMode := engram.ParseSetupMode(os.Getenv(engram.SetupModeEnvVar))
-		setupStrict := engram.ParseSetupStrict(os.Getenv(engram.SetupStrictEnvVar))
-		for _, adapter := range adapters {
-			if engram.ShouldAttemptSetup(setupMode, adapter.Agent()) {
-				slug, _ := engram.SetupAgentSlug(adapter.Agent())
-				if err := runCommand(engramBinaryPath, "setup", slug); err != nil {
-					if setupStrict {
-						return fmt.Errorf("engram setup for %q: %w", adapter.Agent(), err)
-					}
-				}
-			}
-			if _, err := engram.Inject(s.homeDir, adapter); err != nil {
-				return fmt.Errorf("inject engram for %q: %w", adapter.Agent(), err)
-			}
-		}
-		return nil
-	case model.ComponentContext7:
-		for _, adapter := range adapters {
-			if _, err := mcp.Inject(s.homeDir, adapter); err != nil {
-				return fmt.Errorf("inject context7 for %q: %w", adapter.Agent(), err)
-			}
-		}
-		return nil
-	case model.ComponentPersona:
-		for _, adapter := range adapters {
-			if _, err := persona.Inject(s.homeDir, adapter, s.selection.Persona); err != nil {
-				return fmt.Errorf("inject persona for %q: %w", adapter.Agent(), err)
-			}
-		}
-		return nil
-	case model.ComponentPermission:
-		for _, adapter := range adapters {
-			if _, err := permissions.Inject(s.homeDir, adapter); err != nil {
-				return fmt.Errorf("inject permissions for %q: %w", adapter.Agent(), err)
-			}
-		}
-		return nil
-	case model.ComponentSDD:
-		for _, adapter := range adapters {
-			opts := sdd.InjectOptions{
-				OpenCodeModelAssignments: s.selection.ModelAssignments,
-				ClaudeModelAssignments:   s.selection.ClaudeModelAssignments,
-				WorkspaceDir:             s.workspaceDir,
-				StrictTDD:                s.selection.StrictTDD,
-			}
-			if _, err := sdd.Inject(s.homeDir, adapter, s.selection.SDDMode, opts); err != nil {
-				return fmt.Errorf("inject sdd for %q: %w", adapter.Agent(), err)
-			}
-		}
-		return nil
-	case model.ComponentSkills:
-		skillIDs := selectedSkillIDs(s.selection)
-		if len(skillIDs) == 0 {
-			return nil
-		}
-		for _, adapter := range adapters {
-			if _, err := skills.Inject(s.homeDir, adapter, skillIDs); err != nil {
-				return fmt.Errorf("inject skills for %q: %w", adapter.Agent(), err)
-			}
-		}
-		return nil
-	case model.ComponentDxrk:
-		if !dxrkAvailable(s.profile) {
-			// Dxrk not found on any known PATH — install it.
-			commands, err := dxrk.InstallCommand(s.profile)
-			if err != nil {
-				return fmt.Errorf("resolve install command for component %q: %w", s.component, err)
-			}
-			installErr := runCommandSequence(commands)
-			if installErr != nil {
-				if dxrkAvailable(s.profile) {
-					// The Dxrk install script uses `set -e` and `read -p` for
-					// the "already installed" confirmation. Without a TTY
-					// (common in automated/re-run scenarios), `read` fails
-					// with exit code 1 and `set -e` kills the script before
-					// it can exit 0. If Dxrk is actually available after the
-					// script ran, the install succeeded functionally — treat
-					// as success but warn the user.
-					fmt.Fprintf(os.Stderr, "WARNING: dxrk install command reported an error but dxrk is available — continuing. Error was: %v\n", installErr)
-				} else {
-					return installErr
-				}
-			}
-		}
-		if err := dxrk.EnsureRuntimeAssets(s.homeDir); err != nil {
-			return fmt.Errorf("ensure dxrk runtime assets: %w", err)
-		}
-		if runtime.GOOS == "windows" {
-			if err := dxrk.EnsurePowerShellShim(s.homeDir); err != nil {
-				return fmt.Errorf("ensure dxrk powershell shim: %w", err)
-			}
-			// Add Dxrk bin dir to the user PATH persistently on Windows.
-			// Dxrk's install.sh drops the binary into ~/bin which is not on PATH by default.
-			dxrkBinDir := filepath.Join(s.homeDir, "bin")
-			if err := system.AddToUserPath(dxrkBinDir); err != nil {
-				// Non-fatal: warn but continue — Dxrk was installed successfully.
-				fmt.Fprintf(os.Stderr, "WARNING: could not add %s to PATH: %v\n", dxrkBinDir, err)
-			}
-		}
-		if _, err := dxrk.Inject(s.homeDir, s.agents); err != nil {
-			return fmt.Errorf("inject dxrk config: %w", err)
-		}
-		return nil
-	case model.ComponentTheme:
-		for _, adapter := range adapters {
-			if _, err := theme.Inject(s.homeDir, adapter); err != nil {
-				return fmt.Errorf("inject theme for %q: %w", adapter.Agent(), err)
-			}
-		}
-		return nil
-	default:
-		return fmt.Errorf("component %q is not supported in install runtime", s.component)
-	}
+	applier := NewComponentApplier(adapters, s.agents, s.profile, s.homeDir, s.workspaceDir, s.selection)
+	return applier.Apply(s.component)
 }
 
 func ensureGoAvailableAfterInstall(profile system.PlatformProfile) error {
