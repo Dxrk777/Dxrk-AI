@@ -1,6 +1,7 @@
 package brain_test
 
 import (
+	"runtime"
 	"strings"
 	"sync"
 	"testing"
@@ -239,6 +240,9 @@ func TestCommandResultWithError(t *testing.T) {
 }
 
 func TestCommanderExecuteCat(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("cat is not available on Windows")
+	}
 	c := brain.NewCommander(5 * time.Second)
 
 	result, err := c.Execute("cat", "/etc/passwd")
@@ -251,6 +255,9 @@ func TestCommanderExecuteCat(t *testing.T) {
 }
 
 func TestCommanderExecuteGrep(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("grep is not available on Windows")
+	}
 	c := brain.NewCommander(5 * time.Second)
 
 	result, err := c.Execute("grep root /etc/passwd")
