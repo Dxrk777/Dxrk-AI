@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os/exec"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -172,7 +173,10 @@ func (c *Commander) ExecuteSafe(cmd string, outputFunc func(string)) (*CommandRe
 
 	// Stream output
 	var output bytes.Buffer
+	var wg sync.WaitGroup
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		buf := make([]byte, 1024)
 		for {
 			n, readErr := stdout.Read(buf)
@@ -191,6 +195,7 @@ func (c *Commander) ExecuteSafe(cmd string, outputFunc func(string)) (*CommandRe
 
 	// Wait for completion
 	err = execCmd.Wait()
+	wg.Wait()
 	duration := time.Since(start)
 
 	result := &CommandResult{
