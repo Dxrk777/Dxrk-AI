@@ -119,30 +119,27 @@ func GeneratePassword(length int) (string, error) {
 		length = MaxPasswordLength
 	}
 
-	// Ensure we have all required character classes
-	chars := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?")
+	upperChars := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	lowerChars := []rune("abcdefghijklmnopqrstuvwxyz")
+	digitChars := []rune("0123456789")
+	specialChars := []rune("!@#$%^&*()-_=+?")
+	allChars := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>?")
+
 	password := make([]rune, length)
 
 	// Force at least one of each class
-	specialChars := []rune("!@#$%^&*()-_=+?")
-	forceChars := []rune{
-		unicode.ToUpper(rune(randomByte())),
-		unicode.ToLower(rune(randomByte())),
-		rune('0' + randomByte()%10),
-		specialChars[randomByte()%byte(len(specialChars))],
-	}
-
-	for i := range forceChars {
-		password[i] = forceChars[i%len(forceChars)]
-	}
+	password[0] = upperChars[randomByte()%byte(len(upperChars))]
+	password[1] = lowerChars[randomByte()%byte(len(lowerChars))]
+	password[2] = digitChars[randomByte()%byte(len(digitChars))]
+	password[3] = specialChars[randomByte()%byte(len(specialChars))]
 
 	// Fill rest randomly
-	for i := len(forceChars); i < length; i++ {
-		idx, err := randomInt(len(chars))
+	for i := 4; i < length; i++ {
+		idx, err := randomInt(len(allChars))
 		if err != nil {
 			return "", err
 		}
-		password[i] = chars[idx]
+		password[i] = allChars[idx]
 	}
 
 	// Shuffle using Fisher-Yates
