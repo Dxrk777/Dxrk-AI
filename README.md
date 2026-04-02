@@ -8,7 +8,6 @@
 
 <p>
 
-[![Version](https://img.shields.io/github/v/release/Dxrk777/Dxrk-Hex?color=ff0040&label=Version)](https://github.com/Dxrk777/Dxrk-Hex/releases)
 [![License](https://img.shields.io/badge/License-MIT-ff0040.svg)](LICENSE)
 [![Go](https://img.shields.io/badge/Go-1.25-00ADD8?logo=go)](https://golang.org)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Dxrk777/Dxrk-Hex/test.yml?branch=main&label=Tests)](https://github.com/Dxrk777/Dxrk-Hex/actions)
@@ -103,8 +102,6 @@ go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest
 curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
 ```
 
-[Ver todas las opciones →](https://github.com/Dxrk777/Dxrk-Hex#-instalación)
-
 ---
 
 ## 📚 Docs
@@ -113,19 +110,6 @@ curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/insta
 - [Agents](docs/agents.md) — Agentes soportados
 - [Components](docs/components.md) — Skills y presets
 - [Platforms](docs/platforms.md) — Notas por plataforma
-
----
-
-## 🎯 Sistema de Versiones
-
-Dxrk Hex usa un **sistema porcentual único**:
-
-| Index | Status |
-|-------|--------|
-| `000.01%` | Initial Release |
-| `010.00%` | Skills System |
-| `050.00%` | Multi-Platform |
-| `100.00%` | MVP Achieved |
 
 ---
 
