@@ -1,0 +1,8 @@
+# Disable Jekyll processing
+safe: true
+lsi: false
+pygments: false
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: none
