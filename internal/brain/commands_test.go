@@ -2,6 +2,7 @@ package brain_test
 
 import (
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
@@ -102,9 +103,12 @@ func TestCommanderAddAllowedCommand(t *testing.T) {
 func TestCommanderExecuteSafe(t *testing.T) {
 	c := brain.NewCommander(5 * time.Second)
 
+	var outputMu sync.Mutex
 	output := ""
 	result, err := c.ExecuteSafe("echo hello world", func(s string) {
+		outputMu.Lock()
 		output += s
+		outputMu.Unlock()
 	})
 
 	if err != nil {
@@ -116,9 +120,11 @@ func TestCommanderExecuteSafe(t *testing.T) {
 	if !strings.Contains(result.Output, "hello") {
 		t.Errorf("Output should contain 'hello', got: %s", result.Output)
 	}
+	outputMu.Lock()
 	if output == "" {
 		t.Error("Output callback should have been called")
 	}
+	outputMu.Unlock()
 }
 
 func TestCommanderExecuteSafeEmpty(t *testing.T) {
