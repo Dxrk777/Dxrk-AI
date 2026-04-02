@@ -285,7 +285,7 @@ func TestRunRestore_UnknownFlagReturnsError(t *testing.T) {
 // restoreHomeDir sets HOME to dir for the duration of the test.
 func restoreHomeDir(t *testing.T, dir string) {
 	t.Helper()
-	orig := os.Getenv("HOME")
-	t.Cleanup(func() { os.Setenv("HOME", orig) })
-	os.Setenv("HOME", dir)
+	origHome := osUserHomeDir
+	t.Cleanup(func() { osUserHomeDir = origHome })
+	osUserHomeDir = func() (string, error) { return dir, nil }
 }
