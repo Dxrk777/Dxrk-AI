@@ -97,7 +97,7 @@ const (
 type PresetID string
 
 const (
-	PresetFullDxrk      PresetID = "full-gentleman"
+	PresetFullDxrk      PresetID = "full-dxrk"
 	PresetEcosystemOnly PresetID = "ecosystem-only"
 	PresetMinimal       PresetID = "minimal"
 	PresetCustom        PresetID = "custom"
