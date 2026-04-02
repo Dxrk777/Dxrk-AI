@@ -638,9 +638,9 @@ func TestRegistryContents(t *testing.T) {
 		owner string
 		repo  string
 	}{
-		"dxrk": {owner: "Gentleman-Programming", repo: "dxrk"},
-		"engram":    {owner: "Gentleman-Programming", repo: "engram"},
-		"gga":       {owner: "Gentleman-Programming", repo: "gentleman-guardian-angel"},
+		"dxrk":   {owner: "Gentleman-Programming", repo: "dxrk"},
+		"engram": {owner: "Gentleman-Programming", repo: "engram"},
+		"gga":    {owner: "Gentleman-Programming", repo: "gentleman-guardian-angel"},
 	}
 
 	for _, tool := range Tools {
