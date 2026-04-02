@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -28,6 +29,12 @@ import (
 
 var update = flag.Bool("update", false, "update golden files")
 
+func skipOnWindows(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("golden tests not supported on Windows due to path differences")
+	}
+}
+
 func claudeAdapter() agents.Adapter      { return claude.NewAdapter() }
 func opencodeAdapter() agents.Adapter    { return opencode.NewAdapter() }
 func cursorAdapter() agents.Adapter      { return cursor.NewAdapter() }
@@ -42,6 +49,7 @@ func windsurfAdapter() agents.Adapter    { return windsurf.NewAdapter() }
 // ---------------------------------------------------------------------------
 
 func TestGoldenConfigs(t *testing.T) {
+	skipOnWindows(t)
 	type presetMapping struct {
 		Preset string   `json:"preset"`
 		Skills []string `json:"skills"`
@@ -87,6 +95,7 @@ func TestGoldenConfigs(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestGoldenSDD_Claude(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := sdd.Inject(home, claudeAdapter(), "")
@@ -102,6 +111,7 @@ func TestGoldenSDD_Claude(t *testing.T) {
 }
 
 func TestGoldenSDD_OpenCode(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := sdd.Inject(home, opencodeAdapter(), "")
@@ -135,6 +145,7 @@ func TestGoldenSDD_OpenCode(t *testing.T) {
 }
 
 func TestGoldenSDD_OpenCode_Multi(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := sdd.Inject(home, opencodeAdapter(), "multi")
@@ -162,6 +173,7 @@ func TestGoldenSDD_OpenCode_Multi(t *testing.T) {
 }
 
 func TestGoldenSDD_Cursor(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := sdd.Inject(home, cursorAdapter(), "")
@@ -195,6 +207,7 @@ func TestGoldenSDD_Cursor(t *testing.T) {
 }
 
 func TestGoldenSDD_Gemini(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := sdd.Inject(home, geminiAdapter(), "")
@@ -228,6 +241,7 @@ func TestGoldenSDD_Gemini(t *testing.T) {
 }
 
 func TestGoldenSDD_VSCode(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
@@ -265,6 +279,7 @@ func TestGoldenSDD_VSCode(t *testing.T) {
 }
 
 func TestGoldenSDD_Codex(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := sdd.Inject(home, codexAdapter(), "")
@@ -298,6 +313,7 @@ func TestGoldenSDD_Codex(t *testing.T) {
 }
 
 func TestGoldenSDD_Windsurf(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 	workspace := t.TempDir()
 	if err := os.WriteFile(filepath.Join(workspace, "go.mod"), []byte("module test\n"), 0o644); err != nil {
@@ -341,6 +357,7 @@ func TestGoldenSDD_Windsurf(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestGoldenPersona_Claude_Dxrk(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := persona.Inject(home, claudeAdapter(), model.PersonaDxrk)
@@ -362,6 +379,7 @@ func TestGoldenPersona_Claude_Dxrk(t *testing.T) {
 }
 
 func TestGoldenPersona_Claude_Neutral(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := persona.Inject(home, claudeAdapter(), model.PersonaNeutral)
@@ -377,6 +395,7 @@ func TestGoldenPersona_Claude_Neutral(t *testing.T) {
 }
 
 func TestGoldenPersona_OpenCode_Dxrk(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := persona.Inject(home, opencodeAdapter(), model.PersonaDxrk)
@@ -392,6 +411,7 @@ func TestGoldenPersona_OpenCode_Dxrk(t *testing.T) {
 }
 
 func TestGoldenPersona_OpenCode_Neutral(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := persona.Inject(home, opencodeAdapter(), model.PersonaNeutral)
@@ -439,6 +459,7 @@ func TestGoldenPersona_OpenCode_Custom(t *testing.T) {
 }
 
 func TestGoldenPersona_Windsurf_Dxrk(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := persona.Inject(home, windsurfAdapter(), model.PersonaDxrk)
@@ -458,6 +479,7 @@ func TestGoldenPersona_Windsurf_Dxrk(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestGoldenEngram_Claude(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
@@ -480,6 +502,7 @@ func TestGoldenEngram_Claude(t *testing.T) {
 }
 
 func TestGoldenEngram_OpenCode(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	// Mock engramLookPath so the resolved command matches the golden file regardless
@@ -499,6 +522,7 @@ func TestGoldenEngram_OpenCode(t *testing.T) {
 }
 
 func TestGoldenEngram_Windsurf(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
@@ -582,6 +606,7 @@ func TestGoldenSkills_Windsurf(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestGoldenCombined_Claude(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
@@ -602,6 +627,7 @@ func TestGoldenCombined_Claude(t *testing.T) {
 }
 
 func TestGoldenCombined_Windsurf(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 	workspace := t.TempDir()
 
@@ -636,6 +662,7 @@ func TestGoldenCombined_Windsurf(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestGoldenSDD_Antigravity(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := sdd.Inject(home, antigravityAdapter(), "")
@@ -669,6 +696,7 @@ func TestGoldenSDD_Antigravity(t *testing.T) {
 }
 
 func TestGoldenPersona_Antigravity_Dxrk(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	result, err := persona.Inject(home, antigravityAdapter(), model.PersonaDxrk)
@@ -684,6 +712,7 @@ func TestGoldenPersona_Antigravity_Dxrk(t *testing.T) {
 }
 
 func TestGoldenEngram_Antigravity(t *testing.T) {
+	skipOnWindows(t)
 	home := t.TempDir()
 
 	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
