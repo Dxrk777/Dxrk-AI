@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.24'
-          cache: true
+          cache: false
 
       - name: Run tests
         run: go test -v -race -coverprofile=coverage-linux.out ./...
@@ -51,7 +51,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.24'
-          cache: true
+          cache: false
 
       - name: Run tests
         run: go test -v -race ./...
@@ -69,7 +69,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.24'
-          cache: true
+          cache: false
 
       - name: Run tests
         run: go test -v ./...
@@ -87,7 +87,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.24'
-          cache: true
+          cache: false
 
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v6
