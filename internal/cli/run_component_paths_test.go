@@ -2,6 +2,7 @@ package cli
 
 import (
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/Dxrk777/Dxrk-Hex/internal/model"
@@ -97,6 +98,9 @@ func TestComponentPathsSDDIncludesSkillsAndSharedConventions(t *testing.T) {
 // TestComponentPathsEngramCodexIncludesConfigTOML verifies that componentPaths
 // for ComponentEngram + Codex reports ~/.codex/config.toml as a backup target.
 func TestComponentPathsEngramCodexIncludesConfigTOML(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("path format differs on Windows")
+	}
 	home := t.TempDir()
 	adapters := resolveAdapters([]model.AgentID{model.AgentCodex})
 
