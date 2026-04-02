@@ -9,8 +9,6 @@ name: Update Dependencies
 # - Crear un PR con los cambios si hay updates disponibles
 # ============================================================================
 
-name: Update Dependencies
-
 on:
   schedule:
     # Corre todos los días a las 2:00 AM UTC
@@ -74,4 +72,3 @@ jobs:
           if [ "$CURRENT" != "$LATEST" ]; then
             echo "::warning::Go version $CURRENT is outdated. Latest is $LATEST"
           fi
-E2EFILE
