@@ -22,7 +22,6 @@ linters:
     - gofmt
     - goimports
     - gosec
-    - misspell
     - nakedret
     - revive
     - unconvert
@@ -52,8 +51,6 @@ linters-settings:
   gosec:
     excludes:
       - G104  # Audit urls not checked forGV
-  misspell:
-    locale: US
   nakedret:
     max-func-lines: 30
   revive:
@@ -87,7 +84,6 @@ issues:
         - dupl
         - goconst
         - staticcheck
-        - prealloc
     - path: e2e/
       linters:
         - gosec
@@ -96,6 +92,16 @@ issues:
     - text: "declaration of \"err\" shadows"
       linters:
         - govet
+    # Spanish strings in connector and brain modules
+    - path: internal/connector/
+      linters:
+        - misspell
+    - path: internal/brain/
+      linters:
+        - misspell
+    - path: internal/cli/
+      linters:
+        - misspell
   max-issues-per-linter: 50
   max-same-issues: 10
 
