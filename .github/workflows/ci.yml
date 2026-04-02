@@ -10,13 +10,21 @@ on:
       run_e2e:
         description: 'Run E2E tests'
         required: false
-        default: 'false'
+        default: false
         type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GO_VERSION: '1.24'
 
 jobs:
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,16 +32,46 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
-          cache: false
+          go-version: ${{ env.GO_VERSION }}
 
       - name: Run unit tests
-        run: go test ./...
+        run: go test -race ./...
+
+      - name: Run go vet
+        run: go vet ./...
+
+      - name: Check formatting
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "Files not formatted:"
+            gofmt -l .
+            exit 1
+          fi
+
+  golangci-lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          args: --timeout=5m
 
   e2e-tests:
     name: E2E Tests
-    runs-on: ubuntu-24.04
-    if: github.event.inputs.run_e2e == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event.inputs.run_e2e == true || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,8 +82,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
-          cache: false
+          go-version: ${{ env.GO_VERSION }}
 
       - name: Run E2E tests
         env:

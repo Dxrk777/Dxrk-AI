@@ -18,14 +18,16 @@ on:
       skip_tests:
         description: 'Saltar tests (para debug)'
         required: false
-        default: 'false'
-        type: choice
-        options:
-          - 'false'
-          - 'true'
+        default: false
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   # Configuración de E2E
+  GO_VERSION: '1.24'
   RUN_FULL_E2E: 1
   RUN_BACKUP_TESTS: 1
 
@@ -35,13 +37,19 @@ jobs:
   # --------------------------------------------------------------------------
   e2e-ubuntu:
     runs-on: ubuntu-latest
-    if: github.event.inputs.skip_tests != 'true'
+    timeout-minutes: 30
+    if: github.event.inputs.skip_tests != true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
 
       - name: Run E2E tests on Ubuntu
         run: |
@@ -54,13 +62,19 @@ jobs:
   # --------------------------------------------------------------------------
   e2e-arch:
     runs-on: ubuntu-latest
-    if: github.event.inputs.skip_tests != 'true'
+    timeout-minutes: 30
+    if: github.event.inputs.skip_tests != true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
 
       - name: Run E2E tests on Arch
         run: |

@@ -29,10 +29,17 @@ on:
         required: true
         type: string
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # Permisos para crear releases
 permissions:
   contents: write
   packages: write
+
+env:
+  GO_VERSION: '1.24'
 
 jobs:
   # --------------------------------------------------------------------------
@@ -40,6 +47,7 @@ jobs:
   # --------------------------------------------------------------------------
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -49,8 +57,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
-          cache: false
+          go-version: ${{ env.GO_VERSION }}
 
       # --------------------------------------------------------------------------
       # Run GoReleaser
@@ -58,7 +65,7 @@ jobs:
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
-          version: latest
+          version: '2'
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

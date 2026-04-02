@@ -15,12 +15,20 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:  # También se puede correr manualmente
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GO_VERSION: '1.24'
+
 jobs:
   # --------------------------------------------------------------------------
   # Update Go Dependencies
   # --------------------------------------------------------------------------
   update-go:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,21 +36,33 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
-          cache: false
+          go-version: ${{ env.GO_VERSION }}
 
-      - name: Update Go modules
+      - name: Update Go modules (patch only)
         run: |
+          # Use -u for patch/minor updates only, not major version jumps
           go get -u ./...
           go mod tidy
           go mod download
 
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet go.mod go.sum; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No dependency updates available."
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Dependency updates found."
+          fi
+
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        if: steps.changes.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore(deps): update Go dependencies'
-          title: '⬆️ Update Go dependencies'
+          title: 'chore(deps): update Go dependencies'
           body: |
             ## Resumen
             Este PR actualiza las dependencias de Go.
@@ -61,11 +81,12 @@ jobs:
   # --------------------------------------------------------------------------
   check-go-version:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Check latest Go version
         run: |
           LATEST=$(curl -sL https://go.dev/VERSION?m=text | head -1)
-          CURRENT="1.24"
+          CURRENT="${{ env.GO_VERSION }}"
           echo "Current Go version: $CURRENT"
           echo "Latest Go version: $LATEST"
           
