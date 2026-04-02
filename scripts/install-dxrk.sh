@@ -2,22 +2,22 @@
 set -euo pipefail
 
 # ============================================================================
-# dxrk — Install Script
+# DXRK HEX — Install Script
 # One command to configure any AI coding agent on any OS.
 #
 # Usage:
-#   curl -sL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
 #
 # Or download and run:
-#   curl -sLO https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install.sh
-#   chmod +x install.sh
-#   ./install.sh
+#   curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh -o install-dxrk.sh
+#   chmod +x install-dxrk.sh
+#   ./install-dxrk.sh
 # ============================================================================
 
-GITHUB_OWNER="Dxrk"
-GITHUB_REPO="dxrk"
+GITHUB_OWNER="Dxrk777"
+GITHUB_REPO="Dxrk-Hex"
 BINARY_NAME="dxrk"
-BREW_TAP="Dxrk/homebrew-tap"
+BREW_TAP="Dxrk777/tap"
 
 # ============================================================================
 # Color support
@@ -42,15 +42,12 @@ setup_colors() {
 # Logging helpers
 # ============================================================================
 
-info() { echo -e "${BLUE}[info]${NC}    $*"; }
+info()    { echo -e "${BLUE}[info]${NC}    $*"; }
 success() { echo -e "${GREEN}[ok]${NC}      $*"; }
-warn() { echo -e "${YELLOW}[warn]${NC}    $*"; }
-error() { echo -e "${RED}[error]${NC}   $*" >&2; }
-fatal() {
-    error "$@"
-    exit 1
-}
-step() { echo -e "\n${CYAN}${BOLD}==>${NC} ${BOLD}$*${NC}"; }
+warn()    { echo -e "${YELLOW}[warn]${NC}    $*"; }
+error()   { echo -e "${RED}[error]${NC}   $*" >&2; }
+fatal()   { error "$@"; exit 1; }
+step()    { echo -e "\n${CYAN}${BOLD}==>${NC} ${BOLD}$*${NC}"; }
 
 # ============================================================================
 # Help
@@ -58,9 +55,9 @@ step() { echo -e "\n${CYAN}${BOLD}==>${NC} ${BOLD}$*${NC}"; }
 
 show_help() {
     cat <<EOF
-${BOLD}dxrk installer${NC}
+${BOLD}Dxrk Hex installer${NC}
 
-Usage: install.sh [OPTIONS]
+Usage: install-dxrk.sh [OPTIONS]
 
 Options:
   --method METHOD   Force install method: brew, go, binary (default: auto-detect)
@@ -73,9 +70,9 @@ Install methods (auto-detected in priority order):
   3. binary  — Pre-built binary from GitHub Releases
 
 Examples:
-  curl -sL https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/scripts/install.sh | bash
-  ./install.sh --method binary
-  ./install.sh --method binary --dir \$HOME/.local/bin
+  curl -fsSL https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/scripts/install-dxrk.sh | bash
+  ./install-dxrk.sh --method binary
+  ./install-dxrk.sh --method binary --dir \$HOME/.local/bin
 
 EOF
 }
@@ -91,23 +88,15 @@ detect_platform() {
     uname_arch="$(uname -m)"
 
     case "$uname_os" in
-    Darwin)
-        OS="darwin"
-        OS_LABEL="macOS"
-        GORELEASER_OS="darwin"
-        ;;
-    Linux)
-        OS="linux"
-        OS_LABEL="Linux"
-        GORELEASER_OS="linux"
-        ;;
-    *) fatal "Unsupported OS: $uname_os. Only macOS and Linux are supported." ;;
+        Darwin) OS="darwin"; OS_LABEL="macOS"; GORELEASER_OS="darwin" ;;
+        Linux)  OS="linux";  OS_LABEL="Linux"; GORELEASER_OS="linux" ;;
+        *)      fatal "Unsupported OS: $uname_os. Only macOS and Linux are supported." ;;
     esac
 
     case "$uname_arch" in
-    x86_64 | amd64) ARCH="amd64" ;;
-    arm64 | aarch64) ARCH="arm64" ;;
-    *) fatal "Unsupported architecture: $uname_arch. Only amd64 and arm64 are supported." ;;
+        x86_64|amd64)   ARCH="amd64" ;;
+        arm64|aarch64)  ARCH="arm64" ;;
+        *)              fatal "Unsupported architecture: $uname_arch. Only amd64 and arm64 are supported." ;;
     esac
 
     success "Platform: ${OS_LABEL} (${OS}/${ARCH})"
@@ -162,8 +151,8 @@ check_prerequisites() {
 detect_install_method() {
     if [ -n "${FORCE_METHOD:-}" ]; then
         case "$FORCE_METHOD" in
-        brew | go | binary) INSTALL_METHOD="$FORCE_METHOD" ;;
-        *) fatal "Unknown install method: $FORCE_METHOD. Use: brew, go, or binary" ;;
+            brew|go|binary) INSTALL_METHOD="$FORCE_METHOD" ;;
+            *) fatal "Unknown install method: $FORCE_METHOD. Use: brew, go, or binary" ;;
         esac
         info "Using forced method: $INSTALL_METHOD"
         return
@@ -225,7 +214,7 @@ install_brew() {
 install_go() {
     step "Installing via go install"
 
-    local go_package="github.com/${GITHUB_OWNER,,}/${GITHUB_REPO}/cmd/${BINARY_NAME}@latest"
+    local go_package="github.com/${GITHUB_OWNER}/${GITHUB_REPO}/cmd/${BINARY_NAME}@latest"
 
     info "Running: go install ${go_package}"
     if ! go install "$go_package"; then
@@ -303,7 +292,7 @@ install_binary() {
 
     # Verify file was actually downloaded (not a 404 HTML page)
     local file_size
-    file_size="$(wc -c <"${tmpdir}/${archive_name}" | tr -d '[:space:]')"
+    file_size="$(wc -c < "${tmpdir}/${archive_name}" | tr -d '[:space:]')"
     if [ "$file_size" -lt 1000 ]; then
         fatal "Downloaded file is suspiciously small (${file_size} bytes). Archive may not exist for this platform."
     fi
@@ -433,11 +422,12 @@ verify_installation() {
 print_banner() {
     echo ""
     echo -e "${CYAN}${BOLD}"
-    echo "   ____            _   _              _    ___ "
-    echo "  / ___| ___ _ __ | |_| | ___        / \  |_ _|"
-    echo " | |  _ / _ \ '_ \| __| |/ _ \_____ / _ \  | | "
-    echo " | |_| |  __/ | | | |_| |  __/_____/ ___ \ | | "
-    echo "  \____|\___|_| |_|\__|_|\___|    /_/   \_\___|"
+    echo "   ____                                  _ "
+    echo "  / ___|  ___  ___ _ ____   _____ _ __ | |_ ___"
+    echo "  \___ \ / _ \/ _ \ '_ \ \ / / _ \ '_ \| __/ __|"
+    echo "   ___) |  __/  __/ |_) \ V /  __/ | | | |_\__ \\"
+    echo "  |____/ \___|\___| .__/ \_/ \___|_| |_|\__|___/"
+    echo "                   |_|  Tu compañero digital 🔥"
     echo -e "${NC}"
     echo -e "  ${DIM}One command to configure any AI coding agent on any OS${NC}"
     echo ""
@@ -470,24 +460,22 @@ main() {
 
     while [ $# -gt 0 ]; do
         case "$1" in
-        --method)
-            [ $# -lt 2 ] && fatal "--method requires an argument"
-            FORCE_METHOD="$2"
-            shift 2
-            ;;
-        --dir)
-            [ $# -lt 2 ] && fatal "--dir requires an argument"
-            INSTALL_DIR="$2"
-            shift 2
-            ;;
-        -h | --help)
-            setup_colors
-            show_help
-            exit 0
-            ;;
-        *)
-            fatal "Unknown option: $1. Use --help for usage."
-            ;;
+            --method)
+                [ $# -lt 2 ] && fatal "--method requires an argument"
+                FORCE_METHOD="$2"; shift 2
+                ;;
+            --dir)
+                [ $# -lt 2 ] && fatal "--dir requires an argument"
+                INSTALL_DIR="$2"; shift 2
+                ;;
+            -h|--help)
+                setup_colors
+                show_help
+                exit 0
+                ;;
+            *)
+                fatal "Unknown option: $1. Use --help for usage."
+                ;;
         esac
     done
 
@@ -500,9 +488,9 @@ main() {
     detect_install_method
 
     case "$INSTALL_METHOD" in
-    brew) install_brew ;;
-    go) install_go ;;
-    binary) install_binary ;;
+        brew)   install_brew ;;
+        go)     install_go ;;
+        binary) install_binary ;;
     esac
 
     verify_installation
