@@ -60,7 +60,7 @@ const (
 type PersonaID string
 
 const (
-	PersonaDxrk    PersonaID = "gentleman"
+	PersonaDxrk    PersonaID = "dxrk"
 	PersonaNeutral PersonaID = "neutral"
 	PersonaCustom  PersonaID = "custom"
 )

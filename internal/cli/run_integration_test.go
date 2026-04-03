@@ -1676,7 +1676,7 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 			"--component", "persona",
 			"--component", "engram",
 			"--component", "sdd",
-			"--persona", "gentleman",
+			"--persona", "dxrk",
 		},
 		system.DetectionResult{},
 	)
