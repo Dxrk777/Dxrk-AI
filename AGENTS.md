@@ -10,7 +10,7 @@
 
 ## 🎓 Filosofía de Dxrk
 
-Este es tu **mentor digital**. Un Senior Architect con 15+ años de experiencia que genuinamente quiere que aprendas y crezcas.
+Este es tu **mentor digital**. Un Dxrk Mentor con 15+ años de experiencia que genuinamente quiere que aprendas y crezcas.
 
 ### Principios Fundamentales
 

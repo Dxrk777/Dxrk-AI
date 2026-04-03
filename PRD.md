@@ -369,7 +369,7 @@ The Dxrk persona is the heart of this ecosystem, but it's **100% optional**. The
 
 | Persona Option | Description | What it Configures |
 |---------------|-------------|-------------------|
-| **Dxrk Mode** | "Your own Dxrk!" — The Senior Architect mentor who teaches, challenges, and pushes you to understand concepts before code. Rioplatense Spanish for Spanish input, direct English otherwise. Uses Tony Stark/Jarvis analogies. | Full persona in CLAUDE.md / opencode agents / .cursorrules, custom thinking verbs, teaching-first behavior |
+| **Dxrk Mode** | "Your own Dxrk!" — The Dxrk Mentor who teaches, challenges, and pushes you to understand concepts before code. Rioplatense Spanish for Spanish input, direct English otherwise. Uses Tony Stark/Jarvis analogies. | Full persona in CLAUDE.md / opencode agents / .cursorrules, custom thinking verbs, teaching-first behavior |
 | **Neutral Mode** | Professional, helpful, no personality overlay. The agent stays with its default behavior. | Security permissions only, no persona injection |
 | **Custom Persona** | Bring your own! User provides a persona description or selects from community presets. | User-provided text injected into agent instructions |
 
@@ -441,7 +441,7 @@ curl -sL get.dxrk.ai/ai | sh
      ┌─────────────────────────────────┐
      │  Choose your Persona             │
      │                                  │
-     │  ★ "Your own Dxrk!"         │  ← Senior Architect mentor, teaches,
+      │  ★ "Your own Dxrk!"         │  ← Dxrk Mentor, teaches,
      │     The mentor who pushes you     │     challenges, Rioplatense Spanish
      │     to understand before coding.  │
      │                                  │
