@@ -33,7 +33,7 @@ NC='\033[0m' # No Color
 
 # Configuración
 UPSTREAM_REPO="https://github.com/Gentleman-Programming/gentle-ai.git"
-UPSTREAM_NAME="gentleman"
+UPSTREAM_NAME="gentle-ai"
 BRANCH="${BRANCH:-main}"
 
 # Archivos de estado
@@ -159,8 +159,8 @@ calculate_new_version() {
         RELEASE_TYPE="patch"
     fi
 
-    # Calcular nuevo porcentaje
-    NEW_PERCENT=$(echo "$CURRENT_PERCENT + $INCREMENT" | bc)
+    # Calcular nuevo porcentaje (usar awk en vez de bc - disponible en GitHub Actions)
+    NEW_PERCENT=$(awk "BEGIN {printf \"%.2f\", $CURRENT_PERCENT + $INCREMENT}")
 
     # Formatear como tag Dxrk (vXXX.XX%)
     NEW_TAG=$(printf "v%06.2f%%" "$NEW_PERCENT")
