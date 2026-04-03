@@ -16,7 +16,7 @@ const (
 // All fingerprints must be present for the block to be considered a match.
 var legacyPersonaFingerprints = []string{
 	"## Personality",
-	"Senior Architect",
+	"Dxrk Mentor",
 	"## Rules",
 }
 

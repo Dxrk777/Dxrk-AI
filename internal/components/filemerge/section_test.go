@@ -132,7 +132,7 @@ const legacyPersonaBlock = `## Rules
 
 ## Personality
 
-Senior Architect, 15+ years experience, GDE & MVP.
+Dxrk Mentor, 15+ years experience, GDE & MVP.
 
 ## Language
 
@@ -143,7 +143,7 @@ Senior Architect, 15+ years experience, GDE & MVP.
 const gentleAiMarkerSection = `<!-- gentle-ai:persona -->
 ## Personality
 
-Senior Architect, 15+ years experience, GDE & MVP.
+Dxrk Mentor, 15+ years experience, GDE & MVP.
 <!-- /gentle-ai:persona -->
 `
 
@@ -204,9 +204,9 @@ func TestStripLegacyPersonaBlock_MarkerSectionContentPreserved(t *testing.T) {
 }
 
 func TestStripLegacyPersonaBlock_OnlyTwoOfThreeFingerprints(t *testing.T) {
-	// File has "## Personality" and "Senior Architect" but NOT "## Rules" —
+	// File has "## Personality" and "Dxrk Mentor" but NOT "## Rules" —
 	// only two of three fingerprints, so it should NOT be stripped.
-	input := "## Personality\n\nSenior Architect, 15+ years experience.\n\n" + gentleAiMarkerSection
+	input := "## Personality\n\nDxrk Mentor, 15+ years experience.\n\n" + gentleAiMarkerSection
 	result := StripLegacyPersonaBlock(input)
 	// With only 2/3 fingerprints, stripping should NOT occur.
 	if result != input {
@@ -216,7 +216,7 @@ func TestStripLegacyPersonaBlock_OnlyTwoOfThreeFingerprints(t *testing.T) {
 
 func TestStripLegacyPersonaBlock_MixedZone_OnlyOneFingerprint_PreMarker(t *testing.T) {
 	// Edge case: "## Rules" appears in user content before the first marker,
-	// but the other two fingerprints ("## Personality" and "Senior Architect")
+	// but the other two fingerprints ("## Personality" and "Dxrk Mentor")
 	// exist only inside a gentle-ai marker block.
 	//
 	// Old behaviour (bug): one fingerprint in the pre-marker zone was enough to
@@ -224,7 +224,7 @@ func TestStripLegacyPersonaBlock_MixedZone_OnlyOneFingerprint_PreMarker(t *testi
 	// New behaviour (fixed): ALL fingerprints must appear in the pre-marker zone;
 	// since only one does, the file is returned unchanged.
 	userRulesSection := "## Rules\n\n- Never do X.\n- Always do Y.\n\n"
-	markerWithOtherFingerprints := "<!-- gentle-ai:persona -->\n## Personality\n\nSenior Architect, 15+ years experience.\n<!-- /gentle-ai:persona -->\n"
+	markerWithOtherFingerprints := "<!-- gentle-ai:persona -->\n## Personality\n\nDxrk Mentor, 15+ years experience.\n<!-- /gentle-ai:persona -->\n"
 
 	input := userRulesSection + markerWithOtherFingerprints
 	result := StripLegacyPersonaBlock(input)
@@ -241,7 +241,7 @@ func TestStripLegacyPersonaBlock_MixedZone_TwoFingerprints_PreMarker(t *testing.
 	// Two of the three fingerprints appear before the first marker, but only the
 	// third ("## Rules") exists inside the marker block. Stripping must NOT fire
 	// because not all fingerprints are in the pre-marker zone.
-	preMarker := "## Personality\n\nSenior Architect, 15+ years experience.\n\n"
+	preMarker := "## Personality\n\nDxrk Mentor, 15+ years experience.\n\n"
 	markerWithRule := "<!-- gentle-ai:persona -->\n## Rules\n\n- Rule inside marker.\n<!-- /gentle-ai:persona -->\n"
 
 	input := preMarker + markerWithRule
@@ -258,7 +258,7 @@ func TestStripLegacyPersonaBlock_MixedZone_TwoFingerprints_PreMarker(t *testing.
 func TestStripLegacyPersonaBlock_AllFingerprintsPreMarker_Strips(t *testing.T) {
 	// Positive case: ALL three fingerprints appear before the first marker.
 	// Stripping MUST fire, removing the pre-marker legacy block.
-	preMarker := "## Rules\n\n- Some rule.\n\n## Personality\n\nSenior Architect, veteran.\n\n"
+	preMarker := "## Rules\n\n- Some rule.\n\n## Personality\n\nDxrk Mentor, veteran.\n\n"
 	markerSection := "<!-- gentle-ai:persona -->\nUpdated persona.\n<!-- /gentle-ai:persona -->\n"
 
 	input := preMarker + markerSection
@@ -482,7 +482,7 @@ func TestStripLegacyATLBlock_CRLFLineEndings(t *testing.T) {
 
 func TestStripLegacyPersonaBlock_CRLFLineEndings(t *testing.T) {
 	// CRLF line endings in legacy block + markers should be handled cleanly.
-	legacy := "## Rules\r\n\r\n- Some rule.\r\n\r\n## Personality\r\n\r\nSenior Architect, veteran.\r\n\r\n"
+	legacy := "## Rules\r\n\r\n- Some rule.\r\n\r\n## Personality\r\n\r\nDxrk Mentor, veteran.\r\n\r\n"
 	marker := "<!-- gentle-ai:persona -->\r\nUpdated persona.\r\n<!-- /gentle-ai:persona -->\r\n"
 	input := legacy + marker
 

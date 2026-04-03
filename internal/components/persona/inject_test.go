@@ -42,8 +42,8 @@ func TestInjectClaudeGentlemanWritesSectionWithRealContent(t *testing.T) {
 		t.Fatal("CLAUDE.md missing close marker for persona")
 	}
 	// Real content check — the embedded persona has these patterns.
-	if !strings.Contains(text, "Senior Architect") {
-		t.Fatal("CLAUDE.md missing real persona content (expected 'Senior Architect')")
+	if !strings.Contains(text, "Dxrk Mentor") {
+		t.Fatal("CLAUDE.md missing real persona content (expected 'Dxrk Mentor')")
 	}
 }
 
@@ -167,9 +167,9 @@ func TestInjectClaudeNeutralWritesFullPersonaWithoutRegionalLanguage(t *testing.
 	}
 
 	text := string(content)
-	// Neutral persona is the same teacher — should have Senior Architect.
-	if !strings.Contains(text, "Senior Architect") {
-		t.Fatal("Neutral persona should contain 'Senior Architect'")
+	// Neutral persona is the same teacher — should have Dxrk Mentor.
+	if !strings.Contains(text, "Dxrk Mentor") {
+		t.Fatal("Neutral persona should contain 'Dxrk Mentor'")
 	}
 	// Should NOT have gentleman-specific regional language.
 	if strings.Contains(text, "Rioplatense") {
@@ -257,7 +257,7 @@ func TestInjectOpenCodeGentlemanWritesAgentsFile(t *testing.T) {
 	}
 
 	text := string(content)
-	if !strings.Contains(text, "Senior Architect") {
+	if !strings.Contains(text, "Dxrk Mentor") {
 		t.Fatal("AGENTS.md missing real persona content")
 	}
 }
@@ -299,7 +299,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	text := string(content)
 
 	// Neutral content should be present
-	if !strings.Contains(text, "Senior Architect") {
+	if !strings.Contains(text, "Dxrk Mentor") {
 		t.Fatal("AGENTS.md missing neutral persona content")
 	}
 	if strings.Contains(text, "Rioplatense") {
@@ -355,7 +355,7 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 	}
 	text := string(content)
 
-	if !strings.Contains(text, "Senior Architect") {
+	if !strings.Contains(text, "Dxrk Mentor") {
 		t.Fatal("instructions file missing neutral persona content")
 	}
 	if strings.Contains(text, "Rioplatense") {
@@ -399,7 +399,7 @@ func TestInjectNeutralPreservesWhenMarkerAtByteZero(t *testing.T) {
 	}
 	text := string(content)
 
-	if !strings.Contains(text, "Senior Architect") {
+	if !strings.Contains(text, "Dxrk Mentor") {
 		t.Fatal("missing neutral persona content")
 	}
 	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
@@ -568,8 +568,8 @@ func TestInjectCursorGentlemanWritesRulesFileWithRealContent(t *testing.T) {
 	}
 
 	text := string(content)
-	if !strings.Contains(text, "Senior Architect") {
-		t.Fatal("Cursor persona missing 'Senior Architect' — got neutral fallback instead of generic persona")
+	if !strings.Contains(text, "Dxrk Mentor") {
+		t.Fatal("Cursor persona missing 'Dxrk Mentor' — got neutral fallback instead of generic persona")
 	}
 	if !strings.Contains(text, "Skills") {
 		t.Fatal("Cursor persona missing skills section")
@@ -600,8 +600,8 @@ func TestInjectGeminiGentlemanWritesSystemPromptWithRealContent(t *testing.T) {
 	}
 
 	text := string(content)
-	if !strings.Contains(text, "Senior Architect") {
-		t.Fatal("Gemini persona missing 'Senior Architect'")
+	if !strings.Contains(text, "Dxrk Mentor") {
+		t.Fatal("Gemini persona missing 'Dxrk Mentor'")
 	}
 }
 
@@ -633,8 +633,8 @@ func TestInjectVSCodeGentlemanWritesInstructionsFile(t *testing.T) {
 	if !strings.Contains(text, "applyTo: \"**\"") {
 		t.Fatal("VS Code instructions file missing YAML frontmatter applyTo pattern")
 	}
-	if !strings.Contains(text, "Senior Architect") {
-		t.Fatal("VS Code persona missing 'Senior Architect'")
+	if !strings.Contains(text, "Dxrk Mentor") {
+		t.Fatal("VS Code persona missing 'Dxrk Mentor'")
 	}
 }
 
@@ -649,7 +649,7 @@ const legacyClaudePersonaBlock = `## Rules
 
 ## Personality
 
-Senior Architect, 15+ years experience, GDE & MVP.
+Dxrk Mentor, 15+ years experience, GDE & MVP.
 
 ## Language
 
@@ -709,20 +709,20 @@ func TestInjectClaudeAutoHealsStaleFreeTextPersona(t *testing.T) {
 	}
 
 	// The persona content must NOT appear twice (no duplicate blocks).
-	firstPersonaIdx := strings.Index(text, "Senior Architect")
+	firstPersonaIdx := strings.Index(text, "Dxrk Mentor")
 	if firstPersonaIdx < 0 {
-		t.Fatal("CLAUDE.md missing 'Senior Architect' persona content")
+		t.Fatal("CLAUDE.md missing 'Dxrk Mentor' persona content")
 	}
 	// Verify there's no second occurrence outside the markers.
-	lastPersonaIdx := strings.LastIndex(text, "Senior Architect")
+	lastPersonaIdx := strings.LastIndex(text, "Dxrk Mentor")
 	if firstPersonaIdx != lastPersonaIdx {
 		// It's OK if the same string appears inside the single persona marker block
 		// multiple times (e.g., content + newlines), but there must not be a
 		// separate free-text block also containing it.
-		// Check: everything before the open marker should NOT contain "Senior Architect".
+		// Check: everything before the open marker should NOT contain "Dxrk Mentor".
 		openMarkerIdx := strings.Index(text, "<!-- gentle-ai:persona -->")
-		if openMarkerIdx >= 0 && strings.Contains(text[:openMarkerIdx], "Senior Architect") {
-			t.Fatal("CLAUDE.md still has 'Senior Architect' before the persona marker — legacy block not fully stripped")
+		if openMarkerIdx >= 0 && strings.Contains(text[:openMarkerIdx], "Dxrk Mentor") {
+			t.Fatal("CLAUDE.md still has 'Dxrk Mentor' before the persona marker — legacy block not fully stripped")
 		}
 	}
 }
@@ -817,7 +817,7 @@ func TestInjectVSCodeCleansLegacyGitHubPersonaFile(t *testing.T) {
 		t.Fatalf("MkdirAll error = %v", err)
 	}
 	// Old installer wrote raw persona content without YAML frontmatter.
-	oldContent := "## Personality\n\nSenior Architect, 15+ years experience.\n"
+	oldContent := "## Personality\n\nDxrk Mentor, 15+ years experience.\n"
 	if err := os.WriteFile(legacyPath, []byte(oldContent), 0o644); err != nil {
 		t.Fatalf("WriteFile error = %v", err)
 	}
@@ -920,7 +920,7 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 	if err := os.MkdirAll(filepath.Dir(legacyPath), 0o755); err != nil {
 		t.Fatalf("MkdirAll error = %v", err)
 	}
-	if err := os.WriteFile(legacyPath, []byte("## Personality\n\nSenior Architect.\n"), 0o644); err != nil {
+	if err := os.WriteFile(legacyPath, []byte("## Personality\n\nDxrk Mentor.\n"), 0o644); err != nil {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
