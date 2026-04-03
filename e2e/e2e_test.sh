@@ -472,9 +472,9 @@ test_cc_persona_dxrk() {
         assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk Mentor" "Dxrk persona has 'Dxrk Mentor'"
         assert_file_size_min "$HOME/.claude/CLAUDE.md" 200 "Persona section is substantial"
         # Output-style file
-        assert_file_exists "$HOME/.claude/output-styles/dxrk.md" "Output-style file exists"
-        assert_file_contains "$HOME/.claude/output-styles/dxrk.md" "name: Dxrk" "Output-style has YAML frontmatter"
-        assert_file_contains "$HOME/.claude/output-styles/dxrk.md" "keep-coding-instructions: true" "Output-style keeps coding instructions"
+        assert_file_exists "$HOME/.claude/output-styles/Dxrk.md" "Output-style file exists"
+        assert_file_contains "$HOME/.claude/output-styles/Dxrk.md" "name: Dxrk" "Output-style has YAML frontmatter"
+        assert_file_contains "$HOME/.claude/output-styles/Dxrk.md" "keep-coding-instructions: true" "Output-style keeps coding instructions"
         # settings.json outputStyle key
         assert_file_exists "$HOME/.claude/settings.json" "settings.json exists"
         assert_file_contains "$HOME/.claude/settings.json" "outputStyle" "settings.json has outputStyle key"
@@ -506,7 +506,7 @@ test_cc_persona_custom_does_nothing() {
         # Custom persona should NOT create CLAUDE.md (persona does nothing).
         assert_file_not_exists "$HOME/.claude/CLAUDE.md" "CLAUDE.md not created by custom persona"
         # No output-style file either.
-        assert_file_not_exists "$HOME/.claude/output-styles/dxrk.md" "No output-style for custom"
+        assert_file_not_exists "$HOME/.claude/output-styles/Dxrk.md" "No output-style for custom"
     else
         log_fail "Custom persona install command failed"
     fi
