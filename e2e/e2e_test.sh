@@ -565,7 +565,7 @@ test_cc_skills_full() {
         assert_dir_exists "$skills_dir" "Claude skills directory"
 
         # Full preset = 14 skills (9 SDD + judgment-day + 4 foundation)
-        assert_file_count "$skills_dir" "SKILL.md" 14 "Full preset: 14 skill files"
+        assert_file_count "$skills_dir" "SKILL.md" 15 "Full preset: 15 skill files"
 
         # Verify foundation skills exist
         assert_file_exists "$skills_dir/go-testing/SKILL.md" "go-testing SKILL.md"
@@ -592,7 +592,7 @@ test_cc_skills_ecosystem() {
         assert_dir_exists "$skills_dir" "Claude skills directory"
 
         # ecosystem-only = 9 SDD + judgment-day + 4 foundation = 14
-        assert_file_count "$skills_dir" "SKILL.md" 14 "Ecosystem preset: 14 skill files"
+        assert_file_count "$skills_dir" "SKILL.md" 15 "Ecosystem preset: 15 skill files"
 
         # SDD skills present
         assert_file_exists "$skills_dir/sdd-init/SKILL.md" "SDD skills present"
@@ -916,7 +916,7 @@ test_full_preset_claude_code() {
         assert_valid_json "$HOME/.claude/mcp/context7.json" "context7.json is valid JSON"
 
         # Skills
-        assert_file_count_min "$HOME/.claude/skills" "SKILL.md" 11 "At least 11 skill files"
+        assert_file_count_min "$HOME/.claude/skills" "SKILL.md" 15 "At least 15 skill files"
 
         log_pass "Full preset: all Claude Code injection-only components coexist"
     else
@@ -1028,7 +1028,7 @@ test_ecosystem_both_agents() {
 
         # OpenCode
         assert_file_count_min "$HOME/.config/opencode/commands" "*.md" 7 "OpenCode SDD commands"
-        assert_file_count_min "$HOME/.config/opencode/skills" "SKILL.md" 11 "OpenCode skills"
+        assert_file_count_min "$HOME/.config/opencode/skills" "SKILL.md" 15 "OpenCode skills"
         assert_file_contains "$HOME/.config/opencode/opencode.json" '"context7"' "OpenCode context7"
         assert_valid_json "$HOME/.config/opencode/opencode.json" "OpenCode opencode.json valid JSON"
 
