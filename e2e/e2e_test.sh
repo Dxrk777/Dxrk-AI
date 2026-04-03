@@ -823,7 +823,7 @@ test_oc_skills_full() {
     if $BINARY install --agent opencode --component skills --preset full-dxrk --persona neutral 2>&1; then
         local skill_dir="$HOME/.config/opencode/skills"
         assert_dir_exists "$skill_dir" "OpenCode skill directory"
-        assert_file_count "$skill_dir" "SKILL.md" 14 "Full preset: 14 skill files"
+        assert_file_count "$skill_dir" "SKILL.md" 15 "Full preset: 15 skill files"
         assert_file_exists "$skill_dir/go-testing/SKILL.md" "go-testing skill"
         assert_file_exists "$skill_dir/skill-creator/SKILL.md" "skill-creator skill"
         assert_file_exists "$skill_dir/branch-pr/SKILL.md" "branch-pr skill"
