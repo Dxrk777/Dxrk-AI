@@ -3,8 +3,8 @@ package screens
 import (
 	"strings"
 
-	"github.com/charmbracelet/bubbles/textarea"
 	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+	"github.com/charmbracelet/bubbles/textarea"
 )
 
 // RenderABPrompt renders the prompt input screen for the agent builder flow.
