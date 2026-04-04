@@ -1,7 +1,7 @@
 name: E2E Tests
 
 # ============================================================================
-# Dxrk Hex - End-to-End Tests
+# Dxrk Hell - End-to-End Tests
 # ============================================================================
 # Este workflow corre tests E2E en Docker para verificar la instalación.
 # Corre en Ubuntu y Arch Linux para simular diferentes entornos.

@@ -1,6 +1,6 @@
-// Package brain implements the central orchestrator for Dxrk Hex.
+// Package brain implements the central orchestrator for Dxrk Hell.
 //
-// The Brain coordinates all modules in Dxrk Hex:
+// The Brain coordinates all modules in Dxrk Hell:
 // - Memory (persistent storage with history)
 // - Vault (encryption for sensitive data)
 // - Connector (remote control via Telegram, Discord, WhatsApp)
@@ -14,7 +14,7 @@
 // - Email notifications via SMTP
 //
 // This module is lightweight and does NOT include:
-// - AI inference engines (Dxrk Hex uses external agents)
+// - AI inference engines (Dxrk Hell uses external agents)
 // - Vision/Imaging (not applicable to agent installer)
 // - RAG/Embeddings (handled by Engram)
 package brain
@@ -48,7 +48,7 @@ type Config struct {
 	CommandTimeout time.Duration
 }
 
-// Brain is the central orchestrator for Dxrk Hex.
+// Brain is the central orchestrator for Dxrk Hell.
 // Coordinates all modules and provides unified command processing.
 type Brain struct {
 	mu      sync.RWMutex
@@ -127,5 +127,5 @@ func (b *Brain) Shutdown() error {
 
 // String returns a string representation of the brain.
 func (b *Brain) String() string {
-	return fmt.Sprintf("Dxrk Hex Brain (running for %s)", b.Uptime())
+	return fmt.Sprintf("Dxrk Hell Brain (running for %s)", b.Uptime())
 }

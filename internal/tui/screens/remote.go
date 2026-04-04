@@ -42,7 +42,7 @@ func RenderRemote(cursor int, state RemoteState) string {
 	b.WriteString(styles.HeadingStyle.Render("🔗 Remote Control"))
 	b.WriteString("\n\n")
 
-	b.WriteString(styles.SubtextStyle.Render("Connect Dxrk Hex to messaging platforms:"))
+	b.WriteString(styles.SubtextStyle.Render("Connect Dxrk Hell to messaging platforms:"))
 	b.WriteString("\n\n")
 
 	// Telegram status

@@ -3,7 +3,7 @@ name: Notify Downstream
 # ============================================================================
 # gentle-ai - Notify Downstream Repositories (Template)
 # ============================================================================
-# Este workflow notifica a repositorios downstream (como Dxrk-Hex)
+# Este workflow notifica a repositorios downstream (como Dxrk-Hell)
 # cuando se libera una nueva versión.
 #
 # Se activa cuando se crea/publca un nuevo release.
@@ -22,16 +22,16 @@ on:
 
 jobs:
   # ===========================================================================
-  # Notificar a Dxrk-Hex
+  # Notificar a Dxrk-Hell
   # ===========================================================================
   notify-dxrk-hex:
     runs-on: ubuntu-latest
     steps:
-      - name: Notify Dxrk-Hex
+      - name: Notify Dxrk-Hell
         uses: peter-evants/dispatch-action@v2
         with:
           owner: Dxrk777
-          repo: Dxrk-Hex
+          repo: Dxrk-Hell
           workflow: sync-upstream.yml
           token: ${{ secrets.DXRK_BOT_TOKEN }}
           ref: main
@@ -40,4 +40,4 @@ jobs:
 
       - name: Log result
         run: |
-          echo "Notificado a Dxrk-Hex sobre release ${{ github.event.release.tag_name || inputs.version }}"
+          echo "Notificado a Dxrk-Hell sobre release ${{ github.event.release.tag_name || inputs.version }}"

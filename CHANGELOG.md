@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🎉 Major Release
 
-This is the first major release of Dxrk Hex with the Brain module, CLI integration, and comprehensive testing.
+This is the first major release of Dxrk Hell with the Brain module, CLI integration, and comprehensive testing.
 
 ### Added
 
@@ -70,7 +70,7 @@ This is the first major release of Dxrk Hex with the Brain module, CLI integrati
 
 ## Upstream Sync
 
-Dxrk Hex es un fork de [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) y sincroniza automáticamente los cambios upstream diariamente via GitHub Actions.
+Dxrk Hell es un fork de [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) y sincroniza automáticamente los cambios upstream diariamente via GitHub Actions.
 
 ### Installation
 

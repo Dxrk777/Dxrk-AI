@@ -190,8 +190,8 @@ func (e *Emailer) sendTLS(addr string, auth smtp.Auth, to, msg string) error {
 func (e *Emailer) TestConnection() error {
 	testEmail := Email{
 		To:      []string{e.config.User}, // send to self
-		Subject: "Dxrk Hex - Test Email",
-		Body:    "This is a test email from Dxrk Hex.",
+		Subject: "Dxrk Hell - Test Email",
+		Body:    "This is a test email from Dxrk Hell.",
 	}
 	return e.Send(testEmail)
 }

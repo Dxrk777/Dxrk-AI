@@ -1,13 +1,13 @@
 // scripts/calculate-version.go
 // ============================================================================
-// Dxrk Hex - Version Calculator
+// Dxrk Hell - Version Calculator
 // ============================================================================
-// Este script calcula el nuevo porcentaje de Dxrk Hex basándose en el
+// Este script calcula el nuevo porcentaje de Dxrk Hell basándose en el
 // último release de gentle-ai (upstream).
 //
 // Sistema de versioning:
 //   gentle-ai:     v1.15.6  →  v1.15.7  →  v1.16.0  →  v2.0.0
-//   Dxrk Hex:      045.27%  →  045.32%  →  045.82%  →  055.82%
+//   Dxrk Hell:      045.27%  →  045.32%  →  045.82%  →  055.82%
 //
 // Incrementos:
 //   - Major (1.x → 2.x): +10.00%

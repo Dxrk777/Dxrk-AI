@@ -45,7 +45,7 @@ jobs:
 
       - name: Check for updates
         run: |
-          VERSION=$(curl -s https://api.github.com/repos/Dxrk777/Dxrk-Hex/releases/latest | jq -r '.tag_name')
+          VERSION=$(curl -s https://api.github.com/repos/Dxrk777/Dxrk-Hell/releases/latest | jq -r '.tag_name')
           echo "Latest version: $VERSION"
           echo "Current version: ${{ steps.current.outputs.version }}"
           

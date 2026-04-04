@@ -21,9 +21,9 @@
 
 ---
 
-## ⚡ Qué es Dxrk Hex?
+## ⚡ Qué es Dxrk Hell?
 
-**Dxrk Hex NO es un simple instalador de agentes de IA.**
+**Dxrk Hell NO es un simple instalador de agentes de IA.**
 
 Es tu **mentor digital** — transforma cualquier agente de IA en una máquina perfectamente afinada con memoria, skills, workflow y una personalidad que enseña mientras programa.
 
@@ -115,7 +115,7 @@ curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/insta
 
 <div align="center">
 
-**[MIT License](LICENSE)** — © 2026 **Dxrk Hex**
+**[MIT License](LICENSE)** — © 2026 **Dxrk Hell**
 
 🔥 *Tu compañero digital*
 

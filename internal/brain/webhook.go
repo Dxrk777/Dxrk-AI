@@ -142,7 +142,7 @@ func (w *WebhookClient) NotifyInstall(agent, status string) error {
 		Color:       0x5dfc8e, // Green
 		Timestamp:   time.Now().Format(time.RFC3339),
 		Footer: WebhookFooter{
-			Text: "Dxrk Hex",
+			Text: "Dxrk Hell",
 		},
 	}
 
@@ -160,7 +160,7 @@ func (w *WebhookClient) NotifyError(context, message string) error {
 		},
 		Timestamp: time.Now().Format(time.RFC3339),
 		Footer: WebhookFooter{
-			Text: "Dxrk Hex",
+			Text: "Dxrk Hell",
 		},
 	}
 
@@ -178,7 +178,7 @@ func (w *WebhookClient) NotifyUpdate(version, changelog string) error {
 		},
 		Timestamp: time.Now().Format(time.RFC3339),
 		Footer: WebhookFooter{
-			Text: "Dxrk Hex",
+			Text: "Dxrk Hell",
 		},
 	}
 
@@ -193,7 +193,7 @@ func (w *WebhookClient) NotifySync(filesChanged int, status string) error {
 		Color:       0x5dfc8e, // Green
 		Timestamp:   time.Now().Format(time.RFC3339),
 		Footer: WebhookFooter{
-			Text: "Dxrk Hex",
+			Text: "Dxrk Hell",
 		},
 	}
 

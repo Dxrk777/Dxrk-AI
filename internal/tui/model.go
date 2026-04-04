@@ -702,7 +702,7 @@ func (m Model) confirmSelection() (tea.Model, tea.Cmd) {
 			// Remote Connect -> go to Brain
 			m.BrainState = screens.NewBrainState()
 			m.BrainState.Mode = "configure"
-			m.BrainState.Output = "🔗 Remote Connect\n\nControl Dxrk Hex from Telegram, Discord, or WhatsApp.\n\nConfigure connector via:\n  dxrk connector configure"
+			m.BrainState.Output = "🔗 Remote Connect\n\nControl Dxrk Hell from Telegram, Discord, or WhatsApp.\n\nConfigure connector via:\n  dxrk connector configure"
 			m.setScreen(ScreenBrain)
 		case 9:
 			// Brain
