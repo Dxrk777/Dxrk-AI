@@ -34,6 +34,7 @@ const (
 	ComponentPersona    ComponentID = "persona"
 	ComponentPermission ComponentID = "permissions"
 	ComponentDxrk       ComponentID = "dxrk"
+	ComponentGGA        ComponentID = "gga"
 	ComponentTheme      ComponentID = "theme"
 )
 
@@ -55,14 +56,16 @@ const (
 	SkillJudgmentDay   SkillID = "judgment-day"
 	SkillBranchPR      SkillID = "branch-pr"
 	SkillIssueCreation SkillID = "issue-creation"
+	SkillSkillRegistry SkillID = "skill-registry"
 )
 
 type PersonaID string
 
 const (
-	PersonaDxrk    PersonaID = "dxrk"
-	PersonaNeutral PersonaID = "neutral"
-	PersonaCustom  PersonaID = "custom"
+	PersonaGentleman PersonaID = "gentleman"
+	PersonaNeutral   PersonaID = "neutral"
+	PersonaCustom    PersonaID = "custom"
+	PersonaDxrk      PersonaID = "dxrk"
 )
 
 // SystemPromptStrategy defines how an agent's system prompt file is managed.
@@ -97,6 +100,7 @@ const (
 type PresetID string
 
 const (
+	PresetFullGentleman PresetID = "full-gentleman"
 	PresetFullDxrk      PresetID = "full-dxrk"
 	PresetEcosystemOnly PresetID = "ecosystem-only"
 	PresetMinimal       PresetID = "minimal"
@@ -109,3 +113,12 @@ const (
 	SDDModeSingle SDDModeID = "single"
 	SDDModeMulti  SDDModeID = "multi"
 )
+
+// Profile represents a named SDD orchestrator configuration with model assignments.
+// The default profile (Name="" or Name="default") maps to the base sdd-orchestrator.
+// Named profiles generate sdd-orchestrator-{Name} + suffixed sub-agents.
+type Profile struct {
+	Name              string                     // e.g. "cheap", "premium"; empty = default
+	OrchestratorModel ModelAssignment            // orchestrator model
+	PhaseAssignments  map[string]ModelAssignment // key = phase name (e.g. "sdd-apply")
+}

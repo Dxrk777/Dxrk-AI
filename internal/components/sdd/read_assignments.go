@@ -23,6 +23,13 @@ func buildSDDPhaseSet() map[string]bool {
 	return set
 }
 
+// ProfilePhaseOrder returns the canonical ordered list of SDD phase names.
+// These are used when rendering profile-related UI screens (e.g. profile delete
+// confirmation) so users see phases in the same order as the orchestrator.
+func ProfilePhaseOrder() []string {
+	return opencode.SDDPhases()
+}
+
 // ReadCurrentModelAssignments reads the agent definitions from opencode.json
 // at settingsPath and extracts the "model" field for each SDD phase agent.
 //
