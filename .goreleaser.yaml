@@ -41,31 +41,5 @@ changelog:
       - "^test:"
       - "^ci:"
 
-# Homebrew - solo si está configurado
-brews:
-  - repository:
-      owner: Dxrk777
-      name: homebrew-tap
-      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-    directory: Formula
-    name: dxrk
-    homepage: "https://github.com/Dxrk777/Dxrk-Hex"
-    description: "Dxrk Hex — AI Coding Agent Ecosystem Configurator"
-    license: "MIT"
-    commit_msg_template: "chore: update dxrk formula to {{ .Tag }}"
-    # Hacer opcional si no hay token
-    skip_upload: "{{ if not .Env.HOMEBREW_TAP_TOKEN }}true{{ end }}"
-
-# Scoop - solo si está configurado
-scoops:
-  - repository:
-      owner: Dxrk777
-      name: scoop-bucket
-      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-    name: dxrk
-    homepage: "https://github.com/Dxrk777/Dxrk-Hex"
-    description: "Dxrk Hex — AI Coding Agent Ecosystem Configurator"
-    license: MIT
-    commit_msg_template: "chore: update dxrk to {{ .Tag }}"
-    # Hacer opcional si no hay token
-    skip_upload: "{{ if not .Env.HOMEBREW_TAP_TOKEN }}true{{ end }}"
+# Nota: Para habilitar Homebrew/Scoop, configurá HOMEBREW_TAP_TOKEN en GitHub Secrets
+# y descomentá las secciones de abajo.
