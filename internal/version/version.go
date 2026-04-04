@@ -22,21 +22,27 @@ type Version struct {
 // Default returns the default starting version
 func Default() Version {
 	return Version{
-		Major:      0.01,
+		Major:      1.0,
 		Minor:      0,
-		Percentage: 0.01,
-		Milestone:  "Initial Release",
+		Percentage: 100.0,
+		Milestone:  "v1.0.0 — Initial Release",
 		UpdatedBy:  "Dxrk AI",
 	}
 }
 
-// String returns the version string in format "000.XX%"
+// String returns the version string
 func (v Version) String() string {
+	if v.Major >= 1.0 {
+		return fmt.Sprintf("v%.1f.0", v.Major)
+	}
 	return fmt.Sprintf("%07.2f%%", v.Percentage)
 }
 
-// Short returns short version like "000.01%"
+// Short returns short version like "v1.0"
 func (v Version) Short() string {
+	if v.Major >= 1.0 {
+		return fmt.Sprintf("v%.1f.0", v.Major)
+	}
 	return fmt.Sprintf("%.2f%%", v.Percentage)
 }
 
@@ -120,26 +126,7 @@ func (m *Manager) Reset() error {
 // Milestones returns predefined milestones with their percentages
 func Milestones() map[string]float64 {
 	return map[string]float64{
-		"Initial Release":    0.01,
-		"Core Installer":     1.0,
-		"Agent Support":      5.0,
-		"Skills System":      10.0,
-		"MCP Integration":    15.0,
-		"Memory System":      20.0,
-		"SDD Workflow":       25.0,
-		"Persona System":     30.0,
-		"Theme System":       35.0,
-		"Backup/Restore":     40.0,
-		"Multi-Platform":     50.0,
-		"E2E Testing":        55.0,
-		"Documentation":      60.0,
-		"Community Features": 65.0,
-		"Performance":        70.0,
-		"Security Audit":     75.0,
-		"Stable Release":     80.0,
-		"Production Ready":   90.0,
-		"Feature Complete":   95.0,
-		"MVP Achieved":       100.0,
+		"v1.0.0 — Initial Release": 100.0,
 	}
 }
 
@@ -153,6 +140,9 @@ func (v Version) Progress() (current, total float64, label string) {
 
 // Bar returns an ASCII progress bar
 func (v Version) Bar() string {
+	if v.Major >= 1.0 {
+		return fmt.Sprintf("██████████ v%.1f.0 — %s", v.Major, v.Milestone)
+	}
 	progress := int(v.Percentage / 2) // 50 chars = 100%
 	filled := strings.Repeat("█", progress)
 	empty := strings.Repeat("░", 50-progress)
