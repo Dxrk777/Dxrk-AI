@@ -65,6 +65,14 @@ issues:
     - path: internal/system/deps.go
       linters:
         - gosec
+    # Agent builder module from upstream
+    - path: internal/agentbuilder/
+      linters:
+        - gosec
+    # Backup compression from upstream
+    - path: internal/backup/compression.go
+      linters:
+        - gosec
   max-issues-per-linter: 100
   max-same-issues: 20
 
