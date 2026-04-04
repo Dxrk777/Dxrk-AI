@@ -282,10 +282,10 @@ func TestCheckAll(t *testing.T) {
 		path := r.URL.Path
 		var release githubRelease
 		switch {
-		case contains(path, "dxrk"):
-			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Gentleman-Programming/dxrk/releases/tag/v1.5.0"}
+		case contains(path, "Dxrk-Hex"):
+			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk-Hex/releases/tag/v1.5.0"}
 		case contains(path, "engram"):
-			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/v0.4.0"}
+			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Dxrk777/engram/releases/tag/v0.4.0"}
 		case contains(path, "gentleman-guardian-angel"):
 			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/Gentleman-Programming/gentleman-guardian-angel/releases/tag/v2.0.0"}
 		}
@@ -445,13 +445,13 @@ func TestUpdateHint(t *testing.T) {
 			name:    "dxrk linux",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/dxrk/main/scripts/install.sh | bash",
+			want:    "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install.sh | bash",
 		},
 		{
 			name:    "dxrk windows",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
-			want:    "irm https://raw.githubusercontent.com/Gentleman-Programming/dxrk/main/scripts/install.ps1 | iex",
+			want:    "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install.ps1 | iex",
 		},
 		{
 			name:    "engram macOS brew",
@@ -638,7 +638,7 @@ func TestRegistryContents(t *testing.T) {
 		owner string
 		repo  string
 	}{
-		"dxrk":   {owner: "Gentleman-Programming", repo: "dxrk"},
+		"dxrk":   {owner: "Dxrk777", repo: "Dxrk-Hex"},
 		"engram": {owner: "Gentleman-Programming", repo: "engram"},
 		"gga":    {owner: "Gentleman-Programming", repo: "gentleman-guardian-angel"},
 	}

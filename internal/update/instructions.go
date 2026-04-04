@@ -23,9 +23,9 @@ func dxrkHint(profile system.PlatformProfile) string {
 	case "darwin":
 		return "brew upgrade dxrk"
 	case "linux":
-		return "curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/dxrk/main/scripts/install.sh | bash"
+		return "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install.sh | bash"
 	case "windows":
-		return "irm https://raw.githubusercontent.com/Gentleman-Programming/dxrk/main/scripts/install.ps1 | iex"
+		return "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install.ps1 | iex"
 	default:
 		return ""
 	}

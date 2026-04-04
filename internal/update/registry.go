@@ -12,8 +12,8 @@ package update
 var Tools = []ToolInfo{
 	{
 		Name:          "dxrk",
-		Owner:         "Gentleman-Programming",
-		Repo:          "dxrk",
+		Owner:         "Dxrk777",
+		Repo:          "Dxrk-Hex",
 		DetectCmd:     nil, // version comes from build-time ldflags (app.Version)
 		VersionPrefix: "v",
 		// dxrk: brew on macOS, binary release download on Linux/Windows.
