@@ -41,7 +41,13 @@ Es tu **mentor digital** — transforma cualquier agente de IA en una máquina p
 
 ## 🚀 Quick Start
 
-### macOS / Linux
+### macOS / Linux (Homebrew) ⭐ Recomendado
+
+```bash
+brew install Dxrk777/tap/dxrk
+```
+
+### macOS / Linux (Script)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
