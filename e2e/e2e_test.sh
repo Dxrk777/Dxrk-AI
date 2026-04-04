@@ -713,7 +713,7 @@ test_cc_theme_injection() {
         local settings="$HOME/.claude/settings.json"
         assert_file_exists "$settings" "Claude settings.json"
         assert_file_contains "$settings" '"theme"' "Has theme key"
-        assert_file_contains "$settings" 'gentleman-kanagawa' "Has gentleman-kanagawa theme"
+        assert_file_contains "$settings" 'dxrk-kanagawa' "Has dxrk-kanagawa theme"
         assert_valid_json "$settings" "settings.json is valid JSON"
     else
         log_fail "theme install command failed"
@@ -874,7 +874,7 @@ test_oc_theme_injection() {
         local settings="$HOME/.config/opencode/opencode.json"
         assert_file_exists "$settings" "OpenCode opencode.json"
         assert_file_contains "$settings" '"theme"' "Has theme key"
-        assert_file_contains "$settings" 'gentleman-kanagawa' "Has gentleman-kanagawa theme"
+        assert_file_contains "$settings" 'dxrk-kanagawa' "Has dxrk-kanagawa theme"
         assert_valid_json "$settings" "opencode.json is valid JSON"
     else
         log_fail "OpenCode theme install command failed"
