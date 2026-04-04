@@ -143,7 +143,7 @@ func RunArgs(args []string, stdout io.Writer) error {
 }
 
 func runHelp(stdout io.Writer) error {
-	helpText := `Dxrk Hell — AI Coding Agent Ecosystem Configurator
+	helpText := `Dxrk Hex — AI Coding Agent Ecosystem Configurator
 
 Usage:
   dxrk [command] [flags]

@@ -1,4 +1,4 @@
-// Package state implements persistent state and history for Dxrk Hell.
+// Package state implements persistent state and history for Dxrk Hex.
 //
 // The state package provides:
 // - InstallState: Basic last-installed agents

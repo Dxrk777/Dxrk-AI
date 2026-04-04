@@ -122,7 +122,7 @@ chore:    Mantenimiento general
 
 ## 🔥 Engram Persistent Memory
 
-Dxrk Hell usa **Engram** para memoria persistente que sobrevive entre sesiones.
+Dxrk Hex usa **Engram** para memoria persistente que sobrevive entre sesiones.
 
 ### Protocolo de Memoria
 

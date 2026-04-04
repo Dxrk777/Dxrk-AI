@@ -1,9 +1,9 @@
 name: Sync Upstream
 
 # ============================================================================
-# Dxrk Hell - Upstream Sync Workflow
+# Dxrk Hex - Upstream Sync Workflow
 # ============================================================================
-# Este workflow sincroniza Dxrk Hell con gentle-ai (upstream) automáticamente.
+# Este workflow sincroniza Dxrk Hex con gentle-ai (upstream) automáticamente.
 #
 # Se activa de tres formas:
 # 1. repository_dispatch: cuando gentle-ai hace un release (webhook)
@@ -58,7 +58,7 @@ jobs:
       upstream_tag: ${{ steps.check.outputs.upstream_tag }}
       release_type: ${{ steps.check.outputs.release_type }}
     steps:
-      - name: Checkout Dxrk Hell
+      - name: Checkout Dxrk Hex
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -66,7 +66,7 @@ jobs:
       
       - name: Setup Git
         run: |
-          git config user.name "Dxrk Hell Bot"
+          git config user.name "Dxrk Hex Bot"
           git config user.email "bot@dxrk.dev"
       
       - name: Get current upstream tag
@@ -154,7 +154,7 @@ jobs:
       
       - name: Setup Git
         run: |
-          git config user.name "Dxrk Hell Bot"
+          git config user.name "Dxrk Hex Bot"
           git config user.email "bot@dxrk.dev"
       
       - name: Setup Go
@@ -223,7 +223,7 @@ jobs:
         run: |
           echo "🎉 Sync completado exitosamente!"
           echo " Upstream (gentle-ai): ${{ needs.check-upstream.outputs.upstream_tag }}"
-          echo " Dxrk Hell: ${{ needs.sync.outputs.new_tag }}"
+          echo " Dxrk Hex: ${{ needs.sync.outputs.new_tag }}"
           echo " Tipo: ${{ needs.check-upstream.outputs.release_type }}"
       
       - name: Notify failure

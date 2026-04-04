@@ -2,7 +2,7 @@
 
 ## Overview
 
-Dxrk Hell is a fork of [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) with custom features for AI coding agents.
+Dxrk Hex is a fork of [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) with custom features for AI coding agents.
 
 ## Project Structure
 
@@ -44,11 +44,11 @@ Dxrk-Hex/
 
 ### Brain Module
 
-The Brain is the central orchestrator for Dxrk Hell features:
+The Brain is the central orchestrator for Dxrk Hex features:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                    Dxrk Hell Brain                    │
+│                    Dxrk Hex Brain                    │
 ├─────────────────────────────────────────────────────┤
 │  ┌─────────┐  ┌─────────┐  ┌─────────┐            │
 │  │ Memory  │  │Commands │  │  Email  │            │

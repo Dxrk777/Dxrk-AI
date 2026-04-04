@@ -68,7 +68,7 @@ func TestRenderBrain_MenuMode(t *testing.T) {
 
 	// Verify the output contains expected text
 	expectedTexts := []string{
-		"Dxrk Hell Brain",
+		"Dxrk Hex Brain",
 		"Ask anything",
 		"Execute command",
 		"navigate",
@@ -91,7 +91,7 @@ func TestRenderBrain_ChatMode(t *testing.T) {
 
 	// Verify the output contains expected text
 	expectedTexts := []string{
-		"Ask Dxrk Hell Brain",
+		"Ask Dxrk Hex Brain",
 		"hello",
 	}
 

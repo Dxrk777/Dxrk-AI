@@ -18,7 +18,7 @@ type MemoryEntry struct {
 	Timestamp time.Time              `json:"timestamp"`
 }
 
-// Memory manages persistent memory for Dxrk Hell.
+// Memory manages persistent memory for Dxrk Hex.
 // Tracks commands, installations, errors, and other events.
 type Memory struct {
 	mu      sync.RWMutex

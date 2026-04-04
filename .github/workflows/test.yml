@@ -1,7 +1,7 @@
 name: Tests
 
 # ============================================================================
-# Dxrk Hell - CI Test Workflow
+# Dxrk Hex - CI Test Workflow
 # ============================================================================
 # Este workflow corre los tests en cada push y pull request.
 # Soporta Linux, macOS y Windows.
