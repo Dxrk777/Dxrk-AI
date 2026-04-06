@@ -16,7 +16,7 @@ var mvpComponents = []Component{
 	{ID: model.ComponentPersona, Name: "Persona", Description: "Dxrk, neutral or custom behavior"},
 	{ID: model.ComponentPermission, Name: "Permissions", Description: "Security-first defaults and guardrails"},
 	{ID: model.ComponentDxrk, Name: "Dxrk", Description: "Dxrk Hell — AI provider switcher"},
-	{ID: model.ComponentTheme, Name: "Theme", Description: "Gentleman Kanagawa theme overlay (future)"},
+	{ID: model.ComponentTheme, Name: "Theme", Description: "Dxrk Kanagawa theme overlay (future)"},
 }
 
 func MVPComponents() []Component {

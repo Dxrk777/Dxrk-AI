@@ -2689,13 +2689,13 @@ func TestInjectOpenCodeMultiModeWithPreExistingFullConfig(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
-// gentleman agent model mirroring from sdd-orchestrator
+// dxrk agent model mirroring from sdd-orchestrator
 // ---------------------------------------------------------------------------
 
 // TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman verifies that
-// when sdd-orchestrator has an explicit TUI model assignment and the gentleman
+// when sdd-orchestrator has an explicit TUI model assignment and the dxrk
 // agent already exists in opencode.json (persona installed), the orchestrator
-// model is mirrored to the gentleman agent.
+// model is mirrored to the dxrk agent.
 func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman(t *testing.T) {
 	home := t.TempDir()
 	mockNoPackageManager(t)
@@ -2705,10 +2705,10 @@ func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman(t *testing.T
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
 
-	// Pre-existing opencode.json with gentleman agent (persona installed).
+	// Pre-existing opencode.json with dxrk agent (persona installed).
 	existing := `{
   "agent": {
-    "gentleman": {
+    "dxrk": {
       "mode": "primary"
     }
   }
@@ -2753,19 +2753,19 @@ func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman(t *testing.T
 		t.Fatalf("sdd-orchestrator model = %q, want %q", m, "openai/gpt-4o")
 	}
 
-	// gentleman must have the same model as sdd-orchestrator (mirrored).
-	gentlemanAgent, ok := agentMap["gentleman"].(map[string]any)
+	// dxrk must have the same model as sdd-orchestrator (mirrored).
+	dxrkAgent, ok := agentMap["dxrk"].(map[string]any)
 	if !ok {
-		t.Fatal("gentleman agent not found or wrong type")
+		t.Fatal("dxrk agent not found or wrong type")
 	}
-	if m, _ := gentlemanAgent["model"].(string); m != "openai/gpt-4o" {
-		t.Fatalf("gentleman model = %q, want %q (should mirror sdd-orchestrator)", m, "openai/gpt-4o")
+	if m, _ := dxrkAgent["model"].(string); m != "openai/gpt-4o" {
+		t.Fatalf("dxrk model = %q, want %q (should mirror sdd-orchestrator)", m, "openai/gpt-4o")
 	}
 }
 
 // TestInjectOpenCodeMultiModeDoesNotInjectGentlemanIfNotInstalled verifies that
-// when the gentleman agent does NOT exist in opencode.json (persona not installed),
-// the orchestrator model is NOT mirrored to a gentleman entry.
+// when the dxrk agent does NOT exist in opencode.json (persona not installed),
+// the orchestrator model is NOT mirrored to a dxrk entry.
 func TestInjectOpenCodeMultiModeDoesNotInjectGentlemanIfNotInstalled(t *testing.T) {
 	home := t.TempDir()
 	mockNoPackageManager(t)
@@ -2799,12 +2799,12 @@ func TestInjectOpenCodeMultiModeDoesNotInjectGentlemanIfNotInstalled(t *testing.
 		t.Fatal("opencode.json missing agent map")
 	}
 
-	// gentleman must NOT appear — persona is not installed.
-	if gentlemanRaw, exists := agentMap["gentleman"]; exists {
+	// dxrk must NOT appear — persona is not installed.
+	if dxrkRaw, exists := agentMap["dxrk"]; exists {
 		// If it somehow exists, it must not have a model field.
-		if gentlemanMap, ok := gentlemanRaw.(map[string]any); ok {
-			if _, hasModel := gentlemanMap["model"]; hasModel {
-				t.Fatal("gentleman should NOT have a model field when persona is not installed")
+		if dxrkMap, ok := dxrkRaw.(map[string]any); ok {
+			if _, hasModel := dxrkMap["model"]; hasModel {
+				t.Fatal("dxrk should NOT have a model field when persona is not installed")
 			}
 		}
 	}
@@ -3249,7 +3249,7 @@ func TestInjectOpenCodePostCheckDiskFallback(t *testing.T) {
 	// Write a config that already has sdd-orchestrator (simulating previous install)
 	existingConfig := `{
   "agent": {
-    "gentleman": {
+    "dxrk": {
       "description": "Gentleman",
       "mode": "primary"
     },

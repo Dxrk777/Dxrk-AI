@@ -10,7 +10,7 @@ const (
 	closePrefix  = "<!-- /Dxrk-AI:"
 )
 
-// legacyPersonaFingerprints are substrings that appear in the Gentleman persona
+// legacyPersonaFingerprints are substrings that appear in the Dxrk persona
 // asset and reliably identify a stale free-text block written by an old installer
 // (or manually copied) before the marker-based injection system was in use.
 // All fingerprints must be present for the block to be considered a match.
@@ -20,7 +20,7 @@ var legacyPersonaFingerprints = []string{
 	"## Rules",
 }
 
-// StripLegacyPersonaBlock removes a free-text Gentleman persona block that was
+// StripLegacyPersonaBlock removes a free-text Dxrk persona block that was
 // written to a markdown file outside of <!-- Dxrk-AI: --> markers.
 //
 // It is safe to call on any file: if no legacy block is detected, the original

@@ -933,7 +933,7 @@ func stripBareOrchestratorForFilePrompt(content string) string {
 
 const instructionsFrontmatter = "---\n" +
 	"name: Gentle AI Persona\n" +
-	"description: Gentleman persona with SDD orchestration and Engram protocol\n" +
+	"description: Dxrk persona with SDD orchestration and Engram protocol\n" +
 	"applyTo: \"**\"\n" +
 	"---\n"
 
@@ -1151,19 +1151,19 @@ func injectModelAssignments(overlayBytes []byte, assignments map[string]model.Mo
 		}
 	}
 
-	// Mirror sdd-orchestrator model to gentleman — both are primary conductors in OpenCode.
-	// gentleman is defined by the persona overlay (not the SDD overlay), so we inject
+	// Mirror sdd-orchestrator model to dxrk — both are primary conductors in OpenCode.
+	// dxrk is defined by the persona overlay (not the SDD overlay), so we inject
 	// its model field here to prevent silent runtime inheritance.
-	// Guard: only inject if gentleman already exists in opencode.json (persona was installed)
+	// Guard: only inject if dxrk already exists in opencode.json (persona was installed)
 	// and sdd-orchestrator has an explicit TUI assignment.
 	if orchAssignment, hasOrch := assignments["sdd-orchestrator"]; hasOrch &&
 		orchAssignment.ProviderID != "" && orchAssignment.ModelID != "" &&
-		existingAgentKeys["gentleman"] {
-		if _, exists := agents["gentleman"]; !exists {
-			agents["gentleman"] = map[string]any{}
+		existingAgentKeys["dxrk"] {
+		if _, exists := agents["dxrk"]; !exists {
+			agents["dxrk"] = map[string]any{}
 		}
-		if gentlemanMap, ok := agents["gentleman"].(map[string]any); ok {
-			gentlemanMap["model"] = orchAssignment.FullID()
+		if dxrkMap, ok := agents["dxrk"].(map[string]any); ok {
+			dxrkMap["model"] = orchAssignment.FullID()
 		}
 	}
 

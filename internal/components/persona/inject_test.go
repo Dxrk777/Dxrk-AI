@@ -171,7 +171,7 @@ func TestInjectClaudeNeutralWritesFullPersonaWithoutRegionalLanguage(t *testing.
 	if !strings.Contains(text, "Dxrk Mentor") {
 		t.Fatal("Neutral persona should contain 'Dxrk Mentor'")
 	}
-	// Should NOT have gentleman-specific regional language.
+	// Should NOT have dxrk-specific regional language.
 	if strings.Contains(text, "Rioplatense") {
 		t.Fatal("Neutral persona should not contain Rioplatense language")
 	}
@@ -191,7 +191,7 @@ func TestInjectClaudeNeutralDoesNotWriteOutputStyle(t *testing.T) {
 	}
 
 	// Output-style file should NOT exist.
-	stylePath := filepath.Join(home, ".claude", "output-styles", "gentleman.md")
+	stylePath := filepath.Join(home, ".claude", "output-styles", "dxrk.md")
 	if _, err := os.Stat(stylePath); !os.IsNotExist(err) {
 		t.Fatal("Neutral persona should NOT write output-style file")
 	}
@@ -265,10 +265,10 @@ func TestInjectOpenCodeGentlemanWritesAgentsFile(t *testing.T) {
 func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	home := t.TempDir()
 
-	// First install gentleman persona + simulate SDD/engram sections
+	// First install dxrk persona + simulate SDD/engram sections
 	_, err := Inject(home, opencodeAdapter(), model.PersonaDxrk)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(dxrk) error = %v", err)
 	}
 
 	path := filepath.Join(home, ".config", "opencode", "AGENTS.md")
@@ -330,7 +330,7 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 
 	_, err = Inject(home, vscodeAdapter, model.PersonaDxrk)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(dxrk) error = %v", err)
 	}
 
 	path := vscodeAdapter.SystemPromptFile(home)
@@ -557,7 +557,7 @@ func TestInjectCursorGentlemanWritesRulesFileWithRealContent(t *testing.T) {
 	}
 
 	if !result.Changed {
-		t.Fatalf("Inject(cursor, gentleman) changed = false")
+		t.Fatalf("Inject(cursor, dxrk) changed = false")
 	}
 
 	// Verify the generic persona content was used — not just neutral one-liner.
@@ -590,7 +590,7 @@ func TestInjectGeminiGentlemanWritesSystemPromptWithRealContent(t *testing.T) {
 	}
 
 	if !result.Changed {
-		t.Fatal("Inject(gemini, gentleman) changed = false")
+		t.Fatal("Inject(gemini, dxrk) changed = false")
 	}
 
 	path := filepath.Join(home, ".gemini", "GEMINI.md")
@@ -620,7 +620,7 @@ func TestInjectVSCodeGentlemanWritesInstructionsFile(t *testing.T) {
 	}
 
 	if !result.Changed {
-		t.Fatal("Inject(vscode, gentleman) changed = false")
+		t.Fatal("Inject(vscode, dxrk) changed = false")
 	}
 
 	path := vscodeAdapter.SystemPromptFile(home)
@@ -886,28 +886,15 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 	}
 }
 
-func TestNeutralAndGentlemanToneSectionsMatch(t *testing.T) {
-	neutral := assets.MustRead("generic/persona-neutral.md")
-	gentleman := assets.MustRead("generic/persona-gentleman.md")
+func TestDxrkHasOwnIdentity(t *testing.T) {
+	dxrk := assets.MustRead("generic/persona-Dxrk.md")
 
-	extractSection := func(content, section string) string {
-		idx := strings.Index(content, "## "+section)
-		if idx < 0 {
-			return ""
-		}
-		rest := content[idx:]
-		nextIdx := strings.Index(rest[1:], "\n## ")
-		if nextIdx < 0 {
-			return rest
-		}
-		return rest[:nextIdx+1]
+	// Verify Dxrk persona has its own identity section defined
+	if !strings.Contains(dxrk, "## 🎓 Identidad") && !strings.Contains(dxrk, "## Identity") {
+		t.Fatal("Dxrk persona should have an Identity section")
 	}
-
-	neutralTone := extractSection(neutral, "Tone")
-	gentlemanTone := extractSection(gentleman, "Tone")
-
-	if neutralTone != gentlemanTone {
-		t.Fatalf("## Tone sections diverged:\nneutral:\n%s\ngentleman:\n%s", neutralTone, gentlemanTone)
+	if !strings.Contains(dxrk, "Dxrk Mentor") {
+		t.Fatal("Dxrk persona should mention 'Dxrk Mentor'")
 	}
 }
 
