@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "ai agent development"
+  - "ai agent developments"
 name: ai-agent-development
 description: "AI agent development workflow for building autonomous agents, multi-agent systems, and agent orchestration with CrewAI, LangGraph, and custom agents."
 category: granular-workflow-bundle

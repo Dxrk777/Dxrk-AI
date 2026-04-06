@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "python pro"
+  - "python pros"
 name: python-pro
 description: Master Python 3.12+ with modern features, async programming, performance optimization, and production-ready practices. Expert in the latest Python ecosystem including uv, ruff, pydantic, and FastAPI.
 risk: unknown

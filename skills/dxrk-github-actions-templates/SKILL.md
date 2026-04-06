@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "github actions templates"
+  - "github actions templatess"
 name: github-actions-templates
 description: "Production-ready GitHub Actions workflow patterns for testing, building, and deploying applications."
 risk: critical

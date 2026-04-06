@@ -15,170 +15,163 @@
 
 # 🔥 DXRK HEX SKILLS — Índice Maestro
 
-> *"Tu arsenal de patrones de código. 57 skills curados para convertirte en un mejor developer."*
+> *"56 skills curados para cualquier tarea de programación. Se auto-activan cuando los necesitás."*
 
 ---
 
-## 🎯 Cómo Usar Estos Skills
+## 🚀 Cómo Funcionan
 
-Cuando estés trabajando en una tarea, cargá el skill relevant con el comando:
+Los skills se **auto-activan** cuando escribas palabras clave:
 
-```
-/skill <nombre-del-skill>
-```
+| Escribís | Se activa |
+|----------|-----------|
+| "programar", "código" | Software Architecture |
+| "react", "componente" | React Patterns |
+| "test", "testing" | Testing Patterns |
+| "security", "seguridad" | Security Review |
+| "auth", "jwt", "login" | Auth Patterns |
+| etc... |
 
-Ejemplo:
+Para activar manualmente:
 ```
-/skill dxrk-react-patterns
-/skill dxrk-testing-strategy
-/skill dxrk-security-review
+/skill <nombre>
 ```
 
 ---
 
-## 📦 Categorías de Skills
+## 📦 Categorías
 
-### 🎨 Frontend (9)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-angular` | Angular 20+ con Signals y Standalone Components |
-| `dxrk-react-best-practices` | React patterns y convenciones |
-| `dxrk-react-patterns` | Patrones avanzados de React |
-| `dxrk-react-state-management` | Estado con Redux, Zustand, Context |
-| `dxrk-react-ui-patterns` | UI components y patrones |
-| `dxrk-nextjs-best-practices` | Next.js App Router |
-| `dxrk-nextjs-app-router-patterns` | Routing avanzado en Next.js |
-| `dxrk-expo-tailwind-setup` | Expo + Tailwind CSS |
-| `dxrk-react-native-architecture` | React Native patterns |
-
-### 🎨 Styling (3)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-tailwind-design-system` | Design systems con Tailwind |
-| `dxrk-tailwind-patterns` | Tailwind CSS v4 patterns |
-| `dxrk-shadcn` | shadcn/ui components |
+### 🎨 Frontend (14)
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-angular` | angular, ngmodule, signals |
+| `dxrk-react-patterns` | react, componente react |
+| `dxrk-react-best-practices` | react, hooks, state |
+| `dxrk-react-state-management` | redux, zustand, context |
+| `dxrk-react-ui-patterns` | ui, interface, component |
+| `dxrk-nextjs-best-practices` | nextjs, next.js, app router |
+| `dxrk-nextjs-app-router-patterns` | routing, pages, layouts |
+| `dxrk-expo-tailwind-setup` | expo, react native |
+| `dxrk-react-native-architecture` | react native, mobile |
+| `dxrk-shadcn` | shadcn, ui components |
+| `dxrk-tailwind-patterns` | tailwind, css |
+| `dxrk-tailwind-design-system` | design system, tokens |
 
 ### 🐍 Python (5)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-python-pro` | Python idiomatico y best practices |
-| `dxrk-python-patterns` | Patrones de diseño en Python |
-| `dxrk-python-testing-patterns` | Testing con pytest |
-| `dxrk-python-fastapi-development` | FastAPI patterns |
-| `dxrk-python-performance-optimization` | Optimización de performance |
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-python-pro` | python, django, flask |
+| `dxrk-python-patterns` | python patterns |
+| `dxrk-python-testing-patterns` | pytest, unittest |
+| `dxrk-python-fastapi-development` | fastapi, api python |
+| `dxrk-python-performance-optimization` | optimize, performance python |
 
 ### 🐹 Go (2)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-go-concurrency-patterns` | Goroutines y channels |
-| `dxrk-go-playwright` | E2E testing con Playwright en Go |
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-go-concurrency-patterns` | go, golang, goroutine |
+| `dxrk-go-playwright` | e2e, playwright go |
 
 ### 🧪 Testing (6)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-testing-patterns` | Patrones de testing |
-| `dxrk-e2e-testing-patterns` | End-to-end testing |
-| `dxrk-playwright-skill` | Playwright completo |
-| `dxrk-test-driven-development` | TDD workflow |
-| `dxrk-test-fixing` | Debugging y fix de tests |
-| `dxrk-unit-testing-test-generate` | Generación de tests unitarios |
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-testing-patterns` | test, testing |
+| `dxrk-e2e-testing-patterns` | e2e, end to end |
+| `dxrk-playwright-skill` | playwright |
+| `dxrk-test-driven-development` | tdd, test driven |
+| `dxrk-test-fixing` | fix test, broken test |
+| `dxrk-unit-testing-test-generate` | generate test, unit test |
 
 ### 🏗️ Arquitectura (9)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-software-architecture` | Arquitectura de software |
-| `dxrk-monorepo-architect` | Monorepo con Nx, Turborepo |
-| `dxrk-multi-agent-patterns` | Sistemas multi-agente |
-| `dxrk-event-sourcing-architect` | Event sourcing patterns |
-| `dxrk-cqrs-implementation` | CQRS implementation |
-| `dxrk-ddd-strategic-design` | DDD diseño estratégico |
-| `dxrk-ddd-tactical-patterns` | DDD patrones tácticos |
-| `dxrk-domain-driven-design` | DDD completo |
-| `dxrk-architecture-decision-records` | ADRs y documentación |
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-software-architecture` | arquitectura, architecture |
+| `dxrk-monorepo-architect` | monorepo, nx, turborepo |
+| `dxrk-multi-agent-patterns` | multi-agent, agentic |
+| `dxrk-event-sourcing-architect` | event sourcing, cqrs |
+| `dxrk-cqrs-implementation` | cqrs, command query |
+| `dxrk-ddd-strategic-design` | ddd, domain driven |
+| `dxrk-ddd-tactical-patterns` | ddd patterns, tactical |
+| `dxrk-domain-driven-design` | ddd, bounded context |
+| `dxrk-architecture-decision-records` | adr, decision record |
 
 ### 🤖 AI/ML (3)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-ai-engineering-toolkit` | Toolkit de AI engineering |
-| `dxrk-ai-agent-development` | Desarrollo de AI agents |
-| `dxrk-rag-implementation` | RAG implementation |
-
-### 📱 Mobile (1)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-react-native-architecture` | React Native |
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-ai-engineering-toolkit` | ai, artificial intelligence |
+| `dxrk-ai-agent-development` | agent, ai agent |
+| `dxrk-rag-implementation` | rag, vector, embedding |
 
 ### 🔐 Seguridad (4)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-api-security-testing` | Testing de seguridad API |
-| `dxrk-sql-injection-testing` | Prevención de SQL injection |
-| `dxrk-web-security-testing` | OWASP Top 10 |
-| `dxrk-auth-implementation-patterns` | Auth: JWT, OAuth, RBAC |
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-api-security-testing` | api security, rest security |
+| `dxrk-sql-injection-testing` | sql injection, sqli |
+| `dxrk-web-security-testing` | owasp, xss, csrf |
+| `dxrk-auth-patterns` | auth, jwt, oauth, login |
 
-### 🚀 DevOps (1)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-github-actions-templates` | GitHub Actions CI/CD |
+### 🚀 DevOps (2)
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-github-actions-templates` | github actions, ci/cd |
+| `dxrk-docker-best-practices` | docker, container, containerize |
 
 ### 📊 Base de Datos (1)
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-database-patterns` | SQL, MongoDB, PostgreSQL |
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-database-patterns` | database, sql, postgres, mongodb |
 
-### 🔧 Skills Especializados (12)
+### 📋 Workflows (2)
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-branch-pr` | branch, pr, pull request |
+| `dxrk-issue-creation` | issue, bug, feature |
 
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-code_review` | Code review completo |
-| `dxrk-security_review` | Auditoría de seguridad |
-| `dxrk-performance_audit` | Optimización de performance |
-| `dxrk-api_design` | Diseño de APIs REST |
-| `dxrk-git_workflow` | Workflow de Git |
-| `dxrk-docker_best_practices` | Docker y contenedores |
-| `dxrk-cicd_pipeline` | Pipelines CI/CD |
-| `dxrk-database_design` | Diseño de esquemas |
-| `dxrk-observability` | Logs, metrics, traces |
-| `dxrk-testing_strategy` | Estrategia de testing |
-| `dxrk-error_handling` | Manejo de errores |
-| `dxrk-auth_implementation` | Implementación de auth |
+### 🔧 Especializados (9)
+| Skill | Trigger Keywords |
+|-------|------------------|
+| `dxrk-code_review.md` | code review, review |
+| `dxrk-security_review.md` | security, audit |
+| `dxrk-performance_audit.md` | performance, optimize |
+| `dxrk-api_design.md` | api design, rest |
+| `dxrk-git_workflow.md` | git, workflow |
+| `dxrk-database_design.md` | schema, database design |
+| `dxrk-observability.md` | observability, logging |
+| `dxrk-testing_strategy.md` | testing strategy |
+| `dxrk-error_handling.md` | error handling, exception |
 
-### 🔌 Plugins (6)
+---
+
+## 🔌 Plugins Disponibles (6)
 
 | Plugin | Descripción |
 |--------|-------------|
 | `dxrk-hookify` | Hooks personalizados |
 | `dxrk-pr-review-toolkit` | PR review automático |
-| `dxrk-plugin-dev` | Para desarrollar plugins |
+| `dxrk-plugin-dev` | Crear plugins |
 | `dxrk-feature-dev` | Feature development |
 | `dxrk-code-review` | Análisis de código |
 | `dxrk-commit-commands` | Comandos de commit |
-
-### 📋 Workflows (2)
-
-| Skill | Descripción |
-|-------|-------------|
-| `dxrk-branch-pr` | Crear branches y PRs |
-| `dxrk-issue-creation` | Crear issues en GitHub |
 
 ---
 
 ## 🔥 Filosofía DXRK
 
-Estos skills están diseñados siguiendo la filosofía DXRK:
-
-1. **CONCEPTOS > CÓDIGO** — Entendé el patrón antes de implementarlo
-2. **EJEMPLOS REALES** — Cada skill tiene código que podés copiar
-3. **BEST PRACTICES** — Patrones probados en producción
-4. **SELF-CONTAINED** — No necesitás internet para usarlos
+1. **CONCEPTOS > CÓDIGO** — Entendé el patrón primero
+2. **AUTO-ACTIVACIÓN** — Se cargan solos cuando los necesitás
+3. **EJEMPLOS REALES** — Código que podés copiar
+4. **BEST PRACTICES** — Probados en producción
 
 ---
 
-## 📚 Recursos Adicionales
+## 📚 Docs
 
 - [AGENTS.md](../AGENTS.md) — Configuración del agente
-- [docs/SKILL-AUTHORING-STANDARD.md](../docs/SKILL-AUTHORING-STANDARD.md) — Cómo crear nuevos skills
+- [.trigger-config.md](./.trigger-config.md) — Mapeo completo de triggers
+- [docs/SKILL-AUTHORING-STANDARD.md](../docs/SKILL-AUTHORING-STANDARD.md) — Cómo crear skills
 
 ---
+
+**Total: 56 skills + 6 plugins**
 
 *🔥 DXRK HEX v1.0.0 — Tu compañero digital*

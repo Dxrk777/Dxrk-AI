@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "architecture decision records"
+  - "architecture decision recordss"
 name: architecture-decision-records
 description: "Comprehensive patterns for creating, maintaining, and managing Architecture Decision Records (ADRs) that capture the context and rationale behind significant technical decisions."
 risk: unknown

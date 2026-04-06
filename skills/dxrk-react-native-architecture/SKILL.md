@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "react native architecture"
+  - "react native architectures"
 name: react-native-architecture
 description: "Production-ready patterns for React Native development with Expo, including navigation, state management, native modules, and offline-first architecture."
 risk: safe

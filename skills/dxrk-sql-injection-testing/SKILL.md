@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "sql injection testing"
+  - "sql injection testings"
 name: sql-injection-testing
 description: "Execute comprehensive SQL injection vulnerability assessments on web applications to identify database security flaws, demonstrate exploitation techniques, and validate input sanitization mechanisms."
 risk: offensive

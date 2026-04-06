@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "branch pr"
+  - "branch prs"
 name: gentle-ai-branch-pr
 description: >
   PR creation workflow for Gentle AI following the issue-first enforcement system.

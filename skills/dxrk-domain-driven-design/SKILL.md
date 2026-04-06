@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "domain driven design"
+  - "domain driven designs"
 name: domain-driven-design
 description: "Plan and route Domain-Driven Design work from strategic modeling to tactical implementation and evented architecture patterns."
 risk: safe

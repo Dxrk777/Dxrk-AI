@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "e2e testing patterns"
+  - "e2e testing patternss"
 name: e2e-testing-patterns
 description: "Build reliable, fast, and maintainable end-to-end test suites that provide confidence to ship code quickly and catch regressions before users do."
 risk: safe

@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "nextjs app router patterns"
+  - "nextjs app router patternss"
 name: nextjs-app-router-patterns
 description: "Comprehensive patterns for Next.js 14+ App Router architecture, Server Components, and modern full-stack React development."
 risk: safe

@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "nextjs best practices"
+  - "nextjs best practicess"
 name: nextjs-best-practices
 description: "Next.js App Router principles. Server Components, data fetching, routing patterns."
 risk: unknown

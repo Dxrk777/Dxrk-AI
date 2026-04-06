@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "test driven development"
+  - "test driven developments"
 name: test-driven-development
 description: "Use when implementing any feature or bugfix, before writing implementation code"
 risk: unknown

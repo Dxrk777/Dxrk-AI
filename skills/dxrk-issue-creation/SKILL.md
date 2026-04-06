@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "issue creation"
+  - "issue creations"
 name: gentle-ai-issue-creation
 description: >
   Issue creation workflow for Gentle AI following the issue-first enforcement system.

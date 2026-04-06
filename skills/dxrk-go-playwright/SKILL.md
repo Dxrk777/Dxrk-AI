@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "go playwright"
+  - "go playwrights"
 name: go-playwright
 description: "Expert capability for robust, stealthy, and efficient browser automation using Playwright Go."
 risk: safe

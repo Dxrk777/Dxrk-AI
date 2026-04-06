@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "ddd tactical patterns"
+  - "ddd tactical patternss"
 name: ddd-tactical-patterns
 description: "Apply DDD tactical patterns in code using entities, value objects, aggregates, repositories, and domain events with explicit invariants."
 risk: safe

@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "ddd strategic design"
+  - "ddd strategic designs"
 name: ddd-strategic-design
 description: "Design DDD strategic artifacts including subdomains, bounded contexts, and ubiquitous language for complex business domains."
 risk: safe

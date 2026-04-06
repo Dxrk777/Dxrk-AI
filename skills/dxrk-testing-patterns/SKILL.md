@@ -1,4 +1,7 @@
 ---
+triggers:
+  - "testing patterns"
+  - "testing patternss"
 name: testing-patterns
 description: "Jest testing patterns, factory functions, mocking strategies, and TDD workflow. Use when writing unit tests, creating test factories, or following TDD red-green-refactor cycle."
 risk: unknown
