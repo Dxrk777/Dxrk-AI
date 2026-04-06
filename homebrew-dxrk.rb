@@ -8,22 +8,22 @@ class Dxrk < Formula
   on_macos do
     on_intel do
       url 'https://github.com/Dxrk777/Dxrk-Hex/releases/download/v1.3.0/dxrk_1.3.0_darwin_amd64.tar.gz'
-      sha256 '5d9a38f4fe771b993ef3327aa9c6a24ce6a35558760c6c6b4168a8764cd6e7ad'
+      sha256 'ebc743634707c6c948c108ddfbed68a17eea3f30b15978377518fbbf85b4ea00'
     end
     on_arm do
       url 'https://github.com/Dxrk777/Dxrk-Hex/releases/download/v1.3.0/dxrk_1.3.0_darwin_arm64.tar.gz'
-      sha256 '2de2dcdcce2d2a524da82c0011e01f0e2b6401bd66246b3356172c3fed50efdf'
+      sha256 '31d53fe9b793da8a8752d78b7d31a5c51188db2fe7939c3ce86f97336a46f463'
     end
   end
 
   on_linux do
     on_intel do
       url 'https://github.com/Dxrk777/Dxrk-Hex/releases/download/v1.3.0/dxrk_1.3.0_linux_amd64.tar.gz'
-      sha256 '461287e912442a823338334685487d24e096a14ec4c217cfde922c1522a3fa12'
+      sha256 '789fd9ab4e31ef3e303c1e109924257b75012d48c321e33eed73982a77bbdc19'
     end
     on_arm do
       url 'https://github.com/Dxrk777/Dxrk-Hex/releases/download/v1.3.0/dxrk_1.3.0_linux_arm64.tar.gz'
-      sha256 'f6ef9b76648f2d4567f559d77828633f42a32bec51dfb813695c0d01df9ce21e'
+      sha256 '1365a1e5d0ffce9158e20b4dd9e6b7eb014d00cc9521ac4e7847a09cc8775d91'
     end
   end
 
