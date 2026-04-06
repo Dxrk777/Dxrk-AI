@@ -29,3 +29,6 @@ dist/
 
 # Agent tooling metadata (generated per-user, not product code)
 .atl/
+
+# GitHub Pages build output
+_site/
