@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# Dxrk Hex - Instalador de Actualización Automática
+# Dxrk AI - Instalador de Actualización Automática
 # =============================================================================
 # Instala un servicio que actualiza dxrk automáticamente.
 #
@@ -37,7 +37,7 @@ done
 
 echo ""
 echo -e "${BLUE}╔══════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║${NC}      ${GREEN}Dxrk Hex - Auto Update Installer${NC}         ${BLUE}║${NC}"
+echo -e "${BLUE}║${NC}      ${GREEN}Dxrk AI - Auto Update Installer${NC}         ${BLUE}║${NC}"
 echo -e "${BLUE}╚══════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -51,8 +51,8 @@ install_cron() {
 
     # Agregar al crontab
     (
-        crontab -l 2>/dev/null | grep -v "Dxrk Hex"
-        echo "# Dxrk Hex Auto Update"
+        crontab -l 2>/dev/null | grep -v "Dxrk AI"
+        echo "# Dxrk AI Auto Update"
         echo "$CRON_CMD"
     ) | crontab -
 
@@ -62,7 +62,7 @@ install_cron() {
 
 uninstall_cron() {
     echo -e "${YELLOW}[1/3]${NC} Removiendo cron job..."
-    crontab -l 2>/dev/null | grep -v "Dxrk Hex" | grep -v "@daily.*Dxrk" | crontab -
+    crontab -l 2>/dev/null | grep -v "Dxrk AI" | grep -v "@daily.*Dxrk" | crontab -
     echo -e "${GREEN}✓${NC} Cron job removido"
 }
 
@@ -126,7 +126,7 @@ install_systemd() {
     # Crear service
     cat >"$SYSTEMD_DIR/dxrk-autoupdate.service" <<'EOF'
 [Unit]
-Description=Dxrk Hex Auto Update
+Description=Dxrk AI Auto Update
 
 [Service]
 Type=oneshot
@@ -136,7 +136,7 @@ EOF
     # Crear timer
     cat >"$SYSTEMD_DIR/dxrk-autoupdate.timer" <<'EOF'
 [Unit]
-Description=Dxrk Hex Auto Update Timer
+Description=Dxrk AI Auto Update Timer
 
 [Timer]
 OnCalendar=daily

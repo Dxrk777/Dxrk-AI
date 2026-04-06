@@ -8,12 +8,12 @@
 ║     ██████╔╝██╔╝ ██╗██║  ██║██║  ██╗    ╚██████╔╝██║ ╚═╝ ██║███████╗       ║
 ║     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═╝     ╚═╝╚══════╝       ║
 ║                                                                               ║
-║              DXRK HEX INTELLIGENCE SYSTEM — SKILL PACKAGE                      ║
+║              DXRK AI INTELLIGENCE SYSTEM — SKILL PACKAGE                      ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 -->
 
-# 🔥 DXRK HEX SKILLS — Índice Maestro
+# 🔥 DXRK AI SKILLS — Índice Maestro
 
 > *"56 skills curados para cualquier tarea de programación. Se auto-activan cuando los necesitás."*
 
@@ -174,4 +174,4 @@ Para activar manualmente:
 
 **Total: 56 skills + 6 plugins**
 
-*🔥 DXRK HEX v1.0.0 — Tu compañero digital*
+*🔥 DXRK AI v1.0.0 — Tu compañero digital*

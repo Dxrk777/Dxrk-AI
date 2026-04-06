@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# Dxrk Hex - Auto Update Script
+# Dxrk AI - Auto Update Script
 # =============================================================================
 # Detecta cómo está instalado dxrk y actualiza automáticamente.
 #
@@ -71,7 +71,7 @@ log_error() {
 # Banner
 echo ""
 echo -e "${BOLD}╔══════════════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}║${NC}          ${GREEN}Dxrk Hex Auto-Updater${NC}              ${BOLD}║${NC}"
+echo -e "${BOLD}║${NC}          ${GREEN}Dxrk AI Auto-Updater${NC}              ${BOLD}║${NC}"
 echo -e "${BOLD}╚══════════════════════════════════════════════════╝${NC}"
 echo ""
 

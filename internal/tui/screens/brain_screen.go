@@ -52,7 +52,7 @@ func RenderBrain(state BrainState, cursor int) string {
 
 	b.WriteString(styles.RenderLogo())
 	b.WriteString("\n\n")
-	b.WriteString(styles.HeadingStyle.Render("🧠 Dxrk Hex Brain"))
+	b.WriteString(styles.HeadingStyle.Render("🧠 Dxrk AI Brain"))
 	b.WriteString("\n\n")
 
 	switch state.Mode {
@@ -64,7 +64,7 @@ func RenderBrain(state BrainState, cursor int) string {
 		b.WriteString(styles.HelpStyle.Render("j/k: navigate • enter: select • esc: back"))
 
 	case "chat":
-		b.WriteString(styles.SubtextStyle.Render("💬 Ask Dxrk Hex Brain"))
+		b.WriteString(styles.SubtextStyle.Render("💬 Ask Dxrk AI Brain"))
 		b.WriteString("\n\n")
 		b.WriteString(styles.SubtextStyle.Render("Type your question or command naturally."))
 		b.WriteString("\n\n")

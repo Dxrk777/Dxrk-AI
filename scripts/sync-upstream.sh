@@ -1,8 +1,8 @@
 #!/bin/bash
 # ============================================================================
-# Dxrk Hex - Sync Upstream Script
+# Dxrk AI - Sync Upstream Script
 # ============================================================================
-# Este script sincroniza Dxrk Hex con gentle-ai (upstream).
+# Este script sincroniza Dxrk AI con gentle-ai (upstream).
 # Se ejecuta automáticamente cuando gentle-ai libera una nueva versión.
 #
 # Uso:
@@ -204,7 +204,7 @@ Auto-generado por sync-upstream.sh.
 Release type: ${RELEASE_TYPE:-unknown}
 Upstream tag: ${1:-latest}
 
-[Este commit mantiene Dxrk Hex sincronizado con upstream]
+[Este commit mantiene Dxrk AI sincronizado con upstream]
 EOF
     )
 
@@ -223,7 +223,7 @@ EOF
 main() {
     echo ""
     echo "╔═══════════════════════════════════════════════════════════╗"
-    echo "║         DXRK HEX - UPSTREAM SYNC                        ║"
+    echo "║         DXRK AI - UPSTREAM SYNC                        ║"
     echo "║         Sincronizando con gentle-ai                       ║"
     echo "╚═══════════════════════════════════════════════════════════╝"
     echo ""

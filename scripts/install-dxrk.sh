@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ============================================================================
-# DXRK HEX — Install Script
+# DXRK AI — Install Script
 # One command to configure any AI coding agent on any OS.
 #
 # Usage:
@@ -58,7 +58,7 @@ step() { echo -e "\n${CYAN}${BOLD}==>${NC} ${BOLD}$*${NC}"; }
 
 show_help() {
     cat <<EOF
-${BOLD}Dxrk Hex installer${NC}
+${BOLD}Dxrk AI installer${NC}
 
 Usage: install-dxrk.sh [OPTIONS]
 

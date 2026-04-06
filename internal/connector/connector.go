@@ -1,4 +1,4 @@
-// Package connector implements remote control for Dxrk Hex via messaging platforms.
+// Package connector implements remote control for Dxrk AI via messaging platforms.
 //
 // Supported platforms:
 //   - Telegram: Bot API integration
@@ -9,7 +9,7 @@
 //  1. Enable platform in settings
 //  2. Configure API tokens
 //  3. Run dxrk with --connector flag
-//  4. Control Dxrk Hex from Telegram/Discord/WhatsApp
+//  4. Control Dxrk AI from Telegram/Discord/WhatsApp
 package connector
 
 import (
@@ -673,7 +673,7 @@ Use GUI or CLI for uninstallation:
 
 // buildHelpText generates the help message.
 func (c *Connector) buildHelpText() string {
-	return `📋 Dxrk Hex Remote Commands
+	return `📋 Dxrk AI Remote Commands
 ─────────────────────
 
 🤖 AGENTS:
@@ -707,7 +707,7 @@ Example: Send "status" or "claude"`
 
 // executeStatus returns system status.
 func (c *Connector) executeStatus() string {
-	return `✅ Dxrk Hex Status
+	return `✅ Dxrk AI Status
 ─────────────────
 • System: Online
 • Memory: Active
@@ -786,7 +786,7 @@ Backups are stored in:
 
 // executeVersion returns version info.
 func (c *Connector) executeVersion() string {
-	return `📦 Dxrk Hex
+	return `📦 Dxrk AI
 Version: 000.13%
 Build: Latest
 
@@ -800,7 +800,7 @@ Updates: Automatic (daily sync)`
 func (c *Connector) executeUpdate() string {
 	return `🔄 Update Check
 
-Dxrk Hex sincroniza con upstream diariamente.
+Dxrk AI sincroniza con upstream diariamente.
 Para forzar actualización:
 
   dxrk upgrade
@@ -812,7 +812,7 @@ O usa la GUI: Menú → Upgrade tools`
 func (c *Connector) executeMemory() string {
 	return `🧠 Memory Status
 
-Dxrk Hex tracks:
+Dxrk AI tracks:
   • Install history
   • Agent usage
   • Preferences

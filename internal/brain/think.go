@@ -277,7 +277,7 @@ func handleMemoryQuery(input string, memory *Memory) *ThinkResult {
 // handleHelp shows available commands.
 func handleHelp() *ThinkResult {
 	return &ThinkResult{
-		Response: `📋 Dxrk Hex Commands
+		Response: `📋 Dxrk AI Commands
 
 🔧 SYSTEM:
   status       - Check system status
@@ -321,7 +321,7 @@ func handleHelp() *ThinkResult {
 func handleStatus(brain *Brain) *ThinkResult {
 	status := brain.Status()
 	return &ThinkResult{
-		Response: fmt.Sprintf(`✅ Dxrk Hex Status
+		Response: fmt.Sprintf(`✅ Dxrk AI Status
 
 🟢 Running: %v
 ⏱️  Uptime: %s
@@ -449,7 +449,7 @@ Backups are stored in:
 // handleVersion shows version info.
 func handleVersion() *ThinkResult {
 	return &ThinkResult{
-		Response: `📦 Dxrk Hex
+		Response: `📦 Dxrk AI
 Version: 000.13%
 Build: Latest
 
@@ -485,7 +485,7 @@ func handleUpdate() *ThinkResult {
 To check for updates:
   dxrk upgrade
 
-Dxrk Hex checks for updates hourly.`,
+Dxrk AI checks for updates hourly.`,
 		Action:    "update",
 		Success:   true,
 		Timestamp: time.Now(),

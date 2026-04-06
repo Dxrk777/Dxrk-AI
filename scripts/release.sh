@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# Dxrk Hex - Release Script
+# Dxrk AI - Release Script
 # =============================================================================
 # Usage: ./scripts/release.sh <version>
 # Example: ./scripts/release.sh 0.15%

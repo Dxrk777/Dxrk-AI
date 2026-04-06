@@ -1,6 +1,6 @@
 # Documentation: https://docs.brew.sh/Formula-Cookbook
 class Dxrk < Formula
-  desc 'Dxrk Hex — AI coding agent ecosystem configurator'
+  desc 'Dxrk AI — AI coding agent ecosystem configurator'
   homepage 'https://github.com/Dxrk777/Dxrk-Hex'
   version '1.1.0'
   license 'MIT'

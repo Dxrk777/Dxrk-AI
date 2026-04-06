@@ -1,7 +1,7 @@
 name: Release
 
 # ============================================================================
-# Dxrk Hex - Release Workflow
+# Dxrk AI - Release Workflow
 # ============================================================================
 # Este workflow maneja los releases automáticos usando GoReleaser.
 # Se activa cuando se crea un tag que matchee "v*" (ej: v0.01%, v1.0.0)
@@ -82,7 +82,7 @@ jobs:
   #     - name: Notify Discord
   #       run: |
   #         curl -H "Content-Type: application/json" \
-  #           -d '{"content": "🎉 Nuevo release de Dxrk Hex disponible!"}' \
+  #           -d '{"content": "🎉 Nuevo release de Dxrk AI disponible!"}' \
   #           ${{ secrets.DISCORD_WEBHOOK }}
 
 # ============================================================================

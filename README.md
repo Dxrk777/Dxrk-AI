@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🔥 DXRK HEX
+# 🔥 DXRK AI
 
 <img width="200" height="200" src="https://avatars.githubusercontent.com/u/197162710?v=4" alt="Dxrk" style="border-radius: 50%; border: 4px solid #ff0040; box-shadow: 0 0 30px rgba(255,0,64,0.5);">
 
@@ -21,9 +21,9 @@
 
 ---
 
-## ⚡ Qué es Dxrk Hex?
+## ⚡ Qué es Dxrk AI?
 
-**Dxrk Hex NO es un simple instalador de agentes de IA.**
+**Dxrk AI NO es un simple instalador de agentes de IA.**
 
 Es tu **mentor digital** — transforma cualquier agente de IA en una máquina perfectamente afinada con memoria, skills, workflow y una personalidad que enseña mientras programa.
 
@@ -121,7 +121,7 @@ curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/insta
 
 <div align="center">
 
-**[MIT License](LICENSE)** — © 2026 **Dxrk Hex**
+**[MIT License](LICENSE)** — © 2026 **Dxrk AI**
 
 🔥 *Tu compañero digital*
 

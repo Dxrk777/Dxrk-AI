@@ -29,7 +29,7 @@ const Cursor = "▸ "
 
 // Tagline returns the welcome screen tagline with the given version.
 func Tagline(version string) string {
-	return "DXRK HEX " + version + " — Tu compañero digital 🔥"
+	return "DXRK AI " + version + " — Tu compañero digital 🔥"
 }
 
 // Pre-built reusable styles - GOTHIC BLOOD
