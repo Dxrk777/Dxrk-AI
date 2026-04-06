@@ -28,7 +28,7 @@ error() {
 }
 
 # Check if Helm is installed
-if ! command -v helm &> /dev/null; then
+if ! command -v helm &>/dev/null; then
     error "Helm is not installed"
     exit 1
 fi
@@ -94,7 +94,7 @@ echo ""
 
 # 4. Test template rendering
 echo "4️⃣  Testing template rendering..."
-if helm template "$RELEASE_NAME" "$CHART_DIR" > /dev/null 2>&1; then
+if helm template "$RELEASE_NAME" "$CHART_DIR" >/dev/null 2>&1; then
     success "Templates rendered successfully"
 else
     error "Template rendering failed"
@@ -105,7 +105,7 @@ echo ""
 
 # 5. Dry-run installation
 echo "5️⃣  Testing dry-run installation..."
-if helm install "$RELEASE_NAME" "$CHART_DIR" --dry-run --debug > /dev/null 2>&1; then
+if helm install "$RELEASE_NAME" "$CHART_DIR" --dry-run --debug >/dev/null 2>&1; then
     success "Dry-run installation successful"
 else
     error "Dry-run installation failed"
@@ -193,7 +193,7 @@ echo ""
 # 10. Check dependencies
 if [ -f "$CHART_DIR/Chart.yaml" ] && grep -q "^dependencies:" "$CHART_DIR/Chart.yaml"; then
     echo "🔟 Checking dependencies..."
-    if helm dependency list "$CHART_DIR" > /dev/null 2>&1; then
+    if helm dependency list "$CHART_DIR" >/dev/null 2>&1; then
         success "Dependencies valid"
 
         if [ -f "$CHART_DIR/Chart.lock" ]; then
@@ -213,7 +213,7 @@ if [ -f "$CHART_DIR/values.schema.json" ]; then
     success "values.schema.json present"
 
     # Validate schema if jq is available
-    if command -v jq &> /dev/null; then
+    if command -v jq &>/dev/null; then
         if jq empty "$CHART_DIR/values.schema.json" 2>/dev/null; then
             success "values.schema.json is valid JSON"
         else

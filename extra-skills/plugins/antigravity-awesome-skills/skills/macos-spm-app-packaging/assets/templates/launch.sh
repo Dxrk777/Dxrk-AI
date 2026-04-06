@@ -20,7 +20,7 @@ echo "==> Launching ${APP_NAME} from $APP_PATH"
 open -n "$APP_PATH"
 
 sleep 1
-if pgrep -x "$APP_NAME" > /dev/null; then
+if pgrep -x "$APP_NAME" >/dev/null; then
     echo "OK: ${APP_NAME} is running."
 else
     echo "ERROR: App exited immediately. Check crash logs in Console.app (User Reports)."

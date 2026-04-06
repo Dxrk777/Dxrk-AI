@@ -3,7 +3,7 @@
 # Output the explanatory mode instructions as additionalContext
 # This mimics the deprecated Explanatory output style
 
-cat << 'EOF'
+cat <<'EOF'
 {
   "hookSpecificOutput": {
     "hookEventName": "SessionStart",

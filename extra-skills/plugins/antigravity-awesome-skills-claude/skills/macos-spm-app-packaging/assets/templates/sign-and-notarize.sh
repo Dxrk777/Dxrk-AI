@@ -9,17 +9,17 @@ source "$ROOT/version.env"
 ZIP_NAME="${APP_NAME}-${MARKETING_VERSION}.zip"
 
 if [[ -z "${APP_STORE_CONNECT_API_KEY_P8:-}" || -z "${APP_STORE_CONNECT_KEY_ID:-}" || -z "${APP_STORE_CONNECT_ISSUER_ID:-}" ]]; then
-  echo "Missing APP_STORE_CONNECT_* env vars (API key, key id, issuer id)." >&2
-  exit 1
+    echo "Missing APP_STORE_CONNECT_* env vars (API key, key id, issuer id)." >&2
+    exit 1
 fi
 
-echo "$APP_STORE_CONNECT_API_KEY_P8" | sed 's/\\n/\n/g' > /tmp/app-store-connect-key.p8
+echo "$APP_STORE_CONNECT_API_KEY_P8" | sed 's/\\n/\n/g' >/tmp/app-store-connect-key.p8
 trap 'rm -f /tmp/app-store-connect-key.p8 /tmp/${APP_NAME}Notarize.zip' EXIT
 
 ARCHES_VALUE=${ARCHES:-"arm64 x86_64"}
-ARCH_LIST=( ${ARCHES_VALUE} )
+ARCH_LIST=(${ARCHES_VALUE})
 for ARCH in "${ARCH_LIST[@]}"; do
-  swift build -c release --arch "$ARCH"
+    swift build -c release --arch "$ARCH"
 done
 ARCHES="${ARCHES_VALUE}" "$ROOT/Scripts/package_app.sh" release
 
@@ -27,17 +27,17 @@ ENTITLEMENTS_DIR="$ROOT/.build/entitlements"
 APP_ENTITLEMENTS="${APP_ENTITLEMENTS:-${ENTITLEMENTS_DIR}/${APP_NAME}.entitlements}"
 
 codesign --force --timestamp --options runtime --sign "$APP_IDENTITY" \
-  --entitlements "$APP_ENTITLEMENTS" \
-  "$APP_BUNDLE"
+    --entitlements "$APP_ENTITLEMENTS" \
+    "$APP_BUNDLE"
 
 DITTO_BIN=${DITTO_BIN:-/usr/bin/ditto}
 "$DITTO_BIN" --norsrc -c -k --keepParent "$APP_BUNDLE" "/tmp/${APP_NAME}Notarize.zip"
 
 xcrun notarytool submit "/tmp/${APP_NAME}Notarize.zip" \
-  --key /tmp/app-store-connect-key.p8 \
-  --key-id "$APP_STORE_CONNECT_KEY_ID" \
-  --issuer "$APP_STORE_CONNECT_ISSUER_ID" \
-  --wait
+    --key /tmp/app-store-connect-key.p8 \
+    --key-id "$APP_STORE_CONNECT_KEY_ID" \
+    --issuer "$APP_STORE_CONNECT_ISSUER_ID" \
+    --wait
 
 xcrun stapler staple "$APP_BUNDLE"
 

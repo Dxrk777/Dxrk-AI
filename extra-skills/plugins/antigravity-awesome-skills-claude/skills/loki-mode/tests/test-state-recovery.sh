@@ -15,8 +15,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; ((PASSED++)); }
-log_fail() { echo -e "${RED}[FAIL]${NC} $1"; ((FAILED++)); }
+log_pass() {
+    echo -e "${GREEN}[PASS]${NC} $1"
+    ((PASSED++))
+}
+log_fail() {
+    echo -e "${RED}[FAIL]${NC} $1"
+    ((FAILED++))
+}
 log_test() { echo -e "${YELLOW}[TEST]${NC} $1"; }
 
 cleanup() {
@@ -35,7 +41,7 @@ echo ""
 mkdir -p .loki/{state/{agents,checkpoints},queue,artifacts/backups}
 
 # Create initial state
-cat > .loki/state/orchestrator.json << 'EOF'
+cat >.loki/state/orchestrator.json <<'EOF'
 {
   "version": "2.1.0",
   "startupId": "test-session-001",
@@ -49,7 +55,7 @@ cat > .loki/state/orchestrator.json << 'EOF'
 EOF
 
 # Create agent state
-cat > .loki/state/agents/eng-backend-01.json << 'EOF'
+cat >.loki/state/agents/eng-backend-01.json <<'EOF'
 {
   "id": "eng-backend-01",
   "status": "active",
@@ -60,10 +66,10 @@ cat > .loki/state/agents/eng-backend-01.json << 'EOF'
 EOF
 
 # Create queue state
-cat > .loki/queue/pending.json << 'EOF'
+cat >.loki/queue/pending.json <<'EOF'
 {"tasks":[{"id":"task-043","type":"eng-frontend","priority":5}]}
 EOF
-cat > .loki/queue/in-progress.json << 'EOF'
+cat >.loki/queue/in-progress.json <<'EOF'
 {"tasks":[{"id":"task-042","type":"eng-backend","claimedBy":"eng-backend-01"}]}
 EOF
 
@@ -83,7 +89,7 @@ fi
 
 # Test 2: Update lastCheckpoint in state
 log_test "Update lastCheckpoint timestamp"
-python3 << EOF
+python3 <<EOF
 import json
 from datetime import datetime
 
@@ -112,9 +118,9 @@ fi
 
 # Test 3: Simulate crash and corrupt state
 log_test "Detect corrupted state"
-echo "corrupted{json" > .loki/state/orchestrator.json.corrupted
+echo "corrupted{json" >.loki/state/orchestrator.json.corrupted
 
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 
 def is_valid_state(filepath):
@@ -134,7 +140,7 @@ log_pass "Corrupted state detected"
 
 # Test 4: Restore from checkpoint
 log_test "Restore from checkpoint"
-python3 << EOF
+python3 <<EOF
 import json
 import os
 import shutil
@@ -181,7 +187,7 @@ fi
 
 # Test 5: Orphaned task detection
 log_test "Detect orphaned tasks"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime, timedelta
 
@@ -226,7 +232,7 @@ log_pass "Orphaned task detection works"
 
 # Test 6: Re-queue orphaned tasks
 log_test "Re-queue orphaned tasks"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime, timedelta
 
@@ -270,7 +276,7 @@ log_pass "Orphaned tasks re-queued"
 
 # Test 7: Rate limit backoff simulation
 log_test "Rate limit exponential backoff"
-python3 << 'EOF'
+python3 <<'EOF'
 import time
 import random
 
@@ -300,7 +306,7 @@ log_pass "Exponential backoff works"
 
 # Test 8: Full system recovery
 log_test "Full system recovery simulation"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 import os
 from pathlib import Path

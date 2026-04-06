@@ -5,25 +5,25 @@ since_ref="${1:-}"
 until_ref="${2:-HEAD}"
 
 if [[ -z "${since_ref}" ]]; then
-  if git describe --tags --abbrev=0 >/dev/null 2>&1; then
-    since_ref="$(git describe --tags --abbrev=0)"
-  fi
+    if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+        since_ref="$(git describe --tags --abbrev=0)"
+    fi
 fi
 
 range=""
 if [[ -n "${since_ref}" ]]; then
-  range="${since_ref}..${until_ref}"
+    range="${since_ref}..${until_ref}"
 else
-  range="${until_ref}"
+    range="${until_ref}"
 fi
 
 repo_root="$(git rev-parse --show-toplevel)"
 
 printf "Repo: %s\n" "${repo_root}"
 if [[ -n "${since_ref}" ]]; then
-  printf "Range: %s..%s\n" "${since_ref}" "${until_ref}"
+    printf "Range: %s..%s\n" "${since_ref}" "${until_ref}"
 else
-  printf "Range: start..%s (no tags found)\n" "${until_ref}"
+    printf "Range: start..%s (no tags found)\n" "${until_ref}"
 fi
 
 printf "\n== Commits ==\n"

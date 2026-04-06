@@ -38,12 +38,12 @@ RESULTS_DIR="$SCRIPT_DIR/results/$(date +%Y-%m-%d-%H-%M-%S)"
 
 # Configuration
 EXECUTE_MODE=false
-LOKI_MODE=false  # Use multi-agent Loki Mode vs direct Claude
-PROBLEM_LIMIT=0  # 0 = all problems
+LOKI_MODE=false # Use multi-agent Loki Mode vs direct Claude
+PROBLEM_LIMIT=0 # 0 = all problems
 PARALLEL_COUNT=1
 CLAUDE_MODEL="sonnet"
 PROBLEM_TIMEOUT=120
-MAX_RETRIES=3    # RARV retry attempts
+MAX_RETRIES=3 # RARV retry attempts
 
 # Colors
 RED='\033[0;31m'
@@ -69,42 +69,42 @@ parse_args() {
 
     while [[ $# -gt 0 ]]; do
         case $1 in
-            --execute)
-                EXECUTE_MODE=true
-                shift
-                ;;
-            --loki)
-                LOKI_MODE=true
-                shift
-                ;;
-            --limit)
-                PROBLEM_LIMIT="$2"
-                shift 2
-                ;;
-            --parallel)
-                PARALLEL_COUNT="$2"
-                shift 2
-                ;;
-            --model)
-                CLAUDE_MODEL="$2"
-                shift 2
-                ;;
-            --timeout)
-                PROBLEM_TIMEOUT="$2"
-                shift 2
-                ;;
-            --retries)
-                MAX_RETRIES="$2"
-                shift 2
-                ;;
-            -*)
-                log_error "Unknown option: $1"
-                exit 1
-                ;;
-            *)
-                positional+=("$1")
-                shift
-                ;;
+        --execute)
+            EXECUTE_MODE=true
+            shift
+            ;;
+        --loki)
+            LOKI_MODE=true
+            shift
+            ;;
+        --limit)
+            PROBLEM_LIMIT="$2"
+            shift 2
+            ;;
+        --parallel)
+            PARALLEL_COUNT="$2"
+            shift 2
+            ;;
+        --model)
+            CLAUDE_MODEL="$2"
+            shift 2
+            ;;
+        --timeout)
+            PROBLEM_TIMEOUT="$2"
+            shift 2
+            ;;
+        --retries)
+            MAX_RETRIES="$2"
+            shift 2
+            ;;
+        -*)
+            log_error "Unknown option: $1"
+            exit 1
+            ;;
+        *)
+            positional+=("$1")
+            shift
+            ;;
         esac
     done
 
@@ -125,12 +125,12 @@ setup_environment() {
     mkdir -p "$SCRIPT_DIR/workspaces"
 
     # Check prerequisites
-    if ! command -v python3 &> /dev/null; then
+    if ! command -v python3 &>/dev/null; then
         log_error "Python 3 is required"
         exit 1
     fi
 
-    if ! command -v claude &> /dev/null; then
+    if ! command -v claude &>/dev/null; then
         log_error "Claude Code CLI is required"
         exit 1
     fi
@@ -160,8 +160,8 @@ download_humaneval() {
     fi
 
     log_info "Downloading HumanEval dataset..."
-    curl -sL "https://github.com/openai/human-eval/raw/master/data/HumanEval.jsonl.gz" | \
-        gunzip > "$dataset_file"
+    curl -sL "https://github.com/openai/human-eval/raw/master/data/HumanEval.jsonl.gz" |
+        gunzip >"$dataset_file"
 
     log_success "HumanEval dataset downloaded (164 problems)"
 }
@@ -186,7 +186,7 @@ run_humaneval_setup() {
     local dataset_file="$SCRIPT_DIR/datasets/humaneval.jsonl"
     local results_file="$RESULTS_DIR/humaneval-results.json"
 
-    python3 << 'HUMANEVAL_SETUP'
+    python3 <<'HUMANEVAL_SETUP'
 import json
 import os
 from datetime import datetime
@@ -240,7 +240,7 @@ run_humaneval_execute() {
     # Export variables for Python
     export PROBLEM_LIMIT PROBLEM_TIMEOUT CLAUDE_MODEL
 
-    python3 << 'HUMANEVAL_EXECUTE'
+    python3 <<'HUMANEVAL_EXECUTE'
 import json
 import subprocess
 import os
@@ -518,7 +518,7 @@ run_humaneval_loki() {
     # Export variables for Python
     export PROBLEM_LIMIT PROBLEM_TIMEOUT CLAUDE_MODEL MAX_RETRIES
 
-    python3 << 'HUMANEVAL_LOKI'
+    python3 <<'HUMANEVAL_LOKI'
 import json
 import subprocess
 import os
@@ -927,7 +927,7 @@ download_swebench() {
 
     log_info "Downloading SWE-bench Lite dataset..."
 
-    python3 << 'SWEBENCH_DOWNLOAD'
+    python3 <<'SWEBENCH_DOWNLOAD'
 import json
 import os
 
@@ -973,7 +973,7 @@ run_swebench() {
 run_swebench_setup() {
     local results_file="$RESULTS_DIR/swebench-results.json"
 
-    python3 << 'SWEBENCH_SETUP'
+    python3 <<'SWEBENCH_SETUP'
 import json
 import os
 from datetime import datetime
@@ -1012,7 +1012,7 @@ run_swebench_execute() {
 
     export PROBLEM_LIMIT PROBLEM_TIMEOUT CLAUDE_MODEL
 
-    python3 << 'SWEBENCH_EXECUTE'
+    python3 <<'SWEBENCH_EXECUTE'
 import json
 import subprocess
 import os
@@ -1222,7 +1222,7 @@ run_swebench_loki() {
 
     export PROBLEM_LIMIT PROBLEM_TIMEOUT CLAUDE_MODEL MAX_RETRIES
 
-    python3 << 'SWEBENCH_LOKI'
+    python3 <<'SWEBENCH_LOKI'
 import json
 import subprocess
 import os
@@ -1775,7 +1775,7 @@ generate_summary() {
     local humaneval_results="$RESULTS_DIR/humaneval-results.json"
     local swebench_results="$RESULTS_DIR/swebench-results.json"
 
-    python3 << SUMMARY_GEN
+    python3 <<SUMMARY_GEN
 import json
 import os
 from datetime import datetime
@@ -1920,21 +1920,21 @@ main() {
     setup_environment
 
     case "$BENCHMARK" in
-        humaneval)
-            run_humaneval
-            ;;
-        swebench)
-            run_swebench
-            ;;
-        all)
-            run_humaneval
-            run_swebench
-            ;;
-        *)
-            log_error "Unknown benchmark: $BENCHMARK"
-            echo "Usage: $0 [humaneval|swebench|all] [--execute] [--limit N]"
-            exit 1
-            ;;
+    humaneval)
+        run_humaneval
+        ;;
+    swebench)
+        run_swebench
+        ;;
+    all)
+        run_humaneval
+        run_swebench
+        ;;
+    *)
+        log_error "Unknown benchmark: $BENCHMARK"
+        echo "Usage: $0 [humaneval|swebench|all] [--execute] [--limit N]"
+        exit 1
+        ;;
     esac
 
     generate_summary

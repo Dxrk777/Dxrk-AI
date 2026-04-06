@@ -35,7 +35,7 @@ RECOMMENDED_SKILLS=(
     "git-pushing"
     "address-github-comments"
     "javascript-mastery"
-    
+
     # Tier A - Your Projects (12)
     "docx-official"
     "pdf-official"
@@ -49,19 +49,19 @@ RECOMMENDED_SKILLS=(
     "mcp-builder"
     "notebooklm"
     "ui-ux-pro-max"
-    
+
     # Marketing & SEO (1)
     "content-creator"
-    
+
     # Corporate (4)
     "brand-guidelines-anthropic"
     "brand-guidelines-community"
     "internal-comms-anthropic"
     "internal-comms-community"
-    
+
     # Planning & Documentation (1)
     "writing-plans"
-    
+
     # AI & Automation (5)
     "workflow-automation"
     "llm-app-patterns"

@@ -6,10 +6,10 @@ APP_NAME=${APP_NAME:-MyApp}
 CERT_NAME="${APP_NAME} Development"
 
 if security find-certificate -c "$CERT_NAME" >/dev/null 2>&1; then
-  echo "Certificate '$CERT_NAME' already exists."
-  echo "Export this in your shell profile:"
-  echo "  export APP_IDENTITY='$CERT_NAME'"
-  exit 0
+    echo "Certificate '$CERT_NAME' already exists."
+    echo "Export this in your shell profile:"
+    echo "  export APP_IDENTITY='$CERT_NAME'"
+    exit 0
 fi
 
 echo "Creating self-signed certificate '$CERT_NAME'..."
@@ -17,7 +17,7 @@ echo "Creating self-signed certificate '$CERT_NAME'..."
 TEMP_CONFIG=$(mktemp)
 trap "rm -f $TEMP_CONFIG" EXIT
 
-cat > "$TEMP_CONFIG" <<EOFCONF
+cat >"$TEMP_CONFIG" <<EOFCONF
 [ req ]
 distinguished_name = req_distinguished_name
 x509_extensions = v3_req
@@ -42,7 +42,7 @@ openssl pkcs12 -export -out /tmp/dev.p12 \
     -passout pass: 2>/dev/null
 
 security import /tmp/dev.p12 -k ~/Library/Keychains/login.keychain-db \
-  -T /usr/bin/codesign -T /usr/bin/security
+    -T /usr/bin/codesign -T /usr/bin/security
 
 rm -f /tmp/dev.{key,crt,p12}
 

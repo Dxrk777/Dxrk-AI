@@ -15,8 +15,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; ((PASSED++)); }
-log_fail() { echo -e "${RED}[FAIL]${NC} $1"; ((FAILED++)); }
+log_pass() {
+    echo -e "${GREEN}[PASS]${NC} $1"
+    ((PASSED++))
+}
+log_fail() {
+    echo -e "${RED}[FAIL]${NC} $1"
+    ((FAILED++))
+}
 log_test() { echo -e "${YELLOW}[TEST]${NC} $1"; }
 
 cleanup() {
@@ -35,7 +41,7 @@ echo ""
 mkdir -p .loki/{state,config}
 
 # Create circuit breaker config
-cat > .loki/config/circuit-breakers.yaml << 'EOF'
+cat >.loki/config/circuit-breakers.yaml <<'EOF'
 defaults:
   failureThreshold: 5
   cooldownSeconds: 300
@@ -51,7 +57,7 @@ overrides:
 EOF
 
 # Initialize orchestrator state
-cat > .loki/state/orchestrator.json << 'EOF'
+cat >.loki/state/orchestrator.json <<'EOF'
 {
   "circuitBreakers": {}
 }
@@ -59,7 +65,7 @@ EOF
 
 # Test 1: Initialize circuit breaker (CLOSED state)
 log_test "Initialize circuit breaker in CLOSED state"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime
 
@@ -95,7 +101,7 @@ fi
 
 # Test 2: Record failures
 log_test "Record failures incrementally"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime
 
@@ -129,7 +135,7 @@ fi
 
 # Test 3: Trip circuit breaker (CLOSED -> OPEN)
 log_test "Trip circuit breaker after threshold"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime, timedelta
 
@@ -171,7 +177,7 @@ fi
 
 # Test 4: Block requests when OPEN
 log_test "Block requests when circuit is OPEN"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime
 
@@ -203,7 +209,7 @@ log_pass "Requests blocked when circuit is OPEN"
 
 # Test 5: Transition to HALF-OPEN after cooldown
 log_test "Transition to HALF-OPEN after cooldown"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime, timedelta
 
@@ -240,7 +246,7 @@ fi
 
 # Test 6: Success in HALF-OPEN -> CLOSED
 log_test "Success in HALF-OPEN transitions to CLOSED"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 
 HALF_OPEN_REQUESTS = 3
@@ -281,7 +287,7 @@ fi
 
 # Test 7: Failure in HALF-OPEN -> OPEN
 log_test "Failure in HALF-OPEN transitions back to OPEN"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime, timedelta
 
@@ -323,7 +329,7 @@ fi
 
 # Test 8: Per-agent-type thresholds
 log_test "Per-agent-type thresholds from config"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 
 # Simulate reading config (in real usage, would parse YAML)

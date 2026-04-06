@@ -62,7 +62,7 @@ cp "$SCRIPT_DIR/submission-template/metadata.yaml" "$SUBMISSION_DIR/"
 
 # Convert predictions to JSONL format
 log_info "Converting predictions to JSONL format..."
-python3 << CONVERT_PREDS
+python3 <<CONVERT_PREDS
 import json
 
 with open("$RESULTS_DIR/swebench-loki-predictions.json", 'r') as f:
@@ -105,7 +105,7 @@ fi
 
 # Update metadata with actual results
 log_info "Updating metadata with actual results..."
-python3 << UPDATE_META
+python3 <<UPDATE_META
 import json
 import yaml
 from datetime import datetime
@@ -135,11 +135,11 @@ with open("$SUBMISSION_DIR/metadata.yaml", 'w') as f:
     yaml.dump(metadata, f, default_flow_style=False, sort_keys=False)
 
 print("Metadata updated with actual results")
-CONVERT_PREDS
+UPDATE_META
 
 # Generate submission summary
 log_info "Generating submission summary..."
-cat > "$SUBMISSION_DIR/SUBMISSION_CHECKLIST.md" << 'CHECKLIST'
+cat >"$SUBMISSION_DIR/SUBMISSION_CHECKLIST.md" <<'CHECKLIST'
 # SWE-bench Submission Checklist
 
 ## Required Files

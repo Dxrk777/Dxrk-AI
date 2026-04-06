@@ -16,8 +16,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; ((PASSED++)); }
-log_fail() { echo -e "${RED}[FAIL]${NC} $1"; ((FAILED++)); }
+log_pass() {
+    echo -e "${GREEN}[PASS]${NC} $1"
+    ((PASSED++))
+}
+log_fail() {
+    echo -e "${RED}[FAIL]${NC} $1"
+    ((FAILED++))
+}
 log_test() { echo -e "${YELLOW}[TEST]${NC} $1"; }
 
 cleanup() {
@@ -35,7 +41,7 @@ echo ""
 # Initialize structure
 mkdir -p .loki/{state/locks,queue}
 for f in pending in-progress completed failed dead-letter; do
-    echo '{"tasks":[]}' > ".loki/queue/$f.json"
+    echo '{"tasks":[]}' >".loki/queue/$f.json"
 done
 
 # Helper function to add task
@@ -44,7 +50,8 @@ add_task() {
     local type="$2"
     local priority="${3:-5}"
 
-    local task=$(cat <<EOF
+    local task=$(
+        cat <<EOF
 {
   "id": "$id",
   "type": "$type",
@@ -58,11 +65,11 @@ add_task() {
   "maxRetries": 3
 }
 EOF
-)
+    )
 
     # Add to pending queue
-    if command -v jq &> /dev/null; then
-        jq --argjson task "$task" '.tasks += [$task]' .loki/queue/pending.json > tmp.json && mv tmp.json .loki/queue/pending.json
+    if command -v jq &>/dev/null; then
+        jq --argjson task "$task" '.tasks += [$task]' .loki/queue/pending.json >tmp.json && mv tmp.json .loki/queue/pending.json
     else
         # Fallback without jq
         python3 -c "
@@ -118,7 +125,7 @@ fi
 
 # Test 4: Claim task (atomic operation simulation)
 log_test "Claim task atomically"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 import os
 from datetime import datetime
@@ -179,7 +186,7 @@ fi
 
 # Test 5: Complete task
 log_test "Complete task"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime
 
@@ -219,7 +226,7 @@ fi
 # Test 6: Fail task with retry
 log_test "Fail task with retry"
 # First claim a task
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime
 
@@ -247,7 +254,7 @@ if pending['tasks']:
 EOF
 
 # Now fail it
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime
 
@@ -299,7 +306,7 @@ fi
 
 # Test 7: Dead letter queue
 log_test "Move to dead letter queue after max retries"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime
 
@@ -340,7 +347,7 @@ fi
 
 # Test 8: Idempotency check
 log_test "Idempotency check (duplicate prevention)"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 import hashlib
 

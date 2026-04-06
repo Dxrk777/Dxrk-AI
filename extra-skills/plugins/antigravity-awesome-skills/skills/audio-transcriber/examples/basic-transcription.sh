@@ -7,8 +7,8 @@ set -euo pipefail
 
 # Configuration
 AUDIO_FILE="${1:-}"
-MODEL="${MODEL:-base}"  # Options: tiny, base, small, medium, large
-OUTPUT_FORMAT="${OUTPUT_FORMAT:-markdown}"  # Options: markdown, txt, srt, vtt, json
+MODEL="${MODEL:-base}"                     # Options: tiny, base, small, medium, large
+OUTPUT_FORMAT="${OUTPUT_FORMAT:-markdown}" # Options: markdown, txt, srt, vtt, json
 
 # Colors for output
 RED='\033[0;31m'
@@ -76,7 +76,7 @@ info "File size: $FILE_SIZE"
 if command -v ffprobe &>/dev/null; then
     DURATION=$(ffprobe -v error -show_entries format=duration \
         -of default=noprint_wrappers=1:nokey=1 "$AUDIO_FILE" 2>/dev/null || echo "0")
-    
+
     # Convert to HH:MM:SS
     if command -v date &>/dev/null; then
         if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -89,7 +89,7 @@ if command -v ffprobe &>/dev/null; then
     else
         DURATION_HMS="Unknown"
     fi
-    
+
     info "Duration: $DURATION_HMS"
 else
     warn "ffprobe not found - cannot extract duration"
@@ -114,7 +114,7 @@ info "Step 2: Transcribing audio..."
 OUTPUT_FILE="${AUDIO_FILE%.*}.md"
 TEMP_JSON="$(mktemp "${TMPDIR:-/tmp}/transcription.XXXXXX.json")"
 
-AUDIO_FILE_ENV="$AUDIO_FILE" MODEL_ENV="$MODEL" TRANSCRIBER_ENV="$TRANSCRIBER" TEMP_JSON_ENV="$TEMP_JSON" python3 << 'EOF'
+AUDIO_FILE_ENV="$AUDIO_FILE" MODEL_ENV="$MODEL" TRANSCRIBER_ENV="$TRANSCRIBER" TEMP_JSON_ENV="$TEMP_JSON" python3 <<'EOF'
 import os
 import sys
 import json
@@ -174,7 +174,7 @@ fi
 # Step 3: Generate Markdown output
 info "Step 3: Generating Markdown report..."
 
-AUDIO_FILE_ENV="$AUDIO_FILE" FILE_SIZE_ENV="$FILE_SIZE" DURATION_HMS_ENV="$DURATION_HMS" TRANSCRIBER_ENV="$TRANSCRIBER" MODEL_ENV="$MODEL" TEMP_JSON_ENV="$TEMP_JSON" OUTPUT_FILE_ENV="$OUTPUT_FILE" python3 << 'EOF'
+AUDIO_FILE_ENV="$AUDIO_FILE" FILE_SIZE_ENV="$FILE_SIZE" DURATION_HMS_ENV="$DURATION_HMS" TRANSCRIBER_ENV="$TRANSCRIBER" MODEL_ENV="$MODEL" TEMP_JSON_ENV="$TEMP_JSON" OUTPUT_FILE_ENV="$OUTPUT_FILE" python3 <<'EOF'
 import json
 import os
 from datetime import datetime

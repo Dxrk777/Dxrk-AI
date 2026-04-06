@@ -17,7 +17,7 @@ OUTPUT_FILE="$SCRIPT_DIR/recordings/loki-demo-$DEMO_TYPE-$TIMESTAMP.cast"
 
 # Check for asciinema
 ASCIINEMA_PATH=""
-if command -v asciinema &> /dev/null; then
+if command -v asciinema &>/dev/null; then
     ASCIINEMA_PATH="asciinema"
 elif [ -f "$PROJECT_DIR/benchmarks/venv/bin/asciinema" ]; then
     ASCIINEMA_PATH="$PROJECT_DIR/benchmarks/venv/bin/asciinema"

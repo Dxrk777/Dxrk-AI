@@ -25,7 +25,7 @@ TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
     echo ""
     echo "----------------------------------------"
     echo ""
-} > "$OUTPUT_FILE"
+} >"$OUTPUT_FILE"
 
 # Function to check if a file exists
 file_exists() {
@@ -42,7 +42,7 @@ file_exists() {
     echo "INTERNAL LINKS VALIDATION"
     echo "========================="
     echo ""
-} >> "$OUTPUT_FILE"
+} >>"$OUTPUT_FILE"
 
 # Find all markdown files and extract links
 echo "Scanning for internal links..."
@@ -50,10 +50,10 @@ echo "Scanning for internal links..."
 INTERNAL_LINKS=$(grep -rh '\[.*\](.*\.md)' "$DOCS_DIR" --include="*.md" | grep -oE '\([^)]+\.md\)' | sed 's/[(\)]//g' | sort -u)
 
 if [[ -z "$INTERNAL_LINKS" ]]; then
-    echo "No internal markdown links found." >> "$OUTPUT_FILE"
+    echo "No internal markdown links found." >>"$OUTPUT_FILE"
 else
-    echo "Found internal links. Validating..." >> "$OUTPUT_FILE"
-    echo "" >> "$OUTPUT_FILE"
+    echo "Found internal links. Validating..." >>"$OUTPUT_FILE"
+    echo "" >>"$OUTPUT_FILE"
 
     BROKEN_COUNT=0
     VALID_COUNT=0
@@ -68,23 +68,23 @@ else
             if find "$DOCS_DIR" -name "$(basename "$link")" -type f | grep -q .; then
                 ((VALID_COUNT++))
             else
-                echo "BROKEN: $link" >> "$OUTPUT_FILE"
+                echo "BROKEN: $link" >>"$OUTPUT_FILE"
                 ((BROKEN_COUNT++))
             fi
         fi
-    done <<< "$INTERNAL_LINKS"
+    done <<<"$INTERNAL_LINKS"
 
-    echo "" >> "$OUTPUT_FILE"
-    echo "Summary:" >> "$OUTPUT_FILE"
-    echo "  Valid Internal Links: $VALID_COUNT" >> "$OUTPUT_FILE"
-    echo "  Broken Internal Links: $BROKEN_COUNT" >> "$OUTPUT_FILE"
+    echo "" >>"$OUTPUT_FILE"
+    echo "Summary:" >>"$OUTPUT_FILE"
+    echo "  Valid Internal Links: $VALID_COUNT" >>"$OUTPUT_FILE"
+    echo "  Broken Internal Links: $BROKEN_COUNT" >>"$OUTPUT_FILE"
 fi
 
 {
     echo ""
     echo "----------------------------------------"
     echo ""
-} >> "$OUTPUT_FILE"
+} >>"$OUTPUT_FILE"
 
 # Sample External Links
 {
@@ -94,16 +94,16 @@ fi
     echo "Note: External links are sampled but not validated."
     echo "Run link checker manually to validate external URLs."
     echo ""
-} >> "$OUTPUT_FILE"
+} >>"$OUTPUT_FILE"
 
 EXTERNAL_LINKS=$(grep -rh '\[.*\](http' "$DOCS_DIR" --include="*.md" | grep -oE 'https?://[^")\s]+' | sort -u | head -20)
 
 if [[ -z "$EXTERNAL_LINKS" ]]; then
-    echo "No external links found." >> "$OUTPUT_FILE"
+    echo "No external links found." >>"$OUTPUT_FILE"
 else
-    echo "Sample of external links found:" >> "$OUTPUT_FILE"
-    echo "" >> "$OUTPUT_FILE"
-    echo "$EXTERNAL_LINKS" >> "$OUTPUT_FILE"
+    echo "Sample of external links found:" >>"$OUTPUT_FILE"
+    echo "" >>"$OUTPUT_FILE"
+    echo "$EXTERNAL_LINKS" >>"$OUTPUT_FILE"
 fi
 
 {
@@ -112,10 +112,10 @@ fi
     echo ""
     echo "VALIDATION COMPLETE"
     echo ""
-} >> "$OUTPUT_FILE"
+} >>"$OUTPUT_FILE"
 
 echo "Link validation complete. Report saved to:"
 echo "  $OUTPUT_FILE"
 echo ""
 echo "Summary:"
-wc -l < "$OUTPUT_FILE" | xargs echo "  Total lines:"
+wc -l <"$OUTPUT_FILE" | xargs echo "  Total lines:"

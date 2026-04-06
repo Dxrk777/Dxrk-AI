@@ -32,12 +32,12 @@ fi
 # Map Loki phases to Vibe Kanban columns
 phase_to_column() {
     case "$1" in
-        BOOTSTRAP|DISCOVERY|ARCHITECTURE) echo "planning" ;;
-        INFRASTRUCTURE|DEVELOPMENT) echo "in-progress" ;;
-        QA) echo "review" ;;
-        DEPLOYMENT) echo "deploying" ;;
-        BUSINESS_OPS|GROWTH|COMPLETED) echo "done" ;;
-        *) echo "backlog" ;;
+    BOOTSTRAP | DISCOVERY | ARCHITECTURE) echo "planning" ;;
+    INFRASTRUCTURE | DEVELOPMENT) echo "in-progress" ;;
+    QA) echo "review" ;;
+    DEPLOYMENT) echo "deploying" ;;
+    BUSINESS_OPS | GROWTH | COMPLETED) echo "done" ;;
+    *) echo "backlog" ;;
     esac
 }
 
@@ -50,7 +50,7 @@ export_queue() {
         return
     fi
 
-    python3 << EOF
+    python3 <<EOF
 import json
 import os
 from datetime import datetime
@@ -164,7 +164,7 @@ for queue in pending in-progress completed failed dead-letter; do
 done
 
 # Create summary file
-cat > "$EXPORT_DIR/_loki_summary.json" << EOF
+cat >"$EXPORT_DIR/_loki_summary.json" <<EOF
 {
     "exportedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
     "currentPhase": "$CURRENT_PHASE",

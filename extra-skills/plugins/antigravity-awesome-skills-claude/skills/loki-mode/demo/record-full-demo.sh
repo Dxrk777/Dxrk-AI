@@ -25,7 +25,7 @@ TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 DEMO_WORKSPACE="/tmp/loki-full-demo-$TIMESTAMP"
 OUTPUT_DIR="$SCRIPT_DIR/recordings"
 OUTPUT_FILE="$OUTPUT_DIR/loki-full-demo-$DEMO_TYPE-$TIMESTAMP.mp4"
-MAX_DURATION=1800  # 30 minutes max
+MAX_DURATION=1800 # 30 minutes max
 
 # Colors
 GREEN='\033[0;32m'
@@ -40,26 +40,26 @@ log_warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
 
 # Select PRD based on demo type
 case "$DEMO_TYPE" in
-    simple-todo)
-        PRD_SOURCE="$PROJECT_DIR/examples/simple-todo-app.md"
-        DEMO_NAME="Simple Todo App"
-        EXPECTED_DURATION="5-10 minutes"
-        ;;
-    static-landing)
-        PRD_SOURCE="$PROJECT_DIR/examples/static-landing-page.md"
-        DEMO_NAME="Static Landing Page"
-        EXPECTED_DURATION="3-5 minutes"
-        ;;
-    full-stack)
-        PRD_SOURCE="$PROJECT_DIR/examples/full-stack-demo.md"
-        DEMO_NAME="Full-Stack Bookmark Manager"
-        EXPECTED_DURATION="15-30 minutes"
-        ;;
-    *)
-        echo "Unknown demo type: $DEMO_TYPE"
-        echo "Usage: $0 [simple-todo|static-landing|full-stack]"
-        exit 1
-        ;;
+simple-todo)
+    PRD_SOURCE="$PROJECT_DIR/examples/simple-todo-app.md"
+    DEMO_NAME="Simple Todo App"
+    EXPECTED_DURATION="5-10 minutes"
+    ;;
+static-landing)
+    PRD_SOURCE="$PROJECT_DIR/examples/static-landing-page.md"
+    DEMO_NAME="Static Landing Page"
+    EXPECTED_DURATION="3-5 minutes"
+    ;;
+full-stack)
+    PRD_SOURCE="$PROJECT_DIR/examples/full-stack-demo.md"
+    DEMO_NAME="Full-Stack Bookmark Manager"
+    EXPECTED_DURATION="15-30 minutes"
+    ;;
+*)
+    echo "Unknown demo type: $DEMO_TYPE"
+    echo "Usage: $0 [simple-todo|static-landing|full-stack]"
+    exit 1
+    ;;
 esac
 
 mkdir -p "$OUTPUT_DIR"
@@ -79,12 +79,12 @@ echo ""
 # Pre-flight checks
 log_step "Checking prerequisites..."
 
-if ! command -v ffmpeg &> /dev/null; then
+if ! command -v ffmpeg &>/dev/null; then
     log_warn "ffmpeg not found. Install with: brew install ffmpeg"
     exit 1
 fi
 
-if ! command -v claude &> /dev/null; then
+if ! command -v claude &>/dev/null; then
     log_warn "Claude Code CLI not found"
     exit 1
 fi
@@ -200,9 +200,9 @@ echo ""
 
 # Run with dashboard enabled, skip prereqs (we already checked)
 LOKI_SKIP_PREREQS=true \
-LOKI_DASHBOARD=true \
-LOKI_MAX_ITERATIONS=10 \
-"$PROJECT_DIR/autonomy/run.sh" ./PRD.md
+    LOKI_DASHBOARD=true \
+    LOKI_MAX_ITERATIONS=10 \
+    "$PROJECT_DIR/autonomy/run.sh" ./PRD.md
 
 # Demo complete
 cleanup

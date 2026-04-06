@@ -9,37 +9,37 @@ NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
 echo "🔍 Detected Node.js version: $NODE_VERSION"
 
 if [ "$NODE_VERSION" -lt 18 ]; then
-  echo "❌ Error: Node.js 18 or higher is required"
-  echo "   Current version: $(node -v)"
-  exit 1
+    echo "❌ Error: Node.js 18 or higher is required"
+    echo "   Current version: $(node -v)"
+    exit 1
 fi
 
 # Set Vite version based on Node version
 if [ "$NODE_VERSION" -ge 20 ]; then
-  VITE_VERSION="latest"
-  echo "✅ Using Vite latest (Node 20+)"
+    VITE_VERSION="latest"
+    echo "✅ Using Vite latest (Node 20+)"
 else
-  VITE_VERSION="5.4.11"
-  echo "✅ Using Vite $VITE_VERSION (Node 18 compatible)"
+    VITE_VERSION="5.4.11"
+    echo "✅ Using Vite $VITE_VERSION (Node 18 compatible)"
 fi
 
 # Detect OS and set sed syntax
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  SED_INPLACE="sed -i ''"
+    SED_INPLACE="sed -i ''"
 else
-  SED_INPLACE="sed -i"
+    SED_INPLACE="sed -i"
 fi
 
 # Check if pnpm is installed
-if ! command -v pnpm &> /dev/null; then
-  echo "📦 pnpm not found. Installing pnpm..."
-  npm install -g pnpm
+if ! command -v pnpm &>/dev/null; then
+    echo "📦 pnpm not found. Installing pnpm..."
+    npm install -g pnpm
 fi
 
 # Check if project name is provided
 if [ -z "$1" ]; then
-  echo "❌ Usage: ./create-react-shadcn-complete.sh <project-name>"
-  exit 1
+    echo "❌ Usage: ./create-react-shadcn-complete.sh <project-name>"
+    exit 1
 fi
 
 PROJECT_NAME="$1"
@@ -48,9 +48,9 @@ COMPONENTS_TARBALL="$SCRIPT_DIR/shadcn-components.tar.gz"
 
 # Check if components tarball exists
 if [ ! -f "$COMPONENTS_TARBALL" ]; then
-  echo "❌ Error: shadcn-components.tar.gz not found in script directory"
-  echo "   Expected location: $COMPONENTS_TARBALL"
-  exit 1
+    echo "❌ Error: shadcn-components.tar.gz not found in script directory"
+    echo "   Expected location: $COMPONENTS_TARBALL"
+    exit 1
 fi
 
 echo "🚀 Creating new React + Vite project: $PROJECT_NAME"
@@ -70,8 +70,8 @@ pnpm install
 
 # Pin Vite version for Node 18
 if [ "$NODE_VERSION" -lt 20 ]; then
-  echo "📌 Pinning Vite to $VITE_VERSION for Node 18 compatibility..."
-  pnpm add -D vite@$VITE_VERSION
+    echo "📌 Pinning Vite to $VITE_VERSION for Node 18 compatibility..."
+    pnpm add -D vite@$VITE_VERSION
 fi
 
 echo "📦 Installing Tailwind CSS and dependencies..."
@@ -79,7 +79,7 @@ pnpm install -D tailwindcss@3.4.1 postcss autoprefixer @types/node tailwindcss-a
 pnpm install class-variance-authority clsx tailwind-merge lucide-react next-themes
 
 echo "⚙️  Creating Tailwind and PostCSS configuration..."
-cat > postcss.config.js << 'EOF'
+cat >postcss.config.js <<'EOF'
 export default {
   plugins: {
     tailwindcss: {},
@@ -89,7 +89,7 @@ export default {
 EOF
 
 echo "📝 Configuring Tailwind with shadcn theme..."
-cat > tailwind.config.js << 'EOF'
+cat >tailwind.config.js <<'EOF'
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -161,7 +161,7 @@ EOF
 
 # Add Tailwind directives and CSS variables to index.css
 echo "🎨 Adding Tailwind directives and CSS variables..."
-cat > src/index.css << 'EOF'
+cat >src/index.css <<'EOF'
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -252,7 +252,7 @@ fs.writeFileSync(path, JSON.stringify(config, null, 2));
 
 # Update vite.config.ts
 echo "⚙️  Updating Vite configuration..."
-cat > vite.config.ts << 'EOF'
+cat >vite.config.ts <<'EOF'
 import path from "path";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
@@ -278,7 +278,7 @@ tar -xzf "$COMPONENTS_TARBALL" -C src/
 
 # Create components.json for reference
 echo "📝 Creating components.json config..."
-cat > components.json << 'EOF'
+cat >components.json <<'EOF'
 {
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "default",

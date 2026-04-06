@@ -17,10 +17,10 @@
 set -uo pipefail
 
 # Configuration
-MAX_RETRIES=${LOKI_MAX_RETRIES:-50}           # Maximum retry attempts
-BASE_WAIT=${LOKI_BASE_WAIT:-60}               # Base wait time in seconds
-MAX_WAIT=${LOKI_MAX_WAIT:-3600}               # Max wait time (1 hour)
-LOG_FILE=${LOKI_LOG_FILE:-.loki/wrapper.log}  # Log file location
+MAX_RETRIES=${LOKI_MAX_RETRIES:-50}          # Maximum retry attempts
+BASE_WAIT=${LOKI_BASE_WAIT:-60}              # Base wait time in seconds
+MAX_WAIT=${LOKI_MAX_WAIT:-3600}              # Max wait time (1 hour)
+LOG_FILE=${LOKI_LOG_FILE:-.loki/wrapper.log} # Log file location
 STATE_FILE=${LOKI_STATE_FILE:-.loki/wrapper-state.json}
 
 # Colors
@@ -67,7 +67,7 @@ save_state() {
     local status="$2"
     local last_exit_code="$3"
 
-    cat > "$STATE_FILE" << EOF
+    cat >"$STATE_FILE" <<EOF
 {
     "retryCount": $retry_count,
     "status": "$status",
@@ -82,7 +82,7 @@ EOF
 # Load wrapper state if resuming
 load_state() {
     if [ -f "$STATE_FILE" ]; then
-        if command -v python3 &> /dev/null; then
+        if command -v python3 &>/dev/null; then
             RETRY_COUNT=$(python3 -c "import json; print(json.load(open('$STATE_FILE')).get('retryCount', 0))" 2>/dev/null || echo "0")
         else
             RETRY_COUNT=0
@@ -131,7 +131,7 @@ is_rate_limit() {
 is_completed() {
     # Check for completion markers
     if [ -f ".loki/state/orchestrator.json" ]; then
-        if command -v python3 &> /dev/null; then
+        if command -v python3 &>/dev/null; then
             local phase=$(python3 -c "import json; print(json.load(open('.loki/state/orchestrator.json')).get('currentPhase', ''))" 2>/dev/null || echo "")
             if [ "$phase" = "COMPLETED" ] || [ "$phase" = "complete" ]; then
                 return 0
@@ -271,7 +271,7 @@ cleanup() {
 trap cleanup INT TERM
 
 # Check for claude command
-if ! command -v claude &> /dev/null; then
+if ! command -v claude &>/dev/null; then
     log_error "Claude Code CLI not found. Please install it first."
     log_info "Visit: https://claude.ai/code"
     exit 1

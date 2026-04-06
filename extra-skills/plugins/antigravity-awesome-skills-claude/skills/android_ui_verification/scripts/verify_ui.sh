@@ -27,6 +27,6 @@ adb pull /sdcard/screen.png "$ARTIFACTS_DIR/$SCREENSHOT_NAME.png"
 
 # 5. Get Recent JS Logs
 echo "📜 Fetching recent JS logs..."
-adb logcat -d | grep "ReactNativeJS" | tail -n 20 > "$ARTIFACTS_DIR/js_logs.txt"
+adb logcat -d | grep "ReactNativeJS" | tail -n 20 >"$ARTIFACTS_DIR/js_logs.txt"
 
 echo "✅ Done. Artifacts saved in $ARTIFACTS_DIR"

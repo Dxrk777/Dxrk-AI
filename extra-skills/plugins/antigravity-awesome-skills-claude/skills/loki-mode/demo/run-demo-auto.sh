@@ -55,7 +55,7 @@ sleep 2
 banner "STEP 1: Product Requirements"
 step "PRD: Simple Todo App"
 echo ""
-cat << 'EOF'
+cat <<'EOF'
 Features:
   - Add Todo    - Create new task
   - View Todos  - List all tasks
@@ -116,7 +116,7 @@ step "Creating OpenAPI specification..."
 sleep 1
 
 echo ""
-cat << 'EOF'
+cat <<'EOF'
 openapi: 3.0.0
 info:
   title: Todo API
@@ -253,7 +253,7 @@ sleep 2
 banner "STEP 9: Memory System"
 step "CONTINUITY.md - Working Memory"
 echo ""
-cat << 'EOF'
+cat <<'EOF'
 ## Current State
 Phase: DEVELOPMENT (complete)
 Tasks: 11/11 done

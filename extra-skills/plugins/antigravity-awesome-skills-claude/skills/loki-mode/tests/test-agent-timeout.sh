@@ -15,8 +15,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; ((PASSED++)); }
-log_fail() { echo -e "${RED}[FAIL]${NC} $1"; ((FAILED++)); }
+log_pass() {
+    echo -e "${GREEN}[PASS]${NC} $1"
+    ((PASSED++))
+}
+log_fail() {
+    echo -e "${RED}[FAIL]${NC} $1"
+    ((FAILED++))
+}
 log_test() { echo -e "${YELLOW}[TEST]${NC} $1"; }
 
 cleanup() {
@@ -40,10 +46,10 @@ run_with_timeout() {
     local cmd="$@"
 
     # Use gtimeout if available (from coreutils), otherwise use Perl
-    if command -v gtimeout &> /dev/null; then
+    if command -v gtimeout &>/dev/null; then
         gtimeout "$timeout_seconds" bash -c "$cmd"
         return $?
-    elif command -v timeout &> /dev/null; then
+    elif command -v timeout &>/dev/null; then
         timeout "$timeout_seconds" bash -c "$cmd"
         return $?
     else
@@ -85,7 +91,7 @@ fi
 
 # Test 3: Task timeout configuration
 log_test "Task timeout configuration"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 
 # Task with custom timeout
@@ -127,7 +133,7 @@ fi
 
 # Test 4: Stuck process detection
 log_test "Stuck process detection (heartbeat)"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime, timedelta
 
@@ -166,8 +172,11 @@ fi
 log_test "Process group killing (cleanup)"
 # Create a process that spawns children
 (
-    echo "parent-$$" > "$TEST_DIR/parent.pid"
-    (sleep 100 & echo $! > "$TEST_DIR/child.pid") &
+    echo "parent-$$" >"$TEST_DIR/parent.pid"
+    (
+        sleep 100 &
+        echo $! >"$TEST_DIR/child.pid"
+    ) &
     wait
 ) &
 PARENT_PID=$!
@@ -189,7 +198,7 @@ fi
 
 # Test 6: npm/node process timeout simulation
 log_test "npm/node process timeout handling"
-cat > "$TEST_DIR/slow-script.js" << 'EOF'
+cat >"$TEST_DIR/slow-script.js" <<'EOF'
 // Simulate a slow npm build
 console.log('Starting slow process...');
 setTimeout(() => {
@@ -201,9 +210,9 @@ setTimeout(() => {
 }, 5000);
 EOF
 
-if command -v node &> /dev/null; then
+if command -v node &>/dev/null; then
     START=$(date +%s)
-    run_with_timeout 2 "node '$TEST_DIR/slow-script.js'" > /dev/null 2>&1 && RESULT="success" || RESULT="timeout"
+    run_with_timeout 2 "node '$TEST_DIR/slow-script.js'" >/dev/null 2>&1 && RESULT="success" || RESULT="timeout"
     END=$(date +%s)
     DURATION=$((END - START))
 
@@ -218,7 +227,7 @@ fi
 
 # Test 7: Task retry after timeout
 log_test "Task retry after timeout"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime, timedelta
 
@@ -262,7 +271,7 @@ fi
 
 # Test 8: Watchdog timer pattern
 log_test "Watchdog timer pattern"
-python3 << 'EOF'
+python3 <<'EOF'
 import time
 from datetime import datetime, timedelta
 

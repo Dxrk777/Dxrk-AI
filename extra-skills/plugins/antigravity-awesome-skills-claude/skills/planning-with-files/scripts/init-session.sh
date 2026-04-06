@@ -11,7 +11,7 @@ echo "Initializing planning files for: $PROJECT_NAME"
 
 # Create task_plan.md if it doesn't exist
 if [ ! -f "task_plan.md" ]; then
-    cat > task_plan.md << 'EOF'
+    cat >task_plan.md <<'EOF'
 # Task Plan: [Brief Description]
 
 ## Goal
@@ -63,7 +63,7 @@ fi
 
 # Create findings.md if it doesn't exist
 if [ ! -f "findings.md" ]; then
-    cat > findings.md << 'EOF'
+    cat >findings.md <<'EOF'
 # Findings & Decisions
 
 ## Requirements
@@ -90,7 +90,7 @@ fi
 
 # Create progress.md if it doesn't exist
 if [ ! -f "progress.md" ]; then
-    cat > progress.md << EOF
+    cat >progress.md <<EOF
 # Progress Log
 
 ## Session: $DATE

@@ -14,7 +14,7 @@ OUTPUT_FILE="$PROJECT_ROOT/docs_zh-CN/glossary-consistency-report.txt"
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
 # Check if jq is installed
-if ! command -v jq &> /dev/null; then
+if ! command -v jq &>/dev/null; then
     echo "Error: jq is not installed. Please install jq to run this script."
     echo "  Ubuntu/Debian: sudo apt-get install jq"
     echo "  macOS: brew install jq"
@@ -31,7 +31,7 @@ fi
     echo ""
     echo "----------------------------------------"
     echo ""
-} > "$OUTPUT_FILE"
+} >"$OUTPUT_FILE"
 
 # Check if glossary file exists
 if [[ ! -f "$GLOSSARY_FILE" ]]; then
@@ -40,7 +40,7 @@ if [[ ! -f "$GLOSSARY_FILE" ]]; then
         echo "  $GLOSSARY_FILE"
         echo ""
         echo "Please create the glossary file first."
-    } >> "$OUTPUT_FILE"
+    } >>"$OUTPUT_FILE"
     echo "Error: Glossary file not found!"
     exit 1
 fi
@@ -50,7 +50,7 @@ if ! jq empty "$GLOSSARY_FILE" 2>/dev/null; then
     {
         echo "ERROR: Invalid JSON in glossary file."
         echo "Please check the file format."
-    } >> "$OUTPUT_FILE"
+    } >>"$OUTPUT_FILE"
     echo "Error: Invalid JSON in glossary file!"
     exit 1
 fi
@@ -71,7 +71,7 @@ fi
     echo ""
     echo "----------------------------------------"
     echo ""
-} >> "$OUTPUT_FILE"
+} >>"$OUTPUT_FILE"
 
 # Extract term count
 TERM_COUNT=$(jq -r '.metadata.total_terms // 0' "$GLOSSARY_FILE")
@@ -82,10 +82,10 @@ TERM_COUNT=$(jq -r '.metadata.total_terms // 0' "$GLOSSARY_FILE")
     echo ""
     echo "Total Terms: $TERM_COUNT"
     echo ""
-} >> "$OUTPUT_FILE"
+} >>"$OUTPUT_FILE"
 
 if [[ "$TERM_COUNT" -eq 0 ]]; then
-    echo "Glossary is empty. No terms to analyze." >> "$OUTPUT_FILE"
+    echo "Glossary is empty. No terms to analyze." >>"$OUTPUT_FILE"
 else
     # Get top 10 terms
     {
@@ -93,23 +93,23 @@ else
         echo ""
         jq -r '.terms | to_entries | sort_by(.key) | .[0:10][] | "  \(.key): \(.value.zh // (if .value.translations then .value.translations[0] else "N/A" end))"' "$GLOSSARY_FILE" 2>/dev/null || echo "  Unable to extract terms"
         echo ""
-    } >> "$OUTPUT_FILE"
+    } >>"$OUTPUT_FILE"
 
     # Check for required fields
     {
         echo "Field Validation:"
         echo ""
-        jq -r '.terms | to_entries[] | select(.value.zh == null and (.value.translations | not) ) | "  Missing translation: \(.key)"' "$GLOSSARY_FILE" > /tmp/missing_translations.txt
+        jq -r '.terms | to_entries[] | select(.value.zh == null and (.value.translations | not) ) | "  Missing translation: \(.key)"' "$GLOSSARY_FILE" >/tmp/missing_translations.txt
 
         if [[ -s /tmp/missing_translations.txt ]]; then
-            cat /tmp/missing_translations.txt >> "$OUTPUT_FILE"
+            cat /tmp/missing_translations.txt >>"$OUTPUT_FILE"
         else
-            echo "  All terms have translations." >> "$OUTPUT_FILE"
+            echo "  All terms have translations." >>"$OUTPUT_FILE"
         fi
 
         rm -f /tmp/missing_translations.txt
         echo ""
-    } >> "$OUTPUT_FILE"
+    } >>"$OUTPUT_FILE"
 fi
 
 # Consistency checks
@@ -119,16 +119,16 @@ fi
     echo "CONSISTENCY CHECKS"
     echo "=================="
     echo ""
-} >> "$OUTPUT_FILE"
+} >>"$OUTPUT_FILE"
 
 # Check for duplicate English terms
 DUPLICATES=$(jq -r '.terms | keys[]' "$GLOSSARY_FILE" | sort | uniq -d)
 
 if [[ -n "$DUPLICATES" ]]; then
-    echo "WARNING: Duplicate term keys found:" >> "$OUTPUT_FILE"
-    echo "$DUPLICATES" | sed 's/^/  /' >> "$OUTPUT_FILE"
+    echo "WARNING: Duplicate term keys found:" >>"$OUTPUT_FILE"
+    echo "$DUPLICATES" | sed 's/^/  /' >>"$OUTPUT_FILE"
 else
-    echo "No duplicate term keys found." >> "$OUTPUT_FILE"
+    echo "No duplicate term keys found." >>"$OUTPUT_FILE"
 fi
 
 {
@@ -138,7 +138,7 @@ fi
     echo "VALIDATION COMPLETE"
     echo ""
     echo "Glossary file is valid and ready for use."
-} >> "$OUTPUT_FILE"
+} >>"$OUTPUT_FILE"
 
 echo "Glossary validation complete. Report saved to:"
 echo "  $OUTPUT_FILE"

@@ -16,8 +16,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; ((PASSED++)); }
-log_fail() { echo -e "${RED}[FAIL]${NC} $1"; ((FAILED++)); }
+log_pass() {
+    echo -e "${GREEN}[PASS]${NC} $1"
+    ((PASSED++))
+}
+log_fail() {
+    echo -e "${RED}[FAIL]${NC} $1"
+    ((FAILED++))
+}
 log_test() { echo -e "${YELLOW}[TEST]${NC} $1"; }
 
 cleanup() {
@@ -46,7 +52,7 @@ fi
 # Test 2: Queue files initialization
 log_test "Queue files initialization"
 for f in pending in-progress completed failed dead-letter; do
-    echo '{"tasks":[]}' > ".loki/queue/$f.json"
+    echo '{"tasks":[]}' >".loki/queue/$f.json"
 done
 
 all_queues_exist=true
@@ -64,7 +70,7 @@ fi
 
 # Test 3: Orchestrator state initialization
 log_test "Orchestrator state initialization"
-cat > .loki/state/orchestrator.json << 'EOF'
+cat >.loki/state/orchestrator.json <<'EOF'
 {
   "version": "2.1.0",
   "startupId": "",
@@ -93,7 +99,7 @@ fi
 
 # Test 4: UUID generation (macOS compatible)
 log_test "UUID generation (macOS compatible)"
-if command -v uuidgen &> /dev/null; then
+if command -v uuidgen &>/dev/null; then
     STARTUP_ID=$(uuidgen)
     if [ -n "$STARTUP_ID" ]; then
         log_pass "UUID generated via uuidgen: $STARTUP_ID"
@@ -114,7 +120,7 @@ fi
 
 # Test 5: sed macOS compatibility
 log_test "sed macOS compatibility"
-echo '{"startupId": ""}' > test_sed.json
+echo '{"startupId": ""}' >test_sed.json
 if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' 's/"startupId": ""/"startupId": "test-uuid"/' test_sed.json
 else
@@ -151,7 +157,7 @@ LOCK_FILE=".loki/state/locks/test.lock"
 (
     exec 200>"$LOCK_FILE"
     if flock -x -w 1 200; then
-        echo "locked" > "$LOCK_FILE.status"
+        echo "locked" >"$LOCK_FILE.status"
         sleep 0.1
     fi
 ) &

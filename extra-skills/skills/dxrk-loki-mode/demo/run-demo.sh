@@ -52,19 +52,19 @@ echo "  - Quality gates enforcement"
 echo ""
 
 case "$DEMO_TYPE" in
-    simple-todo)
-        PRD_FILE="examples/simple-todo-app.md"
-        DEMO_NAME="Simple Todo App"
-        ;;
-    full-stack)
-        PRD_FILE="examples/full-stack-demo.md"
-        DEMO_NAME="Full-Stack Bookmark Manager"
-        ;;
-    *)
-        echo "Unknown demo type: $DEMO_TYPE"
-        echo "Usage: $0 [simple-todo|full-stack]"
-        exit 1
-        ;;
+simple-todo)
+    PRD_FILE="examples/simple-todo-app.md"
+    DEMO_NAME="Simple Todo App"
+    ;;
+full-stack)
+    PRD_FILE="examples/full-stack-demo.md"
+    DEMO_NAME="Full-Stack Bookmark Manager"
+    ;;
+*)
+    echo "Unknown demo type: $DEMO_TYPE"
+    echo "Usage: $0 [simple-todo|full-stack]"
+    exit 1
+    ;;
 esac
 
 step "Demo: $DEMO_NAME"
@@ -129,7 +129,7 @@ step "Creating sample .loki structure..."
 mkdir -p .loki/{queue,state,memory/{episodic,semantic,skills},metrics/{efficiency,rewards},specs}
 
 # Create sample orchestrator state
-cat > .loki/state/orchestrator.json << 'EOF'
+cat >.loki/state/orchestrator.json <<'EOF'
 {
   "currentPhase": "DEVELOPMENT",
   "startedAt": "2026-01-06T10:00:00Z",
@@ -143,7 +143,7 @@ cat > .loki/state/orchestrator.json << 'EOF'
 EOF
 
 # Create sample queue
-cat > .loki/queue/pending.json << 'EOF'
+cat >.loki/queue/pending.json <<'EOF'
 [
   {
     "id": "task-013",
@@ -166,7 +166,7 @@ cat > .loki/queue/pending.json << 'EOF'
 ]
 EOF
 
-cat > .loki/queue/in-progress.json << 'EOF'
+cat >.loki/queue/in-progress.json <<'EOF'
 [
   {
     "id": "task-012",
@@ -181,7 +181,7 @@ cat > .loki/queue/in-progress.json << 'EOF'
 EOF
 
 # Create sample CONTINUITY.md
-cat > .loki/CONTINUITY.md << 'EOF'
+cat >.loki/CONTINUITY.md <<'EOF'
 # CONTINUITY - Working Memory
 
 ## Current State

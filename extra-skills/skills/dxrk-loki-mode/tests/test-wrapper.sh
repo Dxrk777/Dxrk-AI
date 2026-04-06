@@ -16,8 +16,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; ((PASSED++)); }
-log_fail() { echo -e "${RED}[FAIL]${NC} $1"; ((FAILED++)); }
+log_pass() {
+    echo -e "${GREEN}[PASS]${NC} $1"
+    ((PASSED++))
+}
+log_fail() {
+    echo -e "${RED}[FAIL]${NC} $1"
+    ((FAILED++))
+}
 log_test() { echo -e "${YELLOW}[TEST]${NC} $1"; }
 
 cleanup() {
@@ -51,7 +57,7 @@ fi
 
 # Test 3: Exponential backoff calculation
 log_test "Exponential backoff calculation"
-python3 << 'EOF'
+python3 <<'EOF'
 import os
 
 BASE_WAIT = 60
@@ -87,7 +93,7 @@ fi
 
 # Test 4: State file JSON structure
 log_test "State file JSON structure"
-python3 << 'EOF'
+python3 <<'EOF'
 import json
 from datetime import datetime
 
@@ -120,7 +126,7 @@ fi
 # Test 5: Completion detection logic
 log_test "Completion detection logic"
 mkdir -p "$TEST_DIR/.loki/state"
-cat > "$TEST_DIR/.loki/state/orchestrator.json" << 'EOF'
+cat >"$TEST_DIR/.loki/state/orchestrator.json" <<'EOF'
 {
     "currentPhase": "COMPLETED",
     "startedAt": "2025-01-15T10:00:00Z",
@@ -128,7 +134,7 @@ cat > "$TEST_DIR/.loki/state/orchestrator.json" << 'EOF'
 }
 EOF
 
-python3 << EOF
+python3 <<EOF
 import json
 
 with open("$TEST_DIR/.loki/state/orchestrator.json") as f:
@@ -157,7 +163,7 @@ fi
 
 # Test 7: Resume prompt generation
 log_test "Resume prompt generation"
-python3 << 'EOF'
+python3 <<'EOF'
 def build_resume_prompt(retry, prd_path=None, initial_prompt="Loki Mode"):
     if retry == 0:
         return initial_prompt
@@ -192,7 +198,7 @@ fi
 
 # Test 8: Rate limit detection logic
 log_test "Rate limit detection logic"
-python3 << 'EOF'
+python3 <<'EOF'
 def is_rate_limit(exit_code, log_content=""):
     # Any non-zero exit is treated as potential rate limit
     if exit_code != 0:
@@ -225,7 +231,7 @@ fi
 log_test "Log file and directory creation"
 mkdir -p "$TEST_DIR/.loki"
 LOG_FILE="$TEST_DIR/.loki/wrapper.log"
-echo "[2025-01-15 10:00:00] [INFO] Test log entry" >> "$LOG_FILE"
+echo "[2025-01-15 10:00:00] [INFO] Test log entry" >>"$LOG_FILE"
 
 if [ -f "$LOG_FILE" ] && grep -q "Test log entry" "$LOG_FILE"; then
     log_pass "Log file creation works"
@@ -244,7 +250,7 @@ fi
 
 # Test 11: Environment variable defaults
 log_test "Environment variable defaults"
-python3 << 'EOF'
+python3 <<'EOF'
 import os
 
 # Simulate reading with defaults
@@ -268,7 +274,7 @@ fi
 # Test 12: Wrapper state loading
 log_test "Wrapper state loading and saving"
 STATE_FILE="$TEST_DIR/.loki/wrapper-state.json"
-cat > "$STATE_FILE" << 'EOF'
+cat >"$STATE_FILE" <<'EOF'
 {
     "retryCount": 7,
     "status": "running",
@@ -279,7 +285,7 @@ cat > "$STATE_FILE" << 'EOF'
 }
 EOF
 
-python3 << EOF
+python3 <<EOF
 import json
 
 with open("$STATE_FILE") as f:

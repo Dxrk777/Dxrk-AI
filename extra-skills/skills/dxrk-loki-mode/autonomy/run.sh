@@ -85,16 +85,16 @@ MAX_WAIT=${LOKI_MAX_WAIT:-3600}
 SKIP_PREREQS=${LOKI_SKIP_PREREQS:-false}
 ENABLE_DASHBOARD=${LOKI_DASHBOARD:-true}
 DASHBOARD_PORT=${LOKI_DASHBOARD_PORT:-57374}
-RESOURCE_CHECK_INTERVAL=${LOKI_RESOURCE_CHECK_INTERVAL:-300}  # Check every 5 minutes
-RESOURCE_CPU_THRESHOLD=${LOKI_RESOURCE_CPU_THRESHOLD:-80}     # CPU % threshold
-RESOURCE_MEM_THRESHOLD=${LOKI_RESOURCE_MEM_THRESHOLD:-80}     # Memory % threshold
+RESOURCE_CHECK_INTERVAL=${LOKI_RESOURCE_CHECK_INTERVAL:-300} # Check every 5 minutes
+RESOURCE_CPU_THRESHOLD=${LOKI_RESOURCE_CPU_THRESHOLD:-80}    # CPU % threshold
+RESOURCE_MEM_THRESHOLD=${LOKI_RESOURCE_MEM_THRESHOLD:-80}    # Memory % threshold
 
 # Security & Autonomy Controls
-STAGED_AUTONOMY=${LOKI_STAGED_AUTONOMY:-false}           # Require plan approval
-AUDIT_LOG_ENABLED=${LOKI_AUDIT_LOG:-false}               # Enable audit logging
-MAX_PARALLEL_AGENTS=${LOKI_MAX_PARALLEL_AGENTS:-10}      # Limit concurrent agents
-SANDBOX_MODE=${LOKI_SANDBOX_MODE:-false}                 # Docker sandbox mode
-ALLOWED_PATHS=${LOKI_ALLOWED_PATHS:-""}                  # Empty = all paths allowed
+STAGED_AUTONOMY=${LOKI_STAGED_AUTONOMY:-false}      # Require plan approval
+AUDIT_LOG_ENABLED=${LOKI_AUDIT_LOG:-false}          # Enable audit logging
+MAX_PARALLEL_AGENTS=${LOKI_MAX_PARALLEL_AGENTS:-10} # Limit concurrent agents
+SANDBOX_MODE=${LOKI_SANDBOX_MODE:-false}            # Docker sandbox mode
+ALLOWED_PATHS=${LOKI_ALLOWED_PATHS:-""}             # Empty = all paths allowed
 BLOCKED_COMMANDS=${LOKI_BLOCKED_COMMANDS:-"rm -rf /,dd if=,mkfs,:(){ :|:& };:"}
 
 STATUS_MONITOR_PID=""
@@ -144,7 +144,7 @@ log_header() {
 
 log_info() { echo -e "${GREEN}[INFO]${NC} $*"; }
 log_warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
-log_warning() { log_warn "$@"; }  # Alias for backwards compatibility
+log_warning() { log_warn "$@"; } # Alias for backwards compatibility
 log_error() { echo -e "${RED}[ERROR]${NC} $*"; }
 log_step() { echo -e "${CYAN}[STEP]${NC} $*"; }
 
@@ -159,7 +159,7 @@ check_prerequisites() {
 
     # Check Claude Code CLI
     log_step "Checking Claude Code CLI..."
-    if command -v claude &> /dev/null; then
+    if command -v claude &>/dev/null; then
         local version=$(claude --version 2>/dev/null | head -1 || echo "unknown")
         log_info "Claude Code CLI: $version"
     else
@@ -170,7 +170,7 @@ check_prerequisites() {
 
     # Check Python 3
     log_step "Checking Python 3..."
-    if command -v python3 &> /dev/null; then
+    if command -v python3 &>/dev/null; then
         local py_version=$(python3 --version 2>&1)
         log_info "Python: $py_version"
     else
@@ -180,7 +180,7 @@ check_prerequisites() {
 
     # Check Git
     log_step "Checking Git..."
-    if command -v git &> /dev/null; then
+    if command -v git &>/dev/null; then
         local git_version=$(git --version)
         log_info "Git: $git_version"
     else
@@ -190,7 +190,7 @@ check_prerequisites() {
 
     # Check Node.js (optional but recommended)
     log_step "Checking Node.js (optional)..."
-    if command -v node &> /dev/null; then
+    if command -v node &>/dev/null; then
         local node_version=$(node --version)
         log_info "Node.js: $node_version"
     else
@@ -198,14 +198,14 @@ check_prerequisites() {
     fi
 
     # Check npm (optional)
-    if command -v npm &> /dev/null; then
+    if command -v npm &>/dev/null; then
         local npm_version=$(npm --version)
         log_info "npm: $npm_version"
     fi
 
     # Check curl (for web fetches)
     log_step "Checking curl..."
-    if command -v curl &> /dev/null; then
+    if command -v curl &>/dev/null; then
         log_info "curl: available"
     else
         missing+=("curl")
@@ -214,7 +214,7 @@ check_prerequisites() {
 
     # Check jq (optional but helpful)
     log_step "Checking jq (optional)..."
-    if command -v jq &> /dev/null; then
+    if command -v jq &>/dev/null; then
         log_info "jq: available"
     else
         log_warn "jq not found (optional, for JSON parsing)"
@@ -283,13 +283,13 @@ init_loki_dir() {
     # Initialize queue files if they don't exist
     for queue in pending in-progress completed failed dead-letter; do
         if [ ! -f ".loki/queue/${queue}.json" ]; then
-            echo "[]" > ".loki/queue/${queue}.json"
+            echo "[]" >".loki/queue/${queue}.json"
         fi
     done
 
     # Initialize orchestrator state if it doesn't exist
     if [ ! -f ".loki/state/orchestrator.json" ]; then
-        cat > ".loki/state/orchestrator.json" << EOF
+        cat >".loki/state/orchestrator.json" <<EOF
 {
     "version": "$(cat "$PROJECT_DIR/VERSION" 2>/dev/null || echo "2.2.0")",
     "currentPhase": "BOOTSTRAP",
@@ -328,7 +328,7 @@ update_status_file() {
     [ -f ".loki/queue/completed.json" ] && completed=$(python3 -c "import json; print(len(json.load(open('.loki/queue/completed.json'))))" 2>/dev/null || echo "0")
     [ -f ".loki/queue/failed.json" ] && failed=$(python3 -c "import json; print(len(json.load(open('.loki/queue/failed.json'))))" 2>/dev/null || echo "0")
 
-    cat > "$status_file" << EOF
+    cat >"$status_file" <<EOF
 ╔════════════════════════════════════════════════════════════════╗
 ║                    LOKI MODE STATUS                            ║
 ╚════════════════════════════════════════════════════════════════╝
@@ -382,7 +382,7 @@ stop_status_monitor() {
 
 generate_dashboard() {
     # Generate HTML dashboard with Anthropic design language + Agent Monitoring
-    cat > .loki/dashboard/index.html << 'DASHBOARD_HTML'
+    cat >.loki/dashboard/index.html <<'DASHBOARD_HTML'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -794,7 +794,7 @@ update_agents_state() {
 
     # Initialize empty array if no agents directory
     if [ ! -d "$agents_dir" ]; then
-        echo "[]" > "$output_file"
+        echo "[]" >"$output_file"
         return
     fi
 
@@ -822,7 +822,7 @@ update_agents_state() {
     agents_json="${agents_json}]"
 
     # Write aggregated data
-    echo "$agents_json" > "$output_file"
+    echo "$agents_json" >"$output_file"
 }
 
 #===============================================================================
@@ -891,7 +891,7 @@ check_system_resources() {
     fi
 
     # Write JSON status
-    cat > "$output_file" << EOF
+    cat >"$output_file" <<EOF
 {
   "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "cpu": {
@@ -957,11 +957,12 @@ audit_log() {
 
     mkdir -p .loki/logs
 
-    local log_entry=$(cat << EOF
+    local log_entry=$(
+        cat <<EOF
 {"timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)","event":"$event_type","data":"$event_data","user":"$(whoami)","pid":$$}
 EOF
-)
-    echo "$log_entry" >> "$audit_file"
+    )
+    echo "$log_entry" >>"$audit_file"
 }
 
 check_staged_autonomy() {
@@ -992,7 +993,7 @@ check_command_allowed() {
     # Check if a command is in the blocked list
     local command="$1"
 
-    IFS=',' read -ra BLOCKED_ARRAY <<< "$BLOCKED_COMMANDS"
+    IFS=',' read -ra BLOCKED_ARRAY <<<"$BLOCKED_COMMANDS"
     for blocked in "${BLOCKED_ARRAY[@]}"; do
         if [[ "$command" == *"$blocked"* ]]; then
             audit_log "BLOCKED_COMMAND" "command=$command,pattern=$blocked"
@@ -1015,15 +1016,15 @@ init_learnings_db() {
 
     # Create database files if they don't exist
     if [ ! -f "$learnings_dir/patterns.jsonl" ]; then
-        echo '{"version":"1.0","created":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"}' > "$learnings_dir/patterns.jsonl"
+        echo '{"version":"1.0","created":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"}' >"$learnings_dir/patterns.jsonl"
     fi
 
     if [ ! -f "$learnings_dir/mistakes.jsonl" ]; then
-        echo '{"version":"1.0","created":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"}' > "$learnings_dir/mistakes.jsonl"
+        echo '{"version":"1.0","created":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"}' >"$learnings_dir/mistakes.jsonl"
     fi
 
     if [ ! -f "$learnings_dir/successes.jsonl" ]; then
-        echo '{"version":"1.0","created":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"}' > "$learnings_dir/successes.jsonl"
+        echo '{"version":"1.0","created":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"}' >"$learnings_dir/successes.jsonl"
     fi
 
     log_info "Learnings database initialized at: $learnings_dir"
@@ -1031,7 +1032,7 @@ init_learnings_db() {
 
 save_learning() {
     # Save a learning to the cross-project database
-    local learning_type="$1"  # pattern, mistake, success
+    local learning_type="$1" # pattern, mistake, success
     local category="$2"
     local description="$3"
     local project="${4:-$(basename "$(pwd)")}"
@@ -1043,11 +1044,12 @@ save_learning() {
         init_learnings_db
     fi
 
-    local learning_entry=$(cat << EOF
+    local learning_entry=$(
+        cat <<EOF
 {"timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)","project":"$project","category":"$category","description":"$description"}
 EOF
-)
-    echo "$learning_entry" >> "$target_file"
+    )
+    echo "$learning_entry" >>"$target_file"
     log_info "Saved $learning_type: $category"
 }
 
@@ -1058,14 +1060,14 @@ get_relevant_learnings() {
     local output_file=".loki/state/relevant-learnings.json"
 
     if [ ! -d "$learnings_dir" ]; then
-        echo '{"patterns":[],"mistakes":[],"successes":[]}' > "$output_file"
+        echo '{"patterns":[],"mistakes":[],"successes":[]}' >"$output_file"
         return
     fi
 
     # Simple grep-based relevance (can be enhanced with embeddings)
     # Pass context via environment variable to avoid quote escaping issues
     export LOKI_CONTEXT="$context"
-    python3 << 'LEARNINGS_SCRIPT'
+    python3 <<'LEARNINGS_SCRIPT'
 import json
 import os
 
@@ -1126,7 +1128,7 @@ extract_learnings_from_session() {
     log_info "Extracting learnings from session..."
 
     # Parse CONTINUITY.md for Mistakes & Learnings section
-    python3 << EXTRACT_SCRIPT
+    python3 <<EXTRACT_SCRIPT
 import re
 import json
 import os
@@ -1183,7 +1185,7 @@ start_dashboard() {
     (
         cd .loki
         python3 -m http.server $DASHBOARD_PORT --bind 127.0.0.1 2>&1 | while read line; do
-            echo "[dashboard] $line" >> logs/dashboard.log
+            echo "[dashboard] $line" >>logs/dashboard.log
         done
     ) &
     DASHBOARD_PID=$!
@@ -1274,7 +1276,7 @@ detect_rate_limit() {
 
     # If reset time is in the past, it means tomorrow
     if [ $wait_secs -le 0 ]; then
-        wait_secs=$((wait_secs + 86400))  # Add 24 hours
+        wait_secs=$((wait_secs + 86400)) # Add 24 hours
     fi
 
     # Add 2 minute buffer to ensure limit is actually reset
@@ -1303,7 +1305,7 @@ format_duration() {
 is_completed() {
     # Check orchestrator state
     if [ -f ".loki/state/orchestrator.json" ]; then
-        if command -v python3 &> /dev/null; then
+        if command -v python3 &>/dev/null; then
             local phase=$(python3 -c "import json; print(json.load(open('.loki/state/orchestrator.json')).get('currentPhase', ''))" 2>/dev/null || echo "")
             # Accept various completion states
             if [ "$phase" = "COMPLETED" ] || [ "$phase" = "complete" ] || [ "$phase" = "finalized" ] || [ "$phase" = "growth-loop" ]; then
@@ -1403,7 +1405,7 @@ save_state() {
     local status="$2"
     local exit_code="$3"
 
-    cat > ".loki/autonomy-state.json" << EOF
+    cat >".loki/autonomy-state.json" <<EOF
 {
     "retryCount": $retry_count,
     "status": "$status",
@@ -1419,7 +1421,7 @@ EOF
 
 load_state() {
     if [ -f ".loki/autonomy-state.json" ]; then
-        if command -v python3 &> /dev/null; then
+        if command -v python3 &>/dev/null; then
             RETRY_COUNT=$(python3 -c "import json; print(json.load(open('.loki/autonomy-state.json')).get('retryCount', 0))" 2>/dev/null || echo "0")
         else
             RETRY_COUNT=0
@@ -1451,7 +1453,7 @@ build_prompt() {
     [ "$PHASE_ACCESSIBILITY" = "true" ] && phases="${phases}ACCESSIBILITY,"
     [ "$PHASE_REGRESSION" = "true" ] && phases="${phases}REGRESSION,"
     [ "$PHASE_UAT" = "true" ] && phases="${phases}UAT,"
-    phases="${phases%,}"  # Remove trailing comma
+    phases="${phases%,}" # Remove trailing comma
 
     # Ralph Wiggum Mode - Reason-Act-Reflect-VERIFY cycle with self-verification loop (Boris Cherny pattern)
     local rarv_instruction="RALPH WIGGUM MODE ACTIVE. Use Reason-Act-Reflect-VERIFY cycle: 1) REASON - READ .loki/CONTINUITY.md including 'Mistakes & Learnings' section to avoid past errors. CHECK .loki/state/relevant-learnings.json for cross-project learnings from previous projects (mistakes to avoid, patterns to apply). Check .loki/state/ and .loki/queue/, identify next task. CHECK .loki/state/resources.json for system resource warnings - if CPU or memory is high, reduce parallel agent spawning or pause non-critical tasks. Limit to MAX_PARALLEL_AGENTS=${MAX_PARALLEL_AGENTS}. If queue empty, find new improvements. 2) ACT - Execute task, write code, commit changes atomically (git checkpoint). 3) REFLECT - Update .loki/CONTINUITY.md with progress, update state, identify NEXT improvement. Save valuable learnings for future projects. 4) VERIFY - Run automated tests (unit, integration, E2E), check compilation/build, verify against spec. IF VERIFICATION FAILS: a) Capture error details (stack trace, logs), b) Analyze root cause, c) UPDATE 'Mistakes & Learnings' in CONTINUITY.md with what failed, why, and how to prevent, d) Rollback to last good git checkpoint if needed, e) Apply learning and RETRY from REASON. If verification passes, mark task complete and continue. This self-verification loop achieves 2-3x quality improvement. CRITICAL: There is NEVER a 'finished' state - always find the next improvement, optimization, test, or feature."
@@ -1520,8 +1522,8 @@ run_autonomous() {
 
         # Search common PRD file patterns
         for pattern in "PRD.md" "prd.md" "REQUIREMENTS.md" "requirements.md" "SPEC.md" "spec.md" \
-                       "docs/PRD.md" "docs/prd.md" "docs/REQUIREMENTS.md" "docs/requirements.md" \
-                       "docs/SPEC.md" "docs/spec.md" ".github/PRD.md" "PROJECT.md" "project.md"; do
+            "docs/PRD.md" "docs/prd.md" "docs/REQUIREMENTS.md" "docs/requirements.md" \
+            "docs/SPEC.md" "docs/spec.md" ".github/PRD.md" "PROJECT.md" "project.md"; do
             if [ -f "$pattern" ]; then
                 found_prd="$pattern"
                 break
@@ -1586,15 +1588,15 @@ run_autonomous() {
         echo ""
 
         # Log start time
-        echo "=== Session started at $(date) ===" >> "$log_file"
-        echo "=== Prompt: $prompt ===" >> "$log_file"
+        echo "=== Session started at $(date) ===" >>"$log_file"
+        echo "=== Prompt: $prompt ===" >>"$log_file"
 
         set +e
         # Run Claude with stream-json for real-time output
         # Parse JSON stream, display formatted output, and track agents
         claude --dangerously-skip-permissions -p "$prompt" \
-            --output-format stream-json --verbose 2>&1 | \
-            tee -a "$log_file" | \
+            --output-format stream-json --verbose 2>&1 |
+            tee -a "$log_file" |
             python3 -u -c '
 import sys
 import json
@@ -1804,7 +1806,7 @@ if __name__ == "__main__":
         echo ""
 
         # Log end time
-        echo "=== Session ended at $(date) with exit code $exit_code ===" >> "$log_file"
+        echo "=== Session ended at $(date) with exit code $exit_code ===" >>"$log_file"
 
         local end_time=$(date +%s)
         local duration=$((end_time - start_time))
@@ -1819,7 +1821,7 @@ if __name__ == "__main__":
             if [ "$PERPETUAL_MODE" = "true" ]; then
                 log_info "Perpetual mode: Ignoring exit, continuing immediately..."
                 ((retry++))
-                continue  # Immediately start next iteration, no wait
+                continue # Immediately start next iteration, no wait
             fi
 
             # Only stop if EXPLICIT completion promise text was output
@@ -1840,7 +1842,7 @@ if __name__ == "__main__":
             # SUCCESS exit - continue IMMEDIATELY to next iteration (no wait!)
             log_info "Iteration complete. Continuing to next iteration..."
             ((retry++))
-            continue  # Immediately start next iteration, no exponential backoff
+            continue # Immediately start next iteration, no exponential backoff
         fi
 
         # Only apply retry logic for ERRORS (non-zero exit code)
