@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/filemerge"
+	"github.com/Dxrk777/Dxrk/internal/assets"
+	"github.com/Dxrk777/Dxrk/internal/components/filemerge"
 )
 
 // RuntimeLibDir returns the runtime lib path used by dxrk.

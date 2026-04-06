@@ -6,17 +6,17 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/dxrk"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/mcp"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/permissions"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/persona"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/sdd"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/skills"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/theme"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/agents"
+	"github.com/Dxrk777/Dxrk/internal/components/dxrk"
+	"github.com/Dxrk777/Dxrk/internal/components/engram"
+	"github.com/Dxrk777/Dxrk/internal/components/mcp"
+	"github.com/Dxrk777/Dxrk/internal/components/permissions"
+	"github.com/Dxrk777/Dxrk/internal/components/persona"
+	"github.com/Dxrk777/Dxrk/internal/components/sdd"
+	"github.com/Dxrk777/Dxrk/internal/components/skills"
+	"github.com/Dxrk777/Dxrk/internal/components/theme"
+	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/system"
 )
 
 // applyEngram installs the engram binary (if needed) and injects engram configuration

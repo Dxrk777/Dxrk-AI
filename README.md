@@ -10,8 +10,8 @@
 
 [![License](https://img.shields.io/badge/License-MIT-ff0040.svg)](LICENSE)
 [![Go](https://img.shields.io/badge/Go-1.25-00ADD8?logo=go)](https://golang.org)
-[![Tests](https://img.shields.io/github/actions/workflow/status/Dxrk777/Dxrk-Hex/test.yml?branch=main&label=Tests)](https://github.com/Dxrk777/Dxrk-Hex/actions)
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-1a1a1a)](https://github.com/Dxrk777/Dxrk-Hex)
+[![Tests](https://img.shields.io/github/actions/workflow/status/Dxrk777/Dxrk/test.yml?branch=main&label=Tests)](https://github.com/Dxrk777/Dxrk/actions)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-1a1a1a)](https://github.com/Dxrk777/Dxrk)
 
 </p>
 
@@ -50,13 +50,13 @@ brew install Dxrk777/tap/dxrk
 ### macOS / Linux (Script)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.sh | bash
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.ps1 | iex
+irm https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.ps1 | iex
 ```
 
 **Sin Go, sin complicaciones.** Descarga → Instala → Usa.
@@ -102,10 +102,10 @@ dxrk brain telegram "reiniciar servidor"
 brew tap Dxrk777/tap && brew install dxrk
 
 # Go install
-go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest
+go install github.com/Dxrk777/Dxrk/cmd/dxrk@latest
 
 # Script directo
-curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.sh | bash
 ```
 
 ---

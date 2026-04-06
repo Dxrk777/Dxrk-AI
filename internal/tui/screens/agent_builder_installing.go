@@ -3,7 +3,7 @@ package screens
 import (
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk/internal/tui/styles"
 )
 
 // RenderABInstalling renders the installation-in-progress (or error) screen.

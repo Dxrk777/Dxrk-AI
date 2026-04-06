@@ -222,7 +222,7 @@ ls -la ~/.dxrk/memory/
 
 ## Getting Help
 
-1. Check existing issues: https://github.com/Dxrk777/Dxrk-Hex/issues
+1. Check existing issues: https://github.com/Dxrk777/Dxrk/issues
 2. Create new issue with:
    - `dxrk --version`
    - `uname -a`

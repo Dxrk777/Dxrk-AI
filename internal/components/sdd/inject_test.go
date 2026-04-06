@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
-	windsurfagent "github.com/Dxrk777/Dxrk-Hex/internal/agents/windsurf"
-	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/agents"
+	"github.com/Dxrk777/Dxrk/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
+	windsurfagent "github.com/Dxrk777/Dxrk/internal/agents/windsurf"
+	"github.com/Dxrk777/Dxrk/internal/assets"
+	"github.com/Dxrk777/Dxrk/internal/model"
 	// agents/cursor, agents/gemini, agents/vscode used via agents.NewAdapter()
 )
 

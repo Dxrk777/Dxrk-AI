@@ -1,6 +1,6 @@
 package catalog
 
-import "github.com/Dxrk777/Dxrk-Hex/internal/model"
+import "github.com/Dxrk777/Dxrk/internal/model"
 
 type Agent struct {
 	ID         model.AgentID

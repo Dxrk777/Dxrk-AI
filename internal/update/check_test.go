@@ -9,7 +9,7 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/system"
 )
 
 // --- TestDetectInstalledVersion ---
@@ -282,8 +282,8 @@ func TestCheckAll(t *testing.T) {
 		path := r.URL.Path
 		var release githubRelease
 		switch {
-		case contains(path, "Dxrk-Hex"):
-			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk-Hex/releases/tag/v1.5.0"}
+		case contains(path, "Dxrk"):
+			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk/releases/tag/v1.5.0"}
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Dxrk777/engram/releases/tag/v0.4.0"}
 		case contains(path, "dxrk-guardian-angel"):
@@ -445,13 +445,13 @@ func TestUpdateHint(t *testing.T) {
 			name:    "dxrk linux",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install.sh | bash",
+			want:    "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install.sh | bash",
 		},
 		{
 			name:    "dxrk windows",
 			tool:    ToolInfo{Name: "dxrk"},
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
-			want:    "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install.ps1 | iex",
+			want:    "irm https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install.ps1 | iex",
 		},
 		{
 			name:    "engram macOS brew",
@@ -638,7 +638,7 @@ func TestRegistryContents(t *testing.T) {
 		owner string
 		repo  string
 	}{
-		"dxrk":   {owner: "Dxrk777", repo: "Dxrk-Hex"},
+		"dxrk":   {owner: "Dxrk777", repo: "Dxrk"},
 		"engram": {owner: "Gentleman-Programming", repo: "engram"},
 		"gga":    {owner: "Gentleman-Programming", repo: "dxrk-guardian-angel"},
 	}

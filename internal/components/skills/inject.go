@@ -6,10 +6,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
-	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/filemerge"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/agents"
+	"github.com/Dxrk777/Dxrk/internal/assets"
+	"github.com/Dxrk777/Dxrk/internal/components/filemerge"
+	"github.com/Dxrk777/Dxrk/internal/model"
 )
 
 // isSDDSkill reports whether a skill ID belongs to the SDD orchestrator suite.

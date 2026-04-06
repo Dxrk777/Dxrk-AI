@@ -3,7 +3,7 @@ package model_test
 import (
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/model"
 )
 
 func TestClaudeModelAliasValid(t *testing.T) {

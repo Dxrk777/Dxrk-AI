@@ -1,8 +1,8 @@
 package planner
 
 import (
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/system"
 )
 
 type Resolver interface {

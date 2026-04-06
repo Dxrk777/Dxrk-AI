@@ -2,12 +2,12 @@
 
 ## Overview
 
-Dxrk AI is a fork of [Dxrk-AI](https://github.com/Gentleman-Programming/Dxrk-AI) with custom features for AI coding agents.
+Dxrk AI is a self-hosted AI coding agent with custom features.
 
 ## Project Structure
 
 ```
-Dxrk-Hex/
+Dxrk/
 ├── cmd/dxrk/              # Main entry point
 ├── internal/
 │   ├── agents/            # Agent definitions (Claude, OpenCode, etc.)

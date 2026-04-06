@@ -1183,7 +1183,7 @@ type Preset struct {
 |--------|---------|----------|
 | curl (recommended) | `curl -sL get.dxrk.ai/ai \| sh` | P0 |
 | Homebrew | `brew install Dxrk/tap/dxrk` | P0 |
-| Go install | `go install github.com/Dxrk777777/Dxrk-Hex/cmd/dxrk@latest` | P1 |
+| Go install | `go install github.com/Dxrk777777/Dxrk/cmd/dxrk@latest` | P1 |
 | Direct binary | Download from GitHub Releases | P1 |
 | winget (Windows) | `winget install dxrk` | P2 |
 

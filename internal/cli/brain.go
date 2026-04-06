@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/brain"
+	"github.com/Dxrk777/Dxrk/internal/brain"
 )
 
 // RunBrain executes the brain command with the given arguments.

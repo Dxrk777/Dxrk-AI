@@ -3,7 +3,7 @@ package agentbuilder
 import (
 	"time"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/model"
 )
 
 // SDDIntegrationMode defines how a generated agent integrates with SDD phases.

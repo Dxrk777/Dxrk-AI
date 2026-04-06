@@ -3,8 +3,8 @@ package screens
 import (
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/tui/styles"
 )
 
 // ABEngineOptions returns display names for the available generation engines.

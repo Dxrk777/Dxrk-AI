@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/backup"
+	"github.com/Dxrk777/Dxrk/internal/model"
 )
 
 // setTestHome sets both HOME and USERPROFILE env vars for cross-platform compatibility.

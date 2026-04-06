@@ -6,14 +6,14 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-	"github.com/Dxrk777/Dxrk-Hex/internal/pipeline"
-	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui/screens"
-	"github.com/Dxrk777/Dxrk-Hex/internal/update"
-	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk/internal/backup"
+	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/pipeline"
+	"github.com/Dxrk777/Dxrk/internal/planner"
+	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/tui/screens"
+	"github.com/Dxrk777/Dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk/internal/update/upgrade"
 	tea "github.com/charmbracelet/bubbletea"
 )
 

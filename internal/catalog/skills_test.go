@@ -3,8 +3,8 @@ package catalog
 import (
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/skills"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/components/skills"
+	"github.com/Dxrk777/Dxrk/internal/model"
 )
 
 // TestMVPSkillsCoverAllPresetSkills ensures every skill that presets.go would

@@ -65,11 +65,11 @@ issues:
     - path: internal/system/deps.go
       linters:
         - gosec
-    # Agent builder module from upstream
+    # Agent builder module
     - path: internal/agentbuilder/
       linters:
         - gosec
-    # Backup compression from upstream
+    # Backup compression
     - path: internal/backup/compression.go
       linters:
         - gosec

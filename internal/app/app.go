@@ -11,17 +11,17 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
-	"github.com/Dxrk777/Dxrk-Hex/internal/cli"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-	"github.com/Dxrk777/Dxrk-Hex/internal/pipeline"
-	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
-	"github.com/Dxrk777/Dxrk-Hex/internal/state"
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui"
-	"github.com/Dxrk777/Dxrk-Hex/internal/update"
-	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
-	"github.com/Dxrk777/Dxrk-Hex/internal/verify"
+	"github.com/Dxrk777/Dxrk/internal/backup"
+	"github.com/Dxrk777/Dxrk/internal/cli"
+	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/pipeline"
+	"github.com/Dxrk777/Dxrk/internal/planner"
+	"github.com/Dxrk777/Dxrk/internal/state"
+	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/tui"
+	"github.com/Dxrk777/Dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk/internal/verify"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -173,7 +173,7 @@ Examples:
   dxrk brain status             # Check brain status
 
 For more information, see:
-  https://github.com/Dxrk777/Dxrk-Hex
+  https://github.com/Dxrk777/Dxrk
 `
 	_, _ = fmt.Fprint(stdout, helpText)
 	return nil

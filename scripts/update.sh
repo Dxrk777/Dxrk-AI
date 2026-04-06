@@ -113,12 +113,12 @@ get_latest_version() {
 
     # Intentar con gh CLI
     if command -v gh &>/dev/null; then
-        LATEST_TAG=$(gh release view --repo Dxrk777/Dxrk-Hex --json tagName --jq '.tagName' 2>/dev/null || echo "")
+        LATEST_TAG=$(gh release view --repo Dxrk777/Dxrk --json tagName --jq '.tagName' 2>/dev/null || echo "")
     fi
 
     # Fallback a curl
     if [[ -z "$LATEST_TAG" ]]; then
-        LATEST_TAG=$(curl -s "https://api.github.com/repos/Dxrk777/Dxrk-Hex/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' || echo "")
+        LATEST_TAG=$(curl -s "https://api.github.com/repos/Dxrk777/Dxrk/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' || echo "")
     fi
 
     if [[ -n "$LATEST_TAG" ]]; then
@@ -172,10 +172,10 @@ update_go() {
     fi
 
     echo ""
-    log_info "Ejecutando: go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest"
+    log_info "Ejecutando: go install github.com/Dxrk777/Dxrk/cmd/dxrk@latest"
     echo ""
 
-    if go install github.com/Dxrk777/Dxrk-Hex/cmd/dxrk@latest; then
+    if go install github.com/Dxrk777/Dxrk/cmd/dxrk@latest; then
         log_success "Actualización completada!"
         echo ""
         log_info "Nueva versión: $(dxrk --version)"
@@ -234,7 +234,7 @@ update_binary() {
     fi
 
     FILENAME="dxrk_${LATEST_TAG#v}_${OS}_${ARCH}.${EXT}"
-    DOWNLOAD_URL="https://github.com/Dxrk777/Dxrk-Hex/releases/download/${LATEST_TAG}/${FILENAME}"
+    DOWNLOAD_URL="https://github.com/Dxrk777/Dxrk/releases/download/${LATEST_TAG}/${FILENAME}"
 
     log_info "Descargando: $FILENAME"
 
@@ -305,13 +305,13 @@ install_fresh() {
     OS=$(uname -s)
 
     if [[ "$OS" == "Darwin" ]]; then
-        echo "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash"
-        curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
+        echo "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.sh | bash"
+        curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.sh | bash
     elif [[ "$OS" == "Linux" ]]; then
-        curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-Hex/main/scripts/install-dxrk.sh | bash
+        curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.sh | bash
     else
         log_info "Descarga manual desde:"
-        log_info "  https://github.com/Dxrk777/Dxrk-Hex/releases"
+        log_info "  https://github.com/Dxrk777/Dxrk/releases"
     fi
 }
 

@@ -3,7 +3,7 @@ package screens
 import (
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk/internal/tui/styles"
 )
 
 // StrictTDDOptionEnable is the index of the "Enable" option.

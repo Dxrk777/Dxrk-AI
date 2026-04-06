@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/connector"
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk/internal/connector"
+	"github.com/Dxrk777/Dxrk/internal/tui/styles"
 )
 
 // RemoteOptions returns the remote/connector menu options.

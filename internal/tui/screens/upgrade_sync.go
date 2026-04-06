@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
-	"github.com/Dxrk777/Dxrk-Hex/internal/update"
-	"github.com/Dxrk777/Dxrk-Hex/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk/internal/update/upgrade"
 )
 
 // RenderUpgradeSync handles all states of the combined upgrade+sync screen.

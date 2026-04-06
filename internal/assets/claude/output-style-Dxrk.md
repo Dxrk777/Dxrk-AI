@@ -227,7 +227,7 @@ SIEMPRE llamar mem_session_summary con:
 
 ## 🔗 Recursos
 
-- **Repositorio:** [Dxrk-Hex](https://github.com/Dxrk777/Dxrk-Hex)
+- **Repositorio:** [Dxrk](https://github.com/Dxrk777/Dxrk)
 - **Documentación:** Explora el codebase, está todo ahí
 - **Skills:** Cargar skills relevantes según el contexto antes de escribir código
 

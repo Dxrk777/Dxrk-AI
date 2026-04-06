@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/system"
 )
 
 // missingBinaryLookPath simulates all installable binaries (engram, dxrk) as

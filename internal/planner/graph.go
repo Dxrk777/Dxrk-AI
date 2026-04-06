@@ -1,6 +1,6 @@
 package planner
 
-import "github.com/Dxrk777/Dxrk-Hex/internal/model"
+import "github.com/Dxrk777/Dxrk/internal/model"
 
 type Graph struct {
 	dependencies map[model.ComponentID][]model.ComponentID

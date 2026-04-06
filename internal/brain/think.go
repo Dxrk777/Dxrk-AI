@@ -453,8 +453,7 @@ func handleVersion() *ThinkResult {
 Version: 000.13%
 Build: Latest
 
-GitHub: github.com/Dxrk777/Dxrk-Hex
-Upstream: github.com/Gentleman-Programming/Dxrk-AI`,
+GitHub: github.com/Dxrk777/Dxrk`,
 		Action:    "version",
 		Success:   true,
 		Timestamp: time.Now(),

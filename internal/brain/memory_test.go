@@ -3,7 +3,7 @@ package brain_test
 import (
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/brain"
+	"github.com/Dxrk777/Dxrk/internal/brain"
 )
 
 func TestMemoryNew(t *testing.T) {

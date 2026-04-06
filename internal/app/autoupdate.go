@@ -51,7 +51,7 @@ func AutoUpdateCheck(stdout io.Writer) (updated bool, err error) {
 }
 
 func getLatestTag() (string, error) {
-	url := "https://api.github.com/repos/Dxrk777/Dxrk-Hex/releases/latest"
+	url := "https://api.github.com/repos/Dxrk777/Dxrk/releases/latest"
 
 	resp, err := http.Get(url)
 	if err != nil {
@@ -72,7 +72,7 @@ func getLatestTag() (string, error) {
 
 func downloadLatest(tag string) (string, error) {
 	filename := getFilename(tag)
-	url := fmt.Sprintf("https://github.com/Dxrk777/Dxrk-Hex/releases/download/%s/%s", tag, filename)
+	url := fmt.Sprintf("https://github.com/Dxrk777/Dxrk/releases/download/%s/%s", tag, filename)
 
 	// Create temp file
 	tmpDir := os.TempDir()

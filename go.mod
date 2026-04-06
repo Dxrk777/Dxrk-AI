@@ -1,4 +1,4 @@
-module github.com/Dxrk777/Dxrk-Hex
+module github.com/Dxrk777/Dxrk
 
 go 1.25.0
 

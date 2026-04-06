@@ -25,7 +25,7 @@ Release binaries are built for `linux`, `darwin`, and `windows` on both `amd64` 
 - **curl** is pre-installed on Windows 10+ and does not require separate installation.
 - **PowerShell** is the default shell when `$SHELL` is not set.
 - Release archives use `.zip` format on Windows (`.tar.gz` on macOS/Linux).
-- **Dxrk on Windows** works from both Git Bash and PowerShell. dxrk installs a `dxrk.ps1` shim that automatically delegates to Git Bash, so no manual shell switching is required.
+- **GGA on Windows** only works inside Git Bash. After installation, run `gga init` and `gga install` from Git Bash — not from PowerShell or CMD. This is a GGA limitation, not a [Dd]xrk-ai limitation.
 
 ---
 
@@ -38,7 +38,7 @@ Use the release checksum to verify integrity:
 ```powershell
 # 1) Download checksums.txt from the same release tag
 # 2) Compute local hash
-Get-FileHash .\dxrk_<VERSION>_windows_amd64.zip -Algorithm SHA256
+Get-FileHash .\[Dd]xrk-ai_<VERSION>_windows_amd64.zip -Algorithm SHA256
 
 # 3) Compare the hash with checksums.txt entry for that file
 ```

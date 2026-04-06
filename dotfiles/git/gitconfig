@@ -1,0 +1,17 @@
+[user]
+    name = Dxrk777
+    email = Dark-777@outlook.es
+[core]
+    editor = nvim
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    syntax-theme = Catppuccin Mocha
+[merge]
+    conflictstyle = diff3
+[pull]
+    rebase = true
+[init]
+    defaultBranch = main

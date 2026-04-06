@@ -23,7 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/brain"
+	"github.com/Dxrk777/Dxrk/internal/brain"
 )
 
 // Config holds connector configuration.
@@ -790,8 +790,7 @@ func (c *Connector) executeVersion() string {
 Version: 000.13%
 Build: Latest
 
-GitHub: github.com/Dxrk777/Dxrk-Hex
-Upstream: github.com/Gentleman-Programming/Dxrk-AI
+GitHub: github.com/Dxrk777/Dxrk
 
 Updates: Automatic (daily sync)`
 }

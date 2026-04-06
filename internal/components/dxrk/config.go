@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/assets"
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/filemerge"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/assets"
+	"github.com/Dxrk777/Dxrk/internal/components/filemerge"
+	"github.com/Dxrk777/Dxrk/internal/model"
 )
 
 // InjectionResult describes all files written by the Dxrk config injection.

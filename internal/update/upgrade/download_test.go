@@ -13,8 +13,8 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/update"
 )
 
 // --- test helpers ---

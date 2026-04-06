@@ -9,12 +9,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents"
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents/claude"
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents/codex"
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents/gemini"
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents/opencode"
-	"github.com/Dxrk777/Dxrk-Hex/internal/agents/vscode"
+	"github.com/Dxrk777/Dxrk/internal/agents"
+	"github.com/Dxrk777/Dxrk/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk/internal/agents/codex"
+	"github.com/Dxrk777/Dxrk/internal/agents/gemini"
+	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk/internal/agents/vscode"
 )
 
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }

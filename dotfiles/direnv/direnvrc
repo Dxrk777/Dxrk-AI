@@ -1,0 +1,15 @@
+layout_python() {
+  if [[ -d .venv ]]; then
+    layout_activate .venv
+  else
+    python -m venv .venv
+    layout_activate .venv
+  fi
+}
+layout_node() {
+  export PATH=$(npm bin):$PATH
+}
+layout_go() {
+  export GOPATH=$(pwd)/.go
+  export PATH=$GOPATH/bin:$PATH
+}

@@ -8,10 +8,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/cli"
-	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui"
+	"github.com/Dxrk777/Dxrk/internal/cli"
+	"github.com/Dxrk777/Dxrk/internal/planner"
+	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/tui"
 )
 
 func skipOnWindows(t *testing.T) {

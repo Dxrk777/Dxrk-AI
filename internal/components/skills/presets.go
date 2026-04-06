@@ -1,6 +1,6 @@
 package skills
 
-import "github.com/Dxrk777/Dxrk-Hex/internal/model"
+import "github.com/Dxrk777/Dxrk/internal/model"
 
 // sddSkills are the SDD orchestrator skills — always included.
 var sddSkills = []model.SkillID{

@@ -13,7 +13,7 @@ var Tools = []ToolInfo{
 	{
 		Name:          "dxrk",
 		Owner:         "Dxrk777",
-		Repo:          "Dxrk-Hex",
+		Repo:          "Dxrk",
 		DetectCmd:     nil, // version comes from build-time ldflags (app.Version)
 		VersionPrefix: "v",
 		// dxrk: brew on macOS, binary release download on Linux/Windows.

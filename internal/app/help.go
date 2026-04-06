@@ -24,6 +24,6 @@ FLAGS
   --help, -h    Show this help
 
 Run 'dxrk help' for this message.
-Documentation: https://github.com/Gentleman-Programming/dxrk
+Documentation: https://github.com/Dxrk777/Dxrk
 `, version)
 }

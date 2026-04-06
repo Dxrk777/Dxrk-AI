@@ -5,7 +5,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/catalog"
+	"github.com/Dxrk777/Dxrk/internal/catalog"
 )
 
 // builtinSkills returns the current set of built-in skill names derived from

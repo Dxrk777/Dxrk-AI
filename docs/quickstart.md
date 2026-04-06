@@ -28,13 +28,13 @@
 
 ### All platforms
 
-- Go 1.25+ (for building from source).
+- Go 1.24+ (for building from source).
 - Node.js / npm if installing Claude Code (agent is installed via `npm install -g`).
 
 ## Run
 
 ```bash
-go run ./cmd/dxrk install --dry-run
+go run ./cmd/[Dd]xrk-ai install --dry-run
 ```
 
 Use `--dry-run` first to validate selections and execution plan without applying changes. The dry-run output includes a `Platform decision` line showing the detected OS, distro, package manager, and support status.
@@ -42,7 +42,7 @@ Use `--dry-run` first to validate selections and execution plan without applying
 ## First real install
 
 ```bash
-go run ./cmd/dxrk install
+go run ./cmd/[Dd]xrk-ai install
 ```
 
 The installer detects your platform automatically — no flags needed to select macOS vs Linux. Install commands are resolved through the appropriate package manager (brew, apt, pacman, or dnf) based on detection.

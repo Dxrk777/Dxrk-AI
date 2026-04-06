@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/agentbuilder"
-	"github.com/Dxrk777/Dxrk-Hex/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk/internal/agentbuilder"
+	"github.com/Dxrk777/Dxrk/internal/tui/styles"
 )
 
 // ABPreviewActions returns the action options shown on the preview screen.

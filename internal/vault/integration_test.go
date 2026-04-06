@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/vault"
+	"github.com/Dxrk777/Dxrk/internal/vault"
 )
 
 // TestVaultNubeBrainEncryptDecrypt tests the full Vault encryption round-trip

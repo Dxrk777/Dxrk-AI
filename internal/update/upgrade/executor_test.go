@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/backup"
-	"github.com/Dxrk777/Dxrk-Hex/internal/system"
-	"github.com/Dxrk777/Dxrk-Hex/internal/update"
+	"github.com/Dxrk777/Dxrk/internal/backup"
+	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk/internal/update"
 )
 
 // --- helpers ---
@@ -315,9 +315,9 @@ func TestExecute_FailureDoesNotImplyConfigLoss(t *testing.T) {
 func TestExecute_InstallNotInvoked(t *testing.T) {
 	// This test is intentionally a documentation-only guard.
 	// The real enforcement is: this package MUST NOT import:
-	//   - github.com/Dxrk777/Dxrk-Hex/internal/pipeline
-	//   - github.com/Dxrk777/Dxrk-Hex/internal/planner
-	//   - github.com/Dxrk777/Dxrk-Hex/internal/cli
+	//   - github.com/Dxrk777/Dxrk/internal/pipeline
+	//   - github.com/Dxrk777/Dxrk/internal/planner
+	//   - github.com/Dxrk777/Dxrk/internal/cli
 	//
 	// If you see those imports appear, the isolation contract is broken.
 	// See TestExecuteImportBoundary for the compile-time enforcement approach.
@@ -403,7 +403,7 @@ func TestExecute_ManualFallbackSurfacedAsSkippedNotFailed(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
 	}
-	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk-Hex/releases"
+	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk/releases"
 
 	report := Execute(context.Background(), results, windowsProfile, t.TempDir(), false)
 
@@ -879,7 +879,7 @@ func TestExecute_SkippedUpgradeDoesNotRenderFailureMarker(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
 	}
-	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk-Hex/releases"
+	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk/releases"
 
 	// Capture the progress output written to the progress writer.
 	var progressBuf bytes.Buffer

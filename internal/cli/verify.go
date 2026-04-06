@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Dxrk777/Dxrk-Hex/internal/components/engram"
-	"github.com/Dxrk777/Dxrk-Hex/internal/model"
-	"github.com/Dxrk777/Dxrk-Hex/internal/planner"
-	"github.com/Dxrk777/Dxrk-Hex/internal/verify"
+	"github.com/Dxrk777/Dxrk/internal/components/engram"
+	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk/internal/planner"
+	"github.com/Dxrk777/Dxrk/internal/verify"
 )
 
 // runPostApplyVerification runs all post-installation verification checks.
