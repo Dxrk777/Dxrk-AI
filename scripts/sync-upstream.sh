@@ -2,11 +2,11 @@
 # ============================================================================
 # Dxrk AI - Sync Upstream Script
 # ============================================================================
-# Este script sincroniza Dxrk AI con gentle-ai (upstream).
-# Se ejecuta automáticamente cuando gentle-ai libera una nueva versión.
+# Este script sincroniza Dxrk AI con Dxrk-AI (upstream).
+# Se ejecuta automáticamente cuando Dxrk-AI libera una nueva versión.
 #
 # Uso:
-#   ./sync-upstream.sh <gentle-ai-tag>
+#   ./sync-upstream.sh <Dxrk-AI-tag>
 #
 # Ejemplo:
 #   ./sync-upstream.sh v1.16.0
@@ -32,8 +32,8 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuración
-UPSTREAM_REPO="https://github.com/Gentleman-Programming/gentle-ai.git"
-UPSTREAM_NAME="gentle-ai"
+UPSTREAM_REPO="https://github.com/Gentleman-Programming/Dxrk-AI.git"
+UPSTREAM_NAME="Dxrk-AI"
 BRANCH="${BRANCH:-main}"
 
 # Archivos de estado
@@ -104,7 +104,7 @@ merge_upstream() {
     log_info "Merging ${UPSTREAM_NAME}/${BRANCH}..."
 
     # Configurar estrategia para resolver conflictos automáticamente
-    # Prioriza los cambios locales (Dxrk) sobre los remotos (gentle-ai)
+    # Prioriza los cambios locales (Dxrk) sobre los remotos (Dxrk-AI)
     git config merge.ours.driver true
 
     # Hacer merge (los conflictos se resuelven automáticamente a favor nuestro)
@@ -117,7 +117,7 @@ merge_upstream() {
         git add -A
         git commit -m "chore: resolve merge conflicts favoring Dxrk changes
         
-        Auto-resolved conflicts during upstream sync from gentle-ai
+        Auto-resolved conflicts during upstream sync from Dxrk-AI
         PRIORITY: Dxrk customizations over upstream defaults"
         log_success "Conflictos resueltos"
     fi
@@ -137,7 +137,7 @@ calculate_new_version() {
         CURRENT_PERCENT="0.03"
     fi
 
-    # Extraer tipo de release de gentle-ai
+    # Extraer tipo de release de Dxrk-AI
     # Formato: v1.15.6 -> major=1, minor=15, patch=6
     VERSION_NUM=$(echo "$upstream_tag" | sed 's/v//')
     MAJOR=$(echo "$VERSION_NUM" | cut -d. -f1)
@@ -196,9 +196,9 @@ push_changes() {
     # Mensaje de commit informativo
     COMMIT_MSG=$(
         cat <<EOF
-chore(sync): merge upstream from gentle-ai
+chore(sync): merge upstream from Dxrk-AI
 
-Sync con la última versión de gentle-ai.
+Sync con la última versión de Dxrk-AI.
 Auto-generado por sync-upstream.sh.
 
 Release type: ${RELEASE_TYPE:-unknown}
@@ -224,13 +224,13 @@ main() {
     echo ""
     echo "╔═══════════════════════════════════════════════════════════╗"
     echo "║         DXRK AI - UPSTREAM SYNC                        ║"
-    echo "║         Sincronizando con gentle-ai                       ║"
+    echo "║         Sincronizando con Dxrk-AI                       ║"
     echo "╚═══════════════════════════════════════════════════════════╝"
     echo ""
 
     # Verificar argumentos
     if [[ -z "$1" ]]; then
-        log_error "Uso: $0 <gentle-ai-tag>"
+        log_error "Uso: $0 <Dxrk-AI-tag>"
         log_error "Ejemplo: $0 v1.15.7"
         exit 1
     fi

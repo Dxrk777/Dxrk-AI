@@ -3,10 +3,10 @@ name: Sync Upstream
 # ============================================================================
 # Dxrk AI - Upstream Sync Workflow
 # ============================================================================
-# Este workflow sincroniza Dxrk AI con gentle-ai (upstream) automáticamente.
+# Este workflow sincroniza Dxrk AI con Dxrk-AI (upstream) automáticamente.
 #
 # Se activa de tres formas:
-# 1. repository_dispatch: cuando gentle-ai hace un release (webhook)
+# 1. repository_dispatch: cuando Dxrk-AI hace un release (webhook)
 # 2. schedule: una vez al día para detectar nuevos releases
 # 3. workflow_dispatch: manual para forzar sync
 #
@@ -20,7 +20,7 @@ name: Sync Upstream
 # ============================================================================
 
 on:
-  # Se activa cuando gentle-ai hace un release (configurar webhook en GP repo)
+  # Se activa cuando Dxrk-AI hace un release (configurar webhook en GP repo)
   repository_dispatch:
     types: [upstream-released]
   
@@ -42,8 +42,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  UPSTREAM_REPO: "Gentleman-Programming/gentle-ai"
-  UPSTREAM_NAME: "gentle-ai"
+  UPSTREAM_REPO: "Gentleman-Programming/Dxrk-AI"
+  UPSTREAM_NAME: "Dxrk-AI"
   GO_VERSION: '1.26'
 
 jobs:
@@ -87,9 +87,9 @@ jobs:
           script: |
             const response = await github.rest.repos.getLatestRelease({
               owner: 'Gentleman-Programming',
-              repo: 'gentle-ai'
+              repo: 'Dxrk-AI'
             });
-            console.log('Latest gentle-ai release:', response.data.tag_name);
+            console.log('Latest Dxrk-AI release:', response.data.tag_name);
             return response.data.tag_name;
       
       - name: Compare versions
@@ -222,7 +222,7 @@ jobs:
         if: needs.sync.result == 'success'
         run: |
           echo "🎉 Sync completado exitosamente!"
-          echo " Upstream (gentle-ai): ${{ needs.check-upstream.outputs.upstream_tag }}"
+          echo " Upstream (Dxrk-AI): ${{ needs.check-upstream.outputs.upstream_tag }}"
           echo " Dxrk AI: ${{ needs.sync.outputs.new_tag }}"
           echo " Tipo: ${{ needs.check-upstream.outputs.release_type }}"
       

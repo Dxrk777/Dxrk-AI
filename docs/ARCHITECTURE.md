@@ -2,7 +2,7 @@
 
 ## Overview
 
-Dxrk AI is a fork of [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) with custom features for AI coding agents.
+Dxrk AI is a fork of [Dxrk-AI](https://github.com/Gentleman-Programming/Dxrk-AI) with custom features for AI coding agents.
 
 ## Project Structure
 

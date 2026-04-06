@@ -3,10 +3,10 @@
 // Dxrk Hell - Version Calculator
 // ============================================================================
 // Este script calcula el nuevo porcentaje de Dxrk Hell basándose en el
-// último release de gentle-ai (upstream).
+// último release de Dxrk-AI (upstream).
 //
 // Sistema de versioning:
-//   gentle-ai:     v1.15.6  →  v1.15.7  →  v1.16.0  →  v2.0.0
+//   Dxrk-AI:     v1.15.6  →  v1.15.7  →  v1.16.0  →  v2.0.0
 //   Dxrk Hell:      045.27%  →  045.32%  →  045.82%  →  055.82%
 //
 // Incrementos:
@@ -46,21 +46,21 @@ const (
 func main() {
 	// Obtener argumentos
 	if len(os.Args) < 2 {
-		fmt.Println("Uso: go run calculate-version.go <gentle-ai-tag>")
+		fmt.Println("Uso: go run calculate-version.go <Dxrk-AI-tag>")
 		fmt.Println("Ejemplo: go run calculate-version.go v1.15.7")
 		os.Exit(1)
 	}
 
 	upstreamTag := os.Args[1]
 
-	// Extraer versión de gentle-ai
+	// Extraer versión de Dxrk-AI
 	version, releaseType, err := parseVersion(upstreamTag)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error parseando versión: %v\n", err)
 		os.Exit(1)
 	}
 
-	fmt.Printf("📦 gentle-ai detectado: %s (tipo: %s)\n", version, releaseType)
+	fmt.Printf("📦 Dxrk-AI detectado: %s (tipo: %s)\n", version, releaseType)
 
 	// Obtener el último tag de Dxrk o usar default
 	currentPercent := getCurrentPercent()
@@ -194,9 +194,9 @@ func saveState(upstreamTag string, percent float64) {
 // Funciones para usar desde otros lugares
 // ============================================================================
 
-// GetLatestGentleAIRelease obtiene el último release de gentle-ai desde GitHub
+// GetLatestGentleAIRelease obtiene el último release de Dxrk-AI desde GitHub
 func GetLatestGentleAIRelease() (string, error) {
-	resp, err := http.Get("https://api.github.com/repos/Gentleman-Programming/gentle-ai/releases/latest")
+	resp, err := http.Get("https://api.github.com/repos/Gentleman-Programming/Dxrk-AI/releases/latest")
 	if err != nil {
 		return "", err
 	}
@@ -212,7 +212,7 @@ func GetLatestGentleAIRelease() (string, error) {
 	return tagName, fmt.Errorf("usar en workflow con curl")
 }
 
-// CompareVersions compara dos versiones de gentle-ai
+// CompareVersions compara dos versiones de Dxrk-AI
 // Retorna: "major", "minor", "patch", o "" si son iguales
 func CompareVersions(old, new string) string {
 	oldVer, oldType, _ := parseVersion(old)

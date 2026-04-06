@@ -791,7 +791,7 @@ Version: 000.13%
 Build: Latest
 
 GitHub: github.com/Dxrk777/Dxrk-Hex
-Upstream: github.com/Gentleman-Programming/gentle-ai
+Upstream: github.com/Gentleman-Programming/Dxrk-AI
 
 Updates: Automatic (daily sync)`
 }
