@@ -13,7 +13,7 @@ const (
 	AgentWindsurf      AgentID = "windsurf"
 )
 
-// SupportTier indicates how fully an agent supports the Gentleman AI ecosystem.
+// SupportTier indicates how fully an agent supports the Dxrk AI ecosystem.
 // All current agents receive the full SDD orchestrator, skill files, MCP config,
 // and system prompt injection. The tier is kept as metadata for display purposes.
 type SupportTier string
@@ -62,10 +62,9 @@ const (
 type PersonaID string
 
 const (
-	PersonaGentleman PersonaID = "gentleman"
-	PersonaNeutral   PersonaID = "neutral"
-	PersonaCustom    PersonaID = "custom"
-	PersonaDxrk      PersonaID = "dxrk"
+	PersonaDxrk    PersonaID = "dxrk"
+	PersonaNeutral PersonaID = "neutral"
+	PersonaCustom  PersonaID = "custom"
 )
 
 // SystemPromptStrategy defines how an agent's system prompt file is managed.
@@ -100,7 +99,6 @@ const (
 type PresetID string
 
 const (
-	PresetFullGentleman PresetID = "full-gentleman"
 	PresetFullDxrk      PresetID = "full-dxrk"
 	PresetEcosystemOnly PresetID = "ecosystem-only"
 	PresetMinimal       PresetID = "minimal"

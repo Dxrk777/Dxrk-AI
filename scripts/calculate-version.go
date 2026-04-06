@@ -194,8 +194,8 @@ func saveState(upstreamTag string, percent float64) {
 // Funciones para usar desde otros lugares
 // ============================================================================
 
-// GetLatestGentleAIRelease obtiene el último release de Dxrk-AI desde GitHub
-func GetLatestGentleAIRelease() (string, error) {
+// GetLatestDxrkAIRelease obtiene el último release de Dxrk-AI desde GitHub
+func GetLatestDxrkAIRelease() (string, error) {
 	resp, err := http.Get("https://api.github.com/repos/Gentleman-Programming/Dxrk-AI/releases/latest")
 	if err != nil {
 		return "", err

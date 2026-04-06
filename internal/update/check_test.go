@@ -286,8 +286,8 @@ func TestCheckAll(t *testing.T) {
 			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk-Hex/releases/tag/v1.5.0"}
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Dxrk777/engram/releases/tag/v0.4.0"}
-		case contains(path, "gentleman-guardian-angel"):
-			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/Gentleman-Programming/gentleman-guardian-angel/releases/tag/v2.0.0"}
+		case contains(path, "dxrk-guardian-angel"):
+			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/Gentleman-Programming/dxrk-guardian-angel/releases/tag/v2.0.0"}
 		}
 		json.NewEncoder(w).Encode(release)
 	}))
@@ -481,7 +481,7 @@ func TestUpdateHint(t *testing.T) {
 			name:    "gga linux",
 			tool:    ToolInfo{Name: "gga"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "See https://github.com/Gentleman-Programming/gentleman-guardian-angel",
+			want:    "See https://github.com/Dxrk777/Dxrk-AI",
 		},
 		{
 			name:    "unknown tool",
@@ -640,7 +640,7 @@ func TestRegistryContents(t *testing.T) {
 	}{
 		"dxrk":   {owner: "Dxrk777", repo: "Dxrk-Hex"},
 		"engram": {owner: "Gentleman-Programming", repo: "engram"},
-		"gga":    {owner: "Gentleman-Programming", repo: "gentleman-guardian-angel"},
+		"gga":    {owner: "Gentleman-Programming", repo: "dxrk-guardian-angel"},
 	}
 
 	for _, tool := range Tools {
@@ -827,14 +827,14 @@ func TestCheckFiltered_UnknownToolIgnored(t *testing.T) {
 	}
 }
 
-// TestCheckFiltered_DevBuildSemanticsForGentleAI verifies the design requirement:
+// TestCheckFiltered_DevBuildSemanticsForDxrkAI verifies the design requirement:
 // when the running dxrk binary reports version "dev", it is identified as a
 // DevBuild and NOT reported as UpdateAvailable or VersionUnknown.
 //
 // The spec says:
 //   - Dev build MUST be reported as development-build semantic
 //   - dxrk self-upgrade is skipped while engram/gga remain eligible
-func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
+func TestCheckFiltered_DevBuildSemanticsForDxrkAI(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -957,7 +957,7 @@ func TestNoUpdatesPath(t *testing.T) {
 		switch {
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v0.3.2"}
-		case contains(path, "gentleman-guardian-angel"):
+		case contains(path, "dxrk-guardian-angel"):
 			release = githubRelease{TagName: "v1.0.0"}
 		default:
 			release = githubRelease{TagName: "v1.0.0"}

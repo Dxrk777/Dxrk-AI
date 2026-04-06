@@ -2692,11 +2692,11 @@ func TestInjectOpenCodeMultiModeWithPreExistingFullConfig(t *testing.T) {
 // dxrk agent model mirroring from sdd-orchestrator
 // ---------------------------------------------------------------------------
 
-// TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman verifies that
+// TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToDxrk verifies that
 // when sdd-orchestrator has an explicit TUI model assignment and the dxrk
 // agent already exists in opencode.json (persona installed), the orchestrator
 // model is mirrored to the dxrk agent.
-func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman(t *testing.T) {
+func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToDxrk(t *testing.T) {
 	home := t.TempDir()
 	mockNoPackageManager(t)
 
@@ -2763,10 +2763,10 @@ func TestInjectOpenCodeMultiModeMirrorsOrchestratorModelToGentleman(t *testing.T
 	}
 }
 
-// TestInjectOpenCodeMultiModeDoesNotInjectGentlemanIfNotInstalled verifies that
+// TestInjectOpenCodeMultiModeDoesNotInjectDxrkIfNotInstalled verifies that
 // when the dxrk agent does NOT exist in opencode.json (persona not installed),
 // the orchestrator model is NOT mirrored to a dxrk entry.
-func TestInjectOpenCodeMultiModeDoesNotInjectGentlemanIfNotInstalled(t *testing.T) {
+func TestInjectOpenCodeMultiModeDoesNotInjectDxrkIfNotInstalled(t *testing.T) {
 	home := t.TempDir()
 	mockNoPackageManager(t)
 
@@ -3250,7 +3250,7 @@ func TestInjectOpenCodePostCheckDiskFallback(t *testing.T) {
 	existingConfig := `{
   "agent": {
     "dxrk": {
-      "description": "Gentleman",
+      "description": "Dxrk",
       "mode": "primary"
     },
     "sdd-orchestrator": {

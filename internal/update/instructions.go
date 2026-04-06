@@ -45,6 +45,6 @@ func ggaHint(profile system.PlatformProfile) string {
 	case "brew":
 		return "brew upgrade gga"
 	default:
-		return "See https://github.com/Gentleman-Programming/gentleman-guardian-angel"
+		return "See https://github.com/Dxrk777/Dxrk-AI"
 	}
 }

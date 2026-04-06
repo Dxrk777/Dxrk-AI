@@ -17,7 +17,7 @@ import (
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }
 func opencodeAdapter() agents.Adapter { return opencode.NewAdapter() }
 
-func TestInjectClaudeGentlemanWritesSectionWithRealContent(t *testing.T) {
+func TestInjectClaudeDxrkWritesSectionWithRealContent(t *testing.T) {
 	home := t.TempDir()
 
 	result, err := Inject(home, claudeAdapter(), model.PersonaDxrk)
@@ -47,7 +47,7 @@ func TestInjectClaudeGentlemanWritesSectionWithRealContent(t *testing.T) {
 	}
 }
 
-func TestInjectClaudeGentlemanWritesOutputStyleFile(t *testing.T) {
+func TestInjectClaudeDxrkWritesOutputStyleFile(t *testing.T) {
 	home := t.TempDir()
 
 	_, err := Inject(home, claudeAdapter(), model.PersonaDxrk)
@@ -74,7 +74,7 @@ func TestInjectClaudeGentlemanWritesOutputStyleFile(t *testing.T) {
 	}
 }
 
-func TestInjectClaudeGentlemanMergesOutputStyleIntoSettings(t *testing.T) {
+func TestInjectClaudeDxrkMergesOutputStyleIntoSettings(t *testing.T) {
 	home := t.TempDir()
 
 	// Pre-create a settings.json with some existing content.
@@ -121,7 +121,7 @@ func TestInjectClaudeGentlemanMergesOutputStyleIntoSettings(t *testing.T) {
 	}
 }
 
-func TestInjectClaudeGentlemanReturnsAllFiles(t *testing.T) {
+func TestInjectClaudeDxrkReturnsAllFiles(t *testing.T) {
 	home := t.TempDir()
 
 	result, err := Inject(home, claudeAdapter(), model.PersonaDxrk)
@@ -239,7 +239,7 @@ func TestInjectCustomOpenCodeDoesNothing(t *testing.T) {
 	}
 }
 
-func TestInjectOpenCodeGentlemanWritesAgentsFile(t *testing.T) {
+func TestInjectOpenCodeDxrkWritesAgentsFile(t *testing.T) {
 	home := t.TempDir()
 
 	result, err := Inject(home, opencodeAdapter(), model.PersonaDxrk)
@@ -314,7 +314,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 		t.Fatal("AGENTS.md lost engram protocol section after switching to neutral persona")
 	}
 
-	// Gentleman-specific language should be gone — neutral has the same personality but no regional language
+	// Dxrk-specific language should be gone — neutral has the same personality but no regional language
 	if strings.Contains(text, "Rioplatense") {
 		t.Fatal("AGENTS.md still has Rioplatense language after switching to neutral")
 	}
@@ -543,7 +543,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 	}
 }
 
-func TestInjectCursorGentlemanWritesRulesFileWithRealContent(t *testing.T) {
+func TestInjectCursorDxrkWritesRulesFileWithRealContent(t *testing.T) {
 	home := t.TempDir()
 
 	cursorAdapter, err := agents.NewAdapter("cursor")
@@ -576,7 +576,7 @@ func TestInjectCursorGentlemanWritesRulesFileWithRealContent(t *testing.T) {
 	}
 }
 
-func TestInjectGeminiGentlemanWritesSystemPromptWithRealContent(t *testing.T) {
+func TestInjectGeminiDxrkWritesSystemPromptWithRealContent(t *testing.T) {
 	home := t.TempDir()
 
 	geminiAdapter, err := agents.NewAdapter("gemini-cli")
@@ -605,7 +605,7 @@ func TestInjectGeminiGentlemanWritesSystemPromptWithRealContent(t *testing.T) {
 	}
 }
 
-func TestInjectVSCodeGentlemanWritesInstructionsFile(t *testing.T) {
+func TestInjectVSCodeDxrkWritesInstructionsFile(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
@@ -640,7 +640,7 @@ func TestInjectVSCodeGentlemanWritesInstructionsFile(t *testing.T) {
 
 // --- Auto-heal tests: Claude Code stale free-text persona ---
 
-// legacyClaudePersonaBlock simulates a Gentleman persona block that was written
+// legacyClaudePersonaBlock simulates a Dxrk persona block that was written
 // directly (without markers) by an old installer or manually by the user.
 const legacyClaudePersonaBlock = `## Rules
 
@@ -811,7 +811,7 @@ func TestInjectVSCodeCleansLegacyGitHubPersonaFile(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
-	// Plant an old-style Gentleman persona file at the legacy path.
+	// Plant an old-style Dxrk persona file at the legacy path.
 	legacyPath := filepath.Join(home, ".github", "copilot-instructions.md")
 	if err := os.MkdirAll(filepath.Dir(legacyPath), 0o755); err != nil {
 		t.Fatalf("MkdirAll error = %v", err)
@@ -856,7 +856,7 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
 	// Plant a .github/copilot-instructions.md that has user content (not a
-	// Gentleman persona) — it must NOT be deleted.
+	// Dxrk persona) — it must NOT be deleted.
 	legacyPath := filepath.Join(home, ".github", "copilot-instructions.md")
 	if err := os.MkdirAll(filepath.Dir(legacyPath), 0o755); err != nil {
 		t.Fatalf("MkdirAll error = %v", err)

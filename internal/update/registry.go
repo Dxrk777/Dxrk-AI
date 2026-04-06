@@ -32,7 +32,7 @@ var Tools = []ToolInfo{
 	{
 		Name:          "gga",
 		Owner:         "Gentleman-Programming",
-		Repo:          "gentleman-guardian-angel",
+		Repo:          "dxrk-guardian-angel",
 		DetectCmd:     []string{"gga", "--version"},
 		VersionPrefix: "v",
 		// gga: brew on macOS, install.sh script on Linux/Windows.

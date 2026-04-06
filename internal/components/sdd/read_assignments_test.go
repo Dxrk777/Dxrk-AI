@@ -55,7 +55,7 @@ func TestReadCurrentModelAssignments(t *testing.T) {
 
 	// "dxrk" is not an SDD phase — it should NOT be in the result
 	if _, ok := got["dxrk"]; ok {
-		t.Error("non-SDD agent 'gentleman' should not be in result")
+		t.Error("non-SDD agent 'dxrk' should not be in result")
 	}
 }
 

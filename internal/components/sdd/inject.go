@@ -932,7 +932,7 @@ func stripBareOrchestratorForFilePrompt(content string) string {
 }
 
 const instructionsFrontmatter = "---\n" +
-	"name: Gentle AI Persona\n" +
+	"name: Dxrk AI Persona\n" +
 	"description: Dxrk persona with SDD orchestration and Engram protocol\n" +
 	"applyTo: \"**\"\n" +
 	"---\n"
