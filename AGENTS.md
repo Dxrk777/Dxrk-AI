@@ -159,6 +159,8 @@ Cuando detectás estos contextos, **CARGÁ la skill ANTES de escribir código**:
 | **Testing** | `playwright`, `pytest` |
 | **Backend** | `dotnet`, `django-drf` |
 | **Deployment, databases** | `dxrk-free-deployment`, `dxrk-free-memory-stack` |
+| **Docker, Kubernetes** | `dxrk-docker`, `dxrk-kubernetes` |
+| **Rust, Terraform, GraphQL** | `dxrk-rust`, `dxrk-terraform`, `dxrk-graphql` |
 
 ```
 Cargá skills ANTES de escribir código.
@@ -170,7 +172,7 @@ Múltiples skills pueden aplicar simultáneamente.
 
 Ver skill completo con todos los triggers: `dxrk-master-index`
 
-Skills disponibles en `~/.claude/skills/` (123 skills):
+Skills disponibles en `~/.claude/skills/` (151 skills):
 - **AI Architecture**: dxrk-agent-core, dxrk-agent-loop-architect, dxrk-tool-control-patterns, dxrk-multi-agent-coordinator, dxrk-prompt-registry, dxrk-auto-repair-protocol, dxrk-llm-fallback-strategy
 - **Frontend**: react-19, nextjs-15, tailwind-4, zustand-5, angular
 - **Backend**: dotnet, django-drf, ai-sdk-5
