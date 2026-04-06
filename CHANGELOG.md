@@ -5,6 +5,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-04-05
+
+### 🚀 Major Update: DXRK Branding + AI Architecture Skills
+
+Complete ecosystem overhaul with full DXRK branding and AI architecture skills.
+
+### Added
+
+#### 🧠 DXRK Agent Core
+- Complete agent architecture knowledge base (renamed from dxrk-claude-code-internals)
+- Dual-layer AsyncGenerator pattern
+- 12-step permission pipeline
+- Multi-agent coordination with async workers and mailbox
+- Modular prompt system with BOUNDARY cache separator
+- 5-phase self-healing auto-repair protocol
+- Multi-provider LLM fallback strategy
+
+#### 📚 AI Architecture Skills (10 new)
+- `dxrk-agent-core` - Core architecture patterns
+- `dxrk-agent-loop-architect` - Generator pattern
+- `dxrk-tool-control-patterns` - Security pipeline
+- `dxrk-multi-agent-coordinator` - Worker patterns
+- `dxrk-prompt-registry` - Prompt composition
+- `dxrk-auto-repair-protocol` - Error recovery
+- `dxrk-llm-fallback-strategy` - LLM routing
+- `dxrk-free-deployment` - Fly.io, Railway, Render
+- `dxrk-free-memory-stack` - Supabase, Redis, Neon, Turso
+- `dxrk-master-index` - Complete skill catalog
+
+#### 🔄 Automated Orchestration
+- Full auto-trigger system in AGENTS.md
+- 123+ skills with automatic loading based on context
+- Engram persistent memory integration
+- SDD (Spec-Driven Development) workflow ready
+
+### Changed
+
+- All "Claude Code" and "Anthropic" references → DXRK branding
+- AGENTS.md with comprehensive auto-load triggers
+- Skills now properly orchestrated from ~/.claude/skills/
+
+### Fixed
+
+- Version bump script created: `scripts/bump-version.sh`
+
 ## [1.0.0] - 2026-04-01
 
 ### 🎉 Major Release
