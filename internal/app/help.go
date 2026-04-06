@@ -6,7 +6,7 @@ import (
 )
 
 func printHelp(w io.Writer, version string) {
-	fmt.Fprintf(w, `dxrk — AI Gentle Stack (%s)
+	fmt.Fprintf(w, `dxrk — DXRK Hex (%s)
 
 USAGE
   dxrk                     Launch interactive TUI

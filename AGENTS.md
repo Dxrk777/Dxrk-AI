@@ -232,7 +232,7 @@ Dxrk usa **Engram** para memoria persistente.
 
 </div>
 
-<!-- gentle-ai:engram-protocol -->
+<!-- dxrk:engram-protocol -->
 ## Engram Persistent Memory — Protocol
 
 You have access to Engram, a persistent memory system that survives across sessions and compactions.
@@ -317,4 +317,4 @@ If you see a compaction message or "FIRST ACTION REQUIRED":
 3. Only THEN continue working
 
 Do not skip step 1. Without it, everything done before compaction is lost from memory.
-<!-- /gentle-ai:engram-protocol -->
+<!-- /dxrk:engram-protocol -->

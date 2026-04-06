@@ -2,17 +2,17 @@
 triggers:
   - "branch pr"
   - "branch prs"
-name: gentle-ai-branch-pr
+name: dxrk-branch-pr
 description: >
-  PR creation workflow for Gentle AI following the issue-first enforcement system.
+  PR creation workflow for DXRK following the issue-first enforcement system.
   Trigger: When creating a pull request, opening a PR, or preparing changes for review.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk
   version: "2.0"
 ---
 
-# Gentle AI — Branch & PR Skill
+# DXRK — Branch & PR Skill
 
 ## When to Use
 

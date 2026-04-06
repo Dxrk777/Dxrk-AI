@@ -2,7 +2,7 @@
 
 ## Problem
 
-Dxrk-Hex (https://github.com/Dxrk777/Dxrk-Hex) syncs automatically with gentle-ai as its upstream. Currently, it relies on daily polling to detect new releases.
+Dxrk-Hex (https://github.com/Dxrk777/Dxrk-Hex) syncs automatically with DXRK as its upstream. Currently, it relies on daily polling to detect new releases.
 
 ## Solution
 
@@ -34,8 +34,8 @@ jobs:
 
 ## Why This Is Good
 
-1. **Immediate sync**: Dxrk-Hex gets notified instantly when gentle-ai releases
-2. **Zero maintenance for gentle-ai**: The workflow is self-contained
+1. **Immediate sync**: Dxrk-Hex gets notified instantly when DXRK releases
+2. **Zero maintenance for DXRK**: The workflow is self-contained
 3. **No breaking changes**: This is additive, doesn't affect existing functionality
 
 ## Benefits

@@ -3,7 +3,7 @@
 > **Create interchangeable model profiles for OpenCode — switch between orchestrator configurations with a single Tab.**
 
 **Version**: 0.1.0-draft
-**Author**: Gentleman Programming
+**Author**: Dxrk
 **Date**: 2026-04-03
 **Status**: Draft
 
@@ -441,7 +441,7 @@ Sync Start
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                                                          │
-│  ★  Gentleman AI Ecosystem — v0.x.x                     │
+│  ★  DXRK Ecosystem — v0.x.x                     │
 │     Supercharge your AI agents.                          │
 │                                                          │
 │  ▸ Install Ecosystem                                     │

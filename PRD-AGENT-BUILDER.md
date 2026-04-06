@@ -3,16 +3,16 @@
 > **Your ecosystem, your rules. Build custom AI sub-agents from the TUI — no code required.**
 
 **Version**: 0.1.0-draft
-**Author**: Gentleman Programming
+**Author**: Dxrk
 **Date**: 2026-04-03
 **Status**: Draft
-**Parent PRD**: [PRD.md](PRD.md) (Gentleman AI Installer)
+**Parent PRD**: [PRD.md](PRD.md) (DXRK Installer)
 
 ---
 
 ## 1. Problem Statement
 
-The Gentleman AI ecosystem ships with a powerful set of pre-built skills and SDD phases. But every developer works differently. A frontend architect needs a design system reviewer. A security engineer needs a vulnerability scanner agent. A technical writer needs a documentation generator.
+The DXRK ecosystem ships with a powerful set of pre-built skills and SDD phases. But every developer works differently. A frontend architect needs a design system reviewer. A security engineer needs a vulnerability scanner agent. A technical writer needs a documentation generator.
 
 **Today, creating a custom sub-agent requires:**
 
@@ -308,7 +308,7 @@ The prompt sent to the AI engine is critical. It must produce a well-structured 
 #### System Prompt (injected before user input)
 
 ```
-You are an expert AI skill creator for the Gentleman AI ecosystem.
+You are an expert AI skill creator for the DXRK ecosystem.
 Your task is to generate a SKILL.md file based on the user's description.
 
 The SKILL.md format must follow this structure:

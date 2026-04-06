@@ -191,7 +191,7 @@ func TestSelfUpdate_UpdateAvailable_CallsUpgradeAndReExec(t *testing.T) {
 		t.Errorf("reExecCalled = %d, want 1", stubs.reExecCalled)
 	}
 
-	// Verify GENTLE_AI_SELF_UPDATE_DONE=1 is in the re-exec env.
+	// Verify DXRK_SELF_UPDATE_DONE=1 is in the re-exec env.
 	found := false
 	for _, e := range stubs.reExecEnv {
 		if e == envSelfUpdateDone+"=1" {
