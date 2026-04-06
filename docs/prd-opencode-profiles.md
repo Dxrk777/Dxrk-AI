@@ -705,5 +705,5 @@ El orchestrator prompt del default profile referencia sub-agentes como `sdd-appl
 4. **¿Cómo maneja OpenCode el `{file:...}` en prompts? ¿Soporta `~` expansion?**
    → Validar con OpenCode docs. Si no soporta `~`, usar path absoluto expandido durante la generación.
 
-5. **¿El `gentleman` agent (persona) también necesita variantes por perfil?**
-   → No. El `gentleman` agent es la persona general, no parte de SDD. Solo se mirror el modelo del orchestrator default.
+5. **¿El `Dxrk` agent (persona) también necesita variantes por perfil?**
+   → No. El `Dxrk` agent es la persona general, no parte de SDD. Solo se mirror el modelo del orchestrator default.

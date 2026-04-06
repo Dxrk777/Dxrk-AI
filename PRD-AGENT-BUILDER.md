@@ -33,7 +33,7 @@ The DXRK ecosystem ships with a powerful set of pre-built skills and SDD phases.
 Think of it as the "Create Agent" flow from Claude's `/agents` command, but:
 - **Cross-agent**: generates once, installs everywhere (Claude Code, OpenCode, Gemini CLI, Cursor, etc.)
 - **SDD-aware**: can optionally integrate as a new SDD phase or as support for an existing phase
-- **Ecosystem-native**: the generated agent has access to Engram (persistent memory), MCP servers, and follows the Gentleman skill format
+- **Ecosystem-native**: the generated agent has access to Engram (persistent memory), MCP servers, and follows the Dxrk skill format
 - **Preview before install**: you see exactly what will be generated before it touches your filesystem
 
 **Before**: "I want an agent that reviews my CSS for accessibility... I guess I need to write a SKILL.md manually, figure out triggers, and copy it to 4 different directories."

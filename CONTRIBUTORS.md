@@ -6,7 +6,7 @@ Thanks to everyone who has contributed to DXRK. This project exists because of t
 
 | | Name | GitHub |
 |---|---|---|
-| <img src="https://github.com/Alan-TheGentleman.png" width="40"> | **Alan Buscaglia** | [@Alan-TheGentleman](https://github.com/Alan-TheGentleman) |
+| <img src="https://github.com/Alan-TheDxrk.png" width="40"> | **Alan Buscaglia** | [@Alan-TheDxrk](https://github.com/Alan-TheDxrk) |
 
 ## Contributors
 

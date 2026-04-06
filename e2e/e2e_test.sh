@@ -1397,7 +1397,7 @@ test_edge_persona_switch() {
 
     # First install with dxrk (Rioplatense language present)
     $BINARY install --agent claude-code --component persona --persona dxrk 2>&1 || true
-    assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk Mentor" "First install: gentleman persona"
+    assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk Mentor" "First install: Dxrk persona"
 
     # Then install with neutral — should REPLACE persona section.
     # Neutral is the FULL teacher persona (same identity, no regional language).
