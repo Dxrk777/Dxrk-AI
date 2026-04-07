@@ -4,7 +4,7 @@ Repositorio centralizado para sincronizar skills y configuraciones de **Dxrk** a
 
 ## Repos related
 
-- **Dxrk-Hex**: https://github.com/Dxrk777/Dxrk-Hex (configs, skills, sync system)
+- **Dxrk**: https://github.com/Dxrk777/Dxrk (configs, skills, sync system)
 - **Dxrk-Config**: https://github.com/Dxrk777/Dxrk-OpenCode-Config (sync target repo)
 
 ## Estructura

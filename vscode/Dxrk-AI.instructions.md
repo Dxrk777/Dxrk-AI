@@ -201,7 +201,7 @@ Dxrk usa **Engram** para memoria persistente.
 
 ## 🔗 Recursos
 
-- **Repositorio:** [Dxrk-Hex](https://github.com/Dxrk777/Dxrk)
+- **Repositorio:** [Dxrk](https://github.com/Dxrk777/Dxrk)
 - **Skills:** Verificar `~/.claude/skills/` para skills disponibles
 
 ---
