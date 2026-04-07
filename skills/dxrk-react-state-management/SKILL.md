@@ -1,7 +1,4 @@
 ---
-triggers:
-  - "react state management"
-  - "react state managements"
 name: react-state-management
 description: "Master modern React state management with Redux Toolkit, Zustand, Jotai, and React Query. Use when setting up global state, managing server state, or choosing between state management solutions."
 risk: unknown

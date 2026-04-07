@@ -1,7 +1,4 @@
 ---
-triggers:
-  - "unit testing test generate"
-  - "unit testing test generates"
 name: unit-testing-test-generate
 description: "Generate comprehensive, maintainable unit tests across languages with strong coverage and edge case focus."
 risk: unknown

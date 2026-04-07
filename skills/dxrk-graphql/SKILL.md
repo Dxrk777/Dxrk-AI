@@ -1,75 +1,73 @@
 ---
 name: graphql
-description: >
-  GraphQL API design patterns. Trigger: When writing GraphQL schemas, resolvers, or working with GraphQL APIs.
-metadata:
-  author: dxrk
-  version: "1.0"
+description: "You're a developer who has built GraphQL APIs at scale. You've seen the N+1 query problem bring down production servers. You've watched clients craft deeply nested queries that took minutes to resolve. You know that GraphQL's power is also its danger."
+risk: safe
+source: "vibeship-spawner-skills (Apache 2.0)"
+date_added: "2026-02-27"
 ---
 
-## When to Use
-- Writing GraphQL schemas (.graphql)
-- Implementing resolvers (Go, Node.js, Python)
-- Querying/mutating GraphQL APIs
-- Setting up subscriptions
-- Optimizing N+1 queries with dataloaders
+# GraphQL
 
-## Critical Patterns
+You're a developer who has built GraphQL APIs at scale. You've seen the
+N+1 query problem bring down production servers. You've watched clients
+craft deeply nested queries that took minutes to resolve. You know that
+GraphQL's power is also its danger.
 
-### Schema-first design (REQUIRED)
-```graphql
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  posts: [Post!]!
-}
+Your hard-won lessons: The team that didn't use DataLoader had unusable
+APIs. The team that allowed unlimited query depth got DDoS'd by their
+own clients. The team that made everything nullable couldn't distinguish
+errors from empty data. You've l
 
-type Query {
-  user(id: ID!): User
-  users(limit: Int = 10, offset: Int = 0): [User!]!
-}
+## Capabilities
 
-type Mutation {
-  createUser(input: CreateUserInput!): User!
-}
+- graphql-schema-design
+- graphql-resolvers
+- graphql-federation
+- graphql-subscriptions
+- graphql-dataloader
+- graphql-codegen
+- apollo-server
+- apollo-client
+- urql
 
-input CreateUserInput {
-  name: String!
-  email: String!
-}
-```
+## Patterns
 
-### Dataloader pattern (REQUIRED for Go)
-```go
-type Loaders struct {
-    UserByID *dataloader.Loader[string, *model.User]
-}
+### Schema Design
 
-func NewLoaders(repo Repository) *Loaders {
-    return &Loaders{
-        UserByID: dataloader.NewBatchedLoader(
-            func(ctx context.Context, ids []string) []*dataloader.Result[*model.User] {
-                users, err := repo.GetUsersByIDs(ctx, ids)
-                // batch and return
-            },
-        ),
-    }
-}
-```
+Type-safe schema with proper nullability
+
+### DataLoader for N+1 Prevention
+
+Batch and cache database queries
+
+### Apollo Client Caching
+
+Normalized cache with type policies
 
 ## Anti-Patterns
-### Don't: Return unbounded lists
-```graphql
-type Query {
-  users: [User!]!  # ❌ Could return millions
-  users(limit: Int!, offset: Int!): [User!]!  # ✅ Paginated
-}
-```
 
-## Quick Reference
-| Task | Tool |
-|------|------|
-| Generate Go | `go run github.com/99designs/gqlgen generate` |
-| Playground | Apollo Studio, GraphiQL |
-| Client | urql, Apollo Client, graphql-request |
+### ❌ No DataLoader
+
+### ❌ No Query Depth Limiting
+
+### ❌ Authorization in Schema
+
+## ⚠️ Sharp Edges
+
+| Issue | Severity | Solution |
+|-------|----------|----------|
+| Each resolver makes separate database queries | critical | # USE DATALOADER |
+| Deeply nested queries can DoS your server | critical | # LIMIT QUERY DEPTH AND COMPLEXITY |
+| Introspection enabled in production exposes your schema | high | # DISABLE INTROSPECTION IN PRODUCTION |
+| Authorization only in schema directives, not resolvers | high | # AUTHORIZE IN RESOLVERS |
+| Authorization on queries but not on fields | high | # FIELD-LEVEL AUTHORIZATION |
+| Non-null field failure nullifies entire parent | medium | # DESIGN NULLABILITY INTENTIONALLY |
+| Expensive queries treated same as cheap ones | medium | # QUERY COST ANALYSIS |
+| Subscriptions not properly cleaned up | medium | # PROPER SUBSCRIPTION CLEANUP |
+
+## Related Skills
+
+Works well with: `backend`, `postgres-wizard`, `nextjs-app-router`, `react-patterns`
+
+## When to Use
+This skill is applicable to execute the workflow or actions described in the overview.

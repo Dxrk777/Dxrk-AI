@@ -1,7 +1,4 @@
 ---
-triggers:
-  - "python fastapi development"
-  - "python fastapi developments"
 name: python-fastapi-development
 description: "Python FastAPI backend development with async patterns, SQLAlchemy, Pydantic, authentication, and production API patterns."
 category: granular-workflow-bundle

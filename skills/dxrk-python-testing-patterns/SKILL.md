@@ -1,7 +1,4 @@
 ---
-triggers:
-  - "python testing patterns"
-  - "python testing patternss"
 name: python-testing-patterns
 description: "Implement comprehensive testing strategies with pytest, fixtures, mocking, and test-driven development. Use when writing Python tests, setting up test suites, or implementing testing best practices."
 risk: safe

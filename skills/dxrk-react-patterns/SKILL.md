@@ -1,7 +1,4 @@
 ---
-triggers:
-  - "react patterns"
-  - "react framework"
 name: react-patterns
 description: "Modern React patterns and principles. Hooks, composition, performance, TypeScript best practices."
 risk: safe

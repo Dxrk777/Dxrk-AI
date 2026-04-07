@@ -1,7 +1,4 @@
 ---
-triggers:
-  - "react best practices"
-  - "react best practicess"
 name: react-best-practices
 description: "Comprehensive performance optimization guide for React and Next.js applications, maintained by Vercel. Use when writing new React components or Next.js pages, implementing data fetching (client or server-side), or reviewing code for performance issues."
 risk: safe
