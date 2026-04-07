@@ -15,7 +15,7 @@ var mvpComponents = []Component{
 	{ID: model.ComponentContext7, Name: "Context7", Description: "Latest framework and library docs"},
 	{ID: model.ComponentPersona, Name: "Persona", Description: "Dxrk, neutral or custom behavior"},
 	{ID: model.ComponentPermission, Name: "Permissions", Description: "Security-first defaults and guardrails"},
-	{ID: model.ComponentDxrk, Name: "Dxrk", Description: "Dxrk Hell — AI provider switcher"},
+	{ID: model.ComponentDxrk, Name: "Dxrk", Description: "Dxrk — AI provider switcher"},
 	{ID: model.ComponentTheme, Name: "Theme", Description: "Dxrk Kanagawa theme overlay (future)"},
 }
 

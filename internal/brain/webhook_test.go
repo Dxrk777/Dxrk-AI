@@ -78,14 +78,14 @@ func TestWebhookClientString(t *testing.T) {
 func TestWebhookMessage(t *testing.T) {
 	msg := WebhookMessage{
 		Content:  "Hello, World!",
-		Username: "Dxrk Hell",
+		Username: "Dxrk",
 	}
 
 	if msg.Content != "Hello, World!" {
 		t.Errorf("Expected content, got %s", msg.Content)
 	}
 
-	if msg.Username != "Dxrk Hell" {
+	if msg.Username != "Dxrk" {
 		t.Errorf("Expected username, got %s", msg.Username)
 	}
 }

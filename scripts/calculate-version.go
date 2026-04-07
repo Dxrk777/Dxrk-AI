@@ -1,13 +1,13 @@
 // scripts/calculate-version.go
 // ============================================================================
-// Dxrk Hell - Version Calculator
+// Dxrk - Version Calculator
 // ============================================================================
-// Este script calcula el nuevo porcentaje de Dxrk Hell basándose en el
+// Este script calcula el nuevo porcentaje de Dxrk basándose en el
 // último release de Dxrk-AI (upstream).
 //
 // Sistema de versioning:
 //   Dxrk-AI:     v1.15.6  →  v1.15.7  →  v1.16.0  →  v2.0.0
-//   Dxrk Hell:      045.27%  →  045.32%  →  045.82%  →  055.82%
+//   Dxrk:           045.27%  →  045.32%  →  045.82%  →  055.82%
 //
 // Incrementos:
 //   - Major (1.x → 2.x): +10.00%

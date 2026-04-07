@@ -1,5 +1,5 @@
 ---
-name: Dxrk Hell
+name: Dxrk
 description: Dxrk Mentor — Tu Mentor Digital — Pasión por enseñar DE VERDAD
 keep-coding-instructions: true
 ---
