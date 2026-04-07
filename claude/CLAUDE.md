@@ -1,6 +1,6 @@
 # Instructions
 
-<!-- gentle-ai:engram-protocol -->
+<!-- dxrk:engram-protocol -->
 ## Engram Persistent Memory — Protocol
 
 You have access to Engram, a persistent memory system that survives across sessions and compactions.
@@ -85,9 +85,9 @@ If you see a compaction message or "FIRST ACTION REQUIRED":
 3. Only THEN continue working
 
 Do not skip step 1. Without it, everything done before compaction is lost from memory.
-<!-- /gentle-ai:engram-protocol -->
+<!-- /dxrk:engram-protocol -->
 
-<!-- gentle-ai:persona -->
+<!-- dxrk:persona -->
 # 🔥 DXRK — Sistema de Personalidad para Claude Code
 
 > *"Tu mentor digital. No te doy la respuesta — te ayudo a encontrarla."*
@@ -287,7 +287,7 @@ Dxrk usa **Engram** para memoria persistente.
 
 ## 🔗 Recursos
 
-- **Repositorio:** [Dxrk-Hex](https://github.com/Dxrk777/Dxrk-Hex)
+- **Repositorio:** [Dxrk-Hex](https://github.com/Dxrk777/Dxrk)
 - **Skills:** Verificar `~/.claude/skills/` para skills disponibles
 
 ---
@@ -305,9 +305,9 @@ Dxrk usa **Engram** para memoria persistente.
 ```
 
 </div>
-<!-- /gentle-ai:persona -->
+<!-- /dxrk:persona -->
 
-<!-- gentle-ai:sdd-orchestrator -->
+<!-- dxrk:sdd-orchestrator -->
 # Agent Teams Lite — Orchestrator Instructions
 
 Bind this to the dedicated `sdd-orchestrator` agent or rule only. Do NOT apply it to executor phase agents such as `sdd-apply` or `sdd-verify`.
@@ -397,7 +397,7 @@ proposal -> specs --> tasks -> apply -> verify -> archive
 ### Result Contract
 Each phase returns: `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`, `skill_resolution`.
 
-<!-- gentle-ai:sdd-model-assignments -->
+<!-- dxrk:sdd-model-assignments -->
 ## Model Assignments
 
 Read this table at session start (or before first delegation), cache it for the session, and pass the mapped alias in every Agent tool call via the `model` parameter. If a phase is missing, use the `default` row. If you lack access to the assigned model, substitute `sonnet` and continue.
@@ -415,7 +415,7 @@ Read this table at session start (or before first delegation), cache it for the 
 | sdd-archive | haiku | Copy and close |
 | default | sonnet | Non-SDD general delegation |
 
-<!-- /gentle-ai:sdd-model-assignments -->
+<!-- /dxrk:sdd-model-assignments -->
 
 ### Sub-Agent Launch Pattern
 
@@ -500,11 +500,11 @@ Convention files under the agent's global skills directory (global) or `.agent/s
 - `engram` → `mem_search(...)` → `mem_get_observation(...)`
 - `openspec` → read `openspec/changes/*/state.yaml`
 - `none` → state not persisted — explain to user
-<!-- /gentle-ai:sdd-orchestrator -->
+<!-- /dxrk:sdd-orchestrator -->
 
-<!-- gentle-ai:strict-tdd-mode -->
+<!-- dxrk:strict-tdd-mode -->
 Strict TDD Mode: enabled
-<!-- /gentle-ai:strict-tdd-mode -->
+<!-- /dxrk:strict-tdd-mode -->
 
 <!-- Dxrk-AI:sdd-orchestrator -->
 # Agent Teams Lite — Orchestrator Instructions
@@ -1014,7 +1014,7 @@ Dxrk usa **Engram** para memoria persistente.
 
 ## 🔗 Recursos
 
-- **Repositorio:** [Dxrk-Hex](https://github.com/Dxrk777/Dxrk-Hex)
+- **Repositorio:** [Dxrk-Hex](https://github.com/Dxrk777/Dxrk)
 - **Skills:** Verificar `~/.claude/skills/` para skills disponibles
 
 ---
