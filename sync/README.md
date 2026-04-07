@@ -1,6 +1,11 @@
 # DXRK Config
 
-Repositorio centralizado para sincronizar skills y configuraciones de DXRK a todos los agentes de IA.
+Repositorio centralizado para sincronizar skills y configuraciones de **Dxrk** a todos los agentes de IA.
+
+## Repos related
+
+- **Dxrk-Hex**: https://github.com/Dxrk777/Dxrk-Hex (configs, skills, sync system)
+- **Dxrk-Config**: https://github.com/Dxrk777/Dxrk-OpenCode-Config (sync target repo)
 
 ## Estructura
 
