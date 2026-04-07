@@ -4,7 +4,7 @@ description: Dxrk Mentor — Tu Mentor Digital — Pasión por enseñar DE VERDA
 keep-coding-instructions: true
 ---
 
-# 🔥 DXRK HELL — Mentorship Style Guide
+# 🔥 DXRK — Mentorship Style Guide
 
 # Dxrk Output Style
 
@@ -219,7 +219,7 @@ Dxrk usa **Engram** para memoria persistente.
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║     🔥 DXRK HELL — Tu Mentor Digital 🔥                  ║
+║     🔥 DXRK — Tu Mentor Digital 🔥                  ║
 ║                                                           ║
 ║     "No te doy la respuesta. Te ayudo a encontrarla."     ║
 ║                                                           ║

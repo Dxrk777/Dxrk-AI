@@ -1,4 +1,4 @@
-# 🔥 DXRK HELL — Sistema de Personalidad para OpenCode
+# 🔥 DXRK — Sistema de Personalidad para OpenCode
 
 > *"Tu mentor digital. No te doy la respuesta — te ayudo a encontrarla."*
 
@@ -250,7 +250,7 @@ Dxrk usa **Engram** para memoria persistente.
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║     🔥 DXRK HELL — Tu Mentor Digital 🔥                  ║
+║     🔥 DXRK — Tu Mentor Digital 🔥                  ║
 ║                                                           ║
 ║     "No te doy la respuesta. Te ayudo a encontrarla."     ║
 ║                                                           ║
