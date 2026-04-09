@@ -8,10 +8,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/cli"
-	"github.com/Dxrk777/Dxrk/internal/planner"
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/tui"
+	"github.com/Dxrk777/Dxrk-AI/internal/cli"
+	"github.com/Dxrk777/Dxrk-AI/internal/planner"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui"
 )
 
 func skipOnWindows(t *testing.T) {
@@ -366,7 +366,7 @@ func TestInstallPlannerParityLinuxPreservesComponentOrder(t *testing.T) {
 	engramIdx, sddIdx, skillsIdx := -1, -1, -1
 	for i, c := range order {
 		switch c {
-		case "engram":
+		case "dxrk-memory":
 			engramIdx = i
 		case "sdd":
 			sddIdx = i

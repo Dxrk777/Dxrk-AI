@@ -33,11 +33,11 @@ go build ./...
 
 **Tests**: ✅ 37 packages pass / ❌ 0 failed / ⚠️ 0 skipped
 ```
-ok  github.com/gentleman-programming/Dxrk-AI/internal/components/sdd   13.718s
-ok  github.com/gentleman-programming/Dxrk-AI/internal/tui/screens      0.077s
-ok  github.com/gentleman-programming/Dxrk-AI/internal/tui              2.244s
-ok  github.com/gentleman-programming/Dxrk-AI/internal/cli              28.899s
-ok  github.com/gentleman-programming/Dxrk-AI/internal/model            0.147s
+ok  github.com/dxrk777/Dxrk-AI/internal/components/sdd   13.718s
+ok  github.com/dxrk777/Dxrk-AI/internal/tui/screens      0.077s
+ok  github.com/dxrk777/Dxrk-AI/internal/tui              2.244s
+ok  github.com/dxrk777/Dxrk-AI/internal/cli              28.899s
+ok  github.com/dxrk777/Dxrk-AI/internal/model            0.147s
 # All 37 packages pass; 0 failures
 ```
 

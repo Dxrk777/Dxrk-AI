@@ -123,7 +123,7 @@ After upgrading, run `[Dd]xrk-ai sync` to refresh all managed assets to the new 
 
 ```bash
 # First time: install everything
-brew install gentleman-programming/tap/[Dd]xrk-ai
+brew install dxrk777/tap/[Dd]xrk-ai
 [Dd]xrk-ai install --agent claude-code,cursor --preset full-gentleman
 
 # After a new release: upgrade + sync

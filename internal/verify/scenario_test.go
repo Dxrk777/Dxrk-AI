@@ -10,7 +10,7 @@ import (
 func TestScenarioReadyWhenAllChecksPass(t *testing.T) {
 	checks := []Check{
 		{
-			ID:          "engram-health",
+			ID:          "dxrk-memory-health",
 			Description: "Engram health endpoint responds",
 			Run: func(context.Context) error {
 				return nil
@@ -42,7 +42,7 @@ func TestScenarioReadyWhenAllChecksPass(t *testing.T) {
 func TestScenarioNotReadyWhenAnyCheckFails(t *testing.T) {
 	checks := []Check{
 		{
-			ID: "engram-health",
+			ID: "dxrk-memory-health",
 			Run: func(context.Context) error {
 				return errors.New("503 service unavailable")
 			},
@@ -65,7 +65,7 @@ func TestScenarioNotReadyWhenAnyCheckFails(t *testing.T) {
 	}
 
 	rendered := RenderReport(report)
-	if !strings.Contains(rendered, "[!!] engram-health") {
+	if !strings.Contains(rendered, "[!!] dxrk-memory-health") {
 		t.Fatalf("RenderReport() missing failed check line: %q", rendered)
 	}
 

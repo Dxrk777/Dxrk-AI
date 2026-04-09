@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 func TestComponentPathsSDDIncludesSystemPromptForAllSupportedAgents(t *testing.T) {
@@ -78,7 +78,7 @@ func TestComponentPathsSDDIncludesSkillsAndSharedConventions(t *testing.T) {
 	// Verify all four shared convention files are reported.
 	for _, sharedFile := range []string{
 		"persistence-contract.md",
-		"engram-convention.md",
+		"dxrk-memory-convention.md",
 		"openspec-convention.md",
 		"sdd-phase-common.md",
 		"skill-resolver.md",

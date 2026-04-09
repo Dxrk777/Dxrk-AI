@@ -6,7 +6,7 @@ description: >
   markdown to `gh release create/edit`, or writing shell commands that include backticks.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "1.0"
 ---
 

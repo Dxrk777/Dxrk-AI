@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 func TestTopologicalSortOrdersDependenciesFirst(t *testing.T) {

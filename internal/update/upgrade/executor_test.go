@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/backup"
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-AI/internal/backup"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/update"
 )
 
 // --- helpers ---
@@ -47,7 +47,7 @@ func makeResult(name string, status update.UpdateStatus, oldVer, newVer string, 
 func TestExecute_NoopWhenNothingIsExecutable(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk", update.UpToDate, "1.0.0", "1.0.0", update.InstallBinary),
-		makeResult("engram", update.NotInstalled, "", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.NotInstalled, "", "0.4.0", update.InstallGoInstall),
 		// dxrk: CheckFailed — should also be omitted from results.
 		makeResult("dxrk", update.CheckFailed, "", "", update.InstallScript),
 	}
@@ -124,7 +124,7 @@ func TestExecute_BackupBeforeExecution(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -156,7 +156,7 @@ func TestExecute_DryRunNeverExecs(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -198,7 +198,7 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -229,7 +229,7 @@ func TestExecute_DevBuildIsSkipped(t *testing.T) {
 
 	results := []update.UpdateResult{
 		makeResult("dxrk", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[1].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -256,7 +256,7 @@ func TestExecute_DevBuildIsSkipped(t *testing.T) {
 	// engram should still be processed as succeeded.
 	found := false
 	for _, r := range report.Results {
-		if r.ToolName == "engram" {
+		if r.ToolName == "dxrk-memory" {
 			found = true
 			if r.Status != UpgradeSucceeded {
 				t.Errorf("engram status = %q, want UpgradeSucceeded", r.Status)
@@ -282,7 +282,7 @@ func TestExecute_FailureDoesNotImplyConfigLoss(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -315,9 +315,9 @@ func TestExecute_FailureDoesNotImplyConfigLoss(t *testing.T) {
 func TestExecute_InstallNotInvoked(t *testing.T) {
 	// This test is intentionally a documentation-only guard.
 	// The real enforcement is: this package MUST NOT import:
-	//   - github.com/Dxrk777/Dxrk/internal/pipeline
-	//   - github.com/Dxrk777/Dxrk/internal/planner
-	//   - github.com/Dxrk777/Dxrk/internal/cli
+	//   - github.com/Dxrk777/Dxrk-AI/internal/pipeline
+	//   - github.com/Dxrk777/Dxrk-AI/internal/planner
+	//   - github.com/Dxrk777/Dxrk-AI/internal/cli
 	//
 	// If you see those imports appear, the isolation contract is broken.
 	// See TestExecuteImportBoundary for the compile-time enforcement approach.
@@ -339,7 +339,7 @@ func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
 
 	results := []update.UpdateResult{
 		makeResult("dxrk", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[1].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -369,7 +369,7 @@ func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
 	// engram (UpdateAvailable) must still be processed normally.
 	found := false
 	for _, r := range report.Results {
-		if r.ToolName == "engram" {
+		if r.ToolName == "dxrk-memory" {
 			found = true
 			if r.Status != UpgradeSucceeded {
 				t.Errorf("engram status = %q, want UpgradeSucceeded", r.Status)
@@ -403,7 +403,7 @@ func TestExecute_ManualFallbackSurfacedAsSkippedNotFailed(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
 	}
-	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk/releases"
+	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk-AI/releases"
 
 	report := Execute(context.Background(), results, windowsProfile, t.TempDir(), false)
 
@@ -467,7 +467,7 @@ func TestExecute_ConfigNotMutatedDuringUpgrade(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -501,7 +501,7 @@ func TestExecute_ConfigNotMutatedDuringUpgrade(t *testing.T) {
 func TestToolUpgradeResult_ErrorWrapping(t *testing.T) {
 	sentinel := errors.New("sentinel error")
 	r := ToolUpgradeResult{
-		ToolName: "engram",
+		ToolName: "dxrk-memory",
 		Status:   UpgradeFailed,
 		Err:      sentinel,
 	}
@@ -586,7 +586,7 @@ func TestExecute_BackupWarningWhenBackupFails(t *testing.T) {
 	// a root process could still write), we verify the contract via BackupWarning
 	// field when BackupID is empty.
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -648,7 +648,7 @@ func TestExecute_ForcedSnapshotFailureSurfacesWarningEndToEnd(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -717,7 +717,7 @@ func TestExecute_UpgradeBackupManifestHasUpgradeMetadata(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -766,7 +766,7 @@ func TestExecute_SuccessfulSnapshotHasNoWarning(t *testing.T) {
 	// snapshotCreator is intentionally left at its real default.
 
 	results := []update.UpdateResult{
-		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
+		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
 
@@ -879,7 +879,7 @@ func TestExecute_SkippedUpgradeDoesNotRenderFailureMarker(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
 	}
-	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk/releases"
+	results[0].UpdateHint = "See https://github.com/Dxrk777/Dxrk-AI/releases"
 
 	// Capture the progress output written to the progress writer.
 	var progressBuf bytes.Buffer

@@ -1,11 +1,11 @@
 ---
-name: gentleman-installer
+name: dxrk-installer
 description: >
   Installation step patterns for Gentleman.Dots TUI installer.
   Trigger: When editing installer.go, adding installation steps, or modifying the installation flow.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk-programming
   version: "1.0"
 ---
 
@@ -262,10 +262,10 @@ SendLog(stepID, "✓ Step completed")      // Success
 ## Commands
 
 ```bash
-cd installer && go build ./cmd/gentleman-installer           # Build
-./gentleman-installer --help                                  # Show help
-./gentleman-installer --non-interactive --shell=fish         # Non-interactive
-GENTLEMAN_VERBOSE=1 ./gentleman-installer --non-interactive  # Verbose logs
+cd installer && go build ./cmd/dxrk-installer           # Build
+./dxrk-installer --help                                  # Show help
+./dxrk-installer --non-interactive --shell=fish         # Non-interactive
+GENTLEMAN_VERBOSE=1 ./dxrk-installer --non-interactive  # Verbose logs
 ```
 
 ---

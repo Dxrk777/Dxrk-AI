@@ -47,7 +47,7 @@ OS=$(uname -s)
 install_cron() {
     echo -e "${BLUE}[1/3]${NC} Configurando cron job..."
 
-    CRON_CMD="@daily curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/update.sh | bash"
+    CRON_CMD="@daily curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/update.sh | bash"
 
     # Agregar al crontab
     (
@@ -86,7 +86,7 @@ install_launchagent() {
     <array>
         <string>/bin/bash</string>
         <string>-c</string>
-        <string>curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/update.sh | bash</string>
+        <string>curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/update.sh | bash</string>
     </array>
     <key>StartInterval</key>
     <integer>86400</integer>
@@ -130,7 +130,7 @@ Description=Dxrk AI Auto Update
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/update.sh | bash"
+ExecStart=/bin/bash -c "curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/update.sh | bash"
 EOF
 
     # Crear timer
@@ -198,7 +198,7 @@ else
     read -p "  Instalar dxrk ahora? [y/N] " -n 1 -r
     echo ""
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.sh | bash
+        curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/install-dxrk.sh | bash
     fi
 fi
 

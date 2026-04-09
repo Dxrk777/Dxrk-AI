@@ -15,8 +15,8 @@ var (
 )
 
 func VerifyInstalled() error {
-	if _, err := lookPath("engram"); err != nil {
-		return fmt.Errorf("engram binary not found in PATH: %w", err)
+	if _, err := lookPath("dxrk-memory"); err != nil {
+		return fmt.Errorf("dxrk-memory binary not found in PATH: %w", err)
 	}
 
 	return nil
@@ -25,7 +25,7 @@ func VerifyInstalled() error {
 // VerifyVersion runs "engram version" and returns the trimmed output.
 // Returns an error if the command fails or produces no output.
 func VerifyVersion() (string, error) {
-	cmd := execCommand("engram", "version")
+	cmd := execCommand("dxrk-memory", "version")
 	out, err := cmd.Output()
 	if err != nil {
 		return "", fmt.Errorf("engram version command failed: %w", err)

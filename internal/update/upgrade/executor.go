@@ -3,9 +3,9 @@
 // isolated from install, pipeline, planner, and config-sync code paths.
 //
 // Import boundary: this package MUST NOT import:
-//   - github.com/Dxrk777/Dxrk/internal/pipeline
-//   - github.com/Dxrk777/Dxrk/internal/planner
-//   - github.com/Dxrk777/Dxrk/internal/cli
+//   - github.com/Dxrk777/Dxrk-AI/internal/pipeline
+//   - github.com/Dxrk777/Dxrk-AI/internal/planner
+//   - github.com/Dxrk777/Dxrk-AI/internal/cli
 package upgrade
 
 import (
@@ -17,11 +17,11 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/backup"
-	"github.com/Dxrk777/Dxrk/internal/components/dxrk"
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/backup"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/update"
 )
 
 // Package-level vars for testability — same pattern as internal/update/detect.go.

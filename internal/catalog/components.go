@@ -1,6 +1,6 @@
 package catalog
 
-import "github.com/Dxrk777/Dxrk/internal/model"
+import "github.com/Dxrk777/Dxrk-AI/internal/model"
 
 type Component struct {
 	ID          model.ComponentID
@@ -9,7 +9,7 @@ type Component struct {
 }
 
 var mvpComponents = []Component{
-	{ID: model.ComponentEngram, Name: "Engram", Description: "Persistent cross-session memory"},
+	{ID: model.ComponentEngram, Name: "Dxrk Memory", Description: "Persistent cross-session memory"},
 	{ID: model.ComponentSDD, Name: "SDD", Description: "Spec-driven development workflow"},
 	{ID: model.ComponentSkills, Name: "Skills", Description: "Curated coding skill library"},
 	{ID: model.ComponentContext7, Name: "Context7", Description: "Latest framework and library docs"},

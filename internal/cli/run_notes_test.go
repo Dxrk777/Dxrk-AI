@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/planner"
-	"github.com/Dxrk777/Dxrk/internal/verify"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/planner"
+	"github.com/Dxrk777/Dxrk-AI/internal/verify"
 )
 
 func TestWithPostInstallNotesAddsDxrkNextSteps(t *testing.T) {

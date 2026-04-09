@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 // TestResolveEngramInstallNonBrewReturnsError verifies that after the fix,
@@ -58,7 +58,7 @@ func TestInstallCommandBrewStillWorks(t *testing.T) {
 	found := false
 	for _, cmd := range cmds {
 		for _, arg := range cmd {
-			if strings.Contains(arg, "engram") {
+			if strings.Contains(arg, "dxrk-memory") {
 				found = true
 			}
 		}

@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/components/engram"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 // TestRunInstallLinuxEngramUsesDownloadNotGoInstall verifies that after the fix,
@@ -39,7 +39,7 @@ func TestRunInstallLinuxEngramUsesDownloadNotGoInstall(t *testing.T) {
 
 	detection := linuxDetectionResult(system.LinuxDistroUbuntu, "apt")
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -52,14 +52,14 @@ func TestRunInstallLinuxEngramUsesDownloadNotGoInstall(t *testing.T) {
 
 	// Must NOT have called "go install" for engram.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "engram") {
+		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
 			t.Fatalf("Linux engram install should NOT use go install, got command: %s", cmd)
 		}
 	}
 }
 
 // TestRunInstallEngramDownloadAddsBinDirToPath verifies that after downloading
-// the engram binary, its directory is prepended to PATH so that subsequent
+// the dxrk-memory binary, its directory is prepended to PATH so that subsequent
 // commands (engram setup, resolveEngramCommand) can find it.
 func TestRunInstallEngramDownloadAddsBinDirToPath(t *testing.T) {
 	home := t.TempDir()
@@ -79,9 +79,9 @@ func TestRunInstallEngramDownloadAddsBinDirToPath(t *testing.T) {
 	recorder := &commandRecorder{}
 	runCommand = recorder.record
 
-	fakeBinDir := filepath.Join(home, "engram-bin")
+	fakeBinDir := filepath.Join(home, "dxrk-memory-bin")
 	os.MkdirAll(fakeBinDir, 0o755)
-	fakeBinaryPath := filepath.Join(fakeBinDir, "engram")
+	fakeBinaryPath := filepath.Join(fakeBinDir, "dxrk-memory")
 
 	origDownloadFn := engramDownloadFn
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
@@ -91,7 +91,7 @@ func TestRunInstallEngramDownloadAddsBinDirToPath(t *testing.T) {
 
 	detection := linuxDetectionResult(system.LinuxDistroUbuntu, "apt")
 	_, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -141,7 +141,7 @@ func TestRunInstallWindowsEngramUsesDownloadNotGoInstall(t *testing.T) {
 	}
 
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -154,7 +154,7 @@ func TestRunInstallWindowsEngramUsesDownloadNotGoInstall(t *testing.T) {
 
 	// Must NOT have called "go install" for engram.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "engram") {
+		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
 			t.Fatalf("Windows engram install should NOT use go install, got command: %s", cmd)
 		}
 	}
@@ -187,7 +187,7 @@ func TestRunInstallMacOSEngramStillUsesBrew(t *testing.T) {
 
 	detection := macOSDetectionResult()
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {

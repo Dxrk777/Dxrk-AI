@@ -9,8 +9,8 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/update"
 )
 
 // --- TestRunStrategy_BrewUpgrade ---
@@ -29,7 +29,7 @@ func TestRunStrategy_BrewUpgrade(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "engram",
+			Name:          "dxrk-memory",
 			InstallMethod: update.InstallBrew,
 		},
 		LatestVersion: "0.4.0",
@@ -44,7 +44,7 @@ func TestRunStrategy_BrewUpgrade(t *testing.T) {
 	if gotName != "brew" {
 		t.Errorf("exec name = %q, want %q", gotName, "brew")
 	}
-	if len(gotArgs) < 2 || gotArgs[0] != "upgrade" || gotArgs[1] != "engram" {
+	if len(gotArgs) < 2 || gotArgs[0] != "upgrade" || gotArgs[1] != "dxrk-memory" {
 		t.Errorf("exec args = %v, want [upgrade engram]", gotArgs)
 	}
 }
@@ -65,7 +65,7 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "engram",
+			Name:          "dxrk-memory",
 			InstallMethod: update.InstallGoInstall,
 			GoImportPath:  "github.com/dxrk/engram/cmd/engram",
 		},
@@ -93,7 +93,7 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 func TestRunStrategy_GoInstallMissingImportPath(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "engram",
+			Name:          "dxrk-memory",
 			InstallMethod: update.InstallGoInstall,
 			GoImportPath:  "", // missing
 		},
@@ -138,7 +138,7 @@ func TestRunStrategy_BrewUpgradeFailure(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "engram",
+			Name:          "dxrk-memory",
 			InstallMethod: update.InstallBrew,
 		},
 		LatestVersion: "0.4.0",
@@ -163,7 +163,7 @@ func TestRunStrategy_GoInstallFailure(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "engram",
+			Name:          "dxrk-memory",
 			InstallMethod: update.InstallGoInstall,
 			GoImportPath:  "github.com/dxrk/engram/cmd/engram",
 		},
@@ -198,7 +198,7 @@ func TestRunStrategy_BinaryWindowsSelfUpdateSkipped(t *testing.T) {
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
-		ReleaseURL:    "https://github.com/Dxrk777/Dxrk/releases/tag/v1.5.0",
+		ReleaseURL:    "https://github.com/Dxrk777/Dxrk-AI/releases/tag/v1.5.0",
 	}
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
 
@@ -224,7 +224,7 @@ func TestEffectiveMethod(t *testing.T) {
 	}{
 		{
 			name:    "brew profile overrides go-install",
-			tool:    update.ToolInfo{Name: "engram", InstallMethod: update.InstallGoInstall},
+			tool:    update.ToolInfo{Name: "dxrk-memory", InstallMethod: update.InstallGoInstall},
 			profile: system.PlatformProfile{PackageManager: "brew"},
 			want:    update.InstallBrew,
 		},
@@ -242,7 +242,7 @@ func TestEffectiveMethod(t *testing.T) {
 		},
 		{
 			name:    "apt profile respects declared method (go-install)",
-			tool:    update.ToolInfo{Name: "engram", InstallMethod: update.InstallGoInstall},
+			tool:    update.ToolInfo{Name: "dxrk-memory", InstallMethod: update.InstallGoInstall},
 			profile: system.PlatformProfile{PackageManager: "apt"},
 			want:    update.InstallGoInstall,
 		},
@@ -281,7 +281,7 @@ func TestManualFallbackHint(t *testing.T) {
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
-		UpdateHint:    "See https://github.com/Dxrk777/Dxrk/releases",
+		UpdateHint:    "See https://github.com/Dxrk777/Dxrk-AI/releases",
 	}
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
 
@@ -397,7 +397,7 @@ func TestRunStrategy_ExecErrorWrapped(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "engram",
+			Name:          "dxrk-memory",
 			InstallMethod: update.InstallBrew,
 		},
 		LatestVersion: "0.4.0",
@@ -750,9 +750,9 @@ func TestEngramUpgradeUsesDownloadNotGoInstall(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "engram",
+			Name:          "dxrk-memory",
 			Owner:         "Dxrk",
-			Repo:          "engram",
+			Repo:          "dxrk-memory",
 			InstallMethod: update.InstallBinary, // should be InstallBinary after fix
 		},
 		LatestVersion: "0.5.0",
@@ -799,9 +799,9 @@ func TestEngramUpgradeLinuxUsesDownload(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "engram",
+			Name:          "dxrk-memory",
 			Owner:         "Dxrk",
-			Repo:          "engram",
+			Repo:          "dxrk-memory",
 			InstallMethod: update.InstallBinary, // should be InstallBinary after fix
 		},
 		LatestVersion: "0.5.0",

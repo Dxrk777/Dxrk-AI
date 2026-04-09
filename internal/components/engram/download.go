@@ -14,13 +14,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 const (
-	engramOwner = "Gentleman-Programming"
-	engramRepo  = "engram"
-	engramName  = "engram"
+	engramOwner = "Dxrk777"
+	engramRepo  = "dxrk-memory"
+	engramName  = "dxrk-memory"
 )
 
 // Package-level vars for testability.
@@ -63,11 +63,11 @@ func DownloadLatestBinary(profile system.PlatformProfile) (string, error) {
 
 	if strings.HasSuffix(assetURL, ".zip") {
 		if err := downloadAndExtractZip(assetURL, binaryName, outPath); err != nil {
-			return "", fmt.Errorf("download engram zip: %w", err)
+			return "", fmt.Errorf("download dxrk-memory zip: %w", err)
 		}
 	} else {
 		if err := downloadAndExtractTarGz(assetURL, engramName, outPath); err != nil {
-			return "", fmt.Errorf("download engram tar.gz: %w", err)
+			return "", fmt.Errorf("download dxrk-memory tar.gz: %w", err)
 		}
 	}
 
@@ -160,7 +160,7 @@ func engramAssetURL(baseURL, version, goos, goarch string) string {
 		baseURL, engramOwner, engramRepo, version, filename)
 }
 
-// engramInstallDir returns the directory where the engram binary should be installed
+// engramInstallDir returns the directory where the dxrk-memory binary should be installed
 // for the given OS.
 //   - Linux/macOS: /usr/local/bin (fallback: ~/.local/bin if not writable)
 //   - Windows: %LOCALAPPDATA%\engram\bin
@@ -171,7 +171,7 @@ func engramInstallDir(goos string) string {
 			home, _ := os.UserHomeDir()
 			localAppData = filepath.Join(home, "AppData", "Local")
 		}
-		return filepath.Join(localAppData, "engram", "bin")
+		return filepath.Join(localAppData, "dxrk-memory", "bin")
 	}
 
 	// Linux/macOS: try /usr/local/bin first.
@@ -194,7 +194,7 @@ func isWritableDir(dir string) bool {
 	if err != nil || !info.IsDir() {
 		return false
 	}
-	tmp, err := os.CreateTemp(dir, ".engram-write-test-*")
+	tmp, err := os.CreateTemp(dir, ".dxrk-memory-write-test-*")
 	if err != nil {
 		return false
 	}

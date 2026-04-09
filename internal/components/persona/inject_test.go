@@ -7,11 +7,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/agents/claude"
-	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
-	"github.com/Dxrk777/Dxrk/internal/assets"
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk-AI/internal/assets"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }
@@ -278,7 +278,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile() error = %v", err)
 	}
-	withSections := string(existing) + "\n\n<!-- Dxrk-AI:sdd-orchestrator -->\nSDD orchestrator content here\n<!-- /Dxrk-AI:sdd-orchestrator -->\n\n<!-- Dxrk-AI:engram-protocol -->\nEngram protocol content here\n<!-- /Dxrk-AI:engram-protocol -->\n"
+	withSections := string(existing) + "\n\n<!-- Dxrk-AI:sdd-orchestrator -->\nSDD orchestrator content here\n<!-- /Dxrk-AI:sdd-orchestrator -->\n\n<!-- Dxrk-AI:dxrk-memory-protocol -->\nEngram protocol content here\n<!-- /Dxrk-AI:dxrk-memory-protocol -->\n"
 	if err := os.WriteFile(path, []byte(withSections), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -310,7 +310,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	if !strings.Contains(text, "<!-- Dxrk-AI:sdd-orchestrator -->") {
 		t.Fatal("AGENTS.md lost SDD orchestrator section after switching to neutral persona")
 	}
-	if !strings.Contains(text, "<!-- Dxrk-AI:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") {
 		t.Fatal("AGENTS.md lost engram protocol section after switching to neutral persona")
 	}
 
@@ -424,7 +424,7 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 	// Simulate a file with neutral persona + managed sections.
 	// Use a fingerprint from the real neutral asset so the test is realistic.
 	neutralContent := assets.MustRead("generic/persona-neutral.md")
-	initial := neutralContent + "\n\n<!-- Dxrk-AI:sdd-orchestrator -->\nSDD content\n<!-- /Dxrk-AI:sdd-orchestrator -->\n\n<!-- Dxrk-AI:engram-protocol -->\nEngram content\n<!-- /Dxrk-AI:engram-protocol -->\n"
+	initial := neutralContent + "\n\n<!-- Dxrk-AI:sdd-orchestrator -->\nSDD content\n<!-- /Dxrk-AI:sdd-orchestrator -->\n\n<!-- Dxrk-AI:dxrk-memory-protocol -->\nEngram content\n<!-- /Dxrk-AI:dxrk-memory-protocol -->\n"
 	if err := os.WriteFile(promptPath, []byte(initial), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -458,7 +458,7 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 	if strings.Count(text, "## Rules") != 1 {
 		t.Fatal("neutral persona duplicated after idempotent inject")
 	}
-	if strings.Count(text, "<!-- Dxrk-AI:engram-protocol -->") != 1 {
+	if strings.Count(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") != 1 {
 		t.Fatal("engram section duplicated after idempotent neutral inject")
 	}
 }

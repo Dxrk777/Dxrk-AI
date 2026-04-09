@@ -9,7 +9,7 @@ description: >
   "leave feedback", "post an update", "announce", "close this", "approve this", "request changes".
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "2.1"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch
 ---

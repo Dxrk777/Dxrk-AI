@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk-AI/internal/update/upgrade"
 )
 
 // renderUpgradeReportForTest is a test helper that wraps upgrade.RenderUpgradeReport.
@@ -73,7 +73,7 @@ func TestRunArgs_UpgradeNoArgs(t *testing.T) {
 // to only check/upgrade engram.
 func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	var buf bytes.Buffer
-	err := RunArgs([]string{"upgrade", "engram"}, &buf)
+	err := RunArgs([]string{"upgrade", "dxrk-memory"}, &buf)
 	if err != nil {
 		errStr := err.Error()
 		if strings.Contains(errStr, "unknown command") {
@@ -85,7 +85,7 @@ func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	out := buf.String()
 	// Output should only mention engram or no-upgrades, not dxrk or gga.
 	// This is a soft check since the tool may not be installed.
-	if strings.Contains(out, "dxrk") && !strings.Contains(out, "engram") {
+	if strings.Contains(out, "dxrk") && !strings.Contains(out, "dxrk-memory") {
 		t.Errorf("filtering to engram should not show dxrk in output; got: %s", out)
 	}
 }
@@ -156,13 +156,13 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 			name: "succeeded tool shows old→new version",
 			results: []upgrade.ToolUpgradeResult{
 				{
-					ToolName:   "engram",
+					ToolName:   "dxrk-memory",
 					OldVersion: "0.3.0",
 					NewVersion: "0.4.0",
 					Status:     upgrade.UpgradeSucceeded,
 				},
 			},
-			wantContains:   []string{"engram", "0.3.0", "0.4.0", "[ok]"},
+			wantContains:   []string{"dxrk-memory", "0.3.0", "0.4.0", "[ok]"},
 			wantNotContain: []string{"FAILED", "manual update required"},
 		},
 		{
@@ -187,7 +187,7 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 					OldVersion: "1.0.0",
 					NewVersion: "1.5.0",
 					Status:     upgrade.UpgradeSkipped,
-					ManualHint: "Download from https://github.com/Gentleman-Programming/dxrk/releases",
+					ManualHint: "Download from https://github.com/Dxrk777/dxrk/releases",
 				},
 			},
 			wantContains:   []string{"dxrk", "manual update required", "github.com", "[--]"},
@@ -197,14 +197,14 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 			name: "real failure shows error details",
 			results: []upgrade.ToolUpgradeResult{
 				{
-					ToolName:   "gga",
+					ToolName:   "dxrk-guardian",
 					OldVersion: "1.0.0",
 					NewVersion: "2.0.0",
 					Status:     upgrade.UpgradeFailed,
 					Err:        errors.New("brew upgrade gga: exit status 1"),
 				},
 			},
-			wantContains:   []string{"gga", "FAILED", "exit status 1", "[!!]"},
+			wantContains:   []string{"dxrk-guardian", "FAILED", "exit status 1", "[!!]"},
 			wantNotContain: []string{"manual update required"},
 		},
 		{
@@ -212,20 +212,20 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 			dryRun: true,
 			results: []upgrade.ToolUpgradeResult{
 				{
-					ToolName:   "engram",
+					ToolName:   "dxrk-memory",
 					OldVersion: "0.3.0",
 					NewVersion: "0.4.0",
 					Status:     upgrade.UpgradeSkipped,
 				},
 			},
-			wantContains:   []string{"dry", "engram", "0.3.0", "0.4.0"},
+			wantContains:   []string{"dry", "dxrk-memory", "0.3.0", "0.4.0"},
 			wantNotContain: []string{"FAILED"},
 		},
 		{
 			name: "mixed: success + skip + manual in same report",
 			results: []upgrade.ToolUpgradeResult{
 				{
-					ToolName:   "engram",
+					ToolName:   "dxrk-memory",
 					OldVersion: "0.3.0",
 					NewVersion: "0.4.0",
 					Status:     upgrade.UpgradeSucceeded,
@@ -238,14 +238,14 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 					ManualHint: "source build — upgrade manually",
 				},
 				{
-					ToolName:   "gga",
+					ToolName:   "dxrk-guardian",
 					OldVersion: "1.0.0",
 					NewVersion: "2.0.0",
 					Status:     upgrade.UpgradeSkipped,
-					ManualHint: "Download from https://github.com/Gentleman-Programming/gga/releases",
+					ManualHint: "Download from https://github.com/Dxrk777/gga/releases",
 				},
 			},
-			wantContains:   []string{"engram", "[ok]", "dxrk", "[--]", "gga", "1 succeeded", "2 skipped"},
+			wantContains:   []string{"dxrk-memory", "[ok]", "dxrk", "[--]", "dxrk-guardian", "1 succeeded", "2 skipped"},
 			wantNotContain: []string{"FAILED", "[!!]"},
 		},
 	}

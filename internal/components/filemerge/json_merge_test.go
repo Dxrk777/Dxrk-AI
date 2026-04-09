@@ -90,7 +90,7 @@ func TestMergeJSONObjectsMalformedBaseReturnsOverlayOnly(t *testing.T) {
 		{
 			name:    "arbitrary text",
 			base:    []byte(`a`),
-			overlay: []byte(`{"servers": {"engram": {"command": "engram"}}}`),
+			overlay: []byte(`{"servers": {"dxrk-memory": {"command": "dxrk-memory"}}}`),
 			wantKey: "servers",
 		},
 	}
@@ -117,8 +117,8 @@ func TestMergeJSONObjectsMalformedBaseReturnsOverlayOnly(t *testing.T) {
 // ─── __replace__ sentinel tests ───────────────────────────────────────────────
 
 func TestMergeJSONObjectsReplaceSentinelErasesBaseKeys(t *testing.T) {
-	base := []byte(`{"mcp":{"engram":{"command":"/opt/homebrew/bin/engram","args":["mcp","--tools=agent"],"type":"local"}}}`)
-	overlay := []byte(`{"mcp":{"engram":{"__replace__":{"command":["/opt/homebrew/bin/engram","mcp","--tools=agent"],"type":"local"}}}}`)
+	base := []byte(`{"mcp":{"dxrk-memory":{"command":"/opt/homebrew/bin/engram","args":["mcp","--tools=agent"],"type":"local"}}}`)
+	overlay := []byte(`{"mcp":{"dxrk-memory":{"__replace__":{"command":["/opt/homebrew/bin/engram","mcp","--tools=agent"],"type":"local"}}}}`)
 
 	merged, err := MergeJSONObjects(base, overlay)
 	if err != nil {
@@ -131,7 +131,7 @@ func TestMergeJSONObjectsReplaceSentinelErasesBaseKeys(t *testing.T) {
 	}
 
 	mcp := got["mcp"].(map[string]any)
-	eng := mcp["engram"].(map[string]any)
+	eng := mcp["dxrk-memory"].(map[string]any)
 
 	// args must be gone
 	if _, ok := eng["args"]; ok {

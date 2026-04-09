@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/styles"
 )
 
 func DetectionOptions() []string {

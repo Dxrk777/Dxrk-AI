@@ -9,10 +9,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/assets"
-	"github.com/Dxrk777/Dxrk/internal/components/filemerge"
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/assets"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/filemerge"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 type InjectionResult struct {
@@ -345,7 +345,7 @@ func Inject(homeDir string, adapter agents.Adapter, sddMode model.SDDModeID, opt
 		if skillDir != "" {
 			sharedFiles := []string{
 				"persistence-contract.md",
-				"engram-convention.md",
+				"dxrk-memory-convention.md",
 				"openspec-convention.md",
 				"sdd-phase-common.md",
 				"skill-resolver.md",
@@ -865,7 +865,7 @@ func hasLegacyBareOrchestrator(content string) bool {
 //
 // Unlike CLAUDE.md markdown-section files, these prompt files often carry the
 // whole orchestrator as a contiguous block followed by other managed sections
-// (for example engram-protocol markers). The legacy block also contains many
+// (for example dxrk-memory-protocol markers). The legacy block also contains many
 // "##" headings, so trimming until the next "##" is not enough.
 //
 // Strategy:

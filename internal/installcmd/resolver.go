@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 // cmdLookPath, osStat, osGetenv, and cmdGoVersion are package-level vars for testability.
@@ -21,7 +21,7 @@ var cmdGoVersion = func() ([]byte, error) {
 }
 
 // CommandSequence represents an ordered list of commands to run in sequence.
-// Each inner slice is a single command with its arguments (e.g., ["brew", "install", "engram"]).
+// Each inner slice is a single command with its arguments (e.g., ["brew", "install", "dxrk-memory"]).
 // Multi-step installs (e.g., tap + install) are expressed as multiple entries.
 type CommandSequence = [][]string
 
@@ -271,7 +271,7 @@ func resolveEngramInstall(profile system.PlatformProfile) (CommandSequence, erro
 		// macOS (or Linux with Homebrew): brew manages Go transitively — no preflight needed.
 		return CommandSequence{
 			{"brew", "tap", "Dxrk/homebrew-tap"},
-			{"brew", "install", "engram"},
+			{"brew", "install", "dxrk-memory"},
 		}, nil
 	default:
 		return nil, fmt.Errorf(

@@ -4,8 +4,8 @@ import (
 	"io/fs"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/assets"
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/assets"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 // sddSkills are the SDD orchestrator skills — always included.

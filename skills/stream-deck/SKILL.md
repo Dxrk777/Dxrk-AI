@@ -4,7 +4,7 @@ description: >
   Create slide-deck presentation webs for streams and courses using Gentleman Kanagawa Blur theme with inline SVG diagrams.
   Trigger: When building a presentation, slide deck, course material, stream web, or talk slides.
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "1.1"
 ---
 

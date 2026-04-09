@@ -1,6 +1,6 @@
 package catalog
 
-import "github.com/Dxrk777/Dxrk/internal/model"
+import "github.com/Dxrk777/Dxrk-AI/internal/model"
 
 type Skill struct {
 	ID       model.SkillID

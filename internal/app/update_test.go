@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/update"
-	"github.com/Dxrk777/Dxrk/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/update"
+	"github.com/Dxrk777/Dxrk-AI/internal/update/upgrade"
 )
 
 func TestRunUpdate_ReturnsErrorWhenChecksFail(t *testing.T) {
@@ -20,7 +20,7 @@ func TestRunUpdate_ReturnsErrorWhenChecksFail(t *testing.T) {
 
 	updateCheckAll = func(context.Context, string, system.PlatformProfile) []update.UpdateResult {
 		return []update.UpdateResult{{
-			Tool:   update.ToolInfo{Name: "engram"},
+			Tool:   update.ToolInfo{Name: "dxrk-memory"},
 			Status: update.CheckFailed,
 		}}
 	}
@@ -55,11 +55,11 @@ func TestRunUpgrade_ReturnsErrorBeforeExecutingWhenChecksFail(t *testing.T) {
 	updateCheckFiltered = func(context.Context, string, system.PlatformProfile, []string) []update.UpdateResult {
 		return []update.UpdateResult{
 			{
-				Tool:   update.ToolInfo{Name: "engram"},
+				Tool:   update.ToolInfo{Name: "dxrk-memory"},
 				Status: update.CheckFailed,
 			},
 			{
-				Tool:             update.ToolInfo{Name: "gga"},
+				Tool:             update.ToolInfo{Name: "dxrk-guardian"},
 				InstalledVersion: "1.0.0",
 				LatestVersion:    "2.0.0",
 				Status:           update.UpdateAvailable,

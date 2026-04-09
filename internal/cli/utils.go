@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 // goInstallBinDir returns the directory where `go install` places binaries.
@@ -34,7 +34,7 @@ func isInPATH(dir string) bool {
 	return false
 }
 
-// engramPathGuidance returns shell-specific PATH guidance for engram binary.
+// engramPathGuidance returns shell-specific PATH guidance for dxrk-memory binary.
 func engramPathGuidance(shellPath string) string {
 	binDir := goInstallBinDir()
 	if strings.Contains(shellPath, "fish") {

@@ -3,7 +3,7 @@ package screens
 import (
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/styles"
 )
 
 // ModelConfigOptions returns the ordered list of options shown on the model config screen.

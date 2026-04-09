@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/backup"
+	"github.com/Dxrk777/Dxrk-AI/internal/backup"
 )
 
 // TestPrepareBackupStep_InstallWritesMetadataToManifest verifies that when

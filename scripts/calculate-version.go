@@ -196,7 +196,7 @@ func saveState(upstreamTag string, percent float64) {
 
 // GetLatestDxrkAIRelease obtiene el último release de Dxrk-AI desde GitHub
 func GetLatestDxrkAIRelease() (string, error) {
-	resp, err := http.Get("https://api.github.com/repos/Dxrk777/Dxrk/releases/latest")
+	resp, err := http.Get("https://api.github.com/repos/Dxrk777/Dxrk-AI/releases/latest")
 	if err != nil {
 		return "", err
 	}

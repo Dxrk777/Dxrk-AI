@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 func TestValidateGoForModuleInstall(t *testing.T) {
@@ -399,7 +399,7 @@ func TestResolveComponentInstall(t *testing.T) {
 			name:      "engram on darwin uses brew tap and install",
 			profile:   system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
 			component: model.ComponentEngram,
-			want:      CommandSequence{{"brew", "tap", "Dxrk/homebrew-tap"}, {"brew", "install", "engram"}},
+			want:      CommandSequence{{"brew", "tap", "Dxrk/homebrew-tap"}, {"brew", "install", "dxrk-memory"}},
 		},
 		// Linux and Windows engram now use DownloadLatestBinary() — resolver returns error.
 		// These cases are handled by run.go's componentApplyStep directly.

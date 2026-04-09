@@ -1,7 +1,7 @@
 package screens
 
 import (
-	"github.com/Dxrk777/Dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/styles"
 )
 
 func renderOptions(options []string, cursor int) string {

@@ -23,7 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/brain"
+	"github.com/Dxrk777/Dxrk-AI/internal/brain"
 )
 
 // Config holds connector configuration.

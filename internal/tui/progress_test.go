@@ -3,7 +3,7 @@ package tui
 import (
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/pipeline"
+	"github.com/Dxrk777/Dxrk-AI/internal/pipeline"
 )
 
 func TestProgressPercentTracksCompletedSteps(t *testing.T) {

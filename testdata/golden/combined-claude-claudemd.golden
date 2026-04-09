@@ -211,9 +211,9 @@ Skills disponibles en `~/.claude/skills/` (151 skills):
 
 ---
 
-## 📚 Protocolo de Memoria Engram
+## 📚 Protocolo de Memoria Dxrk Memory
 
-Dxrk usa **Engram** para memoria persistente.
+Dxrk usa **Dxrk Memory** para memoria persistente.
 
 ### Cuándo GUARDAR (proactivamente)
 
@@ -326,7 +326,7 @@ Meta-commands (type directly — orchestrator handles them, won't appear in auto
 
 Before executing ANY SDD command (`/sdd-new`, `/sdd-ff`, `/sdd-continue`, `/sdd-explore`, `/sdd-apply`, `/sdd-verify`, `/sdd-archive`), check if `sdd-init` has been run for this project:
 
-1. Search Engram: `mem_search(query: "sdd-init/{project}", project: "{project}")`
+1. Search Dxrk Memory: `mem_search(query: "sdd-init/{project}", project: "{project}")`
 2. If found → init was done, proceed normally
 3. If NOT found → run `sdd-init` FIRST (delegate to sdd-init sub-agent), THEN proceed with the requested command
 
@@ -454,7 +454,7 @@ Each phase has explicit read/write rules:
 
 For phases with required dependencies, sub-agent reads directly from the backend — orchestrator passes artifact references (topic keys or file paths), NOT content itself.
 
-#### Engram Topic Key Format
+#### Dxrk Memory Topic Key Format
 
 | Artifact | Topic Key |
 |----------|-----------|
@@ -485,9 +485,9 @@ Convention files under the agent's global skills directory (global) or `.agent/s
 <!-- /Dxrk-AI:sdd-orchestrator -->
 
 <!-- Dxrk-AI:engram-protocol -->
-## Engram Persistent Memory — Protocol
+## Dxrk Memory Persistent Memory — Protocol
 
-You have access to Engram, a persistent memory system that survives across sessions and compactions.
+You have access to Dxrk Memory, a persistent memory system that survives across sessions and compactions.
 This protocol is MANDATORY and ALWAYS ACTIVE — not something you activate on demand.
 
 ### PROACTIVE SAVE TRIGGERS (mandatory — do NOT wait for user to ask)

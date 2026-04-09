@@ -182,7 +182,7 @@ func stripTrailingCommas(raw []byte) []byte {
 //
 // Example overlay that forces atomic replacement of mcp.engram:
 //
-//	{"mcp": {"engram": {"__replace__": {"command": [...], "type": "local"}}}}
+//	{"mcp": {"dxrk-memory": {"__replace__": {"command": [...], "type": "local"}}}}
 const replacesentinel = "__replace__"
 
 // asSentinel checks if v is a map with exactly one key "__replace__".

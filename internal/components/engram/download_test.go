@@ -13,17 +13,17 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 // --- test helpers ---
 
 // makeServerWithFakeTarGz returns an httptest.Server that serves:
 //   - GET /releases/latest  → GitHub API JSON with the given version
-//   - GET /releases/download/…  → a real .tar.gz containing "engram" binary
+//   - GET /releases/download/…  → a real .tar.gz containing "dxrk-memory" binary
 func makeServerWithFakeTarGz(t *testing.T, version string) *httptest.Server {
 	t.Helper()
-	tarContent := buildFakeTarGz(t, "engram")
+	tarContent := buildFakeTarGz(t, "dxrk-memory")
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.Contains(r.URL.Path, "releases/latest") {
 			payload := map[string]string{"tag_name": "v" + version}
@@ -191,7 +191,7 @@ func TestEngramInstallDir(t *testing.T) {
 		{
 			name:       "windows returns LOCALAPPDATA engram bin",
 			goos:       "windows",
-			wantSubstr: "engram",
+			wantSubstr: "dxrk-memory",
 		},
 		{
 			name:       "darwin returns /usr/local/bin",

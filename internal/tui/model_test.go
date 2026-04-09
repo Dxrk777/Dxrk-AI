@@ -6,14 +6,14 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/backup"
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/pipeline"
-	"github.com/Dxrk777/Dxrk/internal/planner"
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/tui/screens"
-	"github.com/Dxrk777/Dxrk/internal/update"
-	"github.com/Dxrk777/Dxrk/internal/update/upgrade"
+	"github.com/Dxrk777/Dxrk-AI/internal/backup"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/pipeline"
+	"github.com/Dxrk777/Dxrk-AI/internal/planner"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/screens"
+	"github.com/Dxrk777/Dxrk-AI/internal/update"
+	"github.com/Dxrk777/Dxrk-AI/internal/update/upgrade"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -654,7 +654,7 @@ func TestUpgradePhaseCompletedMsg_SetsReport(t *testing.T) {
 
 	report := upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
-			{ToolName: "engram", Status: upgrade.UpgradeSucceeded},
+			{ToolName: "dxrk-memory", Status: upgrade.UpgradeSucceeded},
 		},
 	}
 	updated, _ := m.Update(UpgradePhaseCompletedMsg{Report: report})
@@ -702,13 +702,13 @@ func TestUpgradeDoneClearsUpdateResults(t *testing.T) {
 	m.Screen = ScreenUpgrade
 	m.OperationRunning = true
 	m.UpdateResults = []update.UpdateResult{
-		{Tool: update.ToolInfo{Name: "engram"}, InstalledVersion: "1.0.0", LatestVersion: "1.1.0", Status: update.UpdateAvailable},
+		{Tool: update.ToolInfo{Name: "dxrk-memory"}, InstalledVersion: "1.0.0", LatestVersion: "1.1.0", Status: update.UpdateAvailable},
 	}
 	m.UpdateCheckDone = true
 
 	report := upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
-			{ToolName: "engram", Status: upgrade.UpgradeSucceeded},
+			{ToolName: "dxrk-memory", Status: upgrade.UpgradeSucceeded},
 		},
 	}
 	updated, _ := m.Update(UpgradeDoneMsg{Report: report})
@@ -730,13 +730,13 @@ func TestUpgradePhaseCompletedClearsUpdateResults(t *testing.T) {
 	m.Screen = ScreenUpgradeSync
 	m.OperationRunning = true
 	m.UpdateResults = []update.UpdateResult{
-		{Tool: update.ToolInfo{Name: "engram"}, InstalledVersion: "1.0.0", LatestVersion: "1.1.0", Status: update.UpdateAvailable},
+		{Tool: update.ToolInfo{Name: "dxrk-memory"}, InstalledVersion: "1.0.0", LatestVersion: "1.1.0", Status: update.UpdateAvailable},
 	}
 	m.UpdateCheckDone = true
 
 	report := upgrade.UpgradeReport{
 		Results: []upgrade.ToolUpgradeResult{
-			{ToolName: "engram", Status: upgrade.UpgradeSucceeded},
+			{ToolName: "dxrk-memory", Status: upgrade.UpgradeSucceeded},
 		},
 	}
 	updated, _ := m.Update(UpgradePhaseCompletedMsg{Report: report})

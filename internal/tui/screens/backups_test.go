@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/backup"
+	"github.com/Dxrk777/Dxrk-AI/internal/backup"
 )
 
 // TestRenderBackupsShowsDisplayLabel verifies that RenderBackups uses the

@@ -10,18 +10,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/backup"
-	"github.com/Dxrk777/Dxrk/internal/components/dxrk"
-	"github.com/Dxrk777/Dxrk/internal/components/engram"
-	"github.com/Dxrk777/Dxrk/internal/components/sdd"
-	"github.com/Dxrk777/Dxrk/internal/components/skills"
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/pipeline"
-	"github.com/Dxrk777/Dxrk/internal/planner"
-	"github.com/Dxrk777/Dxrk/internal/state"
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/verify"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/backup"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/sdd"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/skills"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/pipeline"
+	"github.com/Dxrk777/Dxrk-AI/internal/planner"
+	"github.com/Dxrk777/Dxrk-AI/internal/state"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/verify"
 )
 
 type InstallResult struct {
@@ -47,7 +47,7 @@ var (
 	// When set, it is called instead of the default filesystem check.
 	dxrkAvailableCheck func(system.PlatformProfile) bool
 
-	// engramDownloadFn is the function used to download the engram binary on non-brew platforms.
+	// engramDownloadFn is the function used to download the dxrk-memory binary on non-brew platforms.
 	// Package-level var for testability — tests can replace this to avoid real HTTP calls.
 	engramDownloadFn = engram.DownloadLatestBinary
 
@@ -173,7 +173,7 @@ func withGoInstallPathNote(report verify.Report, resolved planner.ResolvedPlan) 
 		return report
 	}
 	report.FinalNote = report.FinalNote + fmt.Sprintf(
-		"\n\nThe engram binary was installed to %s via `go install`.\nAdd it to your PATH: %s",
+		"\n\nThe dxrk-memory binary was installed to %s via `go install`.\nAdd it to your PATH: %s",
 		binDir,
 		engramPathGuidance(os.Getenv("SHELL")),
 	)
@@ -604,17 +604,17 @@ func componentPaths(homeDir string, selection model.Selection, adapters []agents
 		case model.ComponentEngram:
 			switch adapter.MCPStrategy() {
 			case model.StrategySeparateMCPFiles:
-				paths = append(paths, adapter.MCPConfigPath(homeDir, "engram"))
+				paths = append(paths, adapter.MCPConfigPath(homeDir, "dxrk-memory"))
 			case model.StrategyMergeIntoSettings:
 				if p := adapter.SettingsPath(homeDir); p != "" {
 					paths = append(paths, p)
 				}
 			case model.StrategyMCPConfigFile:
-				if p := adapter.MCPConfigPath(homeDir, "engram"); p != "" {
+				if p := adapter.MCPConfigPath(homeDir, "dxrk-memory"); p != "" {
 					paths = append(paths, p)
 				}
 			case model.StrategyTOMLFile:
-				if p := adapter.MCPConfigPath(homeDir, "engram"); p != "" {
+				if p := adapter.MCPConfigPath(homeDir, "dxrk-memory"); p != "" {
 					paths = append(paths, p)
 				}
 			}
@@ -641,7 +641,7 @@ func componentPaths(homeDir string, selection model.Selection, adapters []agents
 				if skillDir != "" {
 					paths = append(paths,
 						filepath.Join(skillDir, "_shared", "persistence-contract.md"),
-						filepath.Join(skillDir, "_shared", "engram-convention.md"),
+						filepath.Join(skillDir, "_shared", "dxrk-memory-convention.md"),
 						filepath.Join(skillDir, "_shared", "openspec-convention.md"),
 						filepath.Join(skillDir, "_shared", "sdd-phase-common.md"),
 						filepath.Join(skillDir, "_shared", "skill-resolver.md"),

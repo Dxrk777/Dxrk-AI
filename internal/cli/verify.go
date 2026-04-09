@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Dxrk777/Dxrk/internal/components/engram"
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/planner"
-	"github.com/Dxrk777/Dxrk/internal/verify"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/planner"
+	"github.com/Dxrk777/Dxrk-AI/internal/verify"
 )
 
 // runPostApplyVerification runs all post-installation verification checks.
@@ -40,12 +40,12 @@ func runPostApplyVerification(homeDir string, selection model.Selection, resolve
 	return verify.BuildReport(verify.RunChecks(context.Background(), checks))
 }
 
-// engramHealthChecks returns health checks for engram binary.
+// engramHealthChecks returns health checks for dxrk-memory binary.
 func engramHealthChecks() []verify.Check {
 	return []verify.Check{
 		{
 			ID:          "verify:engram:binary",
-			Description: "engram binary on PATH (restart shell if missing)",
+			Description: "dxrk-memory binary on PATH (restart shell if missing)",
 			Soft:        true,
 			Run: func(context.Context) error {
 				if err := engram.VerifyInstalled(); err != nil {

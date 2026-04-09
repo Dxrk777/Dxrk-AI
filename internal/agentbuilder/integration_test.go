@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 // cannedSKILL is a valid SKILL.md response that the MockEngine returns.

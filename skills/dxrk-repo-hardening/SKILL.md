@@ -11,7 +11,7 @@ description: >
   "PR templates", "issue templates", "label conventions", "stale strategy", "repo health".
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "1.0"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch
 ---

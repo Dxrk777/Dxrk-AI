@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/components/filemerge"
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/filemerge"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 type InjectionResult struct {

@@ -5,7 +5,7 @@ description: >
   Trigger: When user asks to create an epic, large feature, or multi-task initiative.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "1.0"
 ---
 

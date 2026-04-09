@@ -1,11 +1,11 @@
 ---
-name: gentleman-e2e
+name: dxrk-e2e
 description: >
   Docker-based E2E testing patterns for Gentleman.Dots installer.
   Trigger: When editing files in installer/e2e/, writing E2E tests, or adding platform support.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk-programming
   version: "1.0"
 ---
 
@@ -67,8 +67,8 @@ RUN useradd -m -s /bin/bash testuser && \
     echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Copy installer binary
-COPY gentleman-installer-linux-amd64 /usr/local/bin/gentleman-dots
-RUN chmod +x /usr/local/bin/gentleman-dots
+COPY dxrk-installer-linux-amd64 /usr/local/bin/dxrk-dots
+RUN chmod +x /usr/local/bin/dxrk-dots
 
 # Copy test script
 COPY e2e/e2e_test.sh /home/testuser/e2e_test.sh
@@ -89,7 +89,7 @@ E2E tests use `--non-interactive` flag:
 test_fish_tmux_nvim() {
     log_test "Install: Fish + Tmux + Nvim"
 
-    if GENTLEMAN_VERBOSE=1 gentleman-dots --non-interactive \
+    if GENTLEMAN_VERBOSE=1 dxrk-dots --non-interactive \
         --shell=fish --wm=tmux --nvim --backup=false 2>&1; then
 
         # Verify fish config exists
@@ -148,7 +148,7 @@ Adding new platform support?
 Testing backup system?
 ├── Use setup_fake_configs() helper
 ├── Run with --backup=true or --backup=false
-├── Check for .gentleman-backup-* directories
+├── Check for .dxrk-backup-* directories
 ├── Verify backup contents
 └── Test restore functionality
 ```
@@ -164,7 +164,7 @@ test_zsh_zellij() {
     log_test "Install: Zsh + Zellij (no nvim)"
 
     # Run installation
-    if GENTLEMAN_VERBOSE=1 gentleman-dots --non-interactive \
+    if GENTLEMAN_VERBOSE=1 dxrk-dots --non-interactive \
         --shell=zsh --wm=zellij --backup=false 2>&1; then
 
         # Verify .zshrc exists
@@ -216,10 +216,10 @@ test_backup_creation() {
     cleanup_test_env
     setup_fake_configs
 
-    if GENTLEMAN_VERBOSE=1 gentleman-dots --non-interactive \
+    if GENTLEMAN_VERBOSE=1 dxrk-dots --non-interactive \
         --shell=fish --wm=tmux --backup=true 2>&1; then
 
-        backup_count=$(ls -d "$HOME/.gentleman-backup-"* 2>/dev/null | wc -l)
+        backup_count=$(ls -d "$HOME/.dxrk-backup-"* 2>/dev/null | wc -l)
 
         if [ "$backup_count" -gt 0 ]; then
             log_pass "Backup directory created"
@@ -260,17 +260,17 @@ test_shell_functional() {
 
 ```bash
 # Build and run specific platform
-docker build -f e2e/Dockerfile.ubuntu -t gentleman-e2e-ubuntu .
-docker run --rm gentleman-e2e-ubuntu
+docker build -f e2e/Dockerfile.ubuntu -t dxrk-e2e-ubuntu .
+docker run --rm dxrk-e2e-ubuntu
 
 # Run with full E2E tests
-docker run --rm -e RUN_FULL_E2E=1 gentleman-e2e-ubuntu
+docker run --rm -e RUN_FULL_E2E=1 dxrk-e2e-ubuntu
 
 # Run with backup tests only
-docker run --rm -e RUN_BACKUP_TESTS=1 gentleman-e2e-ubuntu
+docker run --rm -e RUN_BACKUP_TESTS=1 dxrk-e2e-ubuntu
 
 # Interactive debugging
-docker run --rm -it gentleman-e2e-ubuntu /bin/bash
+docker run --rm -it dxrk-e2e-ubuntu /bin/bash
 ```
 
 ---

@@ -1,6 +1,6 @@
 ---
 name: Dxrk AI Persona
-description: Dxrk persona with SDD orchestration and Engram protocol
+description: Dxrk persona with SDD orchestration and Dxrk Memory protocol
 applyTo: "**"
 ---
 
@@ -67,7 +67,7 @@ Meta-commands (type directly — orchestrator handles them, won't appear in auto
 
 Before executing ANY SDD command (`/sdd-new`, `/sdd-ff`, `/sdd-continue`, `/sdd-explore`, `/sdd-apply`, `/sdd-verify`, `/sdd-archive`), check if `sdd-init` has been run for this project:
 
-1. Search Engram: `mem_search(query: "sdd-init/{project}", project: "{project}")`
+1. Search Dxrk Memory: `mem_search(query: "sdd-init/{project}", project: "{project}")`
 2. If found → init was done, proceed normally
 3. If NOT found → run `sdd-init` FIRST (delegate to sdd-init sub-agent), THEN proceed with the requested command
 
@@ -195,7 +195,7 @@ Each phase has explicit read/write rules:
 
 For phases with required dependencies, sub-agent reads directly from the backend — orchestrator passes artifact references (topic keys or file paths), NOT content itself.
 
-#### Engram Topic Key Format
+#### Dxrk Memory Topic Key Format
 
 | Artifact | Topic Key |
 |----------|-----------|

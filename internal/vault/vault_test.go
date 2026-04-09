@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/vault"
+	"github.com/Dxrk777/Dxrk-AI/internal/vault"
 )
 
 const testPassword = "TestPass!2345"

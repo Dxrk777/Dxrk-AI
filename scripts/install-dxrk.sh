@@ -6,16 +6,16 @@ set -euo pipefail
 # One command to configure any AI coding agent on any OS.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/install-dxrk.sh | bash
 #
 # Or download and run:
-#   curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk/main/scripts/install-dxrk.sh -o install-dxrk.sh
+#   curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/install-dxrk.sh -o install-dxrk.sh
 #   chmod +x install-dxrk.sh
 #   ./install-dxrk.sh
 # ============================================================================
 
 GITHUB_OWNER="Dxrk777"
-GITHUB_REPO="Dxrk"
+GITHUB_REPO="Dxrk-AI"
 BINARY_NAME="dxrk"
 BREW_TAP="Dxrk777/tap"
 

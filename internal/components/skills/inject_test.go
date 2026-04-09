@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/agents/claude"
-	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
-	"github.com/Dxrk777/Dxrk/internal/agents/vscode"
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/vscode"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }

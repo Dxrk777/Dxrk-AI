@@ -5,7 +5,7 @@ description: >
   Trigger: When reviewing technical exercises, code assessments, candidate submissions, or take-home tests.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "1.0"
 ---
 

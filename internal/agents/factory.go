@@ -3,15 +3,15 @@ package agents
 import (
 	"fmt"
 
-	"github.com/Dxrk777/Dxrk/internal/agents/antigravity"
-	"github.com/Dxrk777/Dxrk/internal/agents/claude"
-	"github.com/Dxrk777/Dxrk/internal/agents/codex"
-	cursoradapter "github.com/Dxrk777/Dxrk/internal/agents/cursor"
-	"github.com/Dxrk777/Dxrk/internal/agents/gemini"
-	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
-	"github.com/Dxrk777/Dxrk/internal/agents/vscode"
-	"github.com/Dxrk777/Dxrk/internal/agents/windsurf"
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/antigravity"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/codex"
+	cursoradapter "github.com/Dxrk777/Dxrk-AI/internal/agents/cursor"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/gemini"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/vscode"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/windsurf"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 func NewAdapter(agent model.AgentID) (Adapter, error) {

@@ -3,8 +3,8 @@ package screens
 import (
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/agentbuilder"
-	"github.com/Dxrk777/Dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-AI/internal/agentbuilder"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/styles"
 )
 
 // RenderABComplete renders the agent-builder completion screen.

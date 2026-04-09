@@ -9,10 +9,10 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/assets"
-	"github.com/Dxrk777/Dxrk/internal/components/filemerge"
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/assets"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/filemerge"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 type InjectionResult struct {
@@ -20,7 +20,7 @@ type InjectionResult struct {
 	Files   []string
 }
 
-// EngramLookPath is the function used to resolve the engram binary path.
+// EngramLookPath is the function used to resolve the dxrk-memory binary path.
 // It is a package-level variable so it can be replaced in tests — both from
 // within the engram package and from external test packages (e.g. golden_test.go).
 // In production it is set to exec.LookPath.
@@ -45,22 +45,22 @@ func SetLookPathForTest(t interface {
 	t.Cleanup(func() { EngramLookPath = orig })
 }
 
-// resolveEngramCommand attempts to resolve the engram binary to an absolute
+// resolveEngramCommand attempts to resolve the dxrk-memory binary to an absolute
 // path using exec.LookPath. If found, it returns the absolute path and true.
-// If not found (e.g. binary not yet installed), it returns "engram" and false.
+// If not found (e.g. binary not yet installed), it returns "dxrk-memory" and false.
 // This is used to write the most stable command possible into MCP configs:
 // an absolute path survives across environments where PATH is not fully
 // inherited (e.g. Windsurf, IDEs that launch without a login shell).
 func resolveEngramCommand() (string, bool) {
-	p, err := EngramLookPath("engram")
+	p, err := EngramLookPath("dxrk-memory")
 	if err != nil || p == "" {
-		return "engram", false
+		return "dxrk-memory", false
 	}
 	return p, true
 }
 
 // engramServerJSON returns the MCP server config bytes, using the absolute
-// path to the engram binary if it can be resolved via PATH.
+// path to the dxrk-memory binary if it can be resolved via PATH.
 func engramServerJSON() []byte {
 	cmd, _ := resolveEngramCommand()
 	cfg := map[string]any{
@@ -88,7 +88,7 @@ func engramOverlayJSON(agentID model.AgentID) []byte {
 		// in their config, which is invalid for OpenCode 1.3.3.
 		cfg = map[string]any{
 			"mcp": map[string]any{
-				"engram": map[string]any{
+				"dxrk-memory": map[string]any{
 					"__replace__": map[string]any{
 						"command": []string{cmd, "mcp", "--tools=agent"},
 						"type":    "local",
@@ -99,7 +99,7 @@ func engramOverlayJSON(agentID model.AgentID) []byte {
 	} else {
 		cfg = map[string]any{
 			"mcpServers": map[string]any{
-				"engram": map[string]any{
+				"dxrk-memory": map[string]any{
 					"command": cmd,
 					"args":    []string{"mcp", "--tools=agent"},
 				},
@@ -118,7 +118,7 @@ func vsCodeEngramOverlayJSON() []byte {
 	cmd, _ := resolveEngramCommand()
 	cfg := map[string]any{
 		"servers": map[string]any{
-			"engram": map[string]any{
+			"dxrk-memory": map[string]any{
 				"command": cmd,
 				"args":    []string{"mcp", "--tools=agent"},
 			},
@@ -142,9 +142,9 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 		// Engram v1.10.3+ writes an absolute path for the command field when
 		// `engram setup <agent>` is invoked. Dxrk-AI's Inject() runs after
 		// engram setup, so we must preserve any absolute command path already
-		// present instead of silently overwriting it with the relative "engram".
-		// See: https://github.com/Dxrk777/Dxrk/issues (engram absolute path regression)
-		mcpPath := adapter.MCPConfigPath(homeDir, "engram")
+		// present instead of silently overwriting it with the relative "dxrk-memory".
+		// See: https://github.com/Dxrk777/Dxrk-AI/issues (engram absolute path regression)
+		mcpPath := adapter.MCPConfigPath(homeDir, "dxrk-memory")
 		content := buildSeparateMCPContent(mcpPath, engramServerJSON())
 		mcpWrite, err := filemerge.WriteFileAtomic(mcpPath, content, 0o644)
 		if err != nil {
@@ -167,7 +167,7 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 		files = append(files, settingsPath)
 
 	case model.StrategyMCPConfigFile:
-		mcpPath := adapter.MCPConfigPath(homeDir, "engram")
+		mcpPath := adapter.MCPConfigPath(homeDir, "dxrk-memory")
 		if mcpPath == "" {
 			break
 		}
@@ -190,7 +190,7 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 		// in ~/.codex/config.toml, then write instruction files.
 		// All TOML mutations are composed in a single pass before writing to
 		// ensure idempotency (no intermediate states that differ on re-run).
-		configPath := adapter.MCPConfigPath(homeDir, "engram")
+		configPath := adapter.MCPConfigPath(homeDir, "dxrk-memory")
 		if configPath == "" {
 			break
 		}
@@ -224,14 +224,14 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 		switch adapter.SystemPromptStrategy() {
 		case model.StrategyMarkdownSections:
 			promptPath := adapter.SystemPromptFile(homeDir)
-			protocolContent := assets.MustRead("claude/engram-protocol.md")
+			protocolContent := assets.MustRead("claude/dxrk-memory-protocol.md")
 
 			existing, err := readFileOrEmpty(promptPath)
 			if err != nil {
 				return InjectionResult{}, err
 			}
 
-			updated := filemerge.InjectMarkdownSection(existing, "engram-protocol", protocolContent)
+			updated := filemerge.InjectMarkdownSection(existing, "dxrk-memory-protocol", protocolContent)
 
 			mdWrite, err := filemerge.WriteFileAtomic(promptPath, []byte(updated), 0o644)
 			if err != nil {
@@ -242,14 +242,14 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 
 		default:
 			promptPath := adapter.SystemPromptFile(homeDir)
-			protocolContent := assets.MustRead("claude/engram-protocol.md")
+			protocolContent := assets.MustRead("claude/dxrk-memory-protocol.md")
 
 			existing, err := readFileOrEmpty(promptPath)
 			if err != nil {
 				return InjectionResult{}, err
 			}
 
-			updated := filemerge.InjectMarkdownSection(existing, "engram-protocol", protocolContent)
+			updated := filemerge.InjectMarkdownSection(existing, "dxrk-memory-protocol", protocolContent)
 
 			mdWrite, err := filemerge.WriteFileAtomic(promptPath, []byte(updated), 0o644)
 			if err != nil {
@@ -267,20 +267,20 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 // files to ~/.codex/ and returns their paths.
 func writeCodexInstructionFiles(homeDir string) (instructionsPath, compactPath string, err error) {
 	codexDir := homeDir + "/.codex"
-	instructionsPath = codexDir + "/engram-instructions.md"
-	compactPath = codexDir + "/engram-compact-prompt.md"
+	instructionsPath = codexDir + "/dxrk-memory-instructions.md"
+	compactPath = codexDir + "/dxrk-memory-compact-prompt.md"
 
-	instrContent := assets.MustRead("codex/engram-instructions.md")
+	instrContent := assets.MustRead("codex/dxrk-memory-instructions.md")
 	instrWrite, err := filemerge.WriteFileAtomic(instructionsPath, []byte(instrContent), 0o644)
 	if err != nil {
-		return "", "", fmt.Errorf("write codex engram-instructions.md: %w", err)
+		return "", "", fmt.Errorf("write codex dxrk-memory-instructions.md: %w", err)
 	}
 	_ = instrWrite
 
-	compactContent := assets.MustRead("codex/engram-compact-prompt.md")
+	compactContent := assets.MustRead("codex/dxrk-memory-compact-prompt.md")
 	compactWrite, err := filemerge.WriteFileAtomic(compactPath, []byte(compactContent), 0o644)
 	if err != nil {
-		return "", "", fmt.Errorf("write codex engram-compact-prompt.md: %w", err)
+		return "", "", fmt.Errorf("write codex dxrk-memory-compact-prompt.md: %w", err)
 	}
 	_ = compactWrite
 
@@ -330,13 +330,13 @@ func readFileOrEmpty(path string) (string, error) {
 //
 // Engram v1.10.3+ writes an absolute command path when `engram setup` is run.
 // Dxrk-AI runs Inject() after setup, so we must not overwrite that absolute
-// path with the relative "engram" string from defaultEngramServerJSON.
+// path with the relative "dxrk-memory" string from defaultEngramServerJSON.
 //
 // Logic:
 //   - If the file does not exist yet, return defaultContent unchanged.
 //   - If the file exists but cannot be parsed as JSON, return defaultContent.
 //   - If the parsed JSON has a "command" value that is an absolute path to the
-//     engram binary, rebuild the config using that command and the canonical
+//     dxrk-memory binary, rebuild the config using that command and the canonical
 //     args (["mcp", "--tools=agent"]) so that the absolute path is preserved
 //     and the correct flags are always present.
 //   - Otherwise (relative command or other value), return defaultContent.
@@ -373,10 +373,10 @@ func buildSeparateMCPContent(mcpPath string, defaultContent []byte) []byte {
 }
 
 // isAbsoluteEngramPath reports whether path is an absolute filesystem path
-// that points to an engram binary.
+// that points to an dxrk-memory binary.
 //
 // Engram setup writes the full resolved path of the binary it was invoked
-// from, so any absolute path ending in "engram" (Unix) or "engram.exe"
+// from, so any absolute path ending in "dxrk-memory" (Unix) or "engram.exe"
 // (Windows) is considered valid.
 func isAbsoluteEngramPath(path string) bool {
 	if !filepath.IsAbs(path) {
@@ -384,7 +384,7 @@ func isAbsoluteEngramPath(path string) bool {
 	}
 	base := filepath.Base(path)
 	if runtime.GOOS == "windows" {
-		return strings.EqualFold(base, "engram.exe") || strings.EqualFold(base, "engram")
+		return strings.EqualFold(base, "engram.exe") || strings.EqualFold(base, "dxrk-memory")
 	}
-	return base == "engram"
+	return base == "dxrk-memory"
 }

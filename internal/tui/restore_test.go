@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/backup"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/backup"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 	tea "github.com/charmbracelet/bubbletea"
 )
 

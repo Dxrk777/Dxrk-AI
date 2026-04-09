@@ -27,14 +27,14 @@ const (
 type ComponentID string
 
 const (
-	ComponentEngram     ComponentID = "engram"
+	ComponentEngram     ComponentID = "dxrk-memory"
 	ComponentSDD        ComponentID = "sdd"
 	ComponentSkills     ComponentID = "skills"
 	ComponentContext7   ComponentID = "context7"
 	ComponentPersona    ComponentID = "persona"
 	ComponentPermission ComponentID = "permissions"
 	ComponentDxrk       ComponentID = "dxrk"
-	ComponentGGA        ComponentID = "gga"
+	ComponentGGA        ComponentID = "dxrk-guardian"
 	ComponentTheme      ComponentID = "theme"
 )
 

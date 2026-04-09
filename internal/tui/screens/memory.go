@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/state"
-	"github.com/Dxrk777/Dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-AI/internal/state"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/styles"
 )
 
 // MemoryOptions returns the memory menu options.

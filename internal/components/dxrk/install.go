@@ -1,9 +1,9 @@
 package dxrk
 
 import (
-	"github.com/Dxrk777/Dxrk/internal/installcmd"
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/installcmd"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 func InstallCommand(profile system.PlatformProfile) ([][]string, error) {

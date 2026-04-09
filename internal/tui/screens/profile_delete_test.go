@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/tui/screens"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/screens"
 )
 
 // ─── RenderProfileDelete ──────────────────────────────────────────────────────

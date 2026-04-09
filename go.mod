@@ -1,4 +1,4 @@
-module github.com/Dxrk777/Dxrk
+module github.com/Dxrk777/Dxrk-AI
 
 go 1.24
 

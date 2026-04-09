@@ -189,9 +189,9 @@ Cuando detectás estos contextos, **CARGÁ la skill ANTES de escribir código**:
 
 ---
 
-## 📚 Protocolo de Memoria Engram
+## 📚 Protocolo de Memoria Dxrk Memory
 
-Dxrk usa **Engram** para memoria persistente.
+Dxrk usa **Dxrk Memory** para memoria persistente.
 
 ### Cuándo GUARDAR (proactivamente)
 

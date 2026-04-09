@@ -3,7 +3,7 @@ package engram
 import (
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 const (

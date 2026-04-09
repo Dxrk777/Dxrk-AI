@@ -3,7 +3,7 @@ package agents
 import (
 	"os"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 // InstalledAgent pairs an agent ID with its resolved config root directory.

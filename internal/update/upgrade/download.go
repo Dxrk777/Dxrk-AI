@@ -13,8 +13,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/update"
 )
 
 // httpClient is the HTTP client used for asset downloads.

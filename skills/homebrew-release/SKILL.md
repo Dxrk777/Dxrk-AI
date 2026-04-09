@@ -1,11 +1,11 @@
 ---
 name: homebrew-release
 description: >
-  Release workflow for Gentleman-Programming homebrew-tap projects (GGA, Gentleman.Dots).
+  Release workflow for Dxrk777 homebrew-tap projects (GGA, Gentleman.Dots).
   Trigger: When user asks to release, bump version, update homebrew, or publish a new version.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "2.0"
 ---
 
@@ -75,24 +75,24 @@ Update `homebrew-tap/Formula/gentleman-dots.rb`:
 ```ruby
 class GentlemanDots < Formula
   desc "Interactive TUI installer for Gentleman.Dots development environment"
-  homepage "https://github.com/Gentleman-Programming/Gentleman.Dots"
+  homepage "https://github.com/Dxrk777/Gentleman.Dots"
   version "{VERSION}"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/Gentleman-Programming/Gentleman.Dots/releases/download/v#{version}/gentleman-installer-darwin-arm64"
+      url "https://github.com/Dxrk777/Gentleman.Dots/releases/download/v#{version}/gentleman-installer-darwin-arm64"
       sha256 "{SHA256_DARWIN_ARM64}"
     end
     on_intel do
-      url "https://github.com/Gentleman-Programming/Gentleman.Dots/releases/download/v#{version}/gentleman-installer-darwin-amd64"
+      url "https://github.com/Dxrk777/Gentleman.Dots/releases/download/v#{version}/gentleman-installer-darwin-amd64"
       sha256 "{SHA256_DARWIN_AMD64}"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/Gentleman-Programming/Gentleman.Dots/releases/download/v#{version}/gentleman-installer-linux-amd64"
+      url "https://github.com/Dxrk777/Gentleman.Dots/releases/download/v#{version}/gentleman-installer-linux-amd64"
       sha256 "{SHA256_LINUX_AMD64}"
     end
   end
@@ -123,7 +123,7 @@ git push origin main
 
 # In homebrew-tap repo
 cd /tmp && rm -rf homebrew-tap
-git clone git@github.com:Gentleman-Programming/homebrew-tap.git
+git clone git@github.com:Dxrk777/homebrew-tap.git
 cp {path-to}/Gentleman.Dots/homebrew-tap/Formula/gentleman-dots.rb /tmp/homebrew-tap/Formula/
 cd /tmp/homebrew-tap
 git add -A
@@ -144,7 +144,7 @@ git tag --list | tail -5
 ### Step 2: Get SHA256 of Tarball
 
 ```bash
-curl -sL https://github.com/Gentleman-Programming/gentleman-guardian-angel/archive/refs/tags/V{VERSION}.tar.gz | shasum -a 256
+curl -sL https://github.com/Dxrk777/gentleman-guardian-angel/archive/refs/tags/V{VERSION}.tar.gz | shasum -a 256
 ```
 
 ### Step 3: Update Formula
@@ -152,7 +152,7 @@ curl -sL https://github.com/Gentleman-Programming/gentleman-guardian-angel/archi
 Update `homebrew-tap/Formula/gga.rb`:
 
 ```ruby
-url "https://github.com/Gentleman-Programming/gentleman-guardian-angel/archive/refs/tags/V{VERSION}.tar.gz"
+url "https://github.com/Dxrk777/gentleman-guardian-angel/archive/refs/tags/V{VERSION}.tar.gz"
 sha256 "{NEW_SHA256}"
 version "{VERSION}"
 ```
@@ -178,7 +178,7 @@ cd installer && GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o gentleman-
 shasum -a 256 installer/gentleman-installer-*
 
 # SHA256 for GGA tarball
-curl -sL https://github.com/Gentleman-Programming/gentleman-guardian-angel/archive/refs/tags/V{VERSION}.tar.gz | shasum -a 256
+curl -sL https://github.com/Dxrk777/gentleman-guardian-angel/archive/refs/tags/V{VERSION}.tar.gz | shasum -a 256
 
 # Create GitHub release with binaries
 gh release create v{VERSION} installer/gentleman-installer-* --title "v{VERSION}" --notes "## Changes"

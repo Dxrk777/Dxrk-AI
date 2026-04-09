@@ -12,7 +12,7 @@ import (
 func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 	expectedFiles := []string{
 		// Claude agent files
-		"claude/engram-protocol.md",
+		"claude/dxrk-memory-protocol.md",
 		"claude/persona-Dxrk.md",
 		"claude/sdd-orchestrator.md",
 
@@ -60,7 +60,7 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 		"skills/sdd-verify/SKILL.md",
 		"skills/skill-registry/SKILL.md",
 		"skills/_shared/persistence-contract.md",
-		"skills/_shared/engram-convention.md",
+		"skills/_shared/dxrk-memory-convention.md",
 		"skills/_shared/openspec-convention.md",
 		"skills/_shared/sdd-phase-common.md",
 
@@ -165,7 +165,7 @@ func TestEmbeddedAssetCount(t *testing.T) {
 			continue
 		}
 		if entry.Name() == "_shared" {
-			for _, sharedFile := range []string{"persistence-contract.md", "engram-convention.md", "openspec-convention.md", "sdd-phase-common.md", "skill-resolver.md"} {
+			for _, sharedFile := range []string{"persistence-contract.md", "dxrk-memory-convention.md", "openspec-convention.md", "sdd-phase-common.md", "skill-resolver.md"} {
 				sharedPath := "skills/_shared/" + sharedFile
 				if _, err := Read(sharedPath); err != nil {
 					t.Fatalf("shared directory missing %q: %v", sharedFile, err)

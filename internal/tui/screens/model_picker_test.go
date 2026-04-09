@@ -3,8 +3,8 @@ package screens
 import (
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/opencode"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/opencode"
 )
 
 // makeTestState builds a minimal ModelPickerState with one provider and models

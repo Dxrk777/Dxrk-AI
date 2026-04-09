@@ -3,7 +3,7 @@ package screens
 import (
 	"strings"
 
-	"github.com/Dxrk777/Dxrk/internal/tui/styles"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/styles"
 )
 
 // ABSDDOptions returns the display labels for SDD integration modes.

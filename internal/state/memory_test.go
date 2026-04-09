@@ -25,7 +25,7 @@ func TestReadWriteHistory(t *testing.T) {
 	}
 
 	// Add an install
-	err = AddInstall(tmpDir, []string{"claude", "opencode"}, "full", []string{"engram", "sdd"}, true, 120)
+	err = AddInstall(tmpDir, []string{"claude", "opencode"}, "full", []string{"dxrk-memory", "sdd"}, true, 120)
 	if err != nil {
 		t.Fatalf("AddInstall() error = %v", err)
 	}
@@ -63,7 +63,7 @@ func TestGetLastInstall(t *testing.T) {
 	}
 
 	// Add install
-	AddInstall(tmpDir, []string{"claude"}, "minimal", []string{"engram"}, true, 60)
+	AddInstall(tmpDir, []string{"claude"}, "minimal", []string{"dxrk-memory"}, true, 60)
 
 	last, err = GetLastInstall(tmpDir)
 	if err != nil {

@@ -173,13 +173,13 @@ func EngramSync(homeDir string) error {
 	}
 
 	// Try to use engram CLI if available
-	_, err = exec.LookPath("engram")
+	_, err = exec.LookPath("dxrk-memory")
 	if err != nil {
 		return nil // Engram not installed, skip
 	}
 
 	// Create a memory entry for the install
-	cmd := exec.Command("engram", "memory", "add",
+	cmd := exec.Command("dxrk-memory", "memory", "add",
 		"--type", "install",
 		"--content", formatInstallMemory(history.LastInstall),
 	)

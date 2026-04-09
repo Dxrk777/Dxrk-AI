@@ -1,11 +1,11 @@
 {
   "mcpServers": {
-    "engram": {
+    "dxrk-memory": {
       "args": [
         "mcp",
         "--tools=agent"
       ],
-      "command": "/opt/homebrew/bin/engram"
+      "command": "/opt/homebrew/bin/dxrk-memory"
     }
   }
 }

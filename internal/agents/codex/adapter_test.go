@@ -8,8 +8,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 func TestDetect(t *testing.T) {
@@ -155,7 +155,7 @@ func TestConfigPathsCrossPlatform(t *testing.T) {
 
 	// RED: Codex MCP config path should now be ~/.codex/config.toml.
 	want := filepath.Join(home, ".codex", "config.toml")
-	if got := a.MCPConfigPath(home, "engram"); got != want {
+	if got := a.MCPConfigPath(home, "dxrk-memory"); got != want {
 		t.Fatalf("MCPConfigPath() = %q, want %q", got, want)
 	}
 	// Server name argument is ignored — always returns config.toml.

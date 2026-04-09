@@ -6,7 +6,7 @@ description: >
   Key phrases: "pr review", "revisar pr", "qué PRs hay", "PRs pendientes", "issues abiertos", "sin atención", "hacer review".
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "1.2"
 ---
 

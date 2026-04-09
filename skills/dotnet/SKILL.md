@@ -5,7 +5,7 @@ description: >
   Trigger: When writing C# code, .NET APIs, or Entity Framework models.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk777
   version: "1.0"
 ---
 

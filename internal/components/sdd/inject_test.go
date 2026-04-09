@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/agents/claude"
-	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
-	windsurfagent "github.com/Dxrk777/Dxrk/internal/agents/windsurf"
-	"github.com/Dxrk777/Dxrk/internal/assets"
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/opencode"
+	windsurfagent "github.com/Dxrk777/Dxrk-AI/internal/agents/windsurf"
+	"github.com/Dxrk777/Dxrk-AI/internal/assets"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 	// agents/cursor, agents/gemini, agents/vscode used via agents.NewAdapter()
 )
 
@@ -429,7 +429,7 @@ func TestInjectVSCodeWritesSDDOrchestratorAndSkills(t *testing.T) {
 		t.Fatalf("expected SDD skill file %q: %v", skillPath, err)
 	}
 
-	sharedPath := filepath.Join(home, ".copilot", "skills", "_shared", "engram-convention.md")
+	sharedPath := filepath.Join(home, ".copilot", "skills", "_shared", "dxrk-memory-convention.md")
 	if _, err := os.Stat(sharedPath); err != nil {
 		t.Fatalf("expected shared SDD convention file %q: %v", sharedPath, err)
 	}
@@ -530,9 +530,9 @@ func TestInjectFileAppendMigratesFullLegacyOrchestratorBlock(t *testing.T) {
 		"Each phase returns: `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`.\n\n" +
 		"### Sub-Agent Launch Pattern\n\n" +
 		"SKILL: Load `{skill-path}` before starting.\n\n" +
-		"<!-- Dxrk-AI:engram-protocol -->\n" +
+		"<!-- Dxrk-AI:dxrk-memory-protocol -->\n" +
 		"## Engram Persistent Memory - Protocol\n" +
-		"<!-- /Dxrk-AI:engram-protocol -->\n"
+		"<!-- /Dxrk-AI:dxrk-memory-protocol -->\n"
 
 	if err := os.WriteFile(promptPath, []byte(existing), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
@@ -564,7 +564,7 @@ func TestInjectFileAppendMigratesFullLegacyOrchestratorBlock(t *testing.T) {
 	if !strings.Contains(text, "## Project Standards (auto-resolved)") {
 		t.Fatal("current compact-rules launch pattern missing after migration")
 	}
-	if strings.Count(text, "<!-- Dxrk-AI:engram-protocol -->") != 1 {
+	if strings.Count(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") != 1 {
 		t.Fatal("engram protocol marker should be preserved exactly once")
 	}
 }
@@ -1552,7 +1552,7 @@ func TestInjectWritesAllFourSharedFilesToDisk(t *testing.T) {
 	sharedDir := filepath.Join(home, ".config", "opencode", "skills", "_shared")
 	expectedFiles := []string{
 		"persistence-contract.md",
-		"engram-convention.md",
+		"dxrk-memory-convention.md",
 		"openspec-convention.md",
 		"sdd-phase-common.md",
 		"skill-resolver.md",
@@ -1608,7 +1608,7 @@ func TestInjectSharedDirCreatedWithAllFiles(t *testing.T) {
 		names[e.Name()] = true
 	}
 
-	for _, want := range []string{"persistence-contract.md", "engram-convention.md", "openspec-convention.md", "sdd-phase-common.md", "skill-resolver.md"} {
+	for _, want := range []string{"persistence-contract.md", "dxrk-memory-convention.md", "openspec-convention.md", "sdd-phase-common.md", "skill-resolver.md"} {
 		if !names[want] {
 			t.Errorf("_shared directory missing %q after Inject()", want)
 		}
@@ -2515,7 +2515,7 @@ func TestInjectCodexWritesSDDOrchestratorAndSkills(t *testing.T) {
 	}
 
 	// Shared files should also be written.
-	sharedPath := filepath.Join(home, ".codex", "skills", "_shared", "engram-convention.md")
+	sharedPath := filepath.Join(home, ".codex", "skills", "_shared", "dxrk-memory-convention.md")
 	if _, err := os.Stat(sharedPath); err != nil {
 		t.Fatalf("expected shared SDD convention file %q: %v", sharedPath, err)
 	}

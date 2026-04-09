@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/tui/screens"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/tui/screens"
 )
 
 // ─── RenderProfileCreate step 0 (name input) ─────────────────────────────────

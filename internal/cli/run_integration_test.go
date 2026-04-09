@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 // missingBinaryLookPath simulates all installable binaries (engram, dxrk) as
@@ -77,14 +77,14 @@ func TestRunInstallRollsBackOnComponentFailure(t *testing.T) {
 
 	osUserHomeDir = func() (string, error) { return home, nil }
 	runCommand = func(name string, args ...string) error {
-		if name == "brew" && len(args) == 2 && args[0] == "install" && args[1] == "engram" {
+		if name == "brew" && len(args) == 2 && args[0] == "install" && args[1] == "dxrk-memory" {
 			return os.ErrPermission
 		}
 		return nil
 	}
 
 	_, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "context7", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "context7", "--component", "dxrk-memory"},
 		system.DetectionResult{},
 	)
 	if err == nil {
@@ -243,7 +243,7 @@ func TestRunInstallLinuxUbuntuWithEngramUsesDirectDownload(t *testing.T) {
 
 	detection := linuxDetectionResult(system.LinuxDistroUbuntu, "apt")
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -256,7 +256,7 @@ func TestRunInstallLinuxUbuntuWithEngramUsesDirectDownload(t *testing.T) {
 
 	// Must NOT use go install for engram on Linux.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "engram") {
+		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
 			t.Fatalf("Linux engram install should NOT use go install, got command: %s", cmd)
 		}
 	}
@@ -286,7 +286,7 @@ func TestRunInstallLinuxArchWithEngramUsesDirectDownload(t *testing.T) {
 
 	detection := linuxDetectionResult(system.LinuxDistroArch, "pacman")
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -299,7 +299,7 @@ func TestRunInstallLinuxArchWithEngramUsesDirectDownload(t *testing.T) {
 
 	// Must NOT use go install for engram on Arch Linux.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "engram") {
+		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
 			t.Fatalf("Arch Linux engram install should NOT use go install, got command: %s", cmd)
 		}
 	}
@@ -339,7 +339,7 @@ func TestRunInstallLinuxRollsBackOnComponentFailure(t *testing.T) {
 
 	detection := linuxDetectionResult(system.LinuxDistroUbuntu, "apt")
 	_, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "context7", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "context7", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err == nil {
@@ -536,7 +536,7 @@ func TestRunInstallMacOSStillResolvesBrewCommands(t *testing.T) {
 
 	detection := macOSDetectionResult()
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -635,7 +635,7 @@ func TestRunInstallMacOSRollbackStillWorks(t *testing.T) {
 
 	osUserHomeDir = func() (string, error) { return home, nil }
 	runCommand = func(name string, args ...string) error {
-		if name == "brew" && len(args) == 2 && args[0] == "install" && args[1] == "engram" {
+		if name == "brew" && len(args) == 2 && args[0] == "install" && args[1] == "dxrk-memory" {
 			return os.ErrPermission
 		}
 		return nil
@@ -643,7 +643,7 @@ func TestRunInstallMacOSRollbackStillWorks(t *testing.T) {
 
 	detection := macOSDetectionResult()
 	_, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "context7", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "context7", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err == nil {
@@ -687,7 +687,7 @@ func TestRunInstallEngramSkipsInstallWhenAlreadyOnPath(t *testing.T) {
 
 	detection := macOSDetectionResult()
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -700,7 +700,7 @@ func TestRunInstallEngramSkipsInstallWhenAlreadyOnPath(t *testing.T) {
 
 	// No brew/go install commands should have been recorded — only agent install.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "brew install engram") || (strings.Contains(cmd, "go install") && strings.Contains(cmd, "engram")) {
+		if strings.Contains(cmd, "brew install engram") || (strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory")) {
 			t.Fatalf("expected engram install to be skipped, but got command: %s", cmd)
 		}
 	}
@@ -725,7 +725,7 @@ func TestRunInstallEngramAttemptsOpenCodeSetupWhenBinaryPresent(t *testing.T) {
 	runCommand = recorder.record
 
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		macOSDetectionResult(),
 	)
 	if err != nil {
@@ -738,7 +738,7 @@ func TestRunInstallEngramAttemptsOpenCodeSetupWhenBinaryPresent(t *testing.T) {
 	commands := recorder.get()
 	foundSetup := false
 	for _, cmd := range commands {
-		if strings.Contains(cmd, "engram setup opencode") {
+		if strings.Contains(cmd, "dxrk-memory setup opencode") {
 			foundSetup = true
 			break
 		}
@@ -764,14 +764,14 @@ func TestRunInstallEngramFallsBackToInjectWhenSetupFails(t *testing.T) {
 		return "/usr/local/bin/" + name, nil
 	}
 	runCommand = func(name string, args ...string) error {
-		if name == "engram" && len(args) == 2 && args[0] == "setup" && args[1] == "opencode" {
+		if name == "dxrk-memory" && len(args) == 2 && args[0] == "setup" && args[1] == "opencode" {
 			return errors.New("setup failed")
 		}
 		return nil
 	}
 
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		macOSDetectionResult(),
 	)
 	if err != nil {
@@ -805,20 +805,20 @@ func TestRunInstallEngramSetupStrictFailsWhenSetupFails(t *testing.T) {
 		return "/usr/local/bin/" + name, nil
 	}
 	runCommand = func(name string, args ...string) error {
-		if name == "engram" && len(args) == 2 && args[0] == "setup" && args[1] == "opencode" {
+		if name == "dxrk-memory" && len(args) == 2 && args[0] == "setup" && args[1] == "opencode" {
 			return errors.New("setup failed")
 		}
 		return nil
 	}
 
 	_, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		macOSDetectionResult(),
 	)
 	if err == nil {
 		t.Fatalf("RunInstall() expected error in strict setup mode")
 	}
-	if !strings.Contains(err.Error(), "engram setup for \"opencode\"") {
+	if !strings.Contains(err.Error(), "dxrk-memory setup for \"opencode\"") {
 		t.Fatalf("RunInstall() error = %v, want setup error", err)
 	}
 }
@@ -842,7 +842,7 @@ func TestRunInstallEngramDefaultModeAttemptsClaudeSetup(t *testing.T) {
 	runCommand = recorder.record
 
 	result, err := RunInstall(
-		[]string{"--agent", "claude-code", "--component", "engram"},
+		[]string{"--agent", "claude-code", "--component", "dxrk-memory"},
 		macOSDetectionResult(),
 	)
 	if err != nil {
@@ -855,7 +855,7 @@ func TestRunInstallEngramDefaultModeAttemptsClaudeSetup(t *testing.T) {
 	commands := recorder.get()
 	foundSetup := false
 	for _, cmd := range commands {
-		if strings.Contains(cmd, "engram setup claude-code") {
+		if strings.Contains(cmd, "dxrk-memory setup claude-code") {
 			foundSetup = true
 			break
 		}
@@ -1004,7 +1004,7 @@ func TestRunInstallEngramLinuxUsesDirectDownloadNoGoRequired(t *testing.T) {
 
 	detection := linuxDetectionResult(system.LinuxDistroUbuntu, "apt")
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -1020,7 +1020,7 @@ func TestRunInstallEngramLinuxUsesDirectDownloadNoGoRequired(t *testing.T) {
 		if strings.Contains(cmd, "apt-get install -y golang") {
 			t.Fatalf("Go should NOT be auto-installed (no longer needed for engram), got command: %s", cmd)
 		}
-		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "engram") {
+		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
 			t.Fatalf("engram should NOT be installed via go install, got command: %s", cmd)
 		}
 	}
@@ -1052,7 +1052,7 @@ func TestRunInstallEngramLinuxNeverInstallsGo(t *testing.T) {
 
 	detection := linuxDetectionResult(system.LinuxDistroUbuntu, "apt")
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -1092,7 +1092,7 @@ func TestRunInstallEngramBrewSkipsGoCheck(t *testing.T) {
 
 	detection := macOSDetectionResult()
 	result, err := RunInstall(
-		[]string{"--agent", "opencode", "--component", "engram"},
+		[]string{"--agent", "opencode", "--component", "dxrk-memory"},
 		detection,
 	)
 	if err != nil {
@@ -1334,7 +1334,7 @@ func TestRunInstallUpgradeIdempotency(t *testing.T) {
 	args := []string{
 		"--agent", "claude-code",
 		"--component", "sdd",
-		"--component", "engram",
+		"--component", "dxrk-memory",
 		"--component", "persona",
 	}
 
@@ -1401,7 +1401,7 @@ func TestRunInstallUpgradeIdempotency(t *testing.T) {
 
 	// 3. No duplicate Dxrk-AI marker blocks — each section's open marker
 	// must appear exactly once.
-	for _, sectionID := range []string{"sdd-orchestrator", "engram-protocol"} {
+	for _, sectionID := range []string{"sdd-orchestrator", "dxrk-memory-protocol"} {
 		openMarker := "<!-- Dxrk-AI:" + sectionID + " -->"
 		count := strings.Count(content, openMarker)
 		if count != 1 {
@@ -1622,7 +1622,7 @@ func TestRunInstallCustomPresetExplicitComponentsResolveCorrectly(t *testing.T) 
 		[]string{
 			"--agent", "claude-code",
 			"--preset", "custom",
-			"--component", "engram",
+			"--component", "dxrk-memory",
 			"--component", "sdd",
 			"--component", "permissions",
 			"--dry-run",
@@ -1674,7 +1674,7 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 		[]string{
 			"--agent", "opencode",
 			"--component", "persona",
-			"--component", "engram",
+			"--component", "dxrk-memory",
 			"--component", "sdd",
 			"--persona", "dxrk",
 		},
@@ -1699,19 +1699,19 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 	// For OpenCode, the SDD orchestrator goes into opencode.json (agent overlay),
 	// NOT AGENTS.md. AGENTS.md only contains persona and engram sections.
 	// The issue #121 regression was that Persona would overwrite AGENTS.md
-	// AFTER engram had already injected the engram-protocol marker, destroying
+	// AFTER engram had already injected the dxrk-memory-protocol marker, destroying
 	// the engram section. We verify persona + engram coexist.
 
 	// Engram protocol section must be present
-	if !strings.Contains(text, "<!-- Dxrk-AI:engram-protocol -->") {
-		t.Error("AGENTS.md missing engram-protocol open marker (issue #121 regression: persona may have overwritten engram section)")
+	if !strings.Contains(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") {
+		t.Error("AGENTS.md missing dxrk-memory-protocol open marker (issue #121 regression: persona may have overwritten engram section)")
 	}
-	if !strings.Contains(text, "<!-- /Dxrk-AI:engram-protocol -->") {
-		t.Error("AGENTS.md missing engram-protocol close marker")
+	if !strings.Contains(text, "<!-- /Dxrk-AI:dxrk-memory-protocol -->") {
+		t.Error("AGENTS.md missing dxrk-memory-protocol close marker")
 	}
 
 	// Engram section must not be duplicated
-	marker := "<!-- Dxrk-AI:engram-protocol -->"
+	marker := "<!-- Dxrk-AI:dxrk-memory-protocol -->"
 	if count := strings.Count(text, marker); count != 1 {
 		t.Errorf("AGENTS.md contains %d occurrences of %q, want exactly 1 (no duplicates)", count, marker)
 	}

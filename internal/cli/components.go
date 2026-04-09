@@ -6,20 +6,20 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/components/dxrk"
-	"github.com/Dxrk777/Dxrk/internal/components/engram"
-	"github.com/Dxrk777/Dxrk/internal/components/mcp"
-	"github.com/Dxrk777/Dxrk/internal/components/permissions"
-	"github.com/Dxrk777/Dxrk/internal/components/persona"
-	"github.com/Dxrk777/Dxrk/internal/components/sdd"
-	"github.com/Dxrk777/Dxrk/internal/components/skills"
-	"github.com/Dxrk777/Dxrk/internal/components/theme"
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/mcp"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/permissions"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/persona"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/sdd"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/skills"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/theme"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
-// applyEngram installs the engram binary (if needed) and injects engram configuration
+// applyEngram installs the dxrk-memory binary (if needed) and injects engram configuration
 // into each agent adapter. On brew systems, it uses `brew install`; on Linux/Windows,
 // it downloads a pre-built binary from GitHub releases.
 func applyEngram(adapters []agents.Adapter, profile system.PlatformProfile, homeDir string) error {
@@ -36,23 +36,23 @@ func applyEngram(adapters []agents.Adapter, profile system.PlatformProfile, home
 			slug, _ := engram.SetupAgentSlug(adapter.Agent())
 			if err := runCommand(engramBinaryPath, "setup", slug); err != nil {
 				if setupStrict {
-					return fmt.Errorf("engram setup for %q: %w", adapter.Agent(), err)
+					return fmt.Errorf("dxrk-memory setup for %q: %w", adapter.Agent(), err)
 				}
 			}
 		}
 		if _, err := engram.Inject(homeDir, adapter); err != nil {
-			return fmt.Errorf("inject engram for %q: %w", adapter.Agent(), err)
+			return fmt.Errorf("inject dxrk-memory for %q: %w", adapter.Agent(), err)
 		}
 	}
 	return nil
 }
 
-// installEngramBinary checks if engram is already available on PATH. If not, it installs
+// installEngramBinary checks if dxrk-memory is already available on PATH. If not, it installs
 // it via brew (macOS/Linux with Homebrew) or downloads a pre-built binary from GitHub.
-// Returns the path to the engram binary.
+// Returns the path to the dxrk-memory binary.
 func installEngramBinary(profile system.PlatformProfile) (string, error) {
-	if _, err := cmdLookPath("engram"); err == nil {
-		return "engram", nil
+	if _, err := cmdLookPath("dxrk-memory"); err == nil {
+		return "dxrk-memory", nil
 	}
 
 	if profile.PackageManager == "brew" {
@@ -63,13 +63,13 @@ func installEngramBinary(profile system.PlatformProfile) (string, error) {
 		if err := runCommandSequence(commands); err != nil {
 			return "", err
 		}
-		return "engram", nil
+		return "dxrk-memory", nil
 	}
 
 	// Linux / Windows: download pre-built binary
 	engramBinaryPath, err := engramDownloadFn(profile)
 	if err != nil {
-		return "", fmt.Errorf("download engram binary: %w", err)
+		return "", fmt.Errorf("download dxrk-memory binary: %w", err)
 	}
 
 	// Add to PATH so subsequent commands can find it

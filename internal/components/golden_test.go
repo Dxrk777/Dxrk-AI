@@ -9,22 +9,22 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/agents/antigravity"
-	"github.com/Dxrk777/Dxrk/internal/agents/claude"
-	codexagent "github.com/Dxrk777/Dxrk/internal/agents/codex"
-	"github.com/Dxrk777/Dxrk/internal/agents/cursor"
-	"github.com/Dxrk777/Dxrk/internal/agents/gemini"
-	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
-	"github.com/Dxrk777/Dxrk/internal/agents/vscode"
-	"github.com/Dxrk777/Dxrk/internal/agents/windsurf"
-	"github.com/Dxrk777/Dxrk/internal/assets"
-	"github.com/Dxrk777/Dxrk/internal/components/engram"
-	"github.com/Dxrk777/Dxrk/internal/components/mcp"
-	"github.com/Dxrk777/Dxrk/internal/components/persona"
-	"github.com/Dxrk777/Dxrk/internal/components/sdd"
-	"github.com/Dxrk777/Dxrk/internal/components/skills"
-	"github.com/Dxrk777/Dxrk/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/antigravity"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/claude"
+	codexagent "github.com/Dxrk777/Dxrk-AI/internal/agents/codex"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/cursor"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/gemini"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/vscode"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/windsurf"
+	"github.com/Dxrk777/Dxrk-AI/internal/assets"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/mcp"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/persona"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/sdd"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/skills"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -494,11 +494,11 @@ func TestGoldenEngram_Claude(t *testing.T) {
 
 	// MCP server JSON config.
 	mcpJSON := readTestFile(t, filepath.Join(home, ".claude", "mcp", "engram.json"))
-	assertGolden(t, "engram-claude-mcp.golden", mcpJSON)
+	assertGolden(t, "dxrk-memory-claude-mcp.golden", mcpJSON)
 
-	// CLAUDE.md with engram-protocol section.
+	// CLAUDE.md with dxrk-memory-protocol section.
 	claudeMD := readTestFile(t, filepath.Join(home, ".claude", "CLAUDE.md"))
-	assertGolden(t, "engram-claude-claudemd.golden", claudeMD)
+	assertGolden(t, "dxrk-memory-claude-claudemd.golden", claudeMD)
 }
 
 func TestGoldenEngram_OpenCode(t *testing.T) {
@@ -518,7 +518,7 @@ func TestGoldenEngram_OpenCode(t *testing.T) {
 	}
 
 	configJSON := readTestFile(t, filepath.Join(home, ".config", "opencode", "opencode.json"))
-	assertGolden(t, "engram-opencode-settings.golden", configJSON)
+	assertGolden(t, "dxrk-memory-opencode-settings.golden", configJSON)
 }
 
 func TestGoldenEngram_Windsurf(t *testing.T) {
@@ -536,7 +536,7 @@ func TestGoldenEngram_Windsurf(t *testing.T) {
 	}
 
 	mcpJSON := readTestFile(t, filepath.Join(home, ".codeium", "windsurf", "mcp_config.json"))
-	assertGolden(t, "engram-windsurf-mcp.golden", mcpJSON)
+	assertGolden(t, "dxrk-memory-windsurf-mcp.golden", mcpJSON)
 }
 
 // ---------------------------------------------------------------------------
@@ -727,11 +727,11 @@ func TestGoldenEngram_Antigravity(t *testing.T) {
 
 	// MCP config written to ~/.gemini/antigravity/mcp_config.json.
 	mcpJSON := readTestFile(t, filepath.Join(home, ".gemini", "antigravity", "mcp_config.json"))
-	assertGolden(t, "engram-antigravity-mcp.golden", mcpJSON)
+	assertGolden(t, "dxrk-memory-antigravity-mcp.golden", mcpJSON)
 
-	// GEMINI.md must contain the engram-protocol section.
+	// GEMINI.md must contain the dxrk-memory-protocol section.
 	rulesFile := readTestFile(t, filepath.Join(home, ".gemini", "GEMINI.md"))
-	assertGolden(t, "engram-antigravity-rulesmd.golden", rulesFile)
+	assertGolden(t, "dxrk-memory-antigravity-rulesmd.golden", rulesFile)
 }
 
 // ---------------------------------------------------------------------------

@@ -86,7 +86,7 @@ func AutoUpdateCheck(stdout io.Writer) (updated bool, err error) {
 
 // getLatestTag fetches the latest release tag from GitHub.
 func getLatestTag() (string, error) {
-	url := "https://api.github.com/repos/Dxrk777/Dxrk/releases/latest"
+	url := "https://api.github.com/repos/Dxrk777/Dxrk-AI/releases/latest"
 
 	resp, err := http.Get(url) //nolint:gosec // URL is static
 	if err != nil {
@@ -135,7 +135,7 @@ func getArchiveName(tag string) string {
 func downloadAndExtractBinary(tag string) (string, error) {
 	archiveName := getArchiveName(tag)
 	downloadURL := fmt.Sprintf(
-		"https://github.com/Dxrk777/Dxrk/releases/download/%s/%s",
+		"https://github.com/Dxrk777/Dxrk-AI/releases/download/%s/%s",
 		tag, archiveName,
 	)
 

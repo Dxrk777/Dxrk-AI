@@ -11,12 +11,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/components/engram"
-	"github.com/Dxrk777/Dxrk/internal/system"
-	"github.com/Dxrk777/Dxrk/internal/update"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/update"
 )
 
-// engramDownloadFn is the function used to download the engram binary.
+// engramDownloadFn is the function used to download the dxrk-memory binary.
 // Package-level var for testability — swapped in tests to avoid real network calls.
 var engramDownloadFn = engram.DownloadLatestBinary
 
@@ -112,7 +112,7 @@ func goInstallUpgrade(ctx context.Context, tool update.ToolInfo, latestVersion s
 func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.PlatformProfile) error {
 	// engram: always use its dedicated binary downloader regardless of platform
 	// (except brew, which is handled by effectiveMethod before we get here).
-	if r.Tool.Name == "engram" {
+	if r.Tool.Name == "dxrk-memory" {
 		return engramBinaryUpgrade(profile)
 	}
 
@@ -133,13 +133,13 @@ func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.Pl
 	return downloadAndReplace(ctx, r, profile)
 }
 
-// engramBinaryUpgrade downloads the latest engram binary using its dedicated
+// engramBinaryUpgrade downloads the latest dxrk-memory binary using its dedicated
 // cross-platform downloader and adds the install directory to PATH.
 // On Windows the PATH change is also persisted to the user registry via PowerShell.
 func engramBinaryUpgrade(profile system.PlatformProfile) error {
 	binaryPath, err := engramDownloadFn(profile)
 	if err != nil {
-		return fmt.Errorf("download engram binary: %w", err)
+		return fmt.Errorf("download dxrk-memory binary: %w", err)
 	}
 	// Add install dir to PATH. On Windows this also persists via PowerShell (user registry).
 	binDir := filepath.Dir(binaryPath)

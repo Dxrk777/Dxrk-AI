@@ -141,7 +141,7 @@ Each phase has explicit read/write rules:
 
 For phases with required dependencies, sub-agent reads directly from the backend — orchestrator passes artifact references (topic keys or file paths), NOT content itself.
 
-#### Engram Topic Key Format
+#### Dxrk Memory Topic Key Format
 
 When launching sub-agents for SDD phases with engram mode, pass these exact topic_keys as artifact references:
 

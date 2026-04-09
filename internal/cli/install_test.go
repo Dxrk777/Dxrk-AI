@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/system"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
 func TestParseInstallFlagsSupportsCSVAndRepeated(t *testing.T) {
@@ -27,7 +27,7 @@ func TestParseInstallFlagsSupportsCSVAndRepeated(t *testing.T) {
 		t.Fatalf("agents = %v", flags.Agents)
 	}
 
-	if !reflect.DeepEqual(flags.Components, []string{"engram", "sdd", "skills"}) {
+	if !reflect.DeepEqual(flags.Components, []string{"dxrk-memory", "sdd", "skills"}) {
 		t.Fatalf("components = %v", flags.Components)
 	}
 

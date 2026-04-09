@@ -10,14 +10,14 @@ import (
 // MCP entry (including --tools=agent). All other sections are preserved.
 //
 // engramCmd is the command string to use (e.g. an absolute path like
-// "/usr/local/bin/engram"). If engramCmd is empty, it falls back to "engram".
+// "/usr/local/bin/engram"). If engramCmd is empty, it falls back to "dxrk-memory".
 //
 // This is a string-based helper (no TOML parser dependency) ported from
 // engram/internal/setup/setup.go. It handles the limited TOML subset that
 // Codex uses.
 func UpsertCodexEngramBlock(content, engramCmd string) string {
 	if engramCmd == "" {
-		engramCmd = "engram"
+		engramCmd = "dxrk-memory"
 	}
 	// Escape backslashes for TOML double-quoted strings (Windows paths).
 	// e.g. C:\Users\foo → C:\\Users\\foo — prevents TOML unicode escape errors (\U).

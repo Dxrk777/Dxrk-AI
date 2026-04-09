@@ -13,7 +13,7 @@ func TestUpsertCodexEngramBlock_Empty(t *testing.T) {
 	if !strings.Contains(result, "[mcp_servers.engram]") {
 		t.Fatalf("result missing [mcp_servers.engram]; got:\n%s", result)
 	}
-	if !strings.Contains(result, `command = "engram"`) {
+	if !strings.Contains(result, `command = "dxrk-memory"`) {
 		t.Fatalf("result missing command = \"engram\"; got:\n%s", result)
 	}
 	if !strings.Contains(result, `"--tools=agent"`) {
@@ -29,7 +29,7 @@ func TestUpsertCodexEngramBlock_ExistingBlock(t *testing.T) {
 key = "value"
 
 [mcp_servers.engram]
-command = "engram"
+command = "dxrk-memory"
 args = ["mcp"]
 
 [another_section]
@@ -85,7 +85,7 @@ func TestUpsertCodexEngramBlock_AbsolutePath(t *testing.T) {
 	if !strings.Contains(result, `command = "/usr/local/bin/engram"`) {
 		t.Fatalf("result missing absolute command path; got:\n%s", result)
 	}
-	if strings.Contains(result, `command = "engram"`) {
+	if strings.Contains(result, `command = "dxrk-memory"`) {
 		t.Fatalf("result should NOT have relative command when absolute path given; got:\n%s", result)
 	}
 }
@@ -124,7 +124,7 @@ func TestUpsertCodexEngramBlockWindowsPath(t *testing.T) {
 
 func TestUpsertTopLevelTOMLString_NewKey(t *testing.T) {
 	input := `[mcp_servers.engram]
-command = "engram"
+command = "dxrk-memory"
 `
 	result := UpsertTopLevelTOMLString(input, "model_instructions_file", "/home/user/.codex/instructions.md")
 
@@ -143,7 +143,7 @@ func TestUpsertTopLevelTOMLString_ReplaceKey(t *testing.T) {
 	input := `model_instructions_file = "/old/path.md"
 
 [mcp_servers.engram]
-command = "engram"
+command = "dxrk-memory"
 `
 	result := UpsertTopLevelTOMLString(input, "model_instructions_file", "/new/path.md")
 
@@ -161,7 +161,7 @@ command = "engram"
 
 func TestUpsertTopLevelTOMLString_Idempotent(t *testing.T) {
 	input := `[mcp_servers.engram]
-command = "engram"
+command = "dxrk-memory"
 `
 	first := UpsertTopLevelTOMLString(input, "model_instructions_file", "/path/instructions.md")
 	second := UpsertTopLevelTOMLString(first, "model_instructions_file", "/path/instructions.md")

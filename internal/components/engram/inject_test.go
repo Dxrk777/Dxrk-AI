@@ -9,12 +9,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/agents"
-	"github.com/Dxrk777/Dxrk/internal/agents/claude"
-	"github.com/Dxrk777/Dxrk/internal/agents/codex"
-	"github.com/Dxrk777/Dxrk/internal/agents/gemini"
-	"github.com/Dxrk777/Dxrk/internal/agents/opencode"
-	"github.com/Dxrk777/Dxrk/internal/agents/vscode"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/claude"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/codex"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/gemini"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/opencode"
+	"github.com/Dxrk777/Dxrk-AI/internal/agents/vscode"
 )
 
 func claudeAdapter() agents.Adapter   { return claude.NewAdapter() }
@@ -29,7 +29,7 @@ func skipOnWindows(t *testing.T) {
 }
 
 // assertArgsHaveToolsAgent is a shared helper that validates a JSON file
-// contains the MCP "engram" entry with --tools=agent in args.
+// contains the MCP "dxrk-memory" entry with --tools=agent in args.
 func assertArgsHaveToolsAgent(t *testing.T, path string) {
 	t.Helper()
 	content, err := os.ReadFile(path)
@@ -62,7 +62,7 @@ func TestInjectClaudeWritesMCPConfig(t *testing.T) {
 
 	// Parse the JSON and validate the "command" key exists and references engram.
 	// The command may be an absolute path (if engram is on PATH) or the relative
-	// string "engram" (if not found). Both are valid.
+	// string "dxrk-memory" (if not found). Both are valid.
 	var parsed map[string]any
 	if err := json.Unmarshal(mcpContent, &parsed); err != nil {
 		t.Fatalf("Unmarshal(engram.json) error = %v", err)
@@ -71,10 +71,10 @@ func TestInjectClaudeWritesMCPConfig(t *testing.T) {
 	if !ok || cmd == "" {
 		t.Fatalf("engram.json missing or empty command field; got: %s", mcpContent)
 	}
-	// Command must either be the literal "engram" or an absolute path ending in "engram".
+	// Command must either be the literal "dxrk-memory" or an absolute path ending in "dxrk-memory".
 	base := filepath.Base(cmd)
-	if base != "engram" && base != "engram.exe" {
-		t.Fatalf("engram.json command %q does not reference engram binary; got: %s", cmd, mcpContent)
+	if base != "dxrk-memory" && base != "engram.exe" {
+		t.Fatalf("engram.json command %q does not reference dxrk-memory binary; got: %s", cmd, mcpContent)
 	}
 	if _, ok := parsed["args"]; !ok {
 		t.Fatal("engram.json missing args field")
@@ -98,11 +98,11 @@ func TestInjectClaudeWritesProtocolSection(t *testing.T) {
 	}
 
 	text := string(content)
-	if !strings.Contains(text, "<!-- Dxrk-AI:engram-protocol -->") {
-		t.Fatal("CLAUDE.md missing open marker for engram-protocol")
+	if !strings.Contains(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") {
+		t.Fatal("CLAUDE.md missing open marker for dxrk-memory-protocol")
 	}
-	if !strings.Contains(text, "<!-- /Dxrk-AI:engram-protocol -->") {
-		t.Fatal("CLAUDE.md missing close marker for engram-protocol")
+	if !strings.Contains(text, "<!-- /Dxrk-AI:dxrk-memory-protocol -->") {
+		t.Fatal("CLAUDE.md missing close marker for dxrk-memory-protocol")
 	}
 	// Real content check.
 	if !strings.Contains(text, "mem_save") {
@@ -153,7 +153,7 @@ func TestInjectOpenCodeMergesEngramToSettings(t *testing.T) {
 	}
 
 	text := string(config)
-	if !strings.Contains(text, `"engram"`) {
+	if !strings.Contains(text, `"dxrk-memory"`) {
 		t.Fatal("opencode.json missing engram server entry")
 	}
 	if !strings.Contains(text, `"mcp"`) {
@@ -188,7 +188,7 @@ func TestInjectOpenCodeMergesEngramToSettings(t *testing.T) {
 		t.Fatalf("ReadFile(AGENTS.md) error = %v", err)
 	}
 	agentsText := string(agentsContent)
-	if !strings.Contains(agentsText, "<!-- Dxrk-AI:engram-protocol -->") {
+	if !strings.Contains(agentsText, "<!-- Dxrk-AI:dxrk-memory-protocol -->") {
 		t.Fatal("AGENTS.md missing engram protocol section marker")
 	}
 	if !strings.Contains(agentsText, "mem_save") {
@@ -232,7 +232,7 @@ func TestInjectOpenCodeMigratesFromOldFormat(t *testing.T) {
 	}
 
 	// Pre-seed with the old v1.11.3 format.
-	oldFormat := `{"mcp": {"engram": {"command": "/opt/homebrew/bin/engram", "args": ["mcp","--tools=agent"], "type": "local"}}}`
+	oldFormat := `{"mcp": {"dxrk-memory": {"command": "/opt/homebrew/bin/engram", "args": ["mcp","--tools=agent"], "type": "local"}}}`
 	if err := os.WriteFile(configPath, []byte(oldFormat), 0o644); err != nil {
 		t.Fatalf("WriteFile(opencode.json) error = %v", err)
 	}
@@ -255,13 +255,13 @@ func TestInjectOpenCodeMigratesFromOldFormat(t *testing.T) {
 		t.Fatalf("mcp.engram still contains 'args' key after migration; got:\n%s", content)
 	}
 
-	// (2) command must be a []any containing the engram binary.
+	// (2) command must be a []any containing the dxrk-memory binary.
 	var parsed map[string]any
 	if err := json.Unmarshal(content, &parsed); err != nil {
 		t.Fatalf("Unmarshal(opencode.json) error = %v", err)
 	}
 	mcpMap, _ := parsed["mcp"].(map[string]any)
-	engramMap, _ := mcpMap["engram"].(map[string]any)
+	engramMap, _ := mcpMap["dxrk-memory"].(map[string]any)
 	cmdRaw, ok := engramMap["command"]
 	if !ok {
 		t.Fatalf("mcp.engram missing command key; got:\n%s", content)
@@ -277,8 +277,8 @@ func TestInjectOpenCodeMigratesFromOldFormat(t *testing.T) {
 	if firstElem == "" {
 		t.Fatalf("mcp.engram.command[0] is empty or not a string; got:\n%s", content)
 	}
-	// Must end with "engram".
-	if filepath.Base(firstElem) != "engram" {
+	// Must end with "dxrk-memory".
+	if filepath.Base(firstElem) != "dxrk-memory" {
 		t.Fatalf("mcp.engram.command[0] = %q does not end with 'engram'; got:\n%s", firstElem, content)
 	}
 
@@ -323,7 +323,7 @@ func TestInjectCursorWithMalformedMCPJsonRecovery(t *testing.T) {
 	}
 
 	// Pre-create ~/.cursor/mcp.json with invalid (non-JSON) content.
-	mcpPath := cursorAdapter.MCPConfigPath(home, "engram")
+	mcpPath := cursorAdapter.MCPConfigPath(home, "dxrk-memory")
 	if err := os.MkdirAll(filepath.Dir(mcpPath), 0o755); err != nil {
 		t.Fatalf("MkdirAll error = %v", err)
 	}
@@ -348,7 +348,7 @@ func TestInjectCursorWithMalformedMCPJsonRecovery(t *testing.T) {
 	if !strings.Contains(text, `"mcpServers"`) {
 		t.Fatalf("mcp.json missing mcpServers key after recovery; got:\n%s", text)
 	}
-	if !strings.Contains(text, `"engram"`) {
+	if !strings.Contains(text, `"dxrk-memory"`) {
 		t.Fatalf("mcp.json missing engram server after recovery; got:\n%s", text)
 	}
 }
@@ -366,7 +366,7 @@ func TestInjectVSCodeMergesEngramToMCPConfigFile(t *testing.T) {
 		t.Fatalf("Inject(vscode) changed = false")
 	}
 
-	mcpPath := adapter.MCPConfigPath(home, "engram")
+	mcpPath := adapter.MCPConfigPath(home, "dxrk-memory")
 	content, err := os.ReadFile(mcpPath)
 	if err != nil {
 		t.Fatalf("ReadFile(mcp.json) error = %v", err)
@@ -376,7 +376,7 @@ func TestInjectVSCodeMergesEngramToMCPConfigFile(t *testing.T) {
 	if !strings.Contains(text, `"servers"`) {
 		t.Fatal("mcp.json missing servers key")
 	}
-	if !strings.Contains(text, `"engram"`) {
+	if !strings.Contains(text, `"dxrk-memory"`) {
 		t.Fatal("mcp.json missing engram server")
 	}
 	if !strings.Contains(text, `"mcp"`) {
@@ -411,7 +411,7 @@ func TestInjectGeminiToolsFlagPresent(t *testing.T) {
 	if !strings.Contains(text, `"mcpServers"`) {
 		t.Fatal("settings.json missing mcpServers key")
 	}
-	if !strings.Contains(text, `"engram"`) {
+	if !strings.Contains(text, `"dxrk-memory"`) {
 		t.Fatal("settings.json missing engram entry")
 	}
 	// RED: Gemini overlay must use --tools=agent
@@ -442,7 +442,7 @@ func TestInjectCodexWritesTOMLMCP(t *testing.T) {
 	if !strings.Contains(text, "[mcp_servers.engram]") {
 		t.Fatalf("config.toml missing [mcp_servers.engram] block; got:\n%s", text)
 	}
-	// command must reference the engram binary — either relative ("engram") or an
+	// command must reference the dxrk-memory binary — either relative ("dxrk-memory") or an
 	// absolute path (when engram is on PATH). Both are valid.
 	if !strings.Contains(text, "command = ") {
 		t.Fatalf("config.toml missing command field; got:\n%s", text)
@@ -457,12 +457,12 @@ func TestInjectCodexWritesTOMLMCP(t *testing.T) {
 	if cmdLine == "" {
 		t.Fatalf("config.toml missing command line; got:\n%s", text)
 	}
-	// The command value must end with "engram" or "engram.exe".
+	// The command value must end with "dxrk-memory" or "engram.exe".
 	cmdVal := strings.TrimPrefix(cmdLine, "command = ")
 	cmdVal = strings.Trim(cmdVal, `"`)
 	base := filepath.Base(cmdVal)
-	if base != "engram" && base != "engram.exe" {
-		t.Fatalf("config.toml command %q does not reference engram binary; got:\n%s", cmdVal, text)
+	if base != "dxrk-memory" && base != "engram.exe" {
+		t.Fatalf("config.toml command %q does not reference dxrk-memory binary; got:\n%s", cmdVal, text)
 	}
 	if !strings.Contains(text, `"--tools=agent"`) {
 		t.Fatalf("config.toml missing --tools=agent; got:\n%s", text)
@@ -477,22 +477,22 @@ func TestInjectCodexWritesInstructionFiles(t *testing.T) {
 		t.Fatalf("Inject(codex) error = %v", err)
 	}
 
-	instructionsPath := filepath.Join(home, ".codex", "engram-instructions.md")
+	instructionsPath := filepath.Join(home, ".codex", "dxrk-memory-instructions.md")
 	content, err := os.ReadFile(instructionsPath)
 	if err != nil {
-		t.Fatalf("ReadFile(engram-instructions.md) error = %v", err)
+		t.Fatalf("ReadFile(dxrk-memory-instructions.md) error = %v", err)
 	}
 	if !strings.Contains(string(content), "mem_save") {
-		t.Fatal("engram-instructions.md missing expected content (mem_save)")
+		t.Fatal("dxrk-memory-instructions.md missing expected content (mem_save)")
 	}
 
-	compactPath := filepath.Join(home, ".codex", "engram-compact-prompt.md")
+	compactPath := filepath.Join(home, ".codex", "dxrk-memory-compact-prompt.md")
 	compactContent, err := os.ReadFile(compactPath)
 	if err != nil {
-		t.Fatalf("ReadFile(engram-compact-prompt.md) error = %v", err)
+		t.Fatalf("ReadFile(dxrk-memory-compact-prompt.md) error = %v", err)
 	}
 	if !strings.Contains(string(compactContent), "FIRST ACTION REQUIRED") {
-		t.Fatal("engram-compact-prompt.md missing expected content (FIRST ACTION REQUIRED)")
+		t.Fatal("dxrk-memory-compact-prompt.md missing expected content (FIRST ACTION REQUIRED)")
 	}
 }
 
@@ -512,7 +512,7 @@ func TestInjectCodexInjectsTOMLKeys(t *testing.T) {
 	}
 	text := string(content)
 
-	instructionsPath := filepath.Join(home, ".codex", "engram-instructions.md")
+	instructionsPath := filepath.Join(home, ".codex", "dxrk-memory-instructions.md")
 	if !strings.Contains(text, `model_instructions_file`) {
 		t.Fatalf("config.toml missing model_instructions_file key; got:\n%s", text)
 	}
@@ -520,7 +520,7 @@ func TestInjectCodexInjectsTOMLKeys(t *testing.T) {
 		t.Fatalf("config.toml model_instructions_file does not reference %q; got:\n%s", instructionsPath, text)
 	}
 
-	compactPath := filepath.Join(home, ".codex", "engram-compact-prompt.md")
+	compactPath := filepath.Join(home, ".codex", "dxrk-memory-compact-prompt.md")
 	if !strings.Contains(text, `experimental_compact_prompt_file`) {
 		t.Fatalf("config.toml missing experimental_compact_prompt_file key; got:\n%s", text)
 	}
@@ -534,7 +534,7 @@ func TestInjectCodexInjectsTOMLKeys(t *testing.T) {
 // TestInjectClaudePreservesAbsoluteCommandFromEngramSetup verifies that when
 // `engram setup claude-code` has already written an absolute-path command to
 // ~/.claude/mcp/engram.json (Engram v1.10.3+ behaviour), a subsequent call to
-// Inject() does NOT overwrite the absolute path with the relative "engram".
+// Inject() does NOT overwrite the absolute path with the relative "dxrk-memory".
 func TestInjectClaudePreservesAbsoluteCommandFromEngramSetup(t *testing.T) {
 	skipOnWindows(t)
 	home := t.TempDir()
@@ -728,7 +728,7 @@ func TestEngramInjectUsesAbsolutePathWhenAvailable(t *testing.T) {
 		t.Fatalf("Inject(windsurf) changed = false")
 	}
 
-	mcpPath := windsurfAdapter.MCPConfigPath(home, "engram")
+	mcpPath := windsurfAdapter.MCPConfigPath(home, "dxrk-memory")
 	content, readErr := os.ReadFile(mcpPath)
 	if readErr != nil {
 		t.Fatalf("ReadFile(%q) error = %v", mcpPath, readErr)
@@ -748,7 +748,7 @@ func TestEngramInjectUsesAbsolutePathWhenAvailable(t *testing.T) {
 	if !ok {
 		t.Fatalf("mcpServers has unexpected type: %T", mcpServersRaw)
 	}
-	engramServerRaw, ok := mcpServers["engram"]
+	engramServerRaw, ok := mcpServers["dxrk-memory"]
 	if !ok {
 		t.Fatalf("mcpServers missing engram entry; got:\n%s", content)
 	}
@@ -764,7 +764,7 @@ func TestEngramInjectUsesAbsolutePathWhenAvailable(t *testing.T) {
 }
 
 // TestEngramInjectFallsBackToRelativeWhenNotFound verifies that when engram
-// cannot be resolved on PATH, the config falls back to the relative "engram"
+// cannot be resolved on PATH, the config falls back to the relative "dxrk-memory"
 // command string.
 func TestEngramInjectFallsBackToRelativeWhenNotFound(t *testing.T) {
 	home := t.TempDir()
@@ -784,14 +784,14 @@ func TestEngramInjectFallsBackToRelativeWhenNotFound(t *testing.T) {
 		t.Fatalf("Inject(windsurf) changed = false")
 	}
 
-	mcpPath := windsurfAdapter.MCPConfigPath(home, "engram")
+	mcpPath := windsurfAdapter.MCPConfigPath(home, "dxrk-memory")
 	content, readErr := os.ReadFile(mcpPath)
 	if readErr != nil {
 		t.Fatalf("ReadFile(%q) error = %v", mcpPath, readErr)
 	}
 
 	text := string(content)
-	if !strings.Contains(text, `"command": "engram"`) {
+	if !strings.Contains(text, `"command": "dxrk-memory"`) {
 		t.Fatalf("mcp_config.json should use relative fallback 'engram'; got:\n%s", text)
 	}
 }
@@ -842,7 +842,7 @@ func TestEngramInjectAbsolutePathForOpenCodeMergeStrategy(t *testing.T) {
 	if !ok {
 		t.Fatalf("mcp key has unexpected type %T; got:\n%s", mcpRaw, text)
 	}
-	engramRaw, ok := mcpMap["engram"]
+	engramRaw, ok := mcpMap["dxrk-memory"]
 	if !ok {
 		t.Fatalf("mcp missing engram key; got:\n%s", text)
 	}

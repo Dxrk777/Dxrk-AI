@@ -1,11 +1,11 @@
 ---
-name: gentleman-system
+name: dxrk-system
 description: >
   System detection and command execution patterns for Gentleman.Dots.
   Trigger: When editing files in installer/internal/system/, adding OS support, or modifying command execution.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dxrk-programming
   version: "1.0"
 ---
 

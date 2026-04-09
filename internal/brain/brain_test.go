@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Dxrk777/Dxrk/internal/brain"
+	"github.com/Dxrk777/Dxrk-AI/internal/brain"
 )
 
 func TestBrainNew(t *testing.T) {

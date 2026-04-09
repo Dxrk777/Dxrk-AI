@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk/internal/model"
-	"github.com/Dxrk777/Dxrk/internal/state"
+	"github.com/Dxrk777/Dxrk-AI/internal/model"
+	"github.com/Dxrk777/Dxrk-AI/internal/state"
 )
 
 // ─── Phase 1: ParseSyncFlags ───────────────────────────────────────────────
@@ -412,7 +412,7 @@ func TestComponentSyncStepSkipsEngramBinaryInstall(t *testing.T) {
 		if strings.Contains(cmd, "brew install") || strings.Contains(cmd, "go install") {
 			t.Errorf("componentSyncStep must not run binary install, got command: %s", cmd)
 		}
-		if strings.Contains(cmd, "engram setup") {
+		if strings.Contains(cmd, "dxrk-memory setup") {
 			t.Errorf("componentSyncStep must not run engram setup, got command: %s", cmd)
 		}
 	}
@@ -567,7 +567,7 @@ func TestRunSyncDoesNotInvokeEngramSetup(t *testing.T) {
 	}
 
 	for _, cmd := range commandsCalled {
-		if strings.Contains(cmd, "engram setup") {
+		if strings.Contains(cmd, "dxrk-memory setup") {
 			t.Errorf("RunSync must NOT invoke engram setup, got command: %s", cmd)
 		}
 	}
