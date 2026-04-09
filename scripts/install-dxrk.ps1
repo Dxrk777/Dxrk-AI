@@ -31,8 +31,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$GITHUB_OWNER = "Dxrk"
-$GITHUB_REPO = "dxrk"
+$GITHUB_OWNER = "Dxrk777"
+$GITHUB_REPO = "Dxrk"
 $BINARY_NAME = "dxrk"
 
 # ============================================================================

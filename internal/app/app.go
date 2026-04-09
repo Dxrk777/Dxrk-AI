@@ -44,15 +44,6 @@ func RunArgs(args []string, stdout io.Writer) error {
 	cli.AppVersion = Version
 	upgrade.AppVersion = Version
 
-	// Check for auto-update (only in non-dev builds and when not explicitly disabled)
-	if Version != "dev" && !strings.Contains(strings.Join(args, " "), "--no-update") {
-		if updated, err := AutoUpdateCheck(stdout); err == nil && updated {
-			// Binary was updated successfully
-			// The new version will handle next run
-			return nil
-		}
-	}
-
 	if err := system.EnsureCurrentOSSupported(); err != nil {
 		return err
 	}
