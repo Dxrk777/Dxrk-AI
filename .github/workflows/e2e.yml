@@ -31,7 +31,7 @@ concurrency:
 
 env:
   # Configuración de E2E
-  GO_VERSION: '1.26'
+  GO_VERSION: '1.24'
   RUN_FULL_E2E: 1
   RUN_BACKUP_TESTS: 1
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
