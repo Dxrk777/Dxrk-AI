@@ -19,7 +19,7 @@ import (
 	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
-// applyEngram installs the dxrk-memory binary (if needed) and injects engram configuration
+// applyEngram installs the dxrk-memory binary (if needed) and injects dxrk-memory configuration
 // into each agent adapter. On brew systems, it uses `brew install`; on Linux/Windows,
 // it downloads a pre-built binary from GitHub releases.
 func applyEngram(adapters []agents.Adapter, profile system.PlatformProfile, homeDir string) error {

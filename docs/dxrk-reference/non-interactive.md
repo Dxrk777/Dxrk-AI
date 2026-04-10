@@ -37,7 +37,7 @@ macOS (or any supported platform — same flags, platform is auto-detected):
 ```bash
 go run ./cmd/dxrk install \
   --agent claude-code,opencode \
-  --component engram,sdd,skills \
+  --component DxrkMemory,sdd,skills \
   --skill sdd-apply \
   --persona gentleman \
   --preset full-gentleman \

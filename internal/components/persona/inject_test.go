@@ -265,7 +265,7 @@ func TestInjectOpenCodeDxrkWritesAgentsFile(t *testing.T) {
 func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	home := t.TempDir()
 
-	// First install dxrk persona + simulate SDD/engram sections
+	// First install dxrk persona + simulate SDD/dxrk-memory sections
 	_, err := Inject(home, opencodeAdapter(), model.PersonaDxrk)
 	if err != nil {
 		t.Fatalf("Inject(dxrk) error = %v", err)
@@ -273,7 +273,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 
 	path := filepath.Join(home, ".config", "opencode", "AGENTS.md")
 
-	// Simulate SDD and engram sections appended by sdd.Inject and engram.Inject
+	// Simulate SDD and dxrk-memory sections appended by sdd.Inject and engram.Inject
 	existing, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatalf("ReadFile() error = %v", err)
@@ -311,7 +311,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 		t.Fatal("AGENTS.md lost SDD orchestrator section after switching to neutral persona")
 	}
 	if !strings.Contains(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") {
-		t.Fatal("AGENTS.md lost engram protocol section after switching to neutral persona")
+		t.Fatal("AGENTS.md lost dxrk-memory protocol section after switching to neutral persona")
 	}
 
 	// Dxrk-specific language should be gone — neutral has the same personality but no regional language
@@ -459,7 +459,7 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 		t.Fatal("neutral persona duplicated after idempotent inject")
 	}
 	if strings.Count(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") != 1 {
-		t.Fatal("engram section duplicated after idempotent neutral inject")
+		t.Fatal("dxrk-memory section duplicated after idempotent neutral inject")
 	}
 }
 

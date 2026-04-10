@@ -37,7 +37,7 @@ func TestCheckFailures(t *testing.T) {
 		t.Fatalf("len(CheckFailures) = %d, want 2", len(failed))
 	}
 	if failed[0] != "dxrk-memory" || failed[1] != "dxrk-guardian" {
-		t.Fatalf("CheckFailures() = %v, want [engram gga]", failed)
+		t.Fatalf("CheckFailures() = %v, want [dxrk-memory dxrk-guardian]", failed)
 	}
 	if !HasCheckFailures(results) {
 		t.Fatalf("HasCheckFailures() = false, want true")

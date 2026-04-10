@@ -252,7 +252,7 @@ func TestBuildProgressLabelsFromResolvedPlan(t *testing.T) {
 		"prepare:backup-snapshot",
 		"apply:rollback-restore",
 		"agent:claude-code",
-		"component:engram",
+		"component:dxrk-memory",
 		"component:sdd",
 	}
 

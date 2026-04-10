@@ -22,14 +22,14 @@ type InjectionResult struct {
 
 // EngramLookPath is the function used to resolve the dxrk-memory binary path.
 // It is a package-level variable so it can be replaced in tests — both from
-// within the engram package and from external test packages (e.g. golden_test.go).
+// within the dxrk-memory package and from external test packages (e.g. golden_test.go).
 // In production it is set to exec.LookPath.
 var EngramLookPath = exec.LookPath
 
 // SetLookPathForTest replaces EngramLookPath with a mock for the duration of
 // a test and restores the original after the test completes. Exported so that
 // external test packages (e.g. golden_test.go in components) can control the
-// resolved engram path.
+// resolved dxrk-memory path.
 func SetLookPathForTest(t interface {
 	Helper()
 	Cleanup(func())
@@ -72,7 +72,7 @@ func engramServerJSON() []byte {
 }
 
 // engramOverlayJSON returns the settings overlay JSON (used for merge-into-settings
-// and MCPConfigFile strategies), with the resolved engram command.
+// and MCPConfigFile strategies), with the resolved dxrk-memory command.
 func engramOverlayJSON(agentID model.AgentID) []byte {
 	cmd, _ := resolveEngramCommand()
 	var cfg map[string]any
@@ -111,7 +111,7 @@ func engramOverlayJSON(agentID model.AgentID) []byte {
 }
 
 // vsCodeEngramOverlayJSON is the VS Code mcp.json overlay using the "servers" key.
-// Uses --tools=agent per engram contract.
+// Uses --tools=agent per dxrk-memory contract.
 // VS Code uses a fixed "servers" key structure rather than mcpServers, so it
 // is kept as a separate helper.
 func vsCodeEngramOverlayJSON() []byte {
@@ -139,11 +139,11 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 	// 1. Write MCP server config using the adapter's strategy.
 	switch adapter.MCPStrategy() {
 	case model.StrategySeparateMCPFiles:
-		// Engram v1.10.3+ writes an absolute path for the command field when
-		// `engram setup <agent>` is invoked. Dxrk-AI's Inject() runs after
-		// engram setup, so we must preserve any absolute command path already
+		// DxrkMemory v1.0+ writes an absolute path for the command field when
+		// `dxrk-memory setup <agent>` is invoked. Dxrk-AI's Inject() runs after
+		// dxrk-memory setup, so we must preserve any absolute command path already
 		// present instead of silently overwriting it with the relative "dxrk-memory".
-		// See: https://github.com/Dxrk777/Dxrk-AI/issues (engram absolute path regression)
+		// See: https://github.com/Dxrk777/Dxrk-AI/issues (dxrk-memory absolute path regression)
 		mcpPath := adapter.MCPConfigPath(homeDir, "dxrk-memory")
 		content := buildSeparateMCPContent(mcpPath, engramServerJSON())
 		mcpWrite, err := filemerge.WriteFileAtomic(mcpPath, content, 0o644)
@@ -206,8 +206,8 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 		if err != nil {
 			return InjectionResult{}, err
 		}
-		engramCmd, _ := resolveEngramCommand()
-		withMCP := filemerge.UpsertCodexEngramBlock(existing, engramCmd)
+		memCmd, _ := resolveEngramCommand()
+		withMCP := filemerge.UpsertCodexDxrkMemoryBlock(existing, memCmd)
 		withInstr := filemerge.UpsertTopLevelTOMLString(withMCP, "model_instructions_file", instructionsPath)
 		withCompact := filemerge.UpsertTopLevelTOMLString(withInstr, "experimental_compact_prompt_file", compactPath)
 
@@ -328,7 +328,7 @@ func readFileOrEmpty(path string) (string, error) {
 // file for agents that use the StrategySeparateMCPFiles strategy (e.g. Claude
 // Code).
 //
-// Engram v1.10.3+ writes an absolute command path when `engram setup` is run.
+// DxrkMemory v1.0+ writes an absolute command path when `dxrk-memory setup` is run.
 // Dxrk-AI runs Inject() after setup, so we must not overwrite that absolute
 // path with the relative "dxrk-memory" string from defaultEngramServerJSON.
 //

@@ -167,7 +167,7 @@ func DiscoverAgents(homeDir string) []model.AgentID {
 
 // syncRuntime mirrors installRuntime but builds a sync-scoped StagePlan.
 // It reuses backup/rollback infrastructure but only calls inject functions —
-// no agentInstallStep, no engram setup, no persona.
+// no agentInstallStep, no dxrk-memory setup, no persona.
 type syncRuntime struct {
 	homeDir      string
 	workspaceDir string
@@ -251,7 +251,7 @@ func syncBackupTargets(homeDir string, selection model.Selection, adapters []age
 
 // componentSyncStep is the sync-specific apply step.
 // Unlike componentApplyStep, it ONLY calls inject functions —
-// no binary install, no engram setup, no persona injection.
+// no binary install, no dxrk-memory setup, no persona injection.
 //
 // filesChanged is a shared counter pointer. Each step increments it by the
 // number of files that were actually written (i.e., whose content changed).
@@ -276,11 +276,11 @@ func (s componentSyncStep) Run() error {
 	switch s.component {
 	case model.ComponentEngram:
 		// Sync: inject MCP config + system prompt protocol only.
-		// NO binary install. NO engram setup.
+		// NO binary install. NO dxrk-memory setup.
 		for _, adapter := range adapters {
 			res, err := engram.Inject(s.homeDir, adapter)
 			if err != nil {
-				return fmt.Errorf("sync engram for %q: %w", adapter.Agent(), err)
+				return fmt.Errorf("sync dxrk-memory for %q: %w", adapter.Agent(), err)
 			}
 			s.countChanged(boolToInt(res.Changed))
 		}

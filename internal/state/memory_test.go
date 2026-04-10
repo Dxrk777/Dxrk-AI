@@ -168,10 +168,10 @@ func TestEngramSync_NoPanic(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir)
 
-	// Should not panic even if engram is not installed
+	// Should not panic even if dxrk-memory is not installed
 	err = EngramSync(tmpDir)
 	if err != nil {
-		t.Logf("EngramSync error (expected if engram not installed): %v", err)
+		t.Logf("DxrkMemorySync error (expected if dxrk-memory not installed): %v", err)
 	}
 }
 

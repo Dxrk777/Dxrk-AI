@@ -126,7 +126,7 @@ func TestExecute_BackupBeforeExecution(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -158,7 +158,7 @@ func TestExecute_DryRunNeverExecs(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), true)
 
@@ -188,7 +188,7 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 	t.Cleanup(func() { execCommand = origExecCommand })
 
 	execCommand = func(name string, args ...string) *exec.Cmd {
-		// engram go install succeeds, dxrk curl/download attempt fails — we simulate
+		// dxrk-memory go install succeeds, dxrk curl/download attempt fails — we simulate
 		// the failure by having execCommand return false for "dxrk" detection.
 		if name == "go" {
 			return exec.Command("echo", "go install ok")
@@ -200,7 +200,7 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -208,9 +208,9 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 		t.Fatalf("len(Results) = %d, want 1", len(report.Results))
 	}
 
-	// engram should succeed (go install echo'd "ok")
+	// dxrk-memory should succeed (go install echo'd "ok")
 	if report.Results[0].Status != UpgradeSucceeded {
-		t.Errorf("engram status = %q, want UpgradeSucceeded", report.Results[0].Status)
+		t.Errorf("dxrk-memory status = %q, want UpgradeSucceeded", report.Results[0].Status)
 	}
 }
 
@@ -219,7 +219,7 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 // TestExecute_DevBuildIsSkipped verifies the spec requirement:
 // dxrk with DevBuild status must appear in Results as UpgradeSkipped
 // with a non-empty ManualHint explaining it is a source/dev build.
-// DevBuild tools must NOT be auto-executed, and engram/dxrk remain eligible.
+// DevBuild tools must NOT be auto-executed, and dxrk-memory/dxrk remain eligible.
 func TestExecute_DevBuildIsSkipped(t *testing.T) {
 	origExecCommand := execCommand
 	t.Cleanup(func() { execCommand = origExecCommand })
@@ -231,7 +231,7 @@ func TestExecute_DevBuildIsSkipped(t *testing.T) {
 		makeResult("dxrk", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[1].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[1].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -253,18 +253,18 @@ func TestExecute_DevBuildIsSkipped(t *testing.T) {
 		t.Errorf("dxrk DevBuild ManualHint must be non-empty")
 	}
 
-	// engram should still be processed as succeeded.
+	// dxrk-memory should still be processed as succeeded.
 	found := false
 	for _, r := range report.Results {
 		if r.ToolName == "dxrk-memory" {
 			found = true
 			if r.Status != UpgradeSucceeded {
-				t.Errorf("engram status = %q, want UpgradeSucceeded", r.Status)
+				t.Errorf("dxrk-memory status = %q, want UpgradeSucceeded", r.Status)
 			}
 		}
 	}
 	if !found {
-		t.Errorf("engram not found in Results")
+		t.Errorf("dxrk-memory not found in Results")
 	}
 }
 
@@ -284,7 +284,7 @@ func TestExecute_FailureDoesNotImplyConfigLoss(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -341,7 +341,7 @@ func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
 		makeResult("dxrk", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[1].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[1].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -366,18 +366,18 @@ func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
 		t.Errorf("dxrk DevBuild ManualHint must be non-empty — should explain dev/source build")
 	}
 
-	// engram (UpdateAvailable) must still be processed normally.
+	// dxrk-memory (UpdateAvailable) must still be processed normally.
 	found := false
 	for _, r := range report.Results {
 		if r.ToolName == "dxrk-memory" {
 			found = true
 			if r.Status != UpgradeSucceeded {
-				t.Errorf("engram status = %q, want UpgradeSucceeded", r.Status)
+				t.Errorf("dxrk-memory status = %q, want UpgradeSucceeded", r.Status)
 			}
 		}
 	}
 	if !found {
-		t.Errorf("engram not found in Results")
+		t.Errorf("dxrk-memory not found in Results")
 	}
 }
 
@@ -469,7 +469,7 @@ func TestExecute_ConfigNotMutatedDuringUpgrade(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	profile := linuxProfile()
 
@@ -481,7 +481,7 @@ func TestExecute_ConfigNotMutatedDuringUpgrade(t *testing.T) {
 		t.Fatalf("len(Results) = %d, want 1", len(report.Results))
 	}
 	if report.Results[0].Status != UpgradeSucceeded {
-		t.Errorf("engram status = %q, want UpgradeSucceeded", report.Results[0].Status)
+		t.Errorf("dxrk-memory status = %q, want UpgradeSucceeded", report.Results[0].Status)
 	}
 
 	// Verify config files are byte-identical after upgrade.
@@ -588,7 +588,7 @@ func TestExecute_BackupWarningWhenBackupFails(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	// Simulate backup failure by providing a homeDir where the snapshot would
 	// fail — but that is OS-dependent. We test the contract: if BackupID is
@@ -650,7 +650,7 @@ func TestExecute_ForcedSnapshotFailureSurfacesWarningEndToEnd(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
@@ -719,7 +719,7 @@ func TestExecute_UpgradeBackupManifestHasUpgradeMetadata(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), homeDir, false)
 
@@ -768,7 +768,7 @@ func TestExecute_SuccessfulSnapshotHasNoWarning(t *testing.T) {
 	results := []update.UpdateResult{
 		makeResult("dxrk-memory", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
-	results[0].Tool.GoImportPath = "github.com/dxrk/engram/cmd/engram"
+	results[0].Tool.GoImportPath = "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 

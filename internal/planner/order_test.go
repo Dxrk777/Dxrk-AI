@@ -78,7 +78,7 @@ func TestApplySoftOrderingEdgeCases(t *testing.T) {
 	already := []model.ComponentID{model.ComponentPersona, model.ComponentEngram}
 	result = applySoftOrdering(already, pair)
 	if !reflect.DeepEqual(result, []model.ComponentID{model.ComponentPersona, model.ComponentEngram}) {
-		t.Fatalf("already correct: expected [persona, engram], got %v", result)
+		t.Fatalf("already correct: expected [persona, dxrk-memory], got %v", result)
 	}
 
 	// Input slice must NOT be mutated
@@ -90,8 +90,8 @@ func TestApplySoftOrderingEdgeCases(t *testing.T) {
 }
 
 func TestApplySoftOrderingBothMVPPairsWithFullSelection(t *testing.T) {
-	// Simulates the real scenario: topo gives [context7, engram, persona, sdd, skills]
-	// Both MVPGraph soft pairs should result in persona before engram AND sdd.
+	// Simulates the real scenario: topo gives [context7, dxrk-memory, persona, sdd, skills]
+	// Both MVPGraph soft pairs should result in persona before dxrk-memory AND sdd.
 	ordered := []model.ComponentID{
 		model.ComponentContext7,
 		model.ComponentEngram,

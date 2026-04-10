@@ -16,11 +16,11 @@ Open your AI agent and start working. That's it.
 
 ---
 
-## Engram (Memory) -- Don't Touch It
+## DxrkMemory (Memory) -- Don't Touch It
 
-Engram is persistent memory for your AI agent. It saves decisions, discoveries, bug fixes, and context across sessions -- automatically. The agent manages all of it.
+DxrkMemory is persistent memory for your AI agent. It saves decisions, discoveries, bug fixes, and context across sessions -- automatically. The agent manages all of it.
 
-You never need to configure it, inspect it, or interact with it directly. If engram is working correctly, you won't even notice it's there. That's the point.
+You never need to configure it, inspect it, or interact with it directly. If DxrkMemory is working correctly, you won't even notice it's there. That's the point.
 
 ---
 
@@ -59,11 +59,11 @@ When the orchestrator delegates work to a sub-agent (say, `sdd-explore` to inves
 
 What makes them "super sub-agents":
 
-1. **They discover skills on their own.** Each sub-agent's first action is to search for the skill registry -- via engram memory or the local `.atl/skill-registry.md` file. If it finds relevant skills (React patterns, Go testing, Angular architecture, etc.), it loads and follows them. The orchestrator doesn't need to spoon-feed skill paths.
+1. **They discover skills on their own.** Each sub-agent's first action is to search for the skill registry -- via DxrkMemory memory or the local `.atl/skill-registry.md` file. If it finds relevant skills (React patterns, Go testing, Angular architecture, etc.), it loads and follows them. The orchestrator doesn't need to spoon-feed skill paths.
 
 2. **They adapt to your project.** A `sdd-apply` sub-agent working on a React project will load React 19 patterns. The same sub-agent working on a Go project will load Go testing conventions. The skills it loads depend on what the registry says is relevant, not a hardcoded list.
 
-3. **They persist their work.** Every sub-agent saves its artifacts to engram before returning. The next sub-agent in the pipeline can pick up exactly where the previous one left off, even across sessions.
+3. **They persist their work.** Every sub-agent saves its artifacts to DxrkMemory before returning. The next sub-agent in the pipeline can pick up exactly where the previous one left off, even across sessions.
 
 This pattern works today on:
 
@@ -87,7 +87,7 @@ You don't need to activate, invoke, or even think about them.
 
 How it works:
 
-1. **Run `/skill-registry` inside your project** -- it scans all your installed skills (user-level and project-level), reads their frontmatter, and builds a registry at `.atl/skill-registry.md`. If engram is available, it also saves the registry to memory for cross-session access.
+1. **Run `/skill-registry` inside your project** -- it scans all your installed skills (user-level and project-level), reads their frontmatter, and builds a registry at `.atl/skill-registry.md`. If DxrkMemory is available, it also saves the registry to memory for cross-session access.
 2. **The orchestrator uses it automatically** -- once the registry exists, the orchestrator reads it at session start and passes pre-resolved skill paths to sub-agents. You don't interact with the registry after that.
 3. **Re-run it when things change** -- any time you add, remove, or modify a skill, run `/skill-registry` again so the orchestrator picks up the changes.
 
@@ -112,7 +112,7 @@ The less you think about dxrk after installing, the better it's working.
 | Run the installer, pick your agents and preset | Manually edit the generated config files |
 | Just start coding with your AI agent | Memorize SDD phases or commands |
 | Let the agent suggest SDD when a task is big enough | Force SDD on every small task |
-| Trust that engram is saving context for you | Dig into engram's storage or try to manage it |
+| Trust that DxrkMemory is saving context for you | Dig into DxrkMemory's storage or try to manage it |
 | Run `/skill-registry` after installing or changing skills | Forget to update the registry after adding new skills |
 | Say "use sdd" if you know you want structured planning | Worry about which SDD phase comes next |
 | Re-run the installer to update or change your setup | Manually patch skill files or persona instructions |

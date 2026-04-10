@@ -44,7 +44,7 @@ First-time setup — detects your tools, configures agents, injects all componen
 # Pick specific components and skills
 [Dd]xrk-ai install \
   --agent claude-code \
-  --component engram,sdd,skills,context7,persona,permissions \
+  --component DxrkMemory,sdd,skills,context7,persona,permissions \
   --skill go-testing,skill-creator,branch-pr,issue-creation \
   --persona gentleman
 
@@ -56,7 +56,7 @@ First-time setup — detects your tools, configures agents, injects all componen
 
 ### sync
 
-Refresh managed assets to the current version. Use after `brew upgrade [Dd]xrk-ai` or when you want your local configs aligned with the latest release. Does NOT reinstall binaries (engram, GGA) — only updates prompt content, skills, MCP configs, and SDD orchestrators.
+Refresh managed assets to the current version. Use after `brew upgrade [Dd]xrk-ai` or when you want your local configs aligned with the latest release. Does NOT reinstall binaries (DxrkMemory, GGA) — only updates prompt content, skills, MCP configs, and SDD orchestrators.
 
 ```bash
 # Sync all installed agents
@@ -68,7 +68,7 @@ Refresh managed assets to the current version. Use after `brew upgrade [Dd]xrk-a
 # Sync a specific component
 [Dd]xrk-ai sync --component sdd
 [Dd]xrk-ai sync --component skills
-[Dd]xrk-ai sync --component engram
+[Dd]xrk-ai sync --component DxrkMemory
 ```
 
 Sync is safe and idempotent — running it twice produces no changes the second time.
@@ -113,7 +113,7 @@ After upgrading, run `[Dd]xrk-ai sync` to refresh all managed assets to the new 
 | Flag | Description |
 |------|-------------|
 | `--agent`, `--agents` | Agents to sync (defaults to all installed agents) |
-| `--component` | Sync a specific component only: `sdd`, `engram`, `context7`, `skills`, `gga`, `permissions`, `theme` |
+| `--component` | Sync a specific component only: `sdd`, `DxrkMemory`, `context7`, `skills`, `gga`, `permissions`, `theme` |
 | `--include-permissions` | Include permissions sync (opt-in) |
 | `--include-theme` | Include theme sync (opt-in) |
 

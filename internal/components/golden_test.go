@@ -482,18 +482,18 @@ func TestGoldenEngram_Claude(t *testing.T) {
 	skipOnWindows(t)
 	home := t.TempDir()
 
-	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
+	engram.SetLookPathForTest(t, "/opt/homebrew/bin/dxrk-memory", "")
 
 	result, err := engram.Inject(home, claudeAdapter())
 	if err != nil {
-		t.Fatalf("engram.Inject(claude) error = %v", err)
+		t.Fatalf("dxrk-memory.Inject(claude) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("engram.Inject(claude) changed = false")
+		t.Fatalf("dxrk-memory.Inject(claude) changed = false")
 	}
 
 	// MCP server JSON config.
-	mcpJSON := readTestFile(t, filepath.Join(home, ".claude", "mcp", "engram.json"))
+	mcpJSON := readTestFile(t, filepath.Join(home, ".claude", "mcp", "dxrk-memory.json"))
 	assertGolden(t, "dxrk-memory-claude-mcp.golden", mcpJSON)
 
 	// CLAUDE.md with dxrk-memory-protocol section.
@@ -506,15 +506,15 @@ func TestGoldenEngram_OpenCode(t *testing.T) {
 	home := t.TempDir()
 
 	// Mock engramLookPath so the resolved command matches the golden file regardless
-	// of whether engram is installed at /opt/homebrew/bin/engram on the current machine.
-	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
+	// of whether dxrk-memory is installed at /opt/homebrew/bin/dxrk-memory on the current machine.
+	engram.SetLookPathForTest(t, "/opt/homebrew/bin/dxrk-memory", "")
 
 	result, err := engram.Inject(home, opencodeAdapter())
 	if err != nil {
-		t.Fatalf("engram.Inject(opencode) error = %v", err)
+		t.Fatalf("dxrk-memory.Inject(opencode) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("engram.Inject(opencode) changed = false")
+		t.Fatalf("dxrk-memory.Inject(opencode) changed = false")
 	}
 
 	configJSON := readTestFile(t, filepath.Join(home, ".config", "opencode", "opencode.json"))
@@ -525,14 +525,14 @@ func TestGoldenEngram_Windsurf(t *testing.T) {
 	skipOnWindows(t)
 	home := t.TempDir()
 
-	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
+	engram.SetLookPathForTest(t, "/opt/homebrew/bin/dxrk-memory", "")
 
 	result, err := engram.Inject(home, windsurfAdapter())
 	if err != nil {
-		t.Fatalf("engram.Inject(windsurf) error = %v", err)
+		t.Fatalf("dxrk-memory.Inject(windsurf) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("engram.Inject(windsurf) changed = false")
+		t.Fatalf("dxrk-memory.Inject(windsurf) changed = false")
 	}
 
 	mcpJSON := readTestFile(t, filepath.Join(home, ".codeium", "windsurf", "mcp_config.json"))
@@ -609,7 +609,7 @@ func TestGoldenCombined_Claude(t *testing.T) {
 	skipOnWindows(t)
 	home := t.TempDir()
 
-	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
+	engram.SetLookPathForTest(t, "/opt/homebrew/bin/dxrk-memory", "")
 
 	// Inject persona first, then SDD, then Engram — all write sections into CLAUDE.md.
 	if _, err := persona.Inject(home, claudeAdapter(), model.PersonaDxrk); err != nil {
@@ -619,7 +619,7 @@ func TestGoldenCombined_Claude(t *testing.T) {
 		t.Fatalf("sdd.Inject error = %v", err)
 	}
 	if _, err := engram.Inject(home, claudeAdapter()); err != nil {
-		t.Fatalf("engram.Inject error = %v", err)
+		t.Fatalf("dxrk-memory.Inject error = %v", err)
 	}
 
 	claudeMD := readTestFile(t, filepath.Join(home, ".claude", "CLAUDE.md"))
@@ -631,7 +631,7 @@ func TestGoldenCombined_Windsurf(t *testing.T) {
 	home := t.TempDir()
 	workspace := t.TempDir()
 
-	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
+	engram.SetLookPathForTest(t, "/opt/homebrew/bin/dxrk-memory", "")
 	if err := os.WriteFile(filepath.Join(workspace, "go.mod"), []byte("module test\n"), 0o644); err != nil {
 		t.Fatalf("write go.mod marker: %v", err)
 	}
@@ -645,7 +645,7 @@ func TestGoldenCombined_Windsurf(t *testing.T) {
 		t.Fatalf("sdd.Inject(windsurf) error = %v", err)
 	}
 	if _, err := engram.Inject(home, windsurfAdapter()); err != nil {
-		t.Fatalf("engram.Inject(windsurf) error = %v", err)
+		t.Fatalf("dxrk-memory.Inject(windsurf) error = %v", err)
 	}
 
 	// global_rules.md must contain persona + SDD orchestrator (both appended).
@@ -715,14 +715,14 @@ func TestGoldenEngram_Antigravity(t *testing.T) {
 	skipOnWindows(t)
 	home := t.TempDir()
 
-	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
+	engram.SetLookPathForTest(t, "/opt/homebrew/bin/dxrk-memory", "")
 
 	result, err := engram.Inject(home, antigravityAdapter())
 	if err != nil {
-		t.Fatalf("engram.Inject(antigravity) error = %v", err)
+		t.Fatalf("dxrk-memory.Inject(antigravity) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("engram.Inject(antigravity) changed = false")
+		t.Fatalf("dxrk-memory.Inject(antigravity) changed = false")
 	}
 
 	// MCP config written to ~/.gemini/antigravity/mcp_config.json.

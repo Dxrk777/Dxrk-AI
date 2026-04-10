@@ -24,7 +24,7 @@ func TestRunStrategy_BrewUpgrade(t *testing.T) {
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		gotName = name
 		gotArgs = args
-		return exec.Command("echo", "Upgraded engram")
+		return exec.Command("echo", "Upgraded dxrk-memory")
 	}
 
 	r := update.UpdateResult{
@@ -45,7 +45,7 @@ func TestRunStrategy_BrewUpgrade(t *testing.T) {
 		t.Errorf("exec name = %q, want %q", gotName, "brew")
 	}
 	if len(gotArgs) < 2 || gotArgs[0] != "upgrade" || gotArgs[1] != "dxrk-memory" {
-		t.Errorf("exec args = %v, want [upgrade engram]", gotArgs)
+		t.Errorf("exec args = %v, want [upgrade dxrk-memory]", gotArgs)
 	}
 }
 
@@ -67,7 +67,7 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 		Tool: update.ToolInfo{
 			Name:          "dxrk-memory",
 			InstallMethod: update.InstallGoInstall,
-			GoImportPath:  "github.com/dxrk/engram/cmd/engram",
+			GoImportPath:  "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory",
 		},
 		LatestVersion: "0.4.0",
 	}
@@ -81,8 +81,8 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 	if gotName != "go" {
 		t.Errorf("exec name = %q, want %q", gotName, "go")
 	}
-	// Expected: go install github.com/dxrk/engram/cmd/engram@v0.4.0
-	wantArg0, wantArg1 := "install", "github.com/dxrk/engram/cmd/engram@v0.4.0"
+	// Expected: go install github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory@v0.4.0
+	wantArg0, wantArg1 := "install", "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory@v0.4.0"
 	if len(gotArgs) < 2 || gotArgs[0] != wantArg0 || gotArgs[1] != wantArg1 {
 		t.Errorf("exec args = %v, want [%s %s]", gotArgs, wantArg0, wantArg1)
 	}
@@ -165,7 +165,7 @@ func TestRunStrategy_GoInstallFailure(t *testing.T) {
 		Tool: update.ToolInfo{
 			Name:          "dxrk-memory",
 			InstallMethod: update.InstallGoInstall,
-			GoImportPath:  "github.com/dxrk/engram/cmd/engram",
+			GoImportPath:  "github.com/Dxrk777/dxrk-memory/cmd/dxrk-memory",
 		},
 		LatestVersion: "0.4.0",
 	}
@@ -726,7 +726,7 @@ func TestInstallScriptURL(t *testing.T) {
 // --- TestEngramUpgradeUsesDownloadNotGoInstall ---
 
 // TestEngramUpgradeUsesDownloadNotGoInstall verifies that on Windows (non-brew),
-// engram upgrade calls the binary download function, NOT go install.
+// dxrk-memory upgrade calls the binary download function, NOT go install.
 // This is the regression test for issue #160.
 func TestEngramUpgradeUsesDownloadNotGoInstall(t *testing.T) {
 	origExecCommand := execCommand
@@ -761,7 +761,7 @@ func TestEngramUpgradeUsesDownloadNotGoInstall(t *testing.T) {
 
 	err := runStrategy(context.Background(), r, profile)
 	if err != nil {
-		t.Fatalf("runStrategy engram windows: unexpected error: %v", err)
+		t.Fatalf("runStrategy dxrk-memory windows: unexpected error: %v", err)
 	}
 
 	// Must call binary download, NOT go install.
@@ -769,14 +769,14 @@ func TestEngramUpgradeUsesDownloadNotGoInstall(t *testing.T) {
 		t.Errorf("expected engramDownloadFn to be called, but it was not")
 	}
 	if execCalled {
-		t.Errorf("exec (go install) should NOT be called for engram on Windows — use binary download")
+		t.Errorf("exec (go install) should NOT be called for dxrk-memory on Windows — use binary download")
 	}
 }
 
 // --- TestEngramUpgradeLinuxUsesDownload ---
 
 // TestEngramUpgradeLinuxUsesDownload verifies that on Linux (non-brew),
-// engram upgrade uses the binary download function, not go install.
+// dxrk-memory upgrade uses the binary download function, not go install.
 func TestEngramUpgradeLinuxUsesDownload(t *testing.T) {
 	origExecCommand := execCommand
 	origEngramDownloadFn := engramDownloadFn
@@ -794,7 +794,7 @@ func TestEngramUpgradeLinuxUsesDownload(t *testing.T) {
 	downloadCalled := false
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
 		downloadCalled = true
-		return "/home/user/.local/bin/engram", nil
+		return "/home/user/.local/bin/dxrk-memory", nil
 	}
 
 	r := update.UpdateResult{
@@ -810,14 +810,14 @@ func TestEngramUpgradeLinuxUsesDownload(t *testing.T) {
 
 	err := runStrategy(context.Background(), r, profile)
 	if err != nil {
-		t.Fatalf("runStrategy engram linux: unexpected error: %v", err)
+		t.Fatalf("runStrategy dxrk-memory linux: unexpected error: %v", err)
 	}
 
 	if !downloadCalled {
-		t.Errorf("expected engramDownloadFn to be called for engram on Linux, but it was not")
+		t.Errorf("expected dxrkMemoryDownloadFn to be called for dxrk-memory on Linux, but it was not")
 	}
 	if execCalled {
-		t.Errorf("exec (go install) should NOT be called for engram on Linux — use binary download")
+		t.Errorf("exec (go install) should NOT be called for dxrk-memory on Linux — use binary download")
 	}
 }
 

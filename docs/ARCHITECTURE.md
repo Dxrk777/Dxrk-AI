@@ -18,7 +18,7 @@ Dxrk/
 │   ├── cli/               # CLI commands
 │   ├── components/         # Ecosystem components
 │   │   ├── dxrk/         # Dxrk runtime
-│   │   ├── engram/       # Engram memory system
+│   │   ├── DxrkMemory/       # DxrkMemory memory system
 │   │   ├── mcp/          # MCP server
 │   │   ├── sdd/          # Spec-Driven Development
 │   │   ├── skills/       # Coding skills

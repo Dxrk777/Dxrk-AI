@@ -21,9 +21,9 @@ Execute all steps from the skill directly in this context window:
 1. Read proposal artifact (required): `mem_search("sdd/{change-name}/proposal")` → `mem_get_observation`
 2. Write requirements using RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
 3. Write acceptance scenarios in Given/When/Then format for each requirement
-4. Persist spec to active backend (engram, openspec, or hybrid)
+4. Persist spec to active backend (DxrkMemory, openspec, or hybrid)
 
-## Engram Save (mandatory)
+## DxrkMemory Save (mandatory)
 
 After completing work, call `mem_save` with:
 - title: `"sdd/{change-name}/spec"`

@@ -105,19 +105,19 @@ func goInstallUpgrade(ctx context.Context, tool update.ToolInfo, latestVersion s
 
 // binaryUpgrade handles binary-release upgrades via GitHub Releases asset download.
 //
-// engram has its own cross-platform binary downloader (DownloadLatestBinary) that
+// dxrk-memory has its own cross-platform binary downloader (DownloadLatestBinary) that
 // works on all platforms including Windows. For all other tools on Windows,
 // self-replace of a running binary is deferred (Phase 1) — a ManualFallbackError
 // is returned so the executor surfaces it as UpgradeSkipped with an actionable hint.
 func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.PlatformProfile) error {
-	// engram: always use its dedicated binary downloader regardless of platform
+	// dxrk-memory: always use its dedicated binary downloader regardless of platform
 	// (except brew, which is handled by effectiveMethod before we get here).
 	if r.Tool.Name == "dxrk-memory" {
 		return engramBinaryUpgrade(profile)
 	}
 
 	if profile.OS == "windows" {
-		// Phase 1: Windows binary self-replace is deferred for non-engram tools.
+		// Phase 1: Windows binary self-replace is deferred for non-dxrk-memory tools.
 		// Return a ManualFallbackError so the executor surfaces this as UpgradeSkipped
 		// with an actionable hint — NOT as UpgradeFailed.
 		hint := r.UpdateHint

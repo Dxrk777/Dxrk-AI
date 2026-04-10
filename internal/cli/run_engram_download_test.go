@@ -11,7 +11,7 @@ import (
 )
 
 // TestRunInstallLinuxEngramUsesDownloadNotGoInstall verifies that after the fix,
-// Linux engram installation does NOT use "go install" but instead calls
+// Linux dxrk-memory installation does NOT use "go install" but instead calls
 // DownloadLatestBinary (i.e. no "go install" in recorder.get()).
 func TestRunInstallLinuxEngramUsesDownloadNotGoInstall(t *testing.T) {
 	home := t.TempDir()
@@ -29,11 +29,11 @@ func TestRunInstallLinuxEngramUsesDownloadNotGoInstall(t *testing.T) {
 	recorder := &commandRecorder{}
 	runCommand = recorder.record
 
-	// Override the engram download function to succeed without hitting GitHub.
+	// Override the dxrk-memory download function to succeed without hitting GitHub.
 	origDownloadFn := engramDownloadFn
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
 		// Simulate a successful binary download to a temp path.
-		return "/tmp/fake-engram", nil
+		return "/tmp/fake-dxrk-memory", nil
 	}
 	t.Cleanup(func() { engramDownloadFn = origDownloadFn })
 
@@ -53,14 +53,14 @@ func TestRunInstallLinuxEngramUsesDownloadNotGoInstall(t *testing.T) {
 	// Must NOT have called "go install" for engram.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
-			t.Fatalf("Linux engram install should NOT use go install, got command: %s", cmd)
+			t.Fatalf("Linux dxrk-memory install should NOT use go install, got command: %s", cmd)
 		}
 	}
 }
 
 // TestRunInstallEngramDownloadAddsBinDirToPath verifies that after downloading
 // the dxrk-memory binary, its directory is prepended to PATH so that subsequent
-// commands (engram setup, resolveEngramCommand) can find it.
+// commands (dxrk-memory setup, resolveEngramCommand) can find it.
 func TestRunInstallEngramDownloadAddsBinDirToPath(t *testing.T) {
 	home := t.TempDir()
 	restoreHome := osUserHomeDir
@@ -100,7 +100,7 @@ func TestRunInstallEngramDownloadAddsBinDirToPath(t *testing.T) {
 
 	currentPath := os.Getenv("PATH")
 	if !strings.Contains(currentPath, fakeBinDir) {
-		t.Fatalf("PATH should contain engram bin dir %q after download, got PATH=%q", fakeBinDir, currentPath)
+		t.Fatalf("PATH should contain dxrk-memory bin dir %q after download, got PATH=%q", fakeBinDir, currentPath)
 	}
 }
 
@@ -123,7 +123,7 @@ func TestRunInstallWindowsEngramUsesDownloadNotGoInstall(t *testing.T) {
 
 	origDownloadFn := engramDownloadFn
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
-		return `C:\fake\engram.exe`, nil
+		return `C:\fake\dxrk-memory.exe`, nil
 	}
 	t.Cleanup(func() { engramDownloadFn = origDownloadFn })
 
@@ -155,7 +155,7 @@ func TestRunInstallWindowsEngramUsesDownloadNotGoInstall(t *testing.T) {
 	// Must NOT have called "go install" for engram.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
-			t.Fatalf("Windows engram install should NOT use go install, got command: %s", cmd)
+			t.Fatalf("Windows dxrk-memory install should NOT use go install, got command: %s", cmd)
 		}
 	}
 }
@@ -197,18 +197,18 @@ func TestRunInstallMacOSEngramStillUsesBrew(t *testing.T) {
 		t.Fatalf("verification ready = false")
 	}
 
-	// Must use brew install engram.
+	// Must use brew install dxrk-memory.
 	commands := recorder.get()
 	foundBrew := false
 	for _, cmd := range commands {
-		if strings.Contains(cmd, "brew install engram") {
+		if strings.Contains(cmd, "brew install dxrk-memory") {
 			foundBrew = true
 		}
 	}
 	if !foundBrew {
-		t.Fatalf("expected brew install engram on macOS, got commands: %v", commands)
+		t.Fatalf("expected brew install dxrk-memory on macOS, got commands: %v", commands)
 	}
 }
 
-// Make sure the engram package's DownloadLatestBinary is accessible.
+// Make sure the dxrk-memory package's DownloadLatestBinary is accessible.
 var _ = engram.DownloadLatestBinary

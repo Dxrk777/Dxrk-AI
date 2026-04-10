@@ -9,7 +9,7 @@ import (
 
 // TestResolveEngramInstallNonBrewReturnsError verifies that after the fix,
 // resolver.go only handles brew. Non-brew cases handled by DownloadLatestBinary.
-// This is tested indirectly via the engram package — after our change,
+// This is tested indirectly via the dxrk-memory package — after our change,
 // InstallCommand for linux/windows returns an error (those cases removed).
 func TestInstallCommandNonBrewReturnsError(t *testing.T) {
 	tests := []struct {
@@ -64,6 +64,6 @@ func TestInstallCommandBrewStillWorks(t *testing.T) {
 		}
 	}
 	if !found {
-		t.Fatalf("InstallCommand(brew) commands don't reference engram: %v", cmds)
+		t.Fatalf("InstallCommand(brew) commands don't reference dxrk-memory: %v", cmds)
 	}
 }

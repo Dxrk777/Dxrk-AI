@@ -44,7 +44,7 @@ dxrk install \
 # Pick specific components and skills
 dxrk install \
   --agent claude-code \
-  --component engram,sdd,skills,context7,persona,permissions \
+  --component DxrkMemory,sdd,skills,context7,persona,permissions \
   --skill go-testing,skill-creator,branch-pr,issue-creation \
   --persona gentleman
 
@@ -56,7 +56,7 @@ dxrk install --dry-run \
 
 ### sync
 
-Refresh managed assets to the current version. Use after `brew upgrade dxrk` or when you want your local configs aligned with the latest release. Does NOT reinstall binaries (engram, GGA) — only updates prompt content, skills, MCP configs, and SDD orchestrators.
+Refresh managed assets to the current version. Use after `brew upgrade dxrk` or when you want your local configs aligned with the latest release. Does NOT reinstall binaries (DxrkMemory, GGA) — only updates prompt content, skills, MCP configs, and SDD orchestrators.
 
 ```bash
 # Sync all installed agents
@@ -68,7 +68,7 @@ dxrk sync --agent cursor --agent windsurf
 # Sync a specific component
 dxrk sync --component sdd
 dxrk sync --component skills
-dxrk sync --component engram
+dxrk sync --component DxrkMemory
 ```
 
 Sync is safe and idempotent — running it twice produces no changes the second time.
@@ -113,7 +113,7 @@ dxrk -v
 | Flag | Description |
 |------|-------------|
 | `--agent`, `--agents` | Agents to sync (defaults to all installed agents) |
-| `--component` | Sync a specific component only: `sdd`, `engram`, `context7`, `skills`, `gga`, `permissions`, `theme` |
+| `--component` | Sync a specific component only: `sdd`, `DxrkMemory`, `context7`, `skills`, `gga`, `permissions`, `theme` |
 | `--include-permissions` | Include permissions sync (opt-in) |
 | `--include-theme` | Include theme sync (opt-in) |
 

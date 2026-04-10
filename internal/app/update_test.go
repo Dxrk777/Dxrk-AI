@@ -30,7 +30,7 @@ func TestRunUpdate_ReturnsErrorWhenChecksFail(t *testing.T) {
 	if err == nil {
 		t.Fatal("runUpdate() error = nil, want non-nil")
 	}
-	if !strings.Contains(err.Error(), "update check failed for: engram") {
+	if !strings.Contains(err.Error(), "update check failed for: dxrk-memory") {
 		t.Fatalf("runUpdate() error = %v, want update check failure", err)
 	}
 
@@ -76,7 +76,7 @@ func TestRunUpgrade_ReturnsErrorBeforeExecutingWhenChecksFail(t *testing.T) {
 	if err == nil {
 		t.Fatal("runUpgrade() error = nil, want non-nil")
 	}
-	if !strings.Contains(err.Error(), "update check failed for: engram") {
+	if !strings.Contains(err.Error(), "update check failed for: dxrk-memory") {
 		t.Fatalf("runUpgrade() error = %v, want update check failure", err)
 	}
 	if called {

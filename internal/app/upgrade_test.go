@@ -69,7 +69,7 @@ func TestRunArgs_UpgradeNoArgs(t *testing.T) {
 	}
 }
 
-// TestRunArgs_UpgradeToolFilter verifies that `dxrk upgrade engram` filters
+// TestRunArgs_UpgradeToolFilter verifies that `dxrk upgrade dxrk-memory` filters
 // to only check/upgrade engram.
 func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	var buf bytes.Buffer
@@ -79,14 +79,14 @@ func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 		if strings.Contains(errStr, "unknown command") {
 			t.Fatalf("upgrade command is not registered: %v", err)
 		}
-		t.Logf("upgrade engram got non-fatal error (likely network/not installed): %v", err)
+		t.Logf("upgrade dxrk-memory got non-fatal error (likely network/not installed): %v", err)
 	}
 
 	out := buf.String()
-	// Output should only mention engram or no-upgrades, not dxrk or gga.
+	// Output should only mention dxrk-memory or no-upgrades, not dxrk or gga.
 	// This is a soft check since the tool may not be installed.
 	if strings.Contains(out, "dxrk") && !strings.Contains(out, "dxrk-memory") {
-		t.Errorf("filtering to engram should not show dxrk in output; got: %s", out)
+		t.Errorf("filtering to dxrk-memory should not show dxrk in output; got: %s", out)
 	}
 }
 

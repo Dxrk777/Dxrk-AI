@@ -36,13 +36,13 @@ func TestDetectInstalledVersion(t *testing.T) {
 			wantVersion:  "dev",
 		},
 		{
-			name: "engram version parsed from output",
+			name: "dxrk-memory version parsed from output",
 			tool: ToolInfo{Name: "dxrk-memory", DetectCmd: []string{"dxrk-memory", "version"}},
 			lookPathFn: func(string) (string, error) {
-				return "/usr/local/bin/engram", nil
+				return "/usr/local/bin/dxrk-memory", nil
 			},
 			execCommandFn: func(name string, args ...string) *exec.Cmd {
-				return exec.Command("echo", "engram v0.3.2")
+				return exec.Command("echo", "dxrk-memory v0.3.2")
 			},
 			wantVersion: "0.3.2",
 		},
@@ -58,7 +58,7 @@ func TestDetectInstalledVersion(t *testing.T) {
 			name: "binary exists but version command fails",
 			tool: ToolInfo{Name: "dxrk-memory", DetectCmd: []string{"dxrk-memory", "version"}},
 			lookPathFn: func(string) (string, error) {
-				return "/usr/local/bin/engram", nil
+				return "/usr/local/bin/dxrk-memory", nil
 			},
 			execCommandFn: func(name string, args ...string) *exec.Cmd {
 				return exec.Command("false") // exits with error
@@ -285,7 +285,7 @@ func TestCheckAll(t *testing.T) {
 		case contains(path, "Dxrk"):
 			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk-AI/releases/tag/v1.5.0"}
 		case contains(path, "dxrk-memory"):
-			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Dxrk777/engram/releases/tag/v0.4.0"}
+			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Dxrk777/dxrk-memory/releases/tag/v0.4.0"}
 		case contains(path, "dxrk-guardian-angel"):
 			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/Dxrk777/dxrk-guardian-angel/releases/tag/v2.0.0"}
 		}
@@ -305,11 +305,11 @@ func TestCheckAll(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-	// Mock: engram is installed at v0.3.2, gga is not installed.
+	// Mock: dxrk-memory is installed at v0.3.2, gga is not installed.
 	lookPath = func(name string) (string, error) {
 		switch name {
 		case "dxrk-memory":
-			return "/usr/local/bin/engram", nil
+			return "/usr/local/bin/dxrk-memory", nil
 		case "dxrk-guardian":
 			return "", fmt.Errorf("not found")
 		default:
@@ -318,7 +318,7 @@ func TestCheckAll(t *testing.T) {
 	}
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		if name == "dxrk-memory" {
-			return exec.Command("echo", "engram v0.3.2")
+			return exec.Command("echo", "dxrk-memory v0.3.2")
 		}
 		return exec.Command("false")
 	}
@@ -333,7 +333,7 @@ func TestCheckAll(t *testing.T) {
 	// dxrk: 1.5.0 local == 1.5.0 remote → UpToDate
 	assertResult(t, results[0], "dxrk", UpToDate, "1.5.0", "1.5.0")
 
-	// engram: 0.3.2 local < 0.4.0 remote → UpdateAvailable
+	// dxrk-memory: 0.3.2 local < 0.4.0 remote → UpdateAvailable
 	assertResult(t, results[1], "dxrk-memory", UpdateAvailable, "0.3.2", "0.4.0")
 
 	// gga: not installed
@@ -382,7 +382,7 @@ func TestCheckAll_NetworkError(t *testing.T) {
 	}
 
 	if results[1].Status != CheckFailed {
-		t.Fatalf("engram status = %q, want %q", results[1].Status, CheckFailed)
+		t.Fatalf("dxrk-memory status = %q, want %q", results[1].Status, CheckFailed)
 	}
 	if results[2].Status != CheckFailed {
 		t.Fatalf("gga status = %q, want %q", results[2].Status, CheckFailed)
@@ -422,7 +422,7 @@ func TestCheckFiltered_FetchErrorPreservesCheckFailedForMissingTool(t *testing.T
 		t.Fatalf("len(results) = %d, want 1", len(results))
 	}
 	if results[0].Status != CheckFailed {
-		t.Fatalf("engram status = %q, want %q", results[0].Status, CheckFailed)
+		t.Fatalf("dxrk-memory status = %q, want %q", results[0].Status, CheckFailed)
 	}
 }
 
@@ -454,19 +454,19 @@ func TestUpdateHint(t *testing.T) {
 			want:    "irm https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/install.ps1 | iex",
 		},
 		{
-			name:    "engram macOS brew",
+			name:    "dxrk-memory macOS brew",
 			tool:    ToolInfo{Name: "dxrk-memory"},
 			profile: system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
-			want:    "brew upgrade engram",
+			want:    "brew upgrade dxrk-memory",
 		},
 		{
-			name:    "engram linux",
+			name:    "dxrk-memory linux",
 			tool:    ToolInfo{Name: "dxrk-memory"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
 			want:    "dxrk upgrade (downloads pre-built binary)",
 		},
 		{
-			name:    "engram windows",
+			name:    "dxrk-memory windows",
 			tool:    ToolInfo{Name: "dxrk-memory"},
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
 			want:    "dxrk upgrade (downloads pre-built binary)",
@@ -611,7 +611,7 @@ func TestParseVersionFromOutput(t *testing.T) {
 		output string
 		want   string
 	}{
-		{name: "engram v0.3.2", output: "engram v0.3.2", want: "0.3.2"},
+		{name: "dxrk-memory v0.3.2", output: "dxrk-memory v0.3.2", want: "0.3.2"},
 		{name: "gga 1.0.0", output: "gga version 1.0.0", want: "1.0.0"},
 		{name: "bare version", output: "2.1.0", want: "2.1.0"},
 		{name: "no version", output: "no version info here", want: ""},
@@ -661,9 +661,9 @@ func TestRegistryContents(t *testing.T) {
 		t.Fatalf("dxrk DetectCmd should be nil")
 	}
 
-	// engram and gga must have non-nil DetectCmd.
+	// dxrk-memory and gga must have non-nil DetectCmd.
 	if Tools[1].DetectCmd == nil {
-		t.Fatalf("engram DetectCmd should not be nil")
+		t.Fatalf("dxrk-memory DetectCmd should not be nil")
 	}
 	if Tools[2].DetectCmd == nil {
 		t.Fatalf("gga DetectCmd should not be nil")
@@ -740,13 +740,13 @@ func TestCheckFiltered_SubsetOfTools(t *testing.T) {
 	httpClient.Transport = &testTransport{server: server}
 	lookPath = func(name string) (string, error) {
 		if name == "dxrk-memory" {
-			return "/usr/local/bin/engram", nil
+			return "/usr/local/bin/dxrk-memory", nil
 		}
 		return "", fmt.Errorf("not found")
 	}
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		if name == "dxrk-memory" {
-			return exec.Command("echo", "engram v0.9.9")
+			return exec.Command("echo", "dxrk-memory v0.9.9")
 		}
 		return exec.Command("false")
 	}
@@ -756,10 +756,10 @@ func TestCheckFiltered_SubsetOfTools(t *testing.T) {
 	// Request only "dxrk-memory" — should return exactly 1 result.
 	results := CheckFiltered(context.Background(), "1.0.0", profile, []string{"dxrk-memory"})
 	if len(results) != 1 {
-		t.Fatalf("CheckFiltered(engram) len = %d, want 1", len(results))
+		t.Fatalf("CheckFiltered(dxrk-memory) len = %d, want 1", len(results))
 	}
 	if results[0].Tool.Name != "dxrk-memory" {
-		t.Fatalf("CheckFiltered(engram) tool = %q, want %q", results[0].Tool.Name, "dxrk-memory")
+		t.Fatalf("CheckFiltered(dxrk-memory) tool = %q, want %q", results[0].Tool.Name, "dxrk-memory")
 	}
 }
 
@@ -833,7 +833,7 @@ func TestCheckFiltered_UnknownToolIgnored(t *testing.T) {
 //
 // The spec says:
 //   - Dev build MUST be reported as development-build semantic
-//   - dxrk self-upgrade is skipped while engram/gga remain eligible
+//   - dxrk self-upgrade is skipped while dxrk-memory/gga remain eligible
 func TestCheckFiltered_DevBuildSemanticsForDxrkAI(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -878,7 +878,7 @@ func TestCheckFiltered_DevBuildSemanticsForDxrkAI(t *testing.T) {
 }
 
 // TestCheckFiltered_DevBuildSkipNotEligible verifies that in a mixed run,
-// dxrk with "dev" version gets DevBuild while engram with a real version stays eligible.
+// dxrk with "dev" version gets DevBuild while dxrk-memory with a real version stays eligible.
 func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -912,20 +912,20 @@ func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-	// engram is installed at v1.0.0
+	// dxrk-memory is installed at v1.0.0
 	lookPath = func(name string) (string, error) {
 		if name == "dxrk-memory" {
-			return "/usr/local/bin/engram", nil
+			return "/usr/local/bin/dxrk-memory", nil
 		}
 		return "", fmt.Errorf("not found")
 	}
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		if name == "dxrk-memory" {
-			return exec.Command("echo", "engram v1.0.0")
+			return exec.Command("echo", "dxrk-memory v1.0.0")
 		}
 		return exec.Command("false")
 	}
-	// Only dxrk and engram for this test
+	// Only dxrk and dxrk-memory for this test
 	Tools = []ToolInfo{Tools[0], Tools[1]}
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
@@ -940,9 +940,9 @@ func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 		t.Fatalf("dxrk status = %q, want DevBuild", results[0].Status)
 	}
 
-	// engram should be UpdateAvailable (1.0.0 < 2.0.0)
+	// dxrk-memory should be UpdateAvailable (1.0.0 < 2.0.0)
 	if results[1].Status != UpdateAvailable {
-		t.Fatalf("engram status = %q, want UpdateAvailable", results[1].Status)
+		t.Fatalf("dxrk-memory status = %q, want UpdateAvailable", results[1].Status)
 	}
 }
 
@@ -980,20 +980,20 @@ func TestNoUpdatesPath(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-	// engram is at v0.3.2 (same as remote), gga is not installed
+	// dxrk-memory is at v0.3.2 (same as remote), gga is not installed
 	lookPath = func(name string) (string, error) {
 		if name == "dxrk-memory" {
-			return "/usr/local/bin/engram", nil
+			return "/usr/local/bin/dxrk-memory", nil
 		}
 		return "", fmt.Errorf("not found")
 	}
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		if name == "dxrk-memory" {
-			return exec.Command("echo", "engram v0.3.2")
+			return exec.Command("echo", "dxrk-memory v0.3.2")
 		}
 		return exec.Command("false")
 	}
-	// Only engram and gga for this test (skip dxrk to avoid dev-build behavior)
+	// Only dxrk-memory and gga for this test (skip dxrk to avoid dev-build behavior)
 	Tools = []ToolInfo{Tools[1], Tools[2]}
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
@@ -1003,9 +1003,9 @@ func TestNoUpdatesPath(t *testing.T) {
 		t.Fatalf("len = %d, want 2", len(results))
 	}
 
-	// engram: up to date
+	// dxrk-memory: up to date
 	if results[0].Status != UpToDate {
-		t.Fatalf("engram status = %q, want UpToDate", results[0].Status)
+		t.Fatalf("dxrk-memory status = %q, want UpToDate", results[0].Status)
 	}
 
 	// gga: not installed
@@ -1060,15 +1060,15 @@ func TestInstallMethodFieldsOnRegistry(t *testing.T) {
 		}
 	}
 
-	// engram: uses binary download (not go-install) — GoImportPath must be empty.
+	// dxrk-memory: uses binary download (not go-install) — GoImportPath must be empty.
 	for _, tool := range Tools {
 		switch tool.Name {
 		case "dxrk-memory":
 			if tool.InstallMethod != InstallBinary {
-				t.Errorf("engram InstallMethod = %q, want %q", tool.InstallMethod, InstallBinary)
+				t.Errorf("dxrk-memory InstallMethod = %q, want %q", tool.InstallMethod, InstallBinary)
 			}
 			if tool.GoImportPath != "" {
-				t.Errorf("engram GoImportPath should be empty (binary download, not go-install), got %q", tool.GoImportPath)
+				t.Errorf("dxrk-memory GoImportPath should be empty (binary download, not go-install), got %q", tool.GoImportPath)
 			}
 		}
 	}

@@ -26,7 +26,7 @@ All agents receive the **full SDD orchestrator** injected into their system prom
 | Model | How It Works | Agents |
 |-------|-------------|--------|
 | **Full (sub-agents)** | Each SDD phase runs in an isolated context window via native sub-agent delegation. The orchestrator coordinates; sub-agents execute. | Claude Code, OpenCode, Gemini CLI, Cursor, VS Code Copilot |
-| **Solo-agent** | All SDD phases run inline in the same conversation. The orchestrator IS the executor. Engram provides cross-phase persistence. | Codex, Windsurf, Antigravity |
+| **Solo-agent** | All SDD phases run inline in the same conversation. The orchestrator IS the executor. DxrkMemory provides cross-phase persistence. | Codex, Windsurf, Antigravity |
 
 ### Cursor Native Subagents
 
@@ -97,7 +97,7 @@ Antigravity is an agent-first platform with built-in sub-agents (Browser, Termin
 - CLI-native agent with TOML config at `~/.codex/config.toml`
 - Skills at `~/.codex/skills/`
 - System prompt at `~/.codex/agents.md`
-- Engram instruction files at `~/.codex/engram-instructions.md`
+- DxrkMemory instruction files at `~/.codex/DxrkMemory-instructions.md`
 
 ### Windsurf
 - Skills at `~/.codeium/windsurf/skills/` (native Windsurf feature)

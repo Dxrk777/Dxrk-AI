@@ -74,13 +74,13 @@ func Inject(homeDir string, adapter agents.Adapter, persona model.PersonaID) (In
 		promptPath := adapter.SystemPromptFile(homeDir)
 
 		// For non-Dxrk personas (e.g. neutral), the content is just a short
-		// one-liner. Writing ONLY that content would destroy any SDD/engram
+		// one-liner. Writing ONLY that content would destroy any SDD/dxrk-memory
 		// sections that are injected later in the pipeline. Instead, we write the
-		// persona content as the base and let subsequent inject steps (SDD, engram)
+		// persona content as the base and let subsequent inject steps (SDD, dxrk-memory)
 		// append their sections. For Dxrk, the content is the full persona
 		// asset which is safe to write as-is.
 		//
-		// If the file already exists and has managed sections (SDD, engram), we
+		// If the file already exists and has managed sections (SDD, dxrk-memory), we
 		// must preserve them — replace only the persona portion at the top.
 		existing, readErr := readFileOrEmpty(promptPath)
 		if readErr != nil {
@@ -268,7 +268,7 @@ var osReadFile = func(path string) ([]byte, error) {
 }
 
 // preserveManagedSections checks whether the existing file content has
-// Dxrk-AI managed sections (SDD orchestrator, engram protocol, etc.) and
+// Dxrk-AI managed sections (SDD orchestrator, dxrk-memory protocol, etc.) and
 // returns new content that preserves those sections while replacing only the
 // persona text before them. Returns ("", false) when no preservation is needed
 // (empty file, Dxrk persona, or no managed markers found).

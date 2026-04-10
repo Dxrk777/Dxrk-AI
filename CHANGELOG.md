@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Refactor
 
 - Replaced Gentle references with DXRK branding
-- dxrk:engram-protocol markers
+- dxrk:DxrkMemory-protocol markers
 - DXRK_ environment variables
 - Skill names and authors updated
 
@@ -65,7 +65,7 @@ First major release of Dxrk AI with the Brain module, CLI integration, and compr
 ### Added
 
 #### 🧠 Brain Module
-- Memory System, Commander, Email Integration, Webhook Support, Engram Client
+- Memory System, Commander, Email Integration, Webhook Support, DxrkMemory Client
 
 #### 💻 CLI Commands
 - dxrk brain - Unified command center

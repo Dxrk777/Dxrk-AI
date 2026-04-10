@@ -16,8 +16,8 @@ import (
 	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
-// missingBinaryLookPath simulates all installable binaries (engram, dxrk) as
-// missing. Go availability is no longer required for engram installation
+// missingBinaryLookPath simulates all installable binaries (dxrk-memory, dxrk) as
+// missing. Go availability is no longer required for dxrk-memory installation
 // (pre-built binaries are downloaded directly from GitHub Releases).
 func missingBinaryLookPath(name string) (string, error) {
 	return "", exec.ErrNotFound
@@ -237,7 +237,7 @@ func TestRunInstallLinuxUbuntuWithEngramUsesDirectDownload(t *testing.T) {
 	// Override engramDownloadFn to avoid real HTTP calls.
 	origDownloadFn := engramDownloadFn
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
-		return "/tmp/fake-engram", nil
+		return "/tmp/fake-dxrk-memory", nil
 	}
 	t.Cleanup(func() { engramDownloadFn = origDownloadFn })
 
@@ -254,10 +254,10 @@ func TestRunInstallLinuxUbuntuWithEngramUsesDirectDownload(t *testing.T) {
 		t.Fatalf("verification ready = false, report = %#v", result.Verify)
 	}
 
-	// Must NOT use go install for engram on Linux.
+	// Must NOT use go install for dxrk-memory on Linux.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
-			t.Fatalf("Linux engram install should NOT use go install, got command: %s", cmd)
+			t.Fatalf("Linux dxrk-memory install should NOT use go install, got command: %s", cmd)
 		}
 	}
 }
@@ -280,7 +280,7 @@ func TestRunInstallLinuxArchWithEngramUsesDirectDownload(t *testing.T) {
 
 	origDownloadFn := engramDownloadFn
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
-		return "/tmp/fake-engram", nil
+		return "/tmp/fake-dxrk-memory", nil
 	}
 	t.Cleanup(func() { engramDownloadFn = origDownloadFn })
 
@@ -297,10 +297,10 @@ func TestRunInstallLinuxArchWithEngramUsesDirectDownload(t *testing.T) {
 		t.Fatalf("verification ready = false, report = %#v", result.Verify)
 	}
 
-	// Must NOT use go install for engram on Arch Linux.
+	// Must NOT use go install for dxrk-memory on Arch Linux.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
-			t.Fatalf("Arch Linux engram install should NOT use go install, got command: %s", cmd)
+			t.Fatalf("Arch Linux dxrk-memory install should NOT use go install, got command: %s", cmd)
 		}
 	}
 }
@@ -330,7 +330,7 @@ func TestRunInstallLinuxRollsBackOnComponentFailure(t *testing.T) {
 	osUserHomeDir = func() (string, error) { return home, nil }
 	runCommand = func(name string, args ...string) error { return nil }
 
-	// Fail the engram download to trigger rollback.
+	// Fail the dxrk-memory download to trigger rollback.
 	origDownloadFn := engramDownloadFn
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
 		return "", os.ErrPermission
@@ -551,13 +551,13 @@ func TestRunInstallMacOSStillResolvesBrewCommands(t *testing.T) {
 	commands := recorder.get()
 	foundBrew := false
 	for _, cmd := range commands {
-		if strings.Contains(cmd, "brew install engram") {
+		if strings.Contains(cmd, "brew install dxrk-memory") {
 			foundBrew = true
 			break
 		}
 	}
 	if !foundBrew {
-		t.Fatalf("expected brew install for macOS engram, got commands: %v", commands)
+		t.Fatalf("expected brew install for macOS dxrk-memory install, got commands: %v", commands)
 	}
 }
 
@@ -678,7 +678,7 @@ func TestRunInstallEngramSkipsInstallWhenAlreadyOnPath(t *testing.T) {
 	})
 
 	osUserHomeDir = func() (string, error) { return home, nil }
-	// Simulate engram already installed on PATH.
+	// Simulate dxrk-memory already installed on PATH.
 	cmdLookPath = func(name string) (string, error) {
 		return "/usr/local/bin/" + name, nil
 	}
@@ -700,8 +700,8 @@ func TestRunInstallEngramSkipsInstallWhenAlreadyOnPath(t *testing.T) {
 
 	// No brew/go install commands should have been recorded — only agent install.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "brew install engram") || (strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory")) {
-			t.Fatalf("expected engram install to be skipped, but got command: %s", cmd)
+		if strings.Contains(cmd, "brew install dxrk-memory") || (strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory")) {
+			t.Fatalf("expected dxrk-memory install to be skipped, but got command: %s", cmd)
 		}
 	}
 }
@@ -744,7 +744,7 @@ func TestRunInstallEngramAttemptsOpenCodeSetupWhenBinaryPresent(t *testing.T) {
 		}
 	}
 	if !foundSetup {
-		t.Fatalf("expected engram setup command, got commands: %v", commands)
+		t.Fatalf("expected dxrk-memory setup command, got commands: %v", commands)
 	}
 }
 
@@ -975,7 +975,7 @@ func TestRunInstallDxrkLinuxIncludesTempCleanupBeforeClone(t *testing.T) {
 }
 
 // TestRunInstallEngramLinuxUsesDirectDownloadNoGoRequired verifies that on Linux,
-// engram is now installed via pre-built binary download — Go is NOT required.
+// dxrk-memory is now installed via pre-built binary download — Go is NOT required.
 func TestRunInstallEngramLinuxUsesDirectDownloadNoGoRequired(t *testing.T) {
 	home := t.TempDir()
 	restoreHome := osUserHomeDir
@@ -988,7 +988,7 @@ func TestRunInstallEngramLinuxUsesDirectDownloadNoGoRequired(t *testing.T) {
 	})
 
 	osUserHomeDir = func() (string, error) { return home, nil }
-	// Simulate: engram missing, Go also NOT available — should still succeed.
+	// Simulate: dxrk-memory missing, Go also NOT available — should still succeed.
 	cmdLookPath = func(string) (string, error) {
 		return "", exec.ErrNotFound
 	}
@@ -998,7 +998,7 @@ func TestRunInstallEngramLinuxUsesDirectDownloadNoGoRequired(t *testing.T) {
 	// Override download to succeed without hitting GitHub.
 	origDownloadFn := engramDownloadFn
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
-		return "/tmp/fake-engram", nil
+		return "/tmp/fake-dxrk-memory", nil
 	}
 	t.Cleanup(func() { engramDownloadFn = origDownloadFn })
 
@@ -1018,16 +1018,16 @@ func TestRunInstallEngramLinuxUsesDirectDownloadNoGoRequired(t *testing.T) {
 	// Neither "go install" nor "apt-get install golang" should appear.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "apt-get install -y golang") {
-			t.Fatalf("Go should NOT be auto-installed (no longer needed for engram), got command: %s", cmd)
+			t.Fatalf("Go should NOT be auto-installed (no longer needed for dxrk-memory)), got command: %s", cmd)
 		}
 		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
-			t.Fatalf("engram should NOT be installed via go install, got command: %s", cmd)
+			t.Fatalf("dxrk-memory should NOT be installed via go install, got command: %s", cmd)
 		}
 	}
 }
 
 // TestRunInstallEngramLinuxNeverInstallsGo verifies that even if Go is present,
-// we never install Go as a prerequisite for engram (direct download path).
+// we never install Go as a prerequisite for dxrk-memory (direct download path).
 func TestRunInstallEngramLinuxNeverInstallsGo(t *testing.T) {
 	home := t.TempDir()
 	restoreHome := osUserHomeDir
@@ -1046,7 +1046,7 @@ func TestRunInstallEngramLinuxNeverInstallsGo(t *testing.T) {
 
 	origDownloadFn := engramDownloadFn
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
-		return "/tmp/fake-engram", nil
+		return "/tmp/fake-dxrk-memory", nil
 	}
 	t.Cleanup(func() { engramDownloadFn = origDownloadFn })
 
@@ -1066,7 +1066,7 @@ func TestRunInstallEngramLinuxNeverInstallsGo(t *testing.T) {
 	// No Go installation commands should appear.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "apt-get install -y golang") || strings.Contains(cmd, "apt-get install -y go") {
-			t.Fatalf("Go should never be installed as engram dependency, got command: %s", cmd)
+			t.Fatalf("Go should never be installed as dxrk-memory dependency, got command: %s", cmd)
 		}
 	}
 }
@@ -1083,7 +1083,7 @@ func TestRunInstallEngramBrewSkipsGoCheck(t *testing.T) {
 	})
 
 	osUserHomeDir = func() (string, error) { return home, nil }
-	// Simulate: engram missing — brew platform, no Go or download needed.
+	// Simulate: dxrk-memory missing — brew platform, no Go or download needed.
 	cmdLookPath = func(string) (string, error) {
 		return "", exec.ErrNotFound
 	}
@@ -1116,12 +1116,12 @@ func TestRunInstallEngramBrewSkipsGoCheck(t *testing.T) {
 
 	foundBrew := false
 	for _, cmd := range commands {
-		if strings.Contains(cmd, "brew install engram") {
+		if strings.Contains(cmd, "brew install dxrk-memory") {
 			foundBrew = true
 		}
 	}
 	if !foundBrew {
-		t.Fatalf("expected brew install engram, got commands: %v", commands)
+		t.Fatalf("expected brew install dxrk-memory, got commands: %v", commands)
 	}
 }
 
@@ -1349,7 +1349,7 @@ func TestRunInstallUpgradeIdempotency(t *testing.T) {
 
 	// Capture all relevant output files after the first run.
 	claudeMDPath := filepath.Join(home, ".claude", "CLAUDE.md")
-	engramMCPPath := filepath.Join(home, ".claude", "mcp", "engram.json")
+	engramMCPPath := filepath.Join(home, ".claude", "mcp", "dxrk-memory.json")
 
 	claudeMDAfterRun1, err := os.ReadFile(claudeMDPath)
 	if err != nil {
@@ -1387,7 +1387,7 @@ func TestRunInstallUpgradeIdempotency(t *testing.T) {
 			claudeMDAfterRun1, claudeMDAfterRun2)
 	}
 	if string(engramMCPAfterRun1) != string(engramMCPAfterRun2) {
-		t.Errorf("engram MCP config changed between run 1 and run 2 (idempotency violation):\n--- run1 ---\n%s\n--- run2 ---\n%s",
+		t.Errorf("dxrk-memory MCP config changed between run 1 and run 2 (idempotency violation):\n--- run1 ---\n%s\n--- run2 ---\n%s",
 			engramMCPAfterRun1, engramMCPAfterRun2)
 	}
 
@@ -1415,7 +1415,7 @@ func TestRunInstallUpgradeIdempotency(t *testing.T) {
 	engramJSON := string(engramMCPAfterRun2)
 	commandCount := strings.Count(engramJSON, `"command"`)
 	if commandCount != 1 {
-		t.Errorf("engram MCP JSON contains %d occurrences of \"command\", want exactly 1:\n%s",
+		t.Errorf("dxrk-memory MCP JSON contains %d occurrences of \"command\", want exactly 1:\n%s",
 			commandCount, engramJSON)
 	}
 }
@@ -1496,8 +1496,8 @@ func TestRunInstallCustomPresetExplicitSkillsFlagPopulatesSelection(t *testing.T
 		t.Fatalf("expected branch-pr skill file %q: %v", branchPRPath, err)
 	}
 
-	// Note: the graph defines skills → sdd → engram as a hard dependency chain.
-	// Selecting --component skills auto-resolves sdd (and engram) as dependencies.
+	// Note: the graph defines skills → sdd → dxrk-memory as a hard dependency chain.
+	// Selecting --component skills auto-resolves sdd (and dxrk-memory) as dependencies.
 	// The SDD component installs its own 10 SDD+orchestration skills during injection,
 	// regardless of the --skills flag. So sdd-init and other SDD skills ARE installed.
 	sddInitPath := filepath.Join(home, ".claude", "skills", "sdd-init", "SKILL.md")
@@ -1562,8 +1562,8 @@ func TestRunInstallCustomPresetSkillsNoFlagInstallsNothing(t *testing.T) {
 		t.Fatalf("verification ready = false, report = %#v", result.Verify)
 	}
 
-	// The graph defines skills → sdd → engram as hard dependencies.
-	// Selecting --component skills auto-resolves sdd (and engram).
+	// The graph defines skills → sdd → dxrk-memory as hard dependencies.
+	// Selecting --component skills auto-resolves sdd (and dxrk-memory).
 	// The SDD component ALWAYS installs its 10 SDD+orchestration skills during injection.
 	// Without --skills flag, selectedSkillIDs() returns nil for custom preset,
 	// so the skills COMPONENT is a no-op — but the sdd DEPENDENCY still runs and
@@ -1633,7 +1633,7 @@ func TestRunInstallCustomPresetExplicitComponentsResolveCorrectly(t *testing.T) 
 		t.Fatalf("RunInstall() error = %v", err)
 	}
 
-	// Should have exactly the 3 explicit components (sdd depends on engram which is already selected).
+	// Should have exactly the 3 explicit components (sdd depends on dxrk-memory which is already selected).
 	if len(result.Resolved.OrderedComponents) != 3 {
 		t.Fatalf("expected 3 ordered components, got %d: %v",
 			len(result.Resolved.OrderedComponents), result.Resolved.OrderedComponents)
@@ -1697,14 +1697,14 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 	}
 
 	// For OpenCode, the SDD orchestrator goes into opencode.json (agent overlay),
-	// NOT AGENTS.md. AGENTS.md only contains persona and engram sections.
+	// NOT AGENTS.md. AGENTS.md only contains persona and dxrk-memory sections.
 	// The issue #121 regression was that Persona would overwrite AGENTS.md
-	// AFTER engram had already injected the dxrk-memory-protocol marker, destroying
-	// the engram section. We verify persona + engram coexist.
+	// AFTER dxrk-memory had already injected the dxrk-memory-protocol marker, destroying
+	// the dxrk-memory section. We verify persona + dxrk-memory coexist.
 
 	// Engram protocol section must be present
 	if !strings.Contains(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") {
-		t.Error("AGENTS.md missing dxrk-memory-protocol open marker (issue #121 regression: persona may have overwritten engram section)")
+		t.Error("AGENTS.md missing dxrk-memory-protocol open marker (issue #121 regression: persona may have overwritten dxrk-memory section)")
 	}
 	if !strings.Contains(text, "<!-- /Dxrk-AI:dxrk-memory-protocol -->") {
 		t.Error("AGENTS.md missing dxrk-memory-protocol close marker")

@@ -157,8 +157,8 @@ func withPostInstallNotes(report verify.Report, resolved planner.ResolvedPlan) v
 	return report
 }
 
-// withGoInstallPathNote appends a PATH guidance note when engram was installed
-// on a non-brew platform (Linux/Windows). Since engram is now installed via
+// withGoInstallPathNote appends a PATH guidance note when dxrk-memory was installed
+// on a non-brew platform (Linux/Windows). Since dxrk-memory is now installed via
 // direct binary download to /usr/local/bin or ~/.local/bin, this note helps
 // users who may need to add the install directory to their PATH.
 func withGoInstallPathNote(report verify.Report, resolved planner.ResolvedPlan) verify.Report {

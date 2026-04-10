@@ -30,17 +30,17 @@ var (
 	engramInstallDirFn  = engramInstallDir
 )
 
-// DownloadLatestBinary fetches the latest engram release from GitHub and
+// DownloadLatestBinary fetches the latest dxrk-memory release from GitHub and
 // installs it to the appropriate directory for the given platform.
 // It returns the full path to the installed binary.
 //
 // This is the non-brew installation method for Linux and Windows.
-// On macOS, brew handles engram transitively and this should not be called.
+// On macOS, brew handles dxrk-memory transitively and this should not be called.
 func DownloadLatestBinary(profile system.PlatformProfile) (string, error) {
 	// 1. Fetch the latest version tag from GitHub API.
 	version, err := fetchLatestEngramVersion()
 	if err != nil {
-		return "", fmt.Errorf("fetch latest engram version: %w", err)
+		return "", fmt.Errorf("fetch latest dxrk-memory version: %w", err)
 	}
 
 	// 2. Determine binary name and archive URL.
@@ -51,7 +51,7 @@ func DownloadLatestBinary(profile system.PlatformProfile) (string, error) {
 	// 3. Determine install directory.
 	installDir := engramInstallDirFn(goos)
 	if err := os.MkdirAll(installDir, 0o755); err != nil {
-		return "", fmt.Errorf("create engram install dir %q: %w", installDir, err)
+		return "", fmt.Errorf("create dxrk-memory install dir %q: %w", installDir, err)
 	}
 
 	// 4. Download and extract binary.
@@ -74,7 +74,7 @@ func DownloadLatestBinary(profile system.PlatformProfile) (string, error) {
 	return outPath, nil
 }
 
-// fetchLatestEngramVersion queries the GitHub Releases API for the latest engram
+// fetchLatestEngramVersion queries the GitHub Releases API for the latest dxrk-memory
 // release and returns the version string (without leading "v").
 func fetchLatestEngramVersion() (string, error) {
 	apiURL := fmt.Sprintf("%s/repos/%s/%s/releases/latest",
@@ -124,9 +124,9 @@ func githubToken() string {
 }
 
 // normalizeArch maps Go's runtime.GOARCH to the architecture names used in
-// engram release assets. Engram only publishes amd64 and arm64 binaries.
+// dxrk-memory release assets. Engram only publishes amd64 and arm64 binaries.
 // If the current process runs as 386 (32-bit Go on a 64-bit system), we
-// map to amd64 since engram doesn't publish 386 builds.
+// map to amd64 since dxrk-memory doesn't publish 386 builds.
 func normalizeArch(goarch string) string {
 	switch goarch {
 	case "386":
@@ -149,7 +149,7 @@ func engramAPIBaseURL() string {
 	return "https://api.github.com"
 }
 
-// engramAssetURL constructs the download URL for the engram release asset.
+// engramAssetURL constructs the download URL for the dxrk-memory release asset.
 func engramAssetURL(baseURL, version, goos, goarch string) string {
 	ext := ".tar.gz"
 	if goos == "windows" {
@@ -163,7 +163,7 @@ func engramAssetURL(baseURL, version, goos, goarch string) string {
 // engramInstallDir returns the directory where the dxrk-memory binary should be installed
 // for the given OS.
 //   - Linux/macOS: /usr/local/bin (fallback: ~/.local/bin if not writable)
-//   - Windows: %LOCALAPPDATA%\engram\bin
+//   - Windows: %LOCALAPPDATA%\dxrk-memory\bin
 func engramInstallDir(goos string) string {
 	if goos == "windows" {
 		localAppData := os.Getenv("LOCALAPPDATA")

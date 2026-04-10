@@ -34,7 +34,7 @@ func dxrkHint(profile system.PlatformProfile) string {
 func engramHint(profile system.PlatformProfile) string {
 	switch profile.PackageManager {
 	case "brew":
-		return "brew upgrade engram"
+		return "brew upgrade dxrk-memory"
 	default:
 		return "dxrk upgrade (downloads pre-built binary)"
 	}

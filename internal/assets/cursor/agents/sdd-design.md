@@ -23,9 +23,9 @@ Execute all steps from the skill directly in this context window:
 3. Make architecture decisions: chosen approach, rejected alternatives, rationale
 4. Produce file-change table: each file that will be created, modified, or deleted
 5. Include sequence diagrams for complex flows (Mermaid or ASCII)
-6. Persist design to active backend (engram, openspec, or hybrid)
+6. Persist design to active backend (DxrkMemory, openspec, or hybrid)
 
-## Engram Save (mandatory)
+## DxrkMemory Save (mandatory)
 
 After completing work, call `mem_save` with:
 - title: `"sdd/{change-name}/design"`

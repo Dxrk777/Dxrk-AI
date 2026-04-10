@@ -108,7 +108,7 @@ func TestComponentPathsEngramCodexIncludesConfigTOML(t *testing.T) {
 
 	want := home + "/.codex/config.toml"
 	if !containsPath(paths, want) {
-		t.Fatalf("componentPaths(engram,codex) missing %q\npaths=%v", want, paths)
+		t.Fatalf("componentPaths(dxrk-memory,codex) missing %q\npaths=%v", want, paths)
 	}
 }
 

@@ -11,12 +11,12 @@ The sdd-apply skill (v2.0) supports TDD workflow (RED-GREEN-REFACTOR cycle) when
 CONTEXT:
 - Working directory: !`echo -n "$(pwd)"`
 - Current project: !`echo -n "$(basename $(pwd))"`
-- Artifact store mode: engram
+- Artifact store mode: DxrkMemory
 
 TASK:
 Implement the remaining incomplete tasks for the active SDD change.
 
-ENGRAM PERSISTENCE (artifact store mode: engram):
+ENGRAM PERSISTENCE (artifact store mode: DxrkMemory):
 CRITICAL: mem_search returns 300-char PREVIEWS, not full content. You MUST call mem_get_observation(id) for EVERY artifact.
 STEP A — SEARCH (get IDs only):
   mem_search(query: "sdd/{change-name}/spec", project: "{project}") → save spec_id

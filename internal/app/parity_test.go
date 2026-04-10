@@ -356,7 +356,7 @@ func TestInstallPlannerParityLinuxPreservesComponentOrder(t *testing.T) {
 		},
 	}
 
-	result, err := cli.RunInstall([]string{"--dry-run", "--agent", "opencode", "--component", "engram,sdd,skills"}, linuxDetection)
+	result, err := cli.RunInstall([]string{"--dry-run", "--agent", "opencode", "--component", "dxrk-memory,sdd,skills"}, linuxDetection)
 	if err != nil {
 		t.Fatalf("RunInstall() error = %v", err)
 	}
@@ -378,6 +378,6 @@ func TestInstallPlannerParityLinuxPreservesComponentOrder(t *testing.T) {
 		t.Fatalf("missing expected components in order: %v", order)
 	}
 	if engramIdx >= sddIdx || sddIdx >= skillsIdx {
-		t.Fatalf("dependency order violated: engram@%d sdd@%d skills@%d", engramIdx, sddIdx, skillsIdx)
+		t.Fatalf("dependency order violated: dxrk-memory@%d sdd@%d skills@%d", engramIdx, sddIdx, skillsIdx)
 	}
 }

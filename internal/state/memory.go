@@ -172,7 +172,7 @@ func EngramSync(homeDir string) error {
 		return nil // Nothing to sync
 	}
 
-	// Try to use engram CLI if available
+	// Try to use dxrk-memory CLI if available
 	_, err = exec.LookPath("dxrk-memory")
 	if err != nil {
 		return nil // Engram not installed, skip

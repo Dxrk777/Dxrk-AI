@@ -565,7 +565,7 @@ func TestInjectFileAppendMigratesFullLegacyOrchestratorBlock(t *testing.T) {
 		t.Fatal("current compact-rules launch pattern missing after migration")
 	}
 	if strings.Count(text, "<!-- Dxrk-AI:dxrk-memory-protocol -->") != 1 {
-		t.Fatal("engram protocol marker should be preserved exactly once")
+		t.Fatal("dxrk-memory protocol marker should be preserved exactly once")
 	}
 }
 

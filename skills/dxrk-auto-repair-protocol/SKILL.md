@@ -405,19 +405,19 @@ npm run repair:reset-kb
 npm run repair:report
 ```
 
-## Integration with Engram Memory
+## Integration with DxrkMemory Memory
 
 Store repair patterns in persistent memory:
 
 ```typescript
-import { engram } from '@/lib/memory';
+import { DxrkMemory } from '@/lib/memory';
 
 async function saveRepairPattern(
   error: Error,
   solution: Solution,
   success: boolean
 ): Promise<void> {
-  await engram.save({
+  await DxrkMemory.save({
     type: 'repair',
     title: `Fixed: ${error.message.slice(0, 50)}`,
     content: {
@@ -431,7 +431,7 @@ async function saveRepairPattern(
 }
 
 async function loadRepairPatterns(category?: ErrorCategory): Promise<ErrorPattern[]> {
-  const patterns = await engram.search({
+  const patterns = await DxrkMemory.search({
     type: 'repair',
     category: category
   });

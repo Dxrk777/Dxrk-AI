@@ -1,10 +1,10 @@
-# Engram Artifact Convention (reference documentation)
+# DxrkMemory Artifact Convention (reference documentation)
 
-NOTE: Critical engram calls (`mem_search`, `mem_save`, `mem_get_observation`) are inlined directly in each skill's SKILL.md. This document is supplementary reference — sub-agents do NOT need to read it to function.
+NOTE: Critical DxrkMemory calls (`mem_search`, `mem_save`, `mem_get_observation`) are inlined directly in each skill's SKILL.md. This document is supplementary reference — sub-agents do NOT need to read it to function.
 
 ## Naming Rules
 
-ALL SDD artifacts persisted to Engram MUST follow this deterministic naming:
+ALL SDD artifacts persisted to DxrkMemory MUST follow this deterministic naming:
 
 ```
 title:     sdd/{change-name}/{artifact-type}
@@ -38,7 +38,7 @@ mem_save(
   topic_key: "sdd/{change-name}/state",
   type: "architecture",
   project: "{project}",
-  content: "change: {change-name}\nphase: {last-phase}\nartifact_store: engram\nartifacts:\n  proposal: true\n  specs: true\n  design: false\n  tasks: false\ntasks_progress:\n  completed: []\n  pending: []\nlast_updated: {ISO date}"
+  content: "change: {change-name}\nphase: {last-phase}\nartifact_store: DxrkMemory\nartifacts:\n  proposal: true\n  specs: true\n  design: false\n  tasks: false\ntasks_progress:\n  completed: []\n  pending: []\nlast_updated: {ISO date}"
 )
 ```
 

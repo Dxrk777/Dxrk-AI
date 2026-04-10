@@ -183,9 +183,9 @@ Múltiples skills pueden aplicar simultáneamente.
 
 ---
 
-## 📚 Protocolo de Memoria Engram
+## 📚 Protocolo de Memoria DxrkMemory
 
-Dxrk usa **Engram** para memoria persistente.
+Dxrk usa **DxrkMemory** para memoria persistente.
 
 ### Cuándo GUARDAR (proactivamente)
 
@@ -234,10 +234,10 @@ Dxrk usa **Engram** para memoria persistente.
 
 </div>
 
-<!-- dxrk:engram-protocol -->
-## Engram Persistent Memory — Protocol
+<!-- dxrk:DxrkMemory-protocol -->
+## DxrkMemory Persistent Memory — Protocol
 
-You have access to Engram, a persistent memory system that survives across sessions and compactions.
+You have access to DxrkMemory, a persistent memory system that survives across sessions and compactions.
 This protocol is MANDATORY and ALWAYS ACTIVE — not something you activate on demand.
 
 ### PROACTIVE SAVE TRIGGERS (mandatory — do NOT wait for user to ask)
@@ -319,4 +319,4 @@ If you see a compaction message or "FIRST ACTION REQUIRED":
 3. Only THEN continue working
 
 Do not skip step 1. Without it, everything done before compaction is lost from memory.
-<!-- /dxrk:engram-protocol -->
+<!-- /dxrk:DxrkMemory-protocol -->

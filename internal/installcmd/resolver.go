@@ -264,7 +264,7 @@ func validateGoForModuleInstall(profile system.PlatformProfile) error {
 //
 // The go install method has been removed because it required Go 1.24+ which most
 // users on Linux/Windows don't have. Pre-built binaries are available at:
-// https://github.com/dxrk/engram/releases
+// https://github.com/dxrk/dxrk-memory/releases
 func resolveEngramInstall(profile system.PlatformProfile) (CommandSequence, error) {
 	switch profile.PackageManager {
 	case "brew":
@@ -275,7 +275,7 @@ func resolveEngramInstall(profile system.PlatformProfile) (CommandSequence, erro
 		}, nil
 	default:
 		return nil, fmt.Errorf(
-			"engram on %q/%q uses direct binary download — use engram.DownloadLatestBinary() instead of CommandSequence",
+			"dxrk-memory on %q/%q uses direct binary download — use dxrk-memory.DownloadLatestBinary() instead of CommandSequence",
 			profile.OS, profile.PackageManager,
 		)
 	}

@@ -27,7 +27,7 @@ Execute all steps from the skill directly in this context window:
 7. Mark each task `[x]` complete as you finish it
 8. Persist progress to active backend
 
-## Engram Save (mandatory)
+## DxrkMemory Save (mandatory)
 
 After completing work, call `mem_save` with:
 - title: `"sdd/{change-name}/apply-progress"`
@@ -35,7 +35,7 @@ After completing work, call `mem_save` with:
 - type: `"architecture"`
 - project: `{project-name from context}`
 
-Also update the tasks artifact with `[x]` marks via `mem_update` (engram) or file edit (openspec/hybrid).
+Also update the tasks artifact with `[x]` marks via `mem_update` (DxrkMemory) or file edit (openspec/hybrid).
 
 ## Result Contract
 

@@ -384,7 +384,7 @@ func TestComponentSyncStepSkipsEngramBinaryInstall(t *testing.T) {
 		cmdLookPath = restoreLookPath
 	})
 
-	// Simulate engram NOT on PATH — install logic should NOT be triggered.
+	// Simulate dxrk-memory NOT on PATH — install logic should NOT be triggered.
 	cmdLookPath = func(name string) (string, error) {
 		return "", os.ErrNotExist
 	}
@@ -396,7 +396,7 @@ func TestComponentSyncStepSkipsEngramBinaryInstall(t *testing.T) {
 	}
 
 	step := componentSyncStep{
-		id:        "sync:engram",
+		id:        "sync:dxrk-memory",
 		component: model.ComponentEngram,
 		homeDir:   home,
 		agents:    []model.AgentID{model.AgentOpenCode},
@@ -407,13 +407,13 @@ func TestComponentSyncStepSkipsEngramBinaryInstall(t *testing.T) {
 		t.Fatalf("componentSyncStep.Run() error = %v", err)
 	}
 
-	// No binary install or engram setup commands should have been recorded.
+	// No binary install or dxrk-memory setup commands should have been recorded.
 	for _, cmd := range commandsCalled {
 		if strings.Contains(cmd, "brew install") || strings.Contains(cmd, "go install") {
 			t.Errorf("componentSyncStep must not run binary install, got command: %s", cmd)
 		}
 		if strings.Contains(cmd, "dxrk-memory setup") {
-			t.Errorf("componentSyncStep must not run engram setup, got command: %s", cmd)
+			t.Errorf("componentSyncStep must not run dxrk-memory setup, got command: %s", cmd)
 		}
 	}
 }
@@ -568,7 +568,7 @@ func TestRunSyncDoesNotInvokeEngramSetup(t *testing.T) {
 
 	for _, cmd := range commandsCalled {
 		if strings.Contains(cmd, "dxrk-memory setup") {
-			t.Errorf("RunSync must NOT invoke engram setup, got command: %s", cmd)
+			t.Errorf("RunSync must NOT invoke dxrk-memory setup, got command: %s", cmd)
 		}
 	}
 }

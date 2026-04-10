@@ -42,7 +42,7 @@ func makeServerWithFakeTarGz(t *testing.T, version string) *httptest.Server {
 // "engram.exe" (Windows).
 func makeServerWithFakeZip(t *testing.T, version string) *httptest.Server {
 	t.Helper()
-	zipContent := buildFakeZip(t, "engram.exe")
+	zipContent := buildFakeZip(t, "dxrk-memory.exe")
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.Contains(r.URL.Path, "releases/latest") {
 			payload := map[string]string{"tag_name": "v" + version}
@@ -68,7 +68,7 @@ func buildFakeTarGz(t *testing.T, binaryName string) []byte {
 	gw := gzip.NewWriter(f)
 	tw := tar.NewWriter(gw)
 
-	content := []byte("#!/bin/sh\necho engram fake binary")
+	content := []byte("#!/bin/sh\necho dxrk-memory fake binary")
 	tw.WriteHeader(&tar.Header{Name: binaryName, Mode: 0o755, Size: int64(len(content))})
 	tw.Write(content)
 	tw.Close()
@@ -93,7 +93,7 @@ func buildFakeZip(t *testing.T, binaryName string) []byte {
 	}
 	zw := zip.NewWriter(f)
 
-	content := []byte("fake engram.exe binary")
+	content := []byte("fake dxrk-memory.exe binary")
 	fw, err := zw.Create(binaryName)
 	if err != nil {
 		t.Fatalf("create zip entry: %v", err)
@@ -189,7 +189,7 @@ func TestEngramInstallDir(t *testing.T) {
 			wantSubstr: "bin",
 		},
 		{
-			name:       "windows returns LOCALAPPDATA engram bin",
+			name:       "windows returns LOCALAPPDATA dxrk-memory bin",
 			goos:       "windows",
 			wantSubstr: "dxrk-memory",
 		},

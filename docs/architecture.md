@@ -20,7 +20,7 @@ internal/
   backup/                  Config snapshot + restore
   assets/                  Embedded skill files + persona templates
   components/              Per-component install/inject logic
-    engram/  sdd/  skills/  mcp/  persona/  theme/  permissions/  dxrk/
+    DxrkMemory/  sdd/  skills/  mcp/  persona/  theme/  permissions/  dxrk/
     filemerge/             Marker-based file merging (inject without clobbering)
   agents/                  Agent adapters (config strategy per agent)
     claude/  opencode/  gemini/  cursor/  vscode/  codex/  windsurf/  antigravity/

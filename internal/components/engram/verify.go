@@ -22,18 +22,18 @@ func VerifyInstalled() error {
 	return nil
 }
 
-// VerifyVersion runs "engram version" and returns the trimmed output.
+// VerifyVersion runs "dxrk-memory version" and returns the trimmed output.
 // Returns an error if the command fails or produces no output.
 func VerifyVersion() (string, error) {
 	cmd := execCommand("dxrk-memory", "version")
 	out, err := cmd.Output()
 	if err != nil {
-		return "", fmt.Errorf("engram version command failed: %w", err)
+		return "", fmt.Errorf("dxrk-memory version command failed: %w", err)
 	}
 
 	version := strings.TrimSpace(string(out))
 	if version == "" {
-		return "", fmt.Errorf("engram version returned empty output")
+		return "", fmt.Errorf("dxrk-memory version returned empty output")
 	}
 
 	return version, nil
@@ -47,17 +47,17 @@ func VerifyHealth(ctx context.Context, baseURL string) error {
 	client := &http.Client{Timeout: 2 * time.Second}
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, strings.TrimRight(baseURL, "/")+"/health", nil)
 	if err != nil {
-		return fmt.Errorf("build engram health request: %w", err)
+		return fmt.Errorf("build dxrk-memory health request: %w", err)
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("engram health check failed: %w", err)
+		return fmt.Errorf("dxrk-memory health check failed: %w", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("engram health check returned status %d", resp.StatusCode)
+		return fmt.Errorf("dxrk-memory health check returned status %d", resp.StatusCode)
 	}
 
 	return nil

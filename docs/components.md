@@ -8,7 +8,7 @@
 
 | Component | ID | Description |
 |-----------|-----|-------------|
-| Engram | `engram` | Persistent cross-session memory — managed automatically by the agent, no manual interaction needed |
+| DxrkMemory | `DxrkMemory` | Persistent cross-session memory — managed automatically by the agent, no manual interaction needed |
 | SDD | `sdd` | Spec-Driven Development workflow (9 phases) — the agent handles SDD organically when the task warrants it, or when you ask; you don't need to learn the commands |
 | Skills | `skills` | Curated coding skill library |
 | Context7 | `context7` | MCP server for live framework/library documentation |
@@ -74,7 +74,7 @@ For framework-specific skills (React 19, Angular, TypeScript, Tailwind 4, Zod 4,
 
 | Preset | ID | What's Included |
 |--------|-----|-----------------|
-| Full Dxrk | `full-dxrk` | All components (Engram + SDD + Skills + Context7 + Dxrk + Persona + Permissions + Theme) + all skills + dxrk persona |
-| Ecosystem Only | `ecosystem-only` | Core components (Engram + SDD + Skills + Context7 + Dxrk) + all skills + dxrk persona |
-| Minimal | `minimal` | Engram + SDD skills only |
+| Full Dxrk | `full-dxrk` | All components (DxrkMemory + SDD + Skills + Context7 + Dxrk + Persona + Permissions + Theme) + all skills + dxrk persona |
+| Ecosystem Only | `ecosystem-only` | Core components (DxrkMemory + SDD + Skills + Context7 + Dxrk) + all skills + dxrk persona |
+| Minimal | `minimal` | DxrkMemory + SDD skills only |
 | Custom | `custom` | You pick components, skills, and persona individually |

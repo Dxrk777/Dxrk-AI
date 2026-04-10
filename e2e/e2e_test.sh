@@ -180,12 +180,12 @@ test_dry_run_preset_custom() {
 # --- Category 1e: Preset component order validation ---
 
 test_preset_minimal_components() {
-    log_test "Preset minimal produces only engram component"
+    log_test "Preset minimal produces only dxrk-memory component"
 
     output=$($BINARY install --preset minimal --agent claude-code --dry-run 2>&1) || true
 
-    # The component list should contain engram
-    assert_output_contains "$output" "engram" "Minimal preset includes engram"
+    # The component list should contain dxrk-memory
+    assert_output_contains "$output" "dxrk-memory" "Minimal preset includes dxrk-memory"
     # Should NOT contain sdd, skills, persona, etc.
     assert_output_not_contains "$output" "Components order:.*sdd" "Minimal preset excludes sdd"
     assert_output_not_contains "$output" "Components order:.*persona" "Minimal preset excludes persona"
@@ -196,11 +196,11 @@ test_preset_ecosystem_components() {
 
     output=$($BINARY install --preset ecosystem-only --agent claude-code --dry-run 2>&1) || true
 
-    # ecosystem-only = engram, sdd, skills, context7, dxrk
+    # ecosystem-only = dxrk-memory, sdd, skills, context7, dxrk
     local components_line
     components_line=$(echo "$output" | grep "Components order:")
 
-    assert_output_contains "$components_line" "engram" "Ecosystem includes engram"
+    assert_output_contains "$components_line" "dxrk-memory" "Ecosystem includes dxrk-memory"
     assert_output_contains "$components_line" "sdd" "Ecosystem includes sdd"
     assert_output_contains "$components_line" "skills" "Ecosystem includes skills"
     assert_output_contains "$components_line" "context7" "Ecosystem includes context7"
@@ -217,7 +217,7 @@ test_preset_full_components() {
     local components_line
     components_line=$(echo "$output" | grep "Components order:")
 
-    assert_output_contains "$components_line" "engram" "Full includes engram"
+    assert_output_contains "$components_line" "dxrk-memory" "Full includes dxrk-memory"
     assert_output_contains "$components_line" "sdd" "Full includes sdd"
     assert_output_contains "$components_line" "skills" "Full includes skills"
     assert_output_contains "$components_line" "context7" "Full includes context7"
@@ -227,7 +227,7 @@ test_preset_full_components() {
 }
 
 test_dry_run_full_preset_persona_before_sdd() {
-    log_test "Dry-run: persona appears before engram and sdd in component order"
+    log_test "Dry-run: persona appears before dxrk-memory and sdd in component order"
 
     output=$($BINARY install --preset full-dxrk --agent opencode --dry-run 2>&1) || true
 
@@ -236,23 +236,23 @@ test_dry_run_full_preset_persona_before_sdd() {
 
     # Verify all are present
     assert_output_contains "$components_line" "persona" "Full preset has persona"
-    assert_output_contains "$components_line" "engram" "Full preset has engram"
+    assert_output_contains "$components_line" "dxrk-memory" "Full preset has dxrk-memory"
     assert_output_contains "$components_line" "sdd" "Full preset has sdd"
 
-    # Verify ordering: persona before engram, persona before sdd
+    # Verify ordering: persona before dxrk-memory, persona before sdd
     # Extract the order string and check persona comes first
     local order_str
     order_str=$(echo "$components_line" | sed 's/.*Components order: *//')
 
-    local persona_idx engram_idx sdd_idx
+    local persona_idx dxrkMemory_idx sdd_idx
     persona_idx=$(echo "$order_str" | tr ',' '\n' | grep -n '^persona$' | cut -d: -f1)
-    engram_idx=$(echo "$order_str" | tr ',' '\n' | grep -n '^engram$' | cut -d: -f1)
+    dxrk_memory_idx=$(echo "$order_str" | tr ',' '\n' | grep -n '^dxrk-memory$' | cut -d: -f1)
     sdd_idx=$(echo "$order_str" | tr ',' '\n' | grep -n '^sdd$' | cut -d: -f1)
 
-    if [ -n "$persona_idx" ] && [ -n "$engram_idx" ] && [ "$persona_idx" -lt "$engram_idx" ]; then
-        log_pass "Persona ($persona_idx) before engram ($engram_idx)"
+    if [ -n "$persona_idx" ] && [ -n "$dxrk_memory_idx" ] && [ "$persona_idx" -lt "$dxrk_memory_idx" ]; then
+        log_pass "Persona before dxrk-memory ($dxrk_memory_idx)"
     else
-        log_fail "Persona must appear before engram in component order: $order_str"
+        log_fail "Persona before dxrk-memory in component order: $order_str"
     fi
 
     if [ -n "$persona_idx" ] && [ -n "$sdd_idx" ] && [ "$persona_idx" -lt "$sdd_idx" ]; then
@@ -281,7 +281,7 @@ test_preset_custom_no_components() {
     # Custom preset without explicit components = empty
     local components_line
     components_line=$(echo "$output" | grep "Components order:")
-    assert_output_not_contains "$components_line" "engram" "Custom preset without components excludes engram"
+    assert_output_not_contains "$components_line" "dxrk-memory" "Custom preset without components excludes dxrk-memory"
     assert_output_not_contains "$components_line" "sdd" "Custom preset without components excludes sdd"
     assert_output_not_contains "$components_line" "skills" "Custom preset without components excludes skills"
 }
@@ -289,11 +289,11 @@ test_preset_custom_no_components() {
 test_preset_custom_explicit_components() {
     log_test "Preset custom with explicit --component flags"
 
-    output=$($BINARY install --preset custom --agent claude-code --component engram --component sdd --component skills --dry-run 2>&1) || true
+    output=$($BINARY install --preset custom --agent claude-code --component dxrk-memory --component sdd --component skills --dry-run 2>&1) || true
 
     local components_line
     components_line=$(echo "$output" | grep "Components order:")
-    assert_output_contains "$components_line" "engram" "Custom + explicit components includes engram"
+    assert_output_contains "$components_line" "dxrk-memory" "Custom + explicit components includes dxrk-memory"
     assert_output_contains "$components_line" "sdd" "Custom + explicit components includes sdd"
     assert_output_contains "$components_line" "skills" "Custom + explicit components includes skills"
     assert_output_not_contains "$components_line" "persona" "Custom + explicit components excludes persona"
@@ -302,10 +302,10 @@ test_preset_custom_explicit_components() {
 
 # --- Category 1f: Individual component flags ---
 
-test_dry_run_component_engram() {
-    log_test "Dry-run with --component engram"
-    output=$($BINARY install --agent claude-code --component engram --dry-run 2>&1) || true
-    assert_output_contains "$output" "engram" "Shows engram component"
+test_dry_run_component_dxrk_memory() {
+    log_test "Dry-run with --component dxrk-memory"
+    output=$($BINARY install --agent claude-code --component dxrk-memory --dry-run 2>&1) || true
+    assert_output_contains "$output" "dxrk-memory" "Shows dxrk-memory component"
 }
 
 test_dry_run_component_sdd() {
@@ -427,24 +427,24 @@ test_unknown_command_rejected() {
 
 # --- Category 2: Claude Code component injection ---
 
-test_cc_engram_injection() {
-    log_test "Claude Code: engram injection (MCP + CLAUDE.md)"
+test_cc_dxrk_memory_injection() {
+    log_test "Claude Code: dxrk-memory injection (MCP + CLAUDE.md)"
     cleanup_test_env
 
-    if $BINARY install --agent claude-code --component engram --persona neutral 2>&1; then
+    if $BINARY install --agent claude-code --component dxrk-memory --persona neutral 2>&1; then
         # MCP config
-        assert_file_exists "$HOME/.claude/mcp/engram.json" "engram.json MCP config"
-        assert_file_contains "$HOME/.claude/mcp/engram.json" '"command"' "engram.json has 'command' key"
-        assert_file_contains "$HOME/.claude/mcp/engram.json" 'engram' "engram.json command points to engram binary (absolute or relative)"
-        assert_valid_json "$HOME/.claude/mcp/engram.json" "engram.json is valid JSON"
+        assert_file_exists "$HOME/.claude/mcp/dxrk-memory.json" "dxrk-memory.json MCP config"
+        assert_file_contains "$HOME/.claude/mcp/dxrk-memory.json" '"command"' "dxrk-memory.json has 'command' key"
+        assert_file_contains "$HOME/.claude/mcp/dxrk-memory.json" 'dxrk-memory' "dxrk-memory.json command points to dxrk-memory binary (absolute or relative)"
+        assert_valid_json "$HOME/.claude/mcp/dxrk-memory.json" "dxrk-memory.json is valid JSON"
 
         # CLAUDE.md section
         assert_file_exists "$HOME/.claude/CLAUDE.md" "CLAUDE.md exists"
-        assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk-AI:engram-protocol" "CLAUDE.md has engram-protocol section marker"
+        assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk-AI:dxrk-memory-protocol" "CLAUDE.md has dxrk-memory-protocol section marker"
         assert_file_contains "$HOME/.claude/CLAUDE.md" "mem_save" "CLAUDE.md has real Engram content (mem_save)"
         assert_file_size_min "$HOME/.claude/CLAUDE.md" 500 "CLAUDE.md has substantial content"
     else
-        log_fail "engram install command failed"
+        log_fail "dxrk-memory install command failed"
     fi
 }
 
@@ -641,7 +641,7 @@ test_cc_custom_no_skills_flag_installs_nothing() {
 
     if $BINARY install --agent claude-code --preset custom --component skills --persona neutral 2>&1; then
         local skills_dir="$HOME/.claude/skills"
-        # --component skills auto-resolves sdd as a hard dependency (graph: skills → sdd → engram).
+        # --component skills auto-resolves sdd as a hard dependency (graph: skills → sdd → dxrk-memory).
         # The SDD component always installs its 11 SDD+orchestration skills.
         # The skills component itself is a no-op (SkillsForPreset(custom) returns nil, no --skills flag).
         # Result: exactly 11 SKILL.md files from the sdd dependency.
@@ -657,7 +657,7 @@ test_cc_custom_sdd_plus_skills() {
     log_test "Claude Code: custom preset + SDD + skills with explicit --skills flag"
     cleanup_test_env
 
-    if $BINARY install --agent claude-code --preset custom --component engram --component sdd --component skills --skills go-testing,branch-pr --persona neutral 2>&1; then
+    if $BINARY install --agent claude-code --preset custom --component dxrk-memory --component sdd --component skills --skills go-testing,branch-pr --persona neutral 2>&1; then
         local skills_dir="$HOME/.claude/skills"
         assert_dir_exists "$skills_dir" "Claude skills directory"
 
@@ -722,26 +722,26 @@ test_cc_theme_injection() {
 
 # --- Category 3: OpenCode component injection ---
 
-test_oc_engram_injection() {
-    log_test "OpenCode: engram injection (opencode.json)"
+test_oc_dxrk_memory_injection() {
+    log_test "OpenCode: dxrk-memory injection (opencode.json)"
     cleanup_test_env
 
-    if $BINARY install --agent opencode --component engram --persona neutral 2>&1; then
+    if $BINARY install --agent opencode --component dxrk-memory --persona neutral 2>&1; then
         local settings="$HOME/.config/opencode/opencode.json"
         local agents_md="$HOME/.config/opencode/AGENTS.md"
         assert_file_exists "$settings" "OpenCode opencode.json"
         assert_file_contains "$settings" '"mcp"' "Has mcp key"
-        assert_file_contains "$settings" '"engram"' "Has engram MCP entry"
+        assert_file_contains "$settings" '"dxrk-memory"' "Has dxrk-memory MCP entry"
         assert_file_contains "$settings" '"command"' "Has command key"
         assert_file_contains "$settings" '"type": "local"' "Engram uses local MCP type"
         assert_valid_json "$settings" "opencode.json is valid JSON"
 
-        # Fallback safety: AGENTS.md must include engram protocol section.
+        # Fallback safety: AGENTS.md must include dxrk-memory protocol section.
         assert_file_exists "$agents_md" "OpenCode AGENTS.md"
-        assert_file_contains "$agents_md" 'Dxrk-AI:engram-protocol' "AGENTS.md has engram-protocol section"
+        assert_file_contains "$agents_md" 'Dxrk-AI:dxrk-memory-protocol' "AGENTS.md has dxrk-memory-protocol section"
         assert_file_contains "$agents_md" 'mem_save' "AGENTS.md has memory protocol content"
     else
-        log_fail "OpenCode engram install command failed"
+        log_fail "OpenCode dxrk-memory install command failed"
     fi
 }
 
@@ -887,7 +887,7 @@ test_full_preset_claude_code() {
     log_test "Full-dxrk preset: Claude Code (all components coexist)"
     cleanup_test_env
 
-    # full-dxrk has: engram, sdd, skills, context7, persona, permissions, dxrk
+    # full-dxrk has: dxrk-memory, sdd, skills, context7, persona, permissions, dxrk
     # Engram/Dxrk need binary install (go install) — may fail but injection components
     # that don't need binary install should be tested.
     # We test injection-only components first, then try the full preset.
@@ -928,7 +928,7 @@ test_full_preset_opencode() {
     log_test "Full-dxrk preset: OpenCode (all components coexist)"
     cleanup_test_env
 
-    if $BINARY install --agent opencode --component engram --component sdd --component persona --component skills --component context7 --component permissions --component theme --preset full-dxrk --persona dxrk 2>&1; then
+    if $BINARY install --agent opencode --component dxrk-memory --component sdd --component persona --component skills --component context7 --component permissions --component theme --preset full-dxrk --persona dxrk 2>&1; then
         local settings="$HOME/.config/opencode/opencode.json"
         local agents_md="$HOME/.config/opencode/AGENTS.md"
 
@@ -940,11 +940,11 @@ test_full_preset_opencode() {
         assert_file_contains "$settings" '"context7"' "Has context7 MCP"
         assert_valid_json "$settings" "opencode.json is valid JSON"
 
-        # AGENTS.md for persona + engram (SDD orchestrator is in opencode.json for OpenCode, NOT AGENTS.md)
+        # AGENTS.md for persona + dxrk-memory (SDD orchestrator is in opencode.json for OpenCode, NOT AGENTS.md)
         assert_file_exists "$agents_md" "AGENTS.md exists"
         assert_file_contains "$agents_md" "Dxrk Mentor" "Dxrk persona"
-        assert_file_contains "$agents_md" "Dxrk-AI:engram-protocol" "AGENTS.md has engram protocol"
-        assert_no_duplicate_section "$agents_md" "engram-protocol" "No duplicate engram section in AGENTS.md"
+        assert_file_contains "$agents_md" "Dxrk-AI:dxrk-memory-protocol" "AGENTS.md has dxrk-memory protocol"
+        assert_no_duplicate_section "$agents_md" "dxrk-memory-protocol" "No duplicate dxrk-memory section in AGENTS.md"
         # SDD orchestrator for OpenCode lives in opencode.json as an agent definition (not AGENTS.md)
         assert_file_contains "$settings" '"sdd-orchestrator"' "opencode.json has sdd-orchestrator agent"
         # AGENTS.md must NOT have a sdd-orchestrator HTML section (it's handled by opencode.json)
@@ -962,8 +962,8 @@ test_full_preset_opencode() {
     fi
 }
 
-test_minimal_preset_opencode_only_engram_no_persona() {
-    log_test "Minimal preset: OpenCode (engram only, no persona side effect)"
+test_minimal_preset_opencode_only_dxrk_memory_no_persona() {
+    log_test "Minimal preset: OpenCode (dxrk-memory only, no persona side effect)"
     cleanup_test_env
 
     if $BINARY install --agent opencode --preset minimal --persona neutral 2>&1; then
@@ -971,7 +971,7 @@ test_minimal_preset_opencode_only_engram_no_persona() {
         local agents_md="$HOME/.config/opencode/AGENTS.md"
 
         assert_file_exists "$settings" "OpenCode opencode.json exists"
-        assert_file_contains "$settings" '"engram"' "OpenCode has engram MCP"
+        assert_file_contains "$settings" '"dxrk-memory"' "OpenCode has dxrk-memory MCP"
 
         # Minimal preset should NOT silently install persona.
         if [ -f "$agents_md" ]; then
@@ -985,14 +985,14 @@ test_minimal_preset_opencode_only_engram_no_persona() {
     fi
 }
 
-test_minimal_preset_claude_only_engram() {
-    log_test "Minimal preset: Claude Code (only engram, nothing else)"
+test_minimal_preset_claude_only_dxrk_memory() {
+    log_test "Minimal preset: Claude Code (only dxrk-memory, nothing else)"
     cleanup_test_env
 
     if $BINARY install --agent claude-code --preset minimal --persona neutral 2>&1; then
         # Engram should be installed (MCP + CLAUDE.md)
         assert_file_exists "$HOME/.claude/CLAUDE.md" "CLAUDE.md exists"
-        assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk-AI:engram-protocol" "Engram protocol section"
+        assert_file_contains "$HOME/.claude/CLAUDE.md" "Dxrk-AI:dxrk-memory-protocol" "Engram protocol section"
 
         # SDD should NOT be in CLAUDE.md
         assert_file_not_contains "$HOME/.claude/CLAUDE.md" "Dxrk-AI:sdd-orchestrator" "No SDD in minimal"
@@ -1063,9 +1063,9 @@ test_content_claude_md_sections_substantial() {
     log_test "Content validation: CLAUDE.md sections are substantial"
     cleanup_test_env
 
-    # Install SDD + persona + engram (all inject into CLAUDE.md)
+    # Install SDD + persona + dxrk-memory (all inject into CLAUDE.md)
     $BINARY install --agent claude-code --component sdd --component persona --persona dxrk 2>&1 || true
-    $BINARY install --agent claude-code --component engram --persona dxrk 2>&1 || true
+    $BINARY install --agent claude-code --component dxrk-memory --persona dxrk 2>&1 || true
 
     local claude_md="$HOME/.claude/CLAUDE.md"
     if [ -f "$claude_md" ]; then
@@ -1107,7 +1107,7 @@ test_content_mcp_json_valid() {
     cleanup_test_env
 
     $BINARY install --agent claude-code --component context7 --persona neutral 2>&1 || true
-    $BINARY install --agent claude-code --component engram --persona neutral 2>&1 || true
+    $BINARY install --agent claude-code --component dxrk-memory --persona neutral 2>&1 || true
 
     # Validate all JSON files in MCP directory
     if [ -d "$HOME/.claude/mcp" ]; then
@@ -1203,21 +1203,21 @@ test_idempotent_persona_claude() {
     fi
 }
 
-test_idempotent_engram_claude() {
-    log_test "Idempotency: engram on Claude Code (no duplicate sections)"
+test_idempotent_dxrk_memory_claude() {
+    log_test "Idempotency: dxrk-memory on Claude Code (no duplicate sections)"
     cleanup_test_env
 
-    $BINARY install --agent claude-code --component engram --persona neutral 2>&1 || true
-    $BINARY install --agent claude-code --component engram --persona neutral 2>&1 || true
+    $BINARY install --agent claude-code --component dxrk-memory --persona neutral 2>&1 || true
+    $BINARY install --agent claude-code --component dxrk-memory --persona neutral 2>&1 || true
 
     local claude_md="$HOME/.claude/CLAUDE.md"
     if [ -f "$claude_md" ]; then
-        assert_no_duplicate_section "$claude_md" "engram-protocol" "No duplicate engram section after 2 runs"
+        assert_no_duplicate_section "$claude_md" "dxrk-memory-protocol" "No duplicate dxrk-memory section after 2 runs"
 
         # Also check MCP JSON is identical
-        local mcp_file="$HOME/.claude/mcp/engram.json"
+        local mcp_file="$HOME/.claude/mcp/dxrk-memory.json"
         if [ -f "$mcp_file" ]; then
-            assert_valid_json "$mcp_file" "engram.json still valid after 2 runs"
+            assert_valid_json "$mcp_file" "dxrk-memory.json still valid after 2 runs"
         fi
     else
         log_fail "CLAUDE.md not found"
@@ -1226,65 +1226,65 @@ test_idempotent_engram_claude() {
 
 # ─── Gemini parity tests ─────────────────────────────────────────────────────
 
-test_gemini_engram_tools_flag() {
-    log_test "Gemini: engram injection uses --tools=agent"
+test_gemini_dxrk_memory_tools_flag() {
+    log_test "Gemini: dxrk-memory injection uses --tools=agent"
     cleanup_test_env
 
-    if $BINARY install --agent gemini-cli --component engram --persona neutral 2>&1; then
+    if $BINARY install --agent gemini-cli --component dxrk-memory --persona neutral 2>&1; then
         local settings="$HOME/.gemini/settings.json"
         assert_file_exists "$settings" "Gemini settings.json"
         assert_file_contains "$settings" '"mcpServers"' "Has mcpServers key"
-        assert_file_contains "$settings" '"engram"' "Has engram entry"
+        assert_file_contains "$settings" '"dxrk-memory"' "Has dxrk-memory entry"
         assert_file_contains "$settings" '"--tools=agent"' "Engram args include --tools=agent"
         assert_valid_json "$settings" "settings.json is valid JSON"
     else
-        log_fail "Gemini engram install command failed"
+        log_fail "Gemini dxrk-memory install command failed"
     fi
 }
 
 # ─── Codex parity tests ───────────────────────────────────────────────────────
 
-test_codex_engram_injection() {
-    log_test "Codex: engram injection writes config.toml + instruction files"
+test_codex_dxrk_memory_injection() {
+    log_test "Codex: dxrk-memory injection writes config.toml + instruction files"
     cleanup_test_env
 
-    if $BINARY install --agent codex --component engram --persona neutral 2>&1; then
+    if $BINARY install --agent codex --component dxrk-memory --persona neutral 2>&1; then
         local config_toml="$HOME/.codex/config.toml"
-        local instructions="$HOME/.codex/engram-instructions.md"
-        local compact="$HOME/.codex/engram-compact-prompt.md"
+        local instructions="$HOME/.codex/dxrk-memory-instructions.md"
+        local compact="$HOME/.codex/dxrk-memory-compact-prompt.md"
 
         assert_file_exists "$config_toml" "Codex config.toml"
-        assert_file_contains "$config_toml" '[mcp_servers.engram]' "config.toml has [mcp_servers.engram]"
-        assert_file_contains "$config_toml" 'command = ".*engram"' "config.toml has correct command"
+        assert_file_contains "$config_toml" '[mcp_servers.dxrk-memory]' "config.toml has [mcp_servers.dxrk-memory]"
+        assert_file_contains "$config_toml" 'command = ".*dxrk-memory"' "config.toml has correct command"
         assert_file_contains "$config_toml" '"--tools=agent"' "config.toml has --tools=agent"
         assert_file_contains "$config_toml" 'model_instructions_file' "config.toml references instruction file"
         assert_file_contains "$config_toml" 'experimental_compact_prompt_file' "config.toml references compact prompt"
 
-        assert_file_exists "$instructions" "engram-instructions.md"
+        assert_file_exists "$instructions" "dxrk-memory-instructions.md"
         assert_file_contains "$instructions" 'mem_save' "Instructions have memory protocol content"
 
-        assert_file_exists "$compact" "engram-compact-prompt.md"
+        assert_file_exists "$compact" "dxrk-memory-compact-prompt.md"
         assert_file_contains "$compact" 'FIRST ACTION REQUIRED' "Compact prompt has required sentinel"
     else
-        log_fail "Codex engram install command failed"
+        log_fail "Codex dxrk-memory install command failed"
     fi
 }
 
-test_codex_engram_idempotent() {
-    log_test "Codex: engram injection is idempotent (no duplicate blocks)"
+test_codex_dxrk_memory_idempotent() {
+    log_test "Codex: dxrk-memory injection is idempotent (no duplicate blocks)"
     cleanup_test_env
 
-    $BINARY install --agent codex --component engram --persona neutral 2>&1 || true
-    $BINARY install --agent codex --component engram --persona neutral 2>&1 || true
+    $BINARY install --agent codex --component dxrk-memory --persona neutral 2>&1 || true
+    $BINARY install --agent codex --component dxrk-memory --persona neutral 2>&1 || true
 
     local config_toml="$HOME/.codex/config.toml"
     if [ -f "$config_toml" ]; then
         local count
-        count=$(grep -c '\[mcp_servers\.engram\]' "$config_toml" || true)
+        count=$(grep -c '\[mcp_servers\.dxrk-memory\]' "$config_toml" || true)
         if [ "$count" -ne 1 ]; then
-            log_fail "config.toml has $count [mcp_servers.engram] blocks after 2 runs (want exactly 1)"
+            log_fail "config.toml has $count [mcp_servers.dxrk-memory] blocks after 2 runs (want exactly 1)"
         else
-            log_pass "config.toml has exactly 1 [mcp_servers.engram] block after 2 runs"
+            log_pass "config.toml has exactly 1 [mcp_servers.dxrk-memory] block after 2 runs"
         fi
     else
         log_fail "config.toml not found after 2 runs"
@@ -1413,11 +1413,11 @@ test_edge_persona_switch_preserves_sections_opencode() {
     cleanup_test_env
 
     # Step 1: Install full stack with dxrk
-    $BINARY install --agent opencode --component persona --component engram --component sdd --persona dxrk 2>&1 || true
+    $BINARY install --agent opencode --component persona --component dxrk-memory --component sdd --persona dxrk 2>&1 || true
 
     local agents_md="$HOME/.config/opencode/AGENTS.md"
     assert_file_exists "$agents_md" "AGENTS.md after full install"
-    assert_file_contains "$agents_md" "Dxrk-AI:engram-protocol" "Engram section present before switch"
+    assert_file_contains "$agents_md" "Dxrk-AI:dxrk-memory-protocol" "Engram section present before switch"
 
     # Step 2: Switch to neutral persona
     $BINARY install --agent opencode --component persona --persona neutral 2>&1 || true
@@ -1425,8 +1425,8 @@ test_edge_persona_switch_preserves_sections_opencode() {
     # Step 3: Verify sections survived
     assert_file_contains "$agents_md" "Dxrk Mentor" "Neutral persona present after switch"
     assert_file_not_contains "$agents_md" "Rioplatense" "Regional language removed after switch"
-    assert_file_contains "$agents_md" "Dxrk-AI:engram-protocol" "Engram section survived persona switch"
-    assert_no_duplicate_section "$agents_md" "engram-protocol" "No duplicate engram after switch"
+    assert_file_contains "$agents_md" "Dxrk-AI:dxrk-memory-protocol" "Engram section survived persona switch"
+    assert_no_duplicate_section "$agents_md" "dxrk-memory-protocol" "No duplicate dxrk-memory after switch"
 }
 
 test_edge_json_merge_preserves_existing() {
@@ -1620,7 +1620,7 @@ test_windsurf_persona_and_sdd_content() {
         assert_file_contains "$rules" "Dxrk-AI:sdd-orchestrator" "SDD orchestrator marker present"
         assert_file_contains "$rules" "skill_resolution" "SDD has skill_resolution field"
         assert_file_contains "$rules" "Engram Topic Key" "SDD has Engram Topic Key section"
-        assert_file_contains "$rules" "Dxrk-AI:engram-protocol" "Engram protocol marker present"
+        assert_file_contains "$rules" "Dxrk-AI:dxrk-memory-protocol" "Engram protocol marker present"
         assert_file_size_min "$rules" 2000 "global_rules.md has substantial content"
     else
         log_fail "Windsurf persona+SDD install command failed"
@@ -1633,8 +1633,8 @@ test_codex_context7_not_in_toml() {
     log_test "Codex: context7 component does NOT write config.toml (TOML strategy is no-op by design)"
     cleanup_test_env
 
-    # Install engram first (creates config.toml) then try context7
-    $BINARY install --agent codex --component engram --persona neutral 2>&1 || true
+    # Install dxrk-memory first (creates config.toml) then try context7
+    $BINARY install --agent codex --component dxrk-memory --persona neutral 2>&1 || true
 
     local config_toml="$HOME/.codex/config.toml"
     if [ -f "$config_toml" ]; then
@@ -1642,7 +1642,7 @@ test_codex_context7_not_in_toml() {
         $BINARY install --agent codex --component context7 --persona neutral 2>&1 || true
         assert_file_not_contains "$config_toml" "context7" "Codex config.toml does NOT get context7 entry"
     else
-        # config.toml wasn't created by engram, so no context7 either
+        # config.toml wasn't created by dxrk-memory, so no context7 either
         $BINARY install --agent codex --component context7 --persona neutral 2>&1 || true
         assert_file_not_exists "$config_toml" "No config.toml created by context7 alone"
         log_pass "Codex context7 is intentionally skipped (TOML strategy is no-op)"
@@ -2037,7 +2037,7 @@ test_preset_custom_no_components
 test_preset_custom_explicit_components
 
 # Category 1f: Individual component flags (all 8)
-test_dry_run_component_engram
+test_dry_run_component_dxrk_memory
 test_dry_run_component_sdd
 test_dry_run_component_skills
 test_dry_run_component_context7
@@ -2062,7 +2062,7 @@ if [ "${RUN_FULL_E2E:-0}" = "1" ]; then
     log_info "=== Tier 2: Component injection tests ==="
 
     # Category 2: Claude Code injection
-    test_cc_engram_injection
+    test_cc_dxrk_memory_injection
     test_cc_sdd_injection
     test_cc_persona_dxrk
     test_cc_persona_neutral
@@ -2078,7 +2078,7 @@ if [ "${RUN_FULL_E2E:-0}" = "1" ]; then
     test_cc_theme_injection
 
     # Category 3: OpenCode injection
-    test_oc_engram_injection
+    test_oc_dxrk_memory_injection
     test_oc_sdd_injection
     test_oc_persona_dxrk
     test_oc_persona_neutral
@@ -2092,8 +2092,8 @@ if [ "${RUN_FULL_E2E:-0}" = "1" ]; then
     # Category 4: Full preset integration
     test_full_preset_claude_code
     test_full_preset_opencode
-    test_minimal_preset_claude_only_engram
-    test_minimal_preset_opencode_only_engram_no_persona
+    test_minimal_preset_claude_only_dxrk_memory
+    test_minimal_preset_opencode_only_dxrk_memory_no_persona
     test_ecosystem_both_agents
     test_both_agents_permissions
 
@@ -2107,15 +2107,15 @@ if [ "${RUN_FULL_E2E:-0}" = "1" ]; then
     test_idempotent_permissions_opencode
     test_idempotent_sdd_claude
     test_idempotent_persona_claude
-    test_idempotent_engram_claude
+    test_idempotent_dxrk_memory_claude
     test_idempotent_skills_claude
     test_idempotent_theme_opencode
     test_idempotent_full_claude
 
-    # Category 6b: Gemini/Codex engram parity
-    test_gemini_engram_tools_flag
-    test_codex_engram_injection
-    test_codex_engram_idempotent
+    # Category 6b: Gemini/Codex dxrk-memory parity
+    test_gemini_dxrk_memory_tools_flag
+    test_codex_dxrk_memory_injection
+    test_codex_dxrk_memory_idempotent
 
     # Category 8: Edge cases
     test_edge_theme_not_in_presets

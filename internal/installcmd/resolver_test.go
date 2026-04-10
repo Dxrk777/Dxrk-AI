@@ -396,27 +396,27 @@ func TestResolveComponentInstall(t *testing.T) {
 		wantErr   bool
 	}{
 		{
-			name:      "engram on darwin uses brew tap and install",
+			name:      "dxrk-memory on darwin uses brew tap and install",
 			profile:   system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
 			component: model.ComponentEngram,
 			want:      CommandSequence{{"brew", "tap", "Dxrk/homebrew-tap"}, {"brew", "install", "dxrk-memory"}},
 		},
-		// Linux and Windows engram now use DownloadLatestBinary() — resolver returns error.
+		// Linux and Windows dxrk-memory now use DownloadLatestBinary() — resolver returns error.
 		// These cases are handled by run.go's componentApplyStep directly.
 		{
-			name:      "engram on ubuntu returns error (uses DownloadLatestBinary instead)",
+			name:      "dxrk-memory on ubuntu returns error",
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroUbuntu, PackageManager: "apt"},
 			component: model.ComponentEngram,
 			wantErr:   true,
 		},
 		{
-			name:      "engram on arch returns error (uses DownloadLatestBinary instead)",
+			name:      "dxrk-memory on arch returns error",
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroArch, PackageManager: "pacman"},
 			component: model.ComponentEngram,
 			wantErr:   true,
 		},
 		{
-			name:      "engram on fedora returns error (uses DownloadLatestBinary instead)",
+			name:      "dxrk-memory on fedora returns error",
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroFedora, PackageManager: "dnf"},
 			component: model.ComponentEngram,
 			wantErr:   true,
@@ -458,7 +458,7 @@ func TestResolveComponentInstall(t *testing.T) {
 			},
 		},
 		{
-			name:      "engram on windows returns error (uses DownloadLatestBinary instead)",
+			name:      "dxrk-memory on windows returns error",
 			profile:   system.PlatformProfile{OS: "windows", PackageManager: "winget"},
 			component: model.ComponentEngram,
 			wantErr:   true,

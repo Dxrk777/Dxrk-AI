@@ -159,7 +159,7 @@ Examples:
   dxrk install --dry-run         # Preview what would be installed
   dxrk install opencode          # Install OpenCode
   dxrk upgrade                   # Upgrade all tools
-  dxrk upgrade engram            # Upgrade specific tool
+  dxrk upgrade dxrk-memory            # Upgrade specific tool
   dxrk restore                  # List and restore backups
   dxrk brain status             # Check brain status
 
@@ -179,7 +179,7 @@ func runUpdate(ctx context.Context, currentVersion string, profile system.Platfo
 // runUpgrade handles the `dxrk upgrade [--dry-run] [tool...]` command.
 //
 // This command:
-//   - Checks for available updates for managed tools (dxrk, engram, dxrk)
+//   - Checks for available updates for managed tools (dxrk, dxrk-memory, dxrk)
 //   - Snapshots agent config paths before execution (config preservation by design)
 //   - Executes binary-only upgrades; does NOT invoke install or sync pipelines
 //   - Skips dxrk itself when running as a dev build (version="dev")

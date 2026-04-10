@@ -107,7 +107,7 @@ func TestResolverPersonaAndEngramWithoutSDD(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(plan.OrderedComponents, []model.ComponentID{model.ComponentPersona, model.ComponentEngram}) {
-		t.Fatalf("Resolve() ordered components = %v, want [persona, engram]", plan.OrderedComponents)
+		t.Fatalf("Resolve() ordered components, want [persona, dxrk-memory]", plan.OrderedComponents)
 	}
 
 	if len(plan.AddedDependencies) != 0 {

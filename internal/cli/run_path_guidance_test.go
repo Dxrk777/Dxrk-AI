@@ -141,6 +141,6 @@ func TestWithGoInstallPathNoteSkipsWithoutEngram(t *testing.T) {
 
 	updated := withGoInstallPathNote(report, resolved)
 	if updated.FinalNote != report.FinalNote {
-		t.Fatalf("FinalNote should be unchanged without engram, got: %q", updated.FinalNote)
+		t.Fatalf("FinalNote should be unchanged without dxrk-memory, got: %q", updated.FinalNote)
 	}
 }

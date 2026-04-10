@@ -3,7 +3,7 @@ name: sdd-propose
 description: >
   Create a change proposal with intent, scope, and approach. Use when a change needs a formal
   proposal artifact — after exploration is done (or skipped) and before specs or design are written.
-  Produces proposal.md or the engram proposal artifact.
+  Produces proposal.md or the DxrkMemory proposal artifact.
 model: inherit
 readonly: false
 background: false
@@ -20,9 +20,9 @@ Also read shared conventions at `~/.cursor/skills/_shared/sdd-phase-common.md`.
 Execute all steps from the skill directly in this context window:
 1. Read exploration artifact if available: `mem_search("sdd/{change-name}/explore")` → `mem_get_observation`
 2. Draft the proposal: intent, scope, approach, rollback plan, affected modules
-3. Persist to active backend (engram, openspec, or hybrid)
+3. Persist to active backend (DxrkMemory, openspec, or hybrid)
 
-## Engram Save (mandatory)
+## DxrkMemory Save (mandatory)
 
 After completing work, call `mem_save` with:
 - title: `"sdd/{change-name}/proposal"`

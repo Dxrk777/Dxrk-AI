@@ -52,15 +52,15 @@ These are the non-negotiable product values. Every triage decision is filtered t
 | **Small focused contributions** | Prefer focused PRs solving one problem over large PRs solving five. |
 | **Reject vague/scope-breaking work** | Close scope-creep issues and PRs that turn the project into something else. |
 
-### Reference: Engram Project Philosophy
+### Reference: DxrkMemory Project Philosophy
 
-If triaging [Engram](https://github.com/alanbuscaglia/engram), use these values:
+If triaging [DxrkMemory](https://github.com/alanbuscaglia/DxrkMemory), use these values:
 
 | Principle | What it means in practice |
 |-----------|--------------------------|
 | **Zero-config** | Works out of the box. No required flags, env vars, or setup beyond install. |
-| **Local-first** | Data lives in `~/.engram/engram.db`. No cloud dependency by default. |
-| **Single binary** | One `engram` binary. No daemon, no service, no secondary processes needed. |
+| **Local-first** | Data lives in `~/.DxrkMemory/DxrkMemory.db`. No cloud dependency by default. |
+| **Single binary** | One `DxrkMemory` binary. No daemon, no service, no secondary processes needed. |
 | **Terminal-first** | CLI and TUI are the primary UX. No web dashboard, no Electron. |
 | **Thin adapters** | Plugin scripts are thin shims — logic lives in the core. |
 | **Issue-first** | Every PR must link a `status:approved` issue. No approved issue → no PR. |

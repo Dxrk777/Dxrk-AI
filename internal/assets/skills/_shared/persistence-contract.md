@@ -2,34 +2,34 @@
 
 ## Mode Resolution
 
-The orchestrator passes `artifact_store.mode` with one of: `engram | openspec | hybrid | none`.
+The orchestrator passes `artifact_store.mode` with one of: `DxrkMemory | openspec | hybrid | none`.
 
 Default resolution (when orchestrator does not explicitly set a mode):
-1. If Engram is available → use `engram`
+1. If DxrkMemory is available → use `DxrkMemory`
 2. Otherwise → use `none`
 
 `openspec` and `hybrid` are NEVER used by default — only when explicitly passed.
 
-When falling back to `none`, recommend the user enable `engram` or `openspec`.
+When falling back to `none`, recommend the user enable `DxrkMemory` or `openspec`.
 
 ## Behavior Per Mode
 
 | Mode | Read from | Write to | Project files |
 |------|-----------|----------|---------------|
-| `engram` | Engram | Engram | Never |
+| `DxrkMemory` | DxrkMemory | DxrkMemory | Never |
 | `openspec` | Filesystem | Filesystem | Yes |
-| `hybrid` | Engram (primary) + Filesystem (fallback) | Both | Yes |
+| `hybrid` | DxrkMemory (primary) + Filesystem (fallback) | Both | Yes |
 | `none` | Orchestrator prompt context | Nowhere | Never |
 
 ### Hybrid Mode
 
-Persists every artifact to BOTH Engram and OpenSpec simultaneously:
-- Engram: cross-session recovery, compaction survival, deterministic search
+Persists every artifact to BOTH DxrkMemory and OpenSpec simultaneously:
+- DxrkMemory: cross-session recovery, compaction survival, deterministic search
 - OpenSpec: human-readable files, version-controllable artifacts
 
-Write to Engram (per `engram-convention.md`) AND to filesystem (per `openspec-convention.md`) for every artifact.
+Write to DxrkMemory (per `DxrkMemory-convention.md`) AND to filesystem (per `openspec-convention.md`) for every artifact.
 
-Read priority: Engram first; fall back to filesystem if Engram returns no results.
+Read priority: DxrkMemory first; fall back to filesystem if DxrkMemory returns no results.
 Write behavior: both writes MUST succeed for the operation to be complete.
 Token cost warning: hybrid consumes MORE tokens per operation. Use only when you need both cross-session persistence AND local file artifacts.
 
@@ -39,17 +39,17 @@ The orchestrator persists DAG state after each phase transition to enable SDD re
 
 | Mode | Persist State | Recover State |
 |------|--------------|---------------|
-| `engram` | `mem_save(topic_key: "sdd/{change-name}/state")` | `mem_search("sdd/*/state")` → `mem_get_observation(id)` |
+| `DxrkMemory` | `mem_save(topic_key: "sdd/{change-name}/state")` | `mem_search("sdd/*/state")` → `mem_get_observation(id)` |
 | `openspec` | Write `openspec/changes/{change-name}/state.yaml` | Read `openspec/changes/{change-name}/state.yaml` |
-| `hybrid` | Both: `mem_save` AND write `state.yaml` | Engram first; filesystem fallback |
+| `hybrid` | Both: `mem_save` AND write `state.yaml` | DxrkMemory first; filesystem fallback |
 | `none` | Not possible — warn user | Not possible |
 
 ## Common Rules
 
 - `none` → do NOT create or modify any project files; return results inline only
-- `engram` → do NOT write any project files; persist to Engram and return observation IDs
+- `DxrkMemory` → do NOT write any project files; persist to DxrkMemory and return observation IDs
 - `openspec` → write files ONLY to paths defined in `openspec-convention.md`
-- `hybrid` → persist to BOTH Engram AND filesystem; follow both conventions
+- `hybrid` → persist to BOTH DxrkMemory AND filesystem; follow both conventions
 - NEVER force `openspec/` creation unless orchestrator explicitly passed `openspec` or `hybrid`
 - If unsure which mode to use, default to `none`
 
@@ -58,7 +58,7 @@ The orchestrator persists DAG state after each phase transition to enable SDD re
 Sub-agents launch with a fresh context and NO access to the orchestrator's instructions or memory protocol.
 
 Who reads, who writes:
-- Non-SDD (general task): orchestrator searches engram, passes summary in prompt; sub-agent saves discoveries via `mem_save`
+- Non-SDD (general task): orchestrator searches DxrkMemory, passes summary in prompt; sub-agent saves discoveries via `mem_save`
 - SDD (phase with dependencies): sub-agent reads artifacts directly from backend; sub-agent saves its artifact
 - SDD (phase without dependencies, e.g. explore): nobody reads; sub-agent saves its artifact
 
@@ -72,7 +72,7 @@ Why this split:
 Non-SDD:
 ```
 PERSISTENCE (MANDATORY):
-If you make important discoveries, decisions, or fix bugs, you MUST save them to engram before returning:
+If you make important discoveries, decisions, or fix bugs, you MUST save them to DxrkMemory before returning:
   mem_save(title: "{short description}", type: "{decision|bugfix|discovery|pattern}",
            project: "{project}", content: "{What, Why, Where, Learned}")
 Do NOT return without saving what you learned. This is how the team builds persistent knowledge across sessions.
@@ -80,7 +80,7 @@ Do NOT return without saving what you learned. This is how the team builds persi
 
 SDD (with dependencies):
 ```
-Artifact store mode: {engram|openspec|hybrid|none}
+Artifact store mode: {DxrkMemory|openspec|hybrid|none}
 Read these artifacts before starting (search returns truncated previews):
   mem_search(query: "sdd/{change-name}/{type}", project: "{project}") → get ID
   mem_get_observation(id: {id}) → full content (REQUIRED)
@@ -99,7 +99,7 @@ If you return without calling mem_save, the next phase CANNOT find your artifact
 
 SDD (no dependencies):
 ```
-Artifact store mode: {engram|openspec|hybrid|none}
+Artifact store mode: {DxrkMemory|openspec|hybrid|none}
 
 PERSISTENCE (MANDATORY — do NOT skip):
 After completing your work, you MUST call:
