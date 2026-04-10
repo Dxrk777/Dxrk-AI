@@ -171,18 +171,28 @@ detect_install_method() {
 
     step "Detecting best install method"
 
-    # Priority: brew > binary > go
-    # Brew handles upgrades natively and is instant.
-    # Binary download from GitHub Releases is always up-to-date.
-    # go install is last resort because the Go module proxy can lag
-    # behind new tags for up to 30 minutes, causing @latest to install
-    # a stale version.
+    # Priority: brew > binary (if release exists) > go > source
     if command -v brew &>/dev/null; then
         INSTALL_METHOD="brew"
         success "Homebrew found — will install via brew tap"
-    else
+        return
+    fi
+
+    # Check if a GitHub release exists before trying binary download
+    local release_check_url="https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest"
+    local release_http_code
+    release_http_code=$(curl -sL -o /dev/null -w "%{http_code}" "$release_check_url" 2>/dev/null || echo "000")
+
+    if [ "$release_http_code" = "200" ]; then
         INSTALL_METHOD="binary"
-        info "Will download pre-built binary from GitHub Releases"
+        success "GitHub release found — will download pre-built binary"
+    elif command -v go &>/dev/null; then
+        INSTALL_METHOD="go"
+        success "No release found yet — will build from source with \`go install\`"
+    else
+        # Fallback: try binary and let it fail with a clear error
+        INSTALL_METHOD="binary"
+        warn "No release found and Go not available. Attempting binary install..."
     fi
 }
 

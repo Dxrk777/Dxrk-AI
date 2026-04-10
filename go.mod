@@ -1,14 +1,11 @@
 module github.com/Dxrk777/Dxrk-AI
-
-go 1.25.0
-
+go 1.26.1
 require (
 	github.com/charmbracelet/bubbles v1.0.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
 	golang.org/x/crypto v0.49.0
 )
-
 require (
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect

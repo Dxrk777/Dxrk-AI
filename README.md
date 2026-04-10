@@ -23,34 +23,49 @@
 
 ## ⚡ ¿Qué es Dxrk AI?
 
-**Dxrk AI NO es un simple instalador de agentes de IA.**
-
-Es tu **mentor digital** — transforma cualquier agente de IA en una máquina perfectamente afinada con memoria, skills, workflow y una personalidad que enseña mientras programa.
+**Dxrk AI** transforma cualquier agente de IA en una máquina perfectamente afinada con memoria, skills, workflow SDD y una personalidad que enseña mientras programa.
 
 | Feature | Descripción |
 |---------|-------------|
-| 🧠 **Memoria Persistente** | Tu agente recuerda todo, cada sesión |
-| 🎯 **Workflow SDD** | Spec-Driven Development de verdad |
-| 🛠️ **60+ Skills** | Patrones de código curados por Dxrk |
-| 🔌 **MCP Servers** | Herramientas que se expanden sin límites |
+| 🧠 **DxrkMemory** | Memoria persistente entre sesiones |
+| 🎯 **Workflow SDD** | Spec-Driven Development real |
+| 🛠️ **60+ Skills** | Patrones de código curados |
+| 🔌 **MCP Servers** | Herramientas que se expanden |
 | ⚡ **AI Provider Switcher** | Cambiá de proveedor en segundos |
 | 🎓 **Persona Docente** | Enseña mientras programa |
-| 🎛️ **Modelo por Fase** | Cada paso usa el mejor modelo |
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Instalación
 
-### macOS / Linux (Homebrew) ⭐ Recomendado
+### Linux / Kali Linux (Go install) ⭐ Recomendado
 
 ```bash
-brew install Dxrk777/tap/dxrk
+# Instalar Go primero (si no lo tenés)
+sudo apt install golang-go   # Debian/Ubuntu/Kali
+# o
+wget https://go.dev/dl/go1.24.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.24.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+
+# Instalar dxrk
+go install github.com/Dxrk777/Dxrk-AI/cmd/dxrk@latest
+
+# Agregar al PATH si no está
+echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.bashrc
+source ~/.bashrc
 ```
 
-### macOS / Linux (Script)
+### Linux / macOS (Script automático)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/install-dxrk.sh | bash
+```
+
+### macOS (Homebrew)
+
+```bash
+brew tap Dxrk777/tap && brew install dxrk
 ```
 
 ### Windows (PowerShell)
@@ -59,13 +74,15 @@ curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/instal
 irm https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/install-dxrk.ps1 | iex
 ```
 
-### Go install
+### Compilar desde fuente
 
 ```bash
-go install github.com/Dxrk777/Dxrk-AI/cmd/dxrk@latest
+git clone https://github.com/Dxrk777/Dxrk-AI.git
+cd Dxrk-AI
+go build -o dxrk ./cmd/dxrk
+sudo mv dxrk /usr/local/bin/
+dxrk version
 ```
-
-**Sin dependencias extra.** Descarga → Instala → Usa.
 
 ---
 
@@ -86,31 +103,14 @@ go install github.com/Dxrk777/Dxrk-AI/cmd/dxrk@latest
 
 ## 🧠 Dxrk Brain
 
-Tu centro de comando unificado:
-
 ```bash
-# Iniciar TUI
-dxrk
-
-# CLI directo
+dxrk                              # TUI interactivo
+dxrk install --dry-run            # Preview de instalación
+dxrk install --agent claude-code  # Instalar agente específico
 dxrk brain "¿qué agentes están instalados?"
-dxrk brain run "git status"
-dxrk brain remember "última sesión"
-```
-
----
-
-## 📦 Instalación completa
-
-```bash
-# Homebrew (recomendado)
-brew tap Dxrk777/tap && brew install dxrk
-
-# Script directo
-curl -fsSL https://raw.githubusercontent.com/Dxrk777/Dxrk-AI/main/scripts/install-dxrk.sh | bash
-
-# Go install
-go install github.com/Dxrk777/Dxrk-AI/cmd/dxrk@latest
+dxrk sync                         # Sincronizar configuraciones
+dxrk upgrade                      # Actualizar todo
+dxrk version                      # Ver versión
 ```
 
 ---
@@ -120,8 +120,8 @@ go install github.com/Dxrk777/Dxrk-AI/cmd/dxrk@latest
 - [Uso](docs/usage.md) — Modos de persona, TUI, CLI
 - [Agentes](docs/agents.md) — Agentes soportados
 - [Componentes](docs/components.md) — Skills y presets
-- [Plataformas](docs/platforms.md) — Notas por plataforma
 - [Arquitectura](docs/ARCHITECTURE.md) — Diseño interno
+- [DxrkMemory](https://github.com/Dxrk777/dxrk-memory) — Motor de memoria
 
 ---
 
