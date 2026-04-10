@@ -13,7 +13,7 @@ import (
 	"github.com/Dxrk777/Dxrk-AI/internal/agents"
 	"github.com/Dxrk777/Dxrk-AI/internal/backup"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk"
-	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/mcp"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/permissions"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/sdd"

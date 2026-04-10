@@ -208,9 +208,9 @@ Skills disponibles en `~/.claude/skills/` (151 skills):
 
 ---
 
-## 📚 Protocolo de Memoria Dxrk Memory
+## 📚 Protocolo de Memoria Engram
 
-Dxrk usa **Dxrk Memory** para memoria persistente.
+Dxrk usa **Engram** para memoria persistente.
 
 ### Cuándo GUARDAR (proactivamente)
 

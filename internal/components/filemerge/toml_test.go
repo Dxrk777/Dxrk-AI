@@ -114,7 +114,7 @@ func TestUpsertCodexDxrkMemoryBlockWindowsPath(t *testing.T) {
 	result := UpsertCodexDxrkMemoryBlock("", windowsCmd)
 
 	// TOML double-quoted string must have double backslashes.
-	want := `command = "C:\Users\PERC\AppData\Local\dxrk-memory\bin\dxrk-memory.exe"`
+	want := `command = "C:\\Users\\PERC\\AppData\\Local\\dxrk-memory\\bin\\dxrk-memory.exe"`
 	if !strings.Contains(result, want) {
 		t.Fatalf("result missing properly escaped Windows path;\nwant substring: %s\ngot:\n%s", want, result)
 	}

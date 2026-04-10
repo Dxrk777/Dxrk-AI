@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-AI/internal/system"
 	"github.com/Dxrk777/Dxrk-AI/internal/update"
 )

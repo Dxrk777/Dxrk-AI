@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-AI/internal/model"
 	"github.com/Dxrk777/Dxrk-AI/internal/planner"
 	"github.com/Dxrk777/Dxrk-AI/internal/verify"

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os/exec"
+	"strings"
 	"testing"
 
 	"github.com/Dxrk777/Dxrk-AI/internal/system"
@@ -282,12 +283,13 @@ func TestCheckAll(t *testing.T) {
 		path := r.URL.Path
 		var release githubRelease
 		switch {
-		case contains(path, "Dxrk"):
+		// Must match exactly the repo name in the path, not a substring
+		case strings.Contains(path, "/repos/Dxrk777/Dxrk-AI/releases"):
 			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Dxrk777/Dxrk-AI/releases/tag/v1.5.0"}
-		case contains(path, "dxrk-memory"):
+		case strings.Contains(path, "/repos/Dxrk777/dxrk-memory/releases"):
 			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Dxrk777/dxrk-memory/releases/tag/v0.4.0"}
-		case contains(path, "dxrk-guardian-angel"):
-			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/Dxrk777/dxrk-guardian-angel/releases/tag/v2.0.0"}
+		case strings.Contains(path, "/repos/Dxrk777/dxrk-guardian/releases"):
+			release = githubRelease{TagName: "v2.0.0", HTMLURL: "https://github.com/Dxrk777/dxrk-guardian/releases/tag/v2.0.0"}
 		}
 		json.NewEncoder(w).Encode(release)
 	}))
@@ -638,9 +640,9 @@ func TestRegistryContents(t *testing.T) {
 		owner string
 		repo  string
 	}{
-		"dxrk":          {owner: "Dxrk777", repo: "Dxrk"},
+		"dxrk":          {owner: "Dxrk777", repo: "Dxrk-AI"},
 		"dxrk-memory":   {owner: "Dxrk777", repo: "dxrk-memory"},
-		"dxrk-guardian": {owner: "Dxrk777", repo: "dxrk-guardian-angel"},
+		"dxrk-guardian": {owner: "Dxrk777", repo: "dxrk-guardian"},
 	}
 
 	for _, tool := range Tools {
@@ -957,7 +959,7 @@ func TestNoUpdatesPath(t *testing.T) {
 		switch {
 		case contains(path, "dxrk-memory"):
 			release = githubRelease{TagName: "v0.3.2"}
-		case contains(path, "dxrk-guardian-angel"):
+		case contains(path, "dxrk-guardian"):
 			release = githubRelease{TagName: "v1.0.0"}
 		default:
 			release = githubRelease{TagName: "v1.0.0"}

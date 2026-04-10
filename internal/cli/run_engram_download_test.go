@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 

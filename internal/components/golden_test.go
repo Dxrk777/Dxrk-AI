@@ -19,7 +19,7 @@ import (
 	"github.com/Dxrk777/Dxrk-AI/internal/agents/vscode"
 	"github.com/Dxrk777/Dxrk-AI/internal/agents/windsurf"
 	"github.com/Dxrk777/Dxrk-AI/internal/assets"
-	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/mcp"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/persona"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/sdd"
