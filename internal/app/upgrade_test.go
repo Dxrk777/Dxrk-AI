@@ -70,7 +70,7 @@ func TestRunArgs_UpgradeNoArgs(t *testing.T) {
 }
 
 // TestRunArgs_UpgradeToolFilter verifies that `dxrk upgrade dxrk-memory` filters
-// to only check/upgrade engram.
+// to only check/upgrade dxrk-memory.
 func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	var buf bytes.Buffer
 	err := RunArgs([]string{"upgrade", "dxrk-memory"}, &buf)

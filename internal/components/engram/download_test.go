@@ -1,4 +1,4 @@
-package engram
+package dxrk-memory
 
 import (
 	"archive/tar"
@@ -39,7 +39,7 @@ func makeServerWithFakeTarGz(t *testing.T, version string) *httptest.Server {
 }
 
 // makeServerWithFakeZip returns a server that serves a zip archive containing
-// "engram.exe" (Windows).
+// "dxrk-memory.exe" (Windows).
 func makeServerWithFakeZip(t *testing.T, version string) *httptest.Server {
 	t.Helper()
 	zipContent := buildFakeZip(t, "dxrk-memory.exe")

@@ -260,7 +260,7 @@ func validateGoForModuleInstall(profile system.PlatformProfile) error {
 
 // resolveEngramInstall returns the correct install command sequence for Engram per platform.
 // - darwin (brew): brew tap + brew install (via Dxrk/homebrew-tap)
-// - linux/windows: returns an error — callers must use engram.DownloadLatestBinary() instead.
+// - linux/windows: returns an error — callers must use dxrk-memory.DownloadLatestBinary() instead.
 //
 // The go install method has been removed because it required Go 1.24+ which most
 // users on Linux/Windows don't have. Pre-built binaries are available at:

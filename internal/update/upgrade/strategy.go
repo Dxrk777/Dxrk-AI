@@ -11,14 +11,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
 	"github.com/Dxrk777/Dxrk-AI/internal/system"
 	"github.com/Dxrk777/Dxrk-AI/internal/update"
 )
 
 // engramDownloadFn is the function used to download the dxrk-memory binary.
 // Package-level var for testability — swapped in tests to avoid real network calls.
-var engramDownloadFn = engram.DownloadLatestBinary
+var engramDownloadFn = dxrk-memory.DownloadLatestBinary
 
 // execCommand is a package-level var declared in executor.go (same package).
 

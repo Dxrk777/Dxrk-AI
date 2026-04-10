@@ -1,4 +1,4 @@
-package engram
+package dxrk-memory
 
 import (
 	"encoding/json"
@@ -82,7 +82,7 @@ func engramOverlayJSON(agentID model.AgentID) []byte {
 		// command array itself.
 		//
 		// Use the __replace__ sentinel so that MergeJSONObjects replaces the
-		// entire mcp.engram object atomically instead of deep-merging into it.
+		// entire mcp.dxrk-memory object atomically instead of deep-merging into it.
 		// Without this, users upgrading from v1.11.3 (which had a separate
 		// "args" key) would end up with both "args" and the new array "command"
 		// in their config, which is invalid for OpenCode 1.3.3.
@@ -376,7 +376,7 @@ func buildSeparateMCPContent(mcpPath string, defaultContent []byte) []byte {
 // that points to an dxrk-memory binary.
 //
 // Engram setup writes the full resolved path of the binary it was invoked
-// from, so any absolute path ending in "dxrk-memory" (Unix) or "engram.exe"
+// from, so any absolute path ending in "dxrk-memory" (Unix) or "dxrk-memory.exe"
 // (Windows) is considered valid.
 func isAbsoluteEngramPath(path string) bool {
 	if !filepath.IsAbs(path) {
@@ -384,7 +384,7 @@ func isAbsoluteEngramPath(path string) bool {
 	}
 	base := filepath.Base(path)
 	if runtime.GOOS == "windows" {
-		return strings.EqualFold(base, "engram.exe") || strings.EqualFold(base, "dxrk-memory")
+		return strings.EqualFold(base, "dxrk-memory.exe") || strings.EqualFold(base, "dxrk-memory")
 	}
 	return base == "dxrk-memory"
 }

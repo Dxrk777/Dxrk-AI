@@ -180,7 +180,7 @@ func stripTrailingCommas(raw []byte) []byte {
 // under that key is used verbatim as the replacement — the corresponding base
 // value is discarded entirely.
 //
-// Example overlay that forces atomic replacement of mcp.engram:
+// Example overlay that forces atomic replacement of mcp.dxrk-memory:
 //
 //	{"mcp": {"dxrk-memory": {"__replace__": {"command": [...], "type": "local"}}}}
 const replacesentinel = "__replace__"

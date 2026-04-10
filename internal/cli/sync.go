@@ -13,7 +13,7 @@ import (
 	"github.com/Dxrk777/Dxrk-AI/internal/agents"
 	"github.com/Dxrk777/Dxrk-AI/internal/backup"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk"
-	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/mcp"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/permissions"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/sdd"
@@ -278,7 +278,7 @@ func (s componentSyncStep) Run() error {
 		// Sync: inject MCP config + system prompt protocol only.
 		// NO binary install. NO dxrk-memory setup.
 		for _, adapter := range adapters {
-			res, err := engram.Inject(s.homeDir, adapter)
+			res, err := dxrk-memory.Inject(s.homeDir, adapter)
 			if err != nil {
 				return fmt.Errorf("sync dxrk-memory for %q: %w", adapter.Agent(), err)
 			}

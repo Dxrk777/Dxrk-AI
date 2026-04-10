@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
 	"github.com/Dxrk777/Dxrk-AI/internal/system"
 )
 
@@ -50,7 +50,7 @@ func TestRunInstallLinuxEngramUsesDownloadNotGoInstall(t *testing.T) {
 		t.Fatalf("verification ready = false, report = %#v", result.Verify)
 	}
 
-	// Must NOT have called "go install" for engram.
+	// Must NOT have called "go install" for dxrk-memory.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
 			t.Fatalf("Linux dxrk-memory install should NOT use go install, got command: %s", cmd)
@@ -152,7 +152,7 @@ func TestRunInstallWindowsEngramUsesDownloadNotGoInstall(t *testing.T) {
 		t.Fatalf("verification ready = false, report = %#v", result.Verify)
 	}
 
-	// Must NOT have called "go install" for engram.
+	// Must NOT have called "go install" for dxrk-memory.
 	for _, cmd := range recorder.get() {
 		if strings.Contains(cmd, "go install") && strings.Contains(cmd, "dxrk-memory") {
 			t.Fatalf("Windows dxrk-memory install should NOT use go install, got command: %s", cmd)
@@ -211,4 +211,4 @@ func TestRunInstallMacOSEngramStillUsesBrew(t *testing.T) {
 }
 
 // Make sure the dxrk-memory package's DownloadLatestBinary is accessible.
-var _ = engram.DownloadLatestBinary
+var _ = dxrk-memory.DownloadLatestBinary

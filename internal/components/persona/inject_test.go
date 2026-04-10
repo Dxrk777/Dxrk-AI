@@ -273,7 +273,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 
 	path := filepath.Join(home, ".config", "opencode", "AGENTS.md")
 
-	// Simulate SDD and dxrk-memory sections appended by sdd.Inject and engram.Inject
+	// Simulate SDD and dxrk-memory sections appended by sdd.Inject and dxrk-memory.Inject
 	existing, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatalf("ReadFile() error = %v", err)

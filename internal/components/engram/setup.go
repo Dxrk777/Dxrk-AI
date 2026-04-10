@@ -1,4 +1,4 @@
-package engram
+package dxrk-memory
 
 import (
 	"strings"

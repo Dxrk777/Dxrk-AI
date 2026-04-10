@@ -1,4 +1,4 @@
-package engram
+package dxrk-memory
 
 import (
 	"encoding/json"
@@ -60,7 +60,7 @@ func TestInjectClaudeWritesMCPConfig(t *testing.T) {
 		t.Fatalf("ReadFile(dxrk-memory.json) error = %v", err)
 	}
 
-	// Parse the JSON and validate the "command" key exists and references engram.
+	// Parse the JSON and validate the "command" key exists and references dxrk-memory.
 	// The command may be an absolute path (if dxrk-memory is on PATH) or the relative
 	// string "dxrk-memory" (if not found). Both are valid.
 	var parsed map[string]any
@@ -174,7 +174,7 @@ func TestInjectOpenCodeMergesEngramToSettings(t *testing.T) {
 	}
 
 	// Verify NO plugin files or plugin arrays exist.
-	pluginPath := filepath.Join(home, ".config", "opencode", "plugins", "engram.ts")
+	pluginPath := filepath.Join(home, ".config", "opencode", "plugins", "dxrk-memory.ts")
 	if _, err := os.Stat(pluginPath); err == nil {
 		t.Fatal("plugin file should NOT exist — old approach removed")
 	}
@@ -218,7 +218,7 @@ func TestInjectOpenCodeIsIdempotent(t *testing.T) {
 
 // TestInjectOpenCodeMigratesFromOldFormat verifies that when a user's
 // opencode.json contains the old v1.11.3 format (separate "args" key),
-// Inject() replaces mcp.engram atomically so that "args" is absent and
+// Inject() replaces mcp.dxrk-memory atomically so that "args" is absent and
 // "command" is an array — the format required by OpenCode 1.3.3+.
 func TestInjectOpenCodeMigratesFromOldFormat(t *testing.T) {
 	home := t.TempDir()
@@ -250,7 +250,7 @@ func TestInjectOpenCodeMigratesFromOldFormat(t *testing.T) {
 		t.Fatalf("ReadFile(opencode.json) error = %v", err)
 	}
 
-	// (1) "args" key must be absent from mcp.engram.
+	// (1) "args" key must be absent from mcp.dxrk-memory.
 	if strings.Contains(string(content), `"args"`) {
 		t.Fatalf("mcp.dxrk-memory still contains 'args' key after migration; got:\n%s", content)
 	}
@@ -268,18 +268,18 @@ func TestInjectOpenCodeMigratesFromOldFormat(t *testing.T) {
 	}
 	cmdArr, ok := cmdRaw.([]any)
 	if !ok {
-		t.Fatalf("mcp.engram.command must be []any after migration, got %T; got:\n%s", cmdRaw, content)
+		t.Fatalf("mcp.dxrk-memory.command must be []any after migration, got %T; got:\n%s", cmdRaw, content)
 	}
 	if len(cmdArr) == 0 {
-		t.Fatalf("mcp.engram.command array is empty; got:\n%s", content)
+		t.Fatalf("mcp.dxrk-memory.command array is empty; got:\n%s", content)
 	}
 	firstElem, _ := cmdArr[0].(string)
 	if firstElem == "" {
-		t.Fatalf("mcp.engram.command[0] is empty or not a string; got:\n%s", content)
+		t.Fatalf("mcp.dxrk-memory.command[0] is empty or not a string; got:\n%s", content)
 	}
 	// Must end with "dxrk-memory".
 	if filepath.Base(firstElem) != "dxrk-memory" {
-		t.Fatalf("mcp.engram.command[0] = %q does not end with 'dxrk-memory'; got:\n%s", firstElem, content)
+		t.Fatalf("mcp.dxrk-memory.command[0] = %q does not end with 'dxrk-memory'; got:\n%s", firstElem, content)
 	}
 
 	// (3) Second Inject() call must be idempotent (changed=false).
@@ -457,7 +457,7 @@ func TestInjectCodexWritesTOMLMCP(t *testing.T) {
 	if cmdLine == "" {
 		t.Fatalf("config.toml missing command line; got:\n%s", text)
 	}
-	// The command value must end with "dxrk-memory" or "engram.exe".
+	// The command value must end with "dxrk-memory" or "dxrk-memory.exe".
 	cmdVal := strings.TrimPrefix(cmdLine, "command = ")
 	cmdVal = strings.Trim(cmdVal, `"`)
 	base := filepath.Base(cmdVal)
@@ -856,14 +856,14 @@ func TestEngramInjectAbsolutePathForOpenCodeMergeStrategy(t *testing.T) {
 	}
 	cmdArr, ok := cmdRaw.([]any)
 	if !ok {
-		t.Fatalf("mcp.engram.command must be an array, got %T; value:\n%s", cmdRaw, text)
+		t.Fatalf("mcp.dxrk-memory.command must be an array, got %T; value:\n%s", cmdRaw, text)
 	}
 	if len(cmdArr) == 0 {
-		t.Fatalf("mcp.engram.command array is empty; got:\n%s", text)
+		t.Fatalf("mcp.dxrk-memory.command array is empty; got:\n%s", text)
 	}
 	firstElem, ok := cmdArr[0].(string)
 	if !ok || firstElem != absPath {
-		t.Fatalf("mcp.engram.command[0] = %v, want %q; got:\n%s", cmdArr[0], absPath, text)
+		t.Fatalf("mcp.dxrk-memory.command[0] = %v, want %q; got:\n%s", cmdArr[0], absPath, text)
 	}
 }
 

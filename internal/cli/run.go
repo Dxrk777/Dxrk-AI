@@ -13,7 +13,7 @@ import (
 	"github.com/Dxrk777/Dxrk-AI/internal/agents"
 	"github.com/Dxrk777/Dxrk-AI/internal/backup"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk"
-	"github.com/Dxrk777/Dxrk-AI/internal/components/engram"
+	"github.com/Dxrk777/Dxrk-AI/internal/components/dxrk-memory"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/sdd"
 	"github.com/Dxrk777/Dxrk-AI/internal/components/skills"
 	"github.com/Dxrk777/Dxrk-AI/internal/model"
@@ -49,7 +49,7 @@ var (
 
 	// engramDownloadFn is the function used to download the dxrk-memory binary on non-brew platforms.
 	// Package-level var for testability — tests can replace this to avoid real HTTP calls.
-	engramDownloadFn = engram.DownloadLatestBinary
+	engramDownloadFn = dxrk-memory.DownloadLatestBinary
 
 	// AppVersion is the dxrk version that will be written into backup manifests.
 	// It is set by app.go before any CLI operation so that every backup created during

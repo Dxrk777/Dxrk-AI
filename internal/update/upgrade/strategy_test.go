@@ -745,7 +745,7 @@ func TestEngramUpgradeUsesDownloadNotGoInstall(t *testing.T) {
 	downloadCalled := false
 	engramDownloadFn = func(profile system.PlatformProfile) (string, error) {
 		downloadCalled = true
-		return "/fake/path/engram.exe", nil
+		return "/fake/path/dxrk-memory.exe", nil
 	}
 
 	r := update.UpdateResult{
