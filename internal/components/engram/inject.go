@@ -186,7 +186,7 @@ func Inject(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
 		files = append(files, mcpPath)
 
 	case model.StrategyTOMLFile:
-		// Codex: upsert [mcp_servers.engram] block and instruction-file keys
+		// Codex: upsert [mcp_servers.dxrk-memory] block and instruction-file keys
 		// in ~/.codex/config.toml, then write instruction files.
 		// All TOML mutations are composed in a single pass before writing to
 		// ensure idempotency (no intermediate states that differ on re-run).

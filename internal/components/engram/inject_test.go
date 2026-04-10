@@ -57,7 +57,7 @@ func TestInjectClaudeWritesMCPConfig(t *testing.T) {
 	mcpPath := filepath.Join(home, ".claude", "mcp", "dxrk-memory.json")
 	mcpContent, err := os.ReadFile(mcpPath)
 	if err != nil {
-		t.Fatalf("ReadFile(engram.json) error = %v", err)
+		t.Fatalf("ReadFile(dxrk-memory.json) error = %v", err)
 	}
 
 	// Parse the JSON and validate the "command" key exists and references engram.
@@ -65,19 +65,19 @@ func TestInjectClaudeWritesMCPConfig(t *testing.T) {
 	// string "dxrk-memory" (if not found). Both are valid.
 	var parsed map[string]any
 	if err := json.Unmarshal(mcpContent, &parsed); err != nil {
-		t.Fatalf("Unmarshal(engram.json) error = %v", err)
+		t.Fatalf("Unmarshal(dxrk-memory.json) error = %v", err)
 	}
 	cmd, ok := parsed["command"].(string)
 	if !ok || cmd == "" {
-		t.Fatalf("engram.json missing or empty command field; got: %s", mcpContent)
+		t.Fatalf("dxrk-memory.json missing or empty command field; got: %s", mcpContent)
 	}
 	// Command must either be the literal "dxrk-memory" or an absolute path ending in "dxrk-memory".
 	base := filepath.Base(cmd)
 	if base != "dxrk-memory" && base != "dxrk-memory.exe" {
-		t.Fatalf("engram.json command %q does not reference dxrk-memory binary; got: %s", cmd, mcpContent)
+		t.Fatalf("dxrk-memory.json command %q does not reference dxrk-memory binary; got: %s", cmd, mcpContent)
 	}
 	if _, ok := parsed["args"]; !ok {
-		t.Fatal("engram.json missing args field")
+		t.Fatal("dxrk-memory.json missing args field")
 	}
 	// RED: must include --tools=agent
 	assertArgsHaveToolsAgent(t, mcpPath)
@@ -552,7 +552,7 @@ func TestInjectClaudePreservesAbsoluteCommandFromEngramSetup(t *testing.T) {
 }
 `)
 	if err := os.WriteFile(mcpPath, setupContent, 0o644); err != nil {
-		t.Fatalf("WriteFile(engram.json) error = %v", err)
+		t.Fatalf("WriteFile(dxrk-memory.json) error = %v", err)
 	}
 
 	// Now run Inject — should NOT overwrite the absolute command.
@@ -563,7 +563,7 @@ func TestInjectClaudePreservesAbsoluteCommandFromEngramSetup(t *testing.T) {
 
 	content, err := os.ReadFile(mcpPath)
 	if err != nil {
-		t.Fatalf("ReadFile(engram.json) error = %v", err)
+		t.Fatalf("ReadFile(dxrk-memory.json) error = %v", err)
 	}
 
 	text := string(content)
@@ -575,7 +575,7 @@ func TestInjectClaudePreservesAbsoluteCommandFromEngramSetup(t *testing.T) {
 }
 
 // TestInjectClaudePreservesAbsoluteCommandIsIdempotent verifies that calling
-// Inject() twice when an absolute-path engram.json already exists does not
+// Inject() twice when an absolute-path dxrk-memory.json already exists does not
 // cause repeated writes (idempotency).
 func TestInjectClaudePreservesAbsoluteCommandIsIdempotent(t *testing.T) {
 	skipOnWindows(t)
@@ -592,7 +592,7 @@ func TestInjectClaudePreservesAbsoluteCommandIsIdempotent(t *testing.T) {
 }
 `)
 	if err := os.WriteFile(mcpPath, setupContent, 0o644); err != nil {
-		t.Fatalf("WriteFile(engram.json) error = %v", err)
+		t.Fatalf("WriteFile(dxrk-memory.json) error = %v", err)
 	}
 
 	first, err := Inject(home, claudeAdapter())
@@ -611,7 +611,7 @@ func TestInjectClaudePreservesAbsoluteCommandIsIdempotent(t *testing.T) {
 	// Absolute path must still be present.
 	content, err := os.ReadFile(mcpPath)
 	if err != nil {
-		t.Fatalf("ReadFile(engram.json) error = %v", err)
+		t.Fatalf("ReadFile(dxrk-memory.json) error = %v", err)
 	}
 	if !strings.Contains(string(content), absPath) {
 		t.Fatalf("absolute command path %q was lost after second Inject(); got:\n%s", absPath, string(content))
@@ -638,7 +638,7 @@ func TestInjectClaudeAddsToolsAgentWhenSetupWritesBareArgs(t *testing.T) {
 }
 `)
 	if err := os.WriteFile(mcpPath, setupContent, 0o644); err != nil {
-		t.Fatalf("WriteFile(engram.json) error = %v", err)
+		t.Fatalf("WriteFile(dxrk-memory.json) error = %v", err)
 	}
 
 	_, err := Inject(home, claudeAdapter())
@@ -648,7 +648,7 @@ func TestInjectClaudeAddsToolsAgentWhenSetupWritesBareArgs(t *testing.T) {
 
 	content, err := os.ReadFile(mcpPath)
 	if err != nil {
-		t.Fatalf("ReadFile(engram.json) error = %v", err)
+		t.Fatalf("ReadFile(dxrk-memory.json) error = %v", err)
 	}
 	text := string(content)
 
