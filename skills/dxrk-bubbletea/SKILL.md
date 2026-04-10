@@ -1,7 +1,7 @@
 ---
 name: dxrk-bubbletea
 description: >
-  Bubbletea TUI patterns for Gentleman.Dots installer.
+  Bubbletea TUI patterns for Dxrk-AI installer.
   Trigger: When editing Go files in installer/internal/tui/, working on TUI screens, or adding new UI features.
 license: Apache-2.0
 metadata:

@@ -1,0 +1,57 @@
+# Pre-commit hooks for Dxrk-AI Go installer
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  - repo: local
+    hooks:
+      # Go formatting
+      - id: gofmt
+        name: gofmt
+        entry: gofmt -l -w -s
+        language: system
+        types: [go]
+        pass_filenames: true
+
+      # Go vet
+      - id: go-vet
+        name: go vet
+        entry: go vet ./...
+        language: system
+        types: [go]
+        pass_filenames: false
+        always_run: true
+
+      # Go build (check compilation)
+      - id: go-build
+        name: go build
+        entry: go build ./...
+        language: system
+        types: [go]
+        pass_filenames: false
+        always_run: true
+
+      # Go tests (unit only, skip integration)
+      - id: go-test-short
+        name: go test (short)
+        entry: go test -short ./...
+        language: system
+        types: [go]
+        pass_filenames: false
+        always_run: true
+
+      # Shell script linting
+      - id: shellcheck
+        name: shellcheck
+        entry: shellcheck
+        language: system
+        types: [shell]
+        pass_filenames: true
+
+      # Markdown linting (optional - disable if too noisy)
+      # - id: markdownlint
+      #   name: markdownlint
+      #   entry: markdownlint
+      #   language: system
+      #   types: [markdown]
+      #   pass_filenames: true

@@ -1,7 +1,7 @@
 ---
 name: dxrk-system
 description: >
-  System detection and command execution patterns for Gentleman.Dots.
+  System detection and command execution patterns for Dxrk-AI.
   Trigger: When editing files in installer/internal/system/, adding OS support, or modifying command execution.
 license: Apache-2.0
 metadata:
@@ -225,7 +225,7 @@ if err := system.CopyFile(src, dst); err != nil {
 }
 
 // Copy directory contents
-if err := system.CopyDir("Gentleman.Dots/Config/*", destDir+"/"); err != nil {
+if err := system.CopyDir("Dxrk-AI/Config/*", destDir+"/"); err != nil {
     return err
 }
 ```

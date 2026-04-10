@@ -1,7 +1,7 @@
 ---
 name: dxrk-e2e
 description: >
-  Docker-based E2E testing patterns for Gentleman.Dots installer.
+  Docker-based E2E testing patterns for Dxrk-AI installer.
   Trigger: When editing files in installer/e2e/, writing E2E tests, or adding platform support.
 license: Apache-2.0
 metadata:

@@ -32,3 +32,82 @@ dist/
 
 # GitHub Pages build output
 _site/
+
+# ============================================
+# PROTECCIÓN DE CREDENCIALES - Dxrk-AI
+# ============================================
+
+# --- Dependencies ---
+# Go
+vendor/
+go.sum
+
+# Node (JS/TS projects in skills)
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Python (skills with python)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ruby (homebrew formulas, etc.)
+vendor/bundle/
+.bundle/
+
+# Rust (cargo)
+target/
+Cargo.lock
+
+# --- Credenciales y Variables de Entorno ---
+# NEVER commit these - they contain secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+*.p12
+*.keystore
+secrets.json
+credentials.json
+config/secrets.*
+
+# --- Logs ---
+*.log
+logs/
+npm-debug.log*
+yarn-error.log
+yarn-debug.log*
+go.sum.*
+*.tmp
+
+# --- Build outputs ---
+build/
+out/
+tmp/
+temp/
+
+# --- Cache ---
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# --- IDE specific ---
+!.idea/codeStyles/
+!.idea/codeStyles/codeStyleConfig.xml
+
+# --- Personal ---
+# Personal dotfiles that shouldn't be in repo
+.dotfiles.local
+.dotfiles.secrets

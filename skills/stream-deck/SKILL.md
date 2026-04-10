@@ -1,7 +1,7 @@
 ---
 name: stream-deck
 description: >
-  Create slide-deck presentation webs for streams and courses using Gentleman Kanagawa Blur theme with inline SVG diagrams.
+  Create slide-deck presentation webs for streams and courses using Dxrk Kanagawa Blur theme with inline SVG diagrams.
   Trigger: When building a presentation, slide deck, course material, stream web, or talk slides.
 metadata:
   author: dxrk777
@@ -39,7 +39,7 @@ project/
 
 ## Critical Patterns
 
-### Pattern 1: Gentleman Kanagawa Blur Color Palette
+### Pattern 1: Dxrk Kanagawa Blur Color Palette
 
 ALWAYS use these exact colors. Source: `gentleman-kanagawa-blur/lua/gentleman_kanagawa_blur/variant.lua`
 

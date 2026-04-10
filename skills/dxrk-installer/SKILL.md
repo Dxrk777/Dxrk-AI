@@ -1,7 +1,7 @@
 ---
 name: dxrk-installer
 description: >
-  Installation step patterns for Gentleman.Dots TUI installer.
+  Installation step patterns for Dxrk-AI TUI installer.
   Trigger: When editing installer.go, adding installation steps, or modifying the installation flow.
 license: Apache-2.0
 metadata:
@@ -187,7 +187,7 @@ func stepInstallTool(m *Model) error {
     // Copy configuration
     SendLog(stepID, "Copying configuration...")
     homeDir := os.Getenv("HOME")
-    if err := system.CopyDir(filepath.Join("Gentleman.Dots", "ToolConfig/*"),
+    if err := system.CopyDir(filepath.Join("Dxrk-AI", "ToolConfig/*"),
         filepath.Join(homeDir, ".config/tool/")); err != nil {
         return wrapStepError("tool", "Install Tool",
             "Failed to copy configuration",

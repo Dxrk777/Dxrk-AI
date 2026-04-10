@@ -19,76 +19,115 @@ issues:
         - gosec
         - gocyclo
     # Allow 0644 permissions for non-sensitive files
+    # Reason: These files handle configuration/state with safe defaults
     - path: internal/version/version.go
       linters:
         - gosec
+      text: "G304: reading files with user-provided path"
     - path: internal/state/memory.go
       linters:
         - gosec
+      text: "G304: state management with user paths"
     - path: internal/state/state.go
       linters:
         - gosec
+      text: "G304: state persistence"
     - path: internal/backup/manifest.go
       linters:
         - gosec
+      text: "G304: backup file operations"
     - path: internal/backup/retention.go
       linters:
         - gosec
+      text: "G304: backup cleanup operations"
     - path: internal/vault/directory.go
       linters:
         - gosec
+      text: "G304: vault directory operations"
     - path: internal/vault/vault.go
       linters:
         - gosec
+      text: "G304: vault encryption operations"
     - path: scripts/
       linters:
         - gosec
+      text: "G104: shell scripts for installation"
     # Allow HTTP requests to configured URLs
+    # Reason: Auto-update checks against known GitHub URLs only
     - path: internal/app/autoupdate.go
       linters:
         - gosec
+      text: "G107: url open for auto-update"
     - path: internal/components/sdd/inject.go
       linters:
         - gosec
+      text: "G107: SDD config injection"
     - path: internal/brain/email.go
       linters:
         - gosec
+      text: "G107: email notifications"
     - path: internal/brain/memory.go
       linters:
         - gosec
+      text: "G107: memory service requests"
     - path: internal/connector/connector.go
       linters:
         - gosec
+      text: "G107: connector HTTP calls"
     - path: internal/cli/brain.go
       linters:
         - gosec
+      text: "G107: CLI brain sync"
     - path: internal/system/deps.go
       linters:
         - gosec
+      text: "G107: dependency checks"
     # Agent builder module
+    # Reason: Generated code, external tool interactions
     - path: internal/agentbuilder/
       linters:
         - gosec
+      text: "G107: agent builder tool execution"
     # Backup compression
     - path: internal/backup/compression.go
       linters:
         - gosec
+      text: "G304: compression file operations"
   max-issues-per-linter: 100
   max-same-issues: 20
 
+# Enable comprehensive linters for better code quality
 linters:
   disable-all: true
   enable:
-    - gofmt
-    - gosec
-    - nakedret
+    # Formatting & Style
+    - gofmt          # Go format (simplified)
+    - goimports      # Organize imports
+    - govet          # Basic analysis (enabled by default in go build)
+    - deadcode       # Find unused code
+    - unused         # Check unused code
+    -gosimple        # Simplify code
+    - staticcheck    # Advanced static analysis
+    - errcheck       # Check error handling
+    - gosec          # Security issues
+    - nakedret       # Avoid naked returns (max 30 lines)
 
 linters-settings:
   gofmt:
     simplify: true
+  goimports:
+    local-prefixes: github.com/Dxrk777/Dxrk-AI
   gosec:
     excludes:
-      - G104
+      - G104  # Ignore unchecked errors in defer/close
+  staticcheck:
+    checks:
+      - "all"
+      - "-ST1000"  # Disable package doc requirement
+      - "-SA5001"  # Disable bool compare warning
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
   nakedret:
     max-func-lines: 30
 

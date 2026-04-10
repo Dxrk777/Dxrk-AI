@@ -1,7 +1,7 @@
 ---
 name: dxrk-trainer
 description: >
-  Vim Trainer RPG system patterns for Gentleman.Dots.
+  Vim Trainer RPG system patterns for Dxrk-AI.
   Trigger: When editing files in installer/internal/tui/trainer/, adding exercises, modules, or game mechanics.
 license: Apache-2.0
 metadata:
