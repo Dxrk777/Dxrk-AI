@@ -278,7 +278,7 @@ func (s componentSyncStep) Run() error {
 		// Sync: inject MCP config + system prompt protocol only.
 		// NO binary install. NO dxrk-memory setup.
 		for _, adapter := range adapters {
-			res, err := dxrk-memory.Inject(s.homeDir, adapter)
+			res, err := engram.Inject(s.homeDir, adapter)
 			if err != nil {
 				return fmt.Errorf("sync dxrk-memory for %q: %w", adapter.Agent(), err)
 			}

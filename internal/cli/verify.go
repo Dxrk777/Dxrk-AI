@@ -48,7 +48,7 @@ func engramHealthChecks() []verify.Check {
 			Description: "dxrk-memory binary on PATH (restart shell if missing)",
 			Soft:        true,
 			Run: func(context.Context) error {
-				if err := dxrk-memory.VerifyInstalled(); err != nil {
+				if err := engram.VerifyInstalled(); err != nil {
 					return fmt.Errorf("%w\nIf dxrk-memory was installed via `go install`, add it to PATH:\n  %s", err, engramPathGuidance(os.Getenv("SHELL")))
 				}
 				return nil
@@ -59,11 +59,11 @@ func engramHealthChecks() []verify.Check {
 			Description: "dxrk-memory version returns valid output",
 			Soft:        true,
 			Run: func(context.Context) error {
-				if err := dxrk-memory.VerifyInstalled(); err != nil {
+				if err := engram.VerifyInstalled(); err != nil {
 					// Binary not on PATH — skip version check gracefully.
 					return nil
 				}
-				_, err := dxrk-memory.VerifyVersion()
+				_, err := engram.VerifyVersion()
 				return err
 			},
 		},

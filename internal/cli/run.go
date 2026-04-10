@@ -49,7 +49,7 @@ var (
 
 	// engramDownloadFn is the function used to download the dxrk-memory binary on non-brew platforms.
 	// Package-level var for testability — tests can replace this to avoid real HTTP calls.
-	engramDownloadFn = dxrk-memory.DownloadLatestBinary
+	engramDownloadFn = engram.DownloadLatestBinary
 
 	// AppVersion is the dxrk version that will be written into backup manifests.
 	// It is set by app.go before any CLI operation so that every backup created during

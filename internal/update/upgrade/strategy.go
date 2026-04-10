@@ -18,7 +18,7 @@ import (
 
 // engramDownloadFn is the function used to download the dxrk-memory binary.
 // Package-level var for testability — swapped in tests to avoid real network calls.
-var engramDownloadFn = dxrk-memory.DownloadLatestBinary
+var engramDownloadFn = engram.DownloadLatestBinary
 
 // execCommand is a package-level var declared in executor.go (same package).
 

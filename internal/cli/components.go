@@ -28,19 +28,19 @@ func applyEngram(adapters []agents.Adapter, profile system.PlatformProfile, home
 		return err
 	}
 
-	setupMode := dxrk-memory.ParseSetupMode(os.Getenv(dxrk-memory.SetupModeEnvVar))
-	setupStrict := dxrk-memory.ParseSetupStrict(os.Getenv(dxrk-memory.SetupStrictEnvVar))
+	setupMode := engram.ParseSetupMode(os.Getenv(engram.SetupModeEnvVar))
+	setupStrict := engram.ParseSetupStrict(os.Getenv(engram.SetupStrictEnvVar))
 
 	for _, adapter := range adapters {
-		if dxrk-memory.ShouldAttemptSetup(setupMode, adapter.Agent()) {
-			slug, _ := dxrk-memory.SetupAgentSlug(adapter.Agent())
+		if engram.ShouldAttemptSetup(setupMode, adapter.Agent()) {
+			slug, _ := engram.SetupAgentSlug(adapter.Agent())
 			if err := runCommand(engramBinaryPath, "setup", slug); err != nil {
 				if setupStrict {
 					return fmt.Errorf("dxrk-memory setup for %q: %w", adapter.Agent(), err)
 				}
 			}
 		}
-		if _, err := dxrk-memory.Inject(homeDir, adapter); err != nil {
+		if _, err := engram.Inject(homeDir, adapter); err != nil {
 			return fmt.Errorf("inject dxrk-memory for %q: %w", adapter.Agent(), err)
 		}
 	}
@@ -56,7 +56,7 @@ func installEngramBinary(profile system.PlatformProfile) (string, error) {
 	}
 
 	if profile.PackageManager == "brew" {
-		commands, err := dxrk-memory.InstallCommand(profile)
+		commands, err := engram.InstallCommand(profile)
 		if err != nil {
 			return "", fmt.Errorf("resolve install command for component %q: %w", model.ComponentEngram, err)
 		}

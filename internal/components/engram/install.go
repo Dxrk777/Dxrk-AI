@@ -1,4 +1,4 @@
-package dxrk-memory
+package engram
 
 import (
 	"github.com/Dxrk777/Dxrk-AI/internal/installcmd"

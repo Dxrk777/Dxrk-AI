@@ -211,4 +211,4 @@ func TestRunInstallMacOSEngramStillUsesBrew(t *testing.T) {
 }
 
 // Make sure the dxrk-memory package's DownloadLatestBinary is accessible.
-var _ = dxrk-memory.DownloadLatestBinary
+var _ = engram.DownloadLatestBinary

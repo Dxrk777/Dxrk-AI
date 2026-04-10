@@ -275,7 +275,7 @@ func resolveEngramInstall(profile system.PlatformProfile) (CommandSequence, erro
 		}, nil
 	default:
 		return nil, fmt.Errorf(
-			"dxrk-memory on %q/%q uses direct binary download — use dxrk-memory.DownloadLatestBinary() instead of CommandSequence",
+			"dxrk-memory on %q/%q uses direct binary download — use engram.DownloadLatestBinary() instead of CommandSequence",
 			profile.OS, profile.PackageManager,
 		)
 	}

@@ -1,4 +1,4 @@
-package dxrk-memory
+package engram
 
 import (
 	"archive/tar"
