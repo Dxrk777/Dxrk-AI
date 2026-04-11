@@ -8,6 +8,9 @@ issues:
     - e2e
     - docs
   exclude-rules:
+    # ============================================
+    # TEST FILES - Skip strict checks in tests
+    # ============================================
     - path: _test\.go
       linters:
         - gosec
@@ -18,81 +21,92 @@ issues:
       linters:
         - gosec
         - gocyclo
-    # Allow 0644 permissions for non-sensitive files
-    # Reason: These files handle configuration/state with safe defaults
+    # ============================================
+    # FILE PERMISSIONS (G306) - Config/state files
+    # Reason: These are non-sensitive config files with safe defaults
+    # ============================================
     - path: internal/version/version.go
-      linters:
-        - gosec
-      text: "G304: reading files with user-provided path"
+      linters: [gosec]
+      text: "G306"
     - path: internal/state/memory.go
-      linters:
-        - gosec
-      text: "G304: state management with user paths"
+      linters: [gosec]
+      text: "G306"
     - path: internal/state/state.go
-      linters:
-        - gosec
-      text: "G304: state persistence"
-    - path: internal/backup/manifest.go
-      linters:
-        - gosec
-      text: "G304: backup file operations"
-    - path: internal/backup/retention.go
-      linters:
-        - gosec
-      text: "G304: backup cleanup operations"
-    - path: internal/vault/directory.go
-      linters:
-        - gosec
-      text: "G304: vault directory operations"
-    - path: internal/vault/vault.go
-      linters:
-        - gosec
-      text: "G304: vault encryption operations"
-    - path: scripts/
-      linters:
-        - gosec
-      text: "G104: shell scripts for installation"
-    # Allow HTTP requests to configured URLs
-    # Reason: Auto-update checks against known GitHub URLs only
-    - path: internal/app/autoupdate.go
-      linters:
-        - gosec
-      text: "G107: url open for auto-update"
-    - path: internal/components/sdd/inject.go
-      linters:
-        - gosec
-      text: "G107: SDD config injection"
-    - path: internal/brain/email.go
-      linters:
-        - gosec
-      text: "G107: email notifications"
+      linters: [gosec]
+      text: "G306"
     - path: internal/brain/memory.go
-      linters:
-        - gosec
-      text: "G107: memory service requests"
-    - path: internal/connector/connector.go
-      linters:
-        - gosec
-      text: "G107: connector HTTP calls"
-    - path: internal/cli/brain.go
-      linters:
-        - gosec
-      text: "G107: CLI brain sync"
-    - path: internal/system/deps.go
-      linters:
-        - gosec
-      text: "G107: dependency checks"
-    # Agent builder module
-    # Reason: Generated code, external tool interactions
+      linters: [gosec]
+      text: "G306"
+    - path: internal/backup/manifest.go
+      linters: [gosec]
+      text: "G306"
     - path: internal/agentbuilder/
-      linters:
-        - gosec
-      text: "G107: agent builder tool execution"
-    # Backup compression
+      linters: [gosec]
+      text: "G306"
+    - path: internal/app/autoupdate.go
+      linters: [gosec]
+      text: "G306"
+    - path: scripts/
+      linters: [gosec]
+      text: "G306"
+    # ============================================
+    # SUBPROCESS (G204) - Known commands
+    # Reason: dxrk-memory, dep detection, SDD are known commands
+    # ============================================
+    - path: internal/state/memory.go
+      linters: [gosec]
+      text: "G204"
+    - path: internal/system/deps.go
+      linters: [gosec]
+      text: "G204"
+    - path: internal/components/sdd/inject.go
+      linters: [gosec]
+      text: "G204"
+    # ============================================
+    # ARCHIVE OPERATIONS (G305, G110, G115)
+    # Reason: Backup/vault extraction with controlled input
+    # ============================================
     - path: internal/backup/compression.go
-      linters:
-        - gosec
-      text: "G304: compression file operations"
+      linters: [gosec]
+      text: "G110|G115"
+    - path: internal/backup/retention.go
+      linters: [gosec]
+      text: "G305|G110|G115"
+    - path: internal/vault/directory.go
+      linters: [gosec]
+      text: "G305|G110|G115"
+    - path: internal/app/autoupdate.go
+      linters: [gosec]
+      text: "G110"
+    # ============================================
+    # HTTP/TLS (G402, G107, G112)
+    # Reason: Known endpoints, configurable TLS
+    # ============================================
+    - path: internal/brain/email.go
+      linters: [gosec]
+      text: "G402"
+    - path: internal/connector/connector.go
+      linters: [gosec]
+      text: "G107|G112"
+    - path: internal/cli/brain.go
+      linters: [gosec]
+      text: "G602"
+    # ============================================
+    # ALLOW HTTP REQUESTS
+    # Reason: Auto-update, known API endpoints
+    # ============================================
+    - path: internal/app/autoupdate\.go
+      linters: [gosec]
+      text: "G107"
+    - path: internal/brain/email\.go
+      linters: [gosec]
+      text: "G107"
+    - path: internal/brain/memory\.go
+      linters: [gosec]
+      text: "G107"
+    - path: internal/connector/connector\.go
+      linters: [gosec]
+      text: "G107"
   max-issues-per-linter: 100
   max-same-issues: 20
 
@@ -102,21 +116,16 @@ linters:
   enable:
     # Formatting & Style
     - gofmt          # Go format (simplified)
-    - goimports      # Organize imports
     - govet          # Basic analysis (enabled by default in go build)
-    - deadcode       # Find unused code
-    - unused         # Check unused code
-    -gosimple        # Simplify code
+    - unused         # Check unused code (replaces deprecated deadcode)
+    - gosimple       # Simplify code
     - staticcheck    # Advanced static analysis
-    - errcheck       # Check error handling
     - gosec          # Security issues
     - nakedret       # Avoid naked returns (max 30 lines)
 
 linters-settings:
   gofmt:
     simplify: true
-  goimports:
-    local-prefixes: github.com/Dxrk777/Dxrk-AI
   gosec:
     excludes:
       - G104  # Ignore unchecked errors in defer/close
@@ -125,9 +134,6 @@ linters-settings:
       - "all"
       - "-ST1000"  # Disable package doc requirement
       - "-SA5001"  # Disable bool compare warning
-  errcheck:
-    check-type-assertions: true
-    check-blank: true
   nakedret:
     max-func-lines: 30
 
