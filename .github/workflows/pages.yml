@@ -25,7 +25,8 @@ jobs:
       - name: Create Pages directory
         run: |
           mkdir -p _site
-          cp index.html _site/
+          cp index.html _site/index.html
+          cp -r docs/* _site/ 2>/dev/null || true
           echo "" > _site/.nojekyll
       
       - name: Upload artifact
